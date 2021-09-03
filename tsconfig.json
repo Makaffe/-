@@ -37,6 +37,9 @@
       ],
       "@env/*": [
         "src/environments/*"
+      ],
+      "@mt-rectify-framework/*": [
+        "src/app/components/*/public_api"
       ]
     }
   }

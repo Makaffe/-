@@ -3,6 +3,21 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
+    "rectify-library": {
+      "projectType": "library",
+      "root": "src",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "src/app/components/tsconfig.lib.prod.json",
+            "project": "src/app/components/ng-package.json"
+          }
+
+        }
+        
+      }
+    },
     "mt-rectify-framework": {
       "root": "",
       "sourceRoot": "src",
@@ -207,6 +222,7 @@
     "@schematics/angular:service": {
       "spec": false
     }
+    
   },
   "cli": {
     "analytics": false

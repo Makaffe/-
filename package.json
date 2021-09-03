@@ -1,6 +1,6 @@
 {
-  "name": "finance-analysis-framework",
-  "version": "0.0.29",
+  "name": "mt-rectify-framework",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start": "node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng serve -o",
@@ -18,8 +18,8 @@
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
     "hmr": "ng serve -c=hmr",
     "sync-version": "node scripts/publish/sync-version.js",
-    "build-lib": "rm -rf dist && ng build api && ng build comp",
-    "publish": "npm run sync-version && npm run build-lib && bash scripts/publish/publish.sh"
+    "build-lib": "ng build rectify-library",
+    "publish": ""
   },
   "private": true,
   "dependencies": {

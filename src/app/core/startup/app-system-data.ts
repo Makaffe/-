@@ -14,7 +14,7 @@ export const APP_SYSTEM_DATA = {
       children: [
         {
           text: '首页',
-          link: '/sys-management/dashboard',
+          link: '/sys-dashboard',
           i18n: 'menu.dashboard',
           icon: 'anticon-dashboard',
         },

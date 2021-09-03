@@ -6,6 +6,7 @@ import { DataResourceViewComponent, DataResourceViewServiceComponent } from '@mt
 // layout
 import { LayoutDefaultComponent } from '../layout/default/default.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { SystemDashboardComponent } from './dashboard/system/system-dashboard.component';
 // passport pages
 import { LoginComponent } from './login/login.component';
 import { NavigationComponent } from './navigation/navigation.component';
@@ -17,7 +18,7 @@ const routes = [
     canActivate: [SimpleGuard],
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'dashboard', component: DashboardComponent, data: { title: '首页' } },
+      { path: 'sys-dashboard', component: SystemDashboardComponent, data: { title: '首页' } },
       { path: 'exception', loadChildren: './exception/exception.module#ExceptionModule' },
       // 业务子模块
       { path: 'base-data', loadChildren: './framework/base-data/base-data.module#BaseDataModule' },
@@ -40,6 +41,12 @@ const routes = [
         path: 'resource/view-service',
         component: DataResourceViewServiceComponent,
         data: { title: '平台服务查看网关', reuse: false },
+      },
+      // 审计整改模块
+      {
+        path: 'audit-rectify',
+        loadChildren: './rectify/audit-rectify/audit-rectify.module#AuditRectifyModule',
+        data: { reuse: true },
       },
     ],
   },

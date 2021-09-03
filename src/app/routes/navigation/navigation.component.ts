@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { StartupService } from '@core';
-import { APP_FINANCIAL_DATA } from '@core/startup/app-financial-data';
+import { APP_RECTIFY_DATA } from '@core/startup/app-rectify-data';
 import { APP_SYSTEM_DATA } from '@core/startup/app-system-data';
 import { ReuseTabService } from '@delon/abc';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
@@ -43,7 +43,7 @@ export class NavigationComponent implements OnInit {
   DATA_ANALYSIS_SYS_NAME = environment['dataAnalysis']['name'];
 
   /* 各子系统名 */
-  FINANCIAL_ANALYSIS_SYS_NAME = '财务分析';
+  FINANCIAL_ANALYSIS_SYS_NAME = '审计整改';
   INSIGHT_ANALYSIS_SYS_NAME = '多维分析';
   SYS_MANAGEMENT_SYS_NAME = '系统管理';
 
@@ -65,9 +65,9 @@ export class NavigationComponent implements OnInit {
    * 财务分析
    */
   clickFinancialAnalysis() {
-    this.common(APP_FINANCIAL_DATA, this.FINANCIAL_ANALYSIS_SYS_NAME);
+    this.common(APP_RECTIFY_DATA, this.FINANCIAL_ANALYSIS_SYS_NAME);
     this.starupService.load().then(() => {
-      this.router.navigate(['/financial-analysis/dashboard']);
+      this.router.navigate(['/audit-rectify/dashboard']);
     });
   }
 
@@ -76,7 +76,7 @@ export class NavigationComponent implements OnInit {
    */
   clickSystem() {
     this.common(APP_SYSTEM_DATA, this.SYS_MANAGEMENT_SYS_NAME);
-    this.starupService.load().then(() => this.router.navigate(['/sys-management/dashboard']));
+    this.starupService.load().then(() => this.router.navigate(['/sys-dashboard']));
   }
 
   /**
