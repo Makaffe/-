@@ -1,8 +1,9 @@
 {
-    "editor.quickSuggestions": {
-        "other": true,
-        "comments": true,
-        "strings": true
-    },
-    "todo-tree.tree.scanMode": "workspace only"
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": true,
+    "strings": true
+  },
+  "todo-tree.tree.scanMode": "workspace only",
+
 }

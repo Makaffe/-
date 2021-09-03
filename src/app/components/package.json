@@ -1,5 +1,5 @@
 {
-  "name": "@mt-rectify-framework",
+  "name": "@mt-rectify-framework/comp",
   "version": "0.0.1",
   "peerDependencies": {
     "@angular/common": "^9.1.13",

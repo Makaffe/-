@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "rectify-library": {
+    "rectify-comp": {
       "projectType": "library",
       "root": "src",
       "architect": {

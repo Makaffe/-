@@ -22,17 +22,17 @@ echo "DIST: ${DIST}"
 echo "NEXT?= ${NEXT}, Version ${VERSION}"
 
 publishToMaster() {
-  for p in `ls ${DIST}/@finance-analysis-framework`
+  for p in `ls ${DIST}/@mt-rectify-framework`
   do
-    cd ${DIST}/@finance-analysis-framework/${p}
+    cd ${DIST}/@mt-rectify-framework/${p}
     yarn publish -f --new-version ${VERSION} --registry http://192.168.1.19:9876/repository/npm-local/ < ../../../scripts/publish/npm_password
   done
 }
 
 publishToNext() {
-  for p in `ls ${DIST}/@finance-analysis-framework`
+  for p in `ls ${DIST}/@mt-rectify-framework`
   do
-    cd ${DIST}/@finance-analysis-framework/${p}
+    cd ${DIST}/@mt-rectify-framework/${p}
     yarn publish -f --new-version ${VERSION} --tag next --registry http://192.168.1.19:9876/repository/npm-local/ < ../../../scripts/publish/npm_password
   done
 }

@@ -1,6 +1,6 @@
 {
   "$schema": "../../../node_modules/ng-packagr/ng-package.schema.json",
-  "dest": "../../../dist/@mt-rectify-framework",
+  "dest": "../../../dist/@mt-rectify-framework/comp",
   "deleteDestPath": true,
     "lib": {
       "entryFile": "public_api.ts"
