@@ -1,0 +1,82 @@
+.wrap {
+  padding: 5px;
+  font-size: 14px;
+}
+.left {
+  float: left;
+  width: 425px;
+}
+.right {
+  float: right;
+  width: 160px;
+  margin-right: 5px;
+  padding: 5px;
+  border: 1px solid #ccc;
+}
+.right .pre {
+  height: 332px;
+  overflow-y: auto;
+}
+.right .preitem {
+  margin: 5px 0;
+  padding: 2px 0;
+  border: white 1px solid;
+}
+.right .preitem:hover {
+  background-color: lemonChiffon;
+  border: #ccc 1px solid;
+  cursor: pointer;
+}
+.right .preitem img {
+  display: block;
+  width: 100px;
+  margin: 0 auto;
+}
+.clear {
+  clear: both;
+}
+.top {
+  height: 26px;
+  padding: 5px;
+  line-height: 26px;
+}
+.bottom {
+  width: 100%;
+  height: 320px;
+  margin: 0 auto;
+}
+.transparent {
+  background: url('images/bg.gif') repeat;
+}
+.bottom table tr td {
+  border: 1px dashed #ccc;
+}
+#colorPicker {
+  display: inline-block;
+  width: 17px;
+  height: 17px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-shadow: 2px 2px 5px #d3d6da;
+}
+.border_style1 {
+  padding: 2px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px #d3d6da;
+}
+p {
+  margin: 5px 0;
+}
+table {
+  clear: both;
+  margin-bottom: 10px;
+  word-break: break-all;
+  border-collapse: collapse;
+}
+li {
+  clear: both;
+}
+ol {
+  padding-left: 40px;
+}

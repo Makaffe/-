@@ -1,0 +1,90 @@
+/* PLACEHOLDER, IMPORTANT: don't remove */
+@import '~@delon/theme/styles/default';
+
+:host {
+  ::ng-deep {
+    .container {
+      width: 100%;
+      height: 100%;
+      background: url(../../../assets/img/login-background.png) no-repeat fixed;
+      background-color: #edf0f5;
+      background-size: cover;
+    }
+
+    .wrapper {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      // padding: 32px 0;
+    }
+
+    .top {
+      height: 10%;
+      margin-top: -8%;
+      text-align: center;
+    }
+
+    .main-window {
+      position: absolute;
+      top: 20%;
+      // IE使用
+      left: 20%;
+      height: 63%;
+      box-shadow: 0 0 20px -5px rgba(0, 0, 0, 0.25);
+    }
+
+    .second {
+      width: 100%;
+      height: 100%;
+      background: url(../../../assets/img/login.png);
+      background-size: cover;
+    }
+
+    .second-right {
+      position: relative;
+      top: 37%;
+      left: 65%;
+      margin-top: -130px;
+      padding: 5%;
+      background-color: white;
+      box-shadow: 15px -15px rgba(136, 136, 136, 0.13);
+
+      .second-font {
+        margin-bottom: 7%;
+      }
+    }
+
+    .div-bottom {
+      height: 5%;
+      text-align: center;
+      background: url(../../../assets/img/matech-logo.png) no-repeat center center;
+    }
+
+    .bg-img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+
+
+    .login-title {
+      height: 20%;
+      h1 {
+        font-weight: bold;
+        font-size: 3rem;
+      }
+    }
+
+    .login-content {
+      height: 76%;
+    }
+  }
+
+  @media (max-width: 992px) {
+    .second-right {
+      padding: 20px 20px 20px 20px;
+    }
+  }
+}

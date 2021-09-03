@@ -1,0 +1,155 @@
+/* 弹出对话框页面样式组件
+*/
+
+/* reset
+*/
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+font,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td {
+  margin: 0;
+  padding: 0;
+  font-size: 100%;
+  outline: 0;
+}
+
+body {
+  line-height: 1;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+ins {
+  text-decoration: none;
+}
+
+del {
+  text-decoration: line-through;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* module
+*/
+body {
+  color: #646464;
+  font: 12px/1.5 sans-serif, '宋体', 'Arial Narrow', HELVETICA;
+  background-color: #fff;
+}
+
+/* tab */
+.tabhead {
+  position: relative;
+  z-index: 10;
+}
+
+.tabhead span {
+  display: inline-block;
+  height: 30px;
+  *margin-right: 5px;
+  padding: 0 5px;
+  line-height: 30px;
+  text-align: center;
+  background: url('images/dialog-title-bg.png') repeat-x;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.tabhead span.focus {
+  height: 31px;
+  background: #fff;
+  border-bottom: none;
+}
+
+.tabbody {
+  position: relative;
+  top: -1px;
+  margin: 0 auto;
+  border: 1px solid #ccc;
+}
+
+/* button */
+a.button {
+  display: block;
+  width: 95px;
+  height: 24px;
+  color: #838383;
+  line-height: 24px;
+  text-align: center;
+  text-decoration: none;
+  background: url(../../themes/default/images/icons-all.gif) no-repeat;
+  border: 0;
+}
+
+a.button:hover {
+  background-position: 0 -30px;
+}

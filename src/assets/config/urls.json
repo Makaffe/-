@@ -1,0 +1,5 @@
+{
+  "GCGL_URL": "http://sso.szrcaj.com:8080/sso/login?service=http://eas.szrcaj.com:6888/portal/easSsoIndex.jsp?redirectTo=main",
+  "TZGL_URL": "http://sso.szrcaj.com:8080/sso/login?service=http://eas.szrcaj.com:6888/portal/easSsoIndex.jsp?redirectTo=Cosmic",
+  "JYGL_URL": "http://sso.szrcaj.com:8080/sso/login?service=http://jf.szrcaj.com:8999/webroot/decision"
+}

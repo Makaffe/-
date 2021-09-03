@@ -1,0 +1,30 @@
+<div class="nav-wrapper">
+  <div nz-row class="logout-btn-wrapper">
+    <div nz-col [nzSpan]="21"></div>
+    <div nz-col [nzSpan]="3" class="text-right">
+      <button nz-button nzType="link" (click)="logout()">
+        <i nz-icon nzType="logout" class="mr-sm"></i>
+        退出登录
+      </button>
+    </div>
+  </div>
+  <app-sys-name></app-sys-name>
+
+  <div nz-row class="div-btn-wrapper" [nzType]="'flex'">
+    <div nz-col [nzSpan]="18" [nzOffset]="3">
+      <div>
+        <div nz-col [nzSpan]="8">
+          <div class="float-top financial-analysis" (click)="clickFinancialAnalysis()">
+            <h2>{{FINANCIAL_ANALYSIS_SYS_NAME}}</h2>
+          </div>
+          <div class="float-bottom sys-management" (click)="clickSystem()">
+            <h2>{{SYS_MANAGEMENT_SYS_NAME}}</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>  
+
+  <div nz-row class="bottom-empty"></div>
+  <app-copyright></app-copyright>
+</div>

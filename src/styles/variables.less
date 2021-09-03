@@ -1,0 +1,80 @@
+@main-color-1: #d9d9d9; // 主题颜色
+
+@footer-height: 26px; // 尾部高度
+@mt-toolbar-height: 40px; // 搜索栏高度
+@st-padding: 15px; // 表格内边距
+@modal-body-padding: 16px;
+// @primary-color: #1b1b1b; // 表头颜色
+
+
+
+
+//-------------------- 深色背景时的统一样式
+@mt-dark-text-color: #40a9ff;
+@mt-dark-a-color: #1890ff; // 超链接颜色
+@icon-active-color : #1890ff; // 图标选中颜色
+
+@mt-hover-color: #e6f7ff; // 悬浮背景色
+@mt-select-color: #e6f7ff; // 选中背景色
+
+// 弹出层统一背景颜色
+@mt-dark-modal-bg: rgb(red(shade(@main-color-1, 70)),
+    green(shade(@main-color-1, 70)),
+    blue(shade(@main-color-1, 70)) + 20);
+
+@menu-height: 40px; // 菜单高度
+@sub-menu-height: 30px; // 二级菜单高度
+@main-menu-default-color: #fff; // 菜单默认颜色
+@main-menu-select-color: tint(@main-color-1, 60%); // 菜单选中颜色
+
+// 通用选中背景色
+.mt-selected {
+  color: @mt-dark-text-color;
+  background-color: @mt-select-color;
+  a,
+  i {
+    color: @mt-dark-text-color;
+  }
+}
+
+.ant-table-content {
+  border-top: 1px solid #fff !important;
+}
+
+.ant-table-header {
+  .ant-table-thead tr th {
+    color: #1b1b1b !important;
+  }
+}
+
+.reuse-tab__line {
+  padding: 8px;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+.ant-tabs.ant-tabs-top {
+  .ant-tabs-ink-bar {
+    bottom: 1px !important;
+    height: 1px !important;
+  }
+}
+
+.reuse-tab__line .ant-tabs-nav .ant-tabs-tab .reuse-tab__name {
+  display: inline-block !important;
+  padding: 8px 20px !important;
+}
+
+.ant-table-pagination.ant-pagination {
+  margin-top: 10 !important;
+}
+
+nz-table .ant-table-thead>tr>th .ant-table-column-sorter .ant-table-column-sorter-inner .off {
+  color: #BFBFBF !important;
+}
+
+
+html {
+  body {
+    background: #f5f7fa !important;
+  }
+}

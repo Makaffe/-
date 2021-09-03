@@ -1,0 +1,129 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "http://192.168.1.45:10080/matech-framework/mt-framework-ng/tree/master/src/assets/app-data.schema.json",
+  "title": "AppDataConfig",
+  "description": "JSON Schema for `app-data.json` description file",
+  "type": "object",
+  "definitions": {},
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "app": {
+      "additionalProperties": false,
+      "description": "描述应用的属性",
+      "type": "object",
+      "properties": {
+        "vender": {
+          "description": "厂商信息",
+          "type": "string"
+        },
+        "name": {
+          "description": "应用的名称",
+          "type": "string"
+        },
+        "description": {
+          "description": "应用的描述信息",
+          "type": "string"
+        },
+        "canShowErrorDetail": {
+          "description": "是否显示错误详细",
+          "type": "boolean"
+        },
+        "apiServer": {
+          "description": "应用的后台API地址",
+          "type": "string"
+        },
+        "fullIndexRetrievalURL": {
+          "description": "全文检索地址",
+          "type": "string"
+        },
+        "login": {
+          "description": "登录页属性",
+          "type": "object",
+          "properties": {
+            "theme": {
+              "description": "登录页选择主题",
+              "enum": [
+                "1",
+                "2"
+              ]
+            },
+            "navigation": {
+              "description": "登录成功后是否跳转导航页",
+              "type": "boolean"
+            }
+          }
+        },
+        "navigation": {
+          "description": "导航页属性",
+          "type": "object",
+          "properties": {
+            "theme": {
+              "description": "导航页选择主题",
+              "enum": [
+                "1",
+                "2"
+              ]
+            }
+          }
+        },
+        "home": {
+          "description": "首页属性",
+          "type": "object",
+          "properties": {
+            "theme": {
+              "description": "首页选择主题",
+              "enum": [
+                "1",
+                "2"
+              ]
+            },
+            "bg": {
+              "description": "背景图片",
+              "type": "string"
+            },
+            "bgSearchSelectBorderRound": {
+              "description": "搜索框背景渲染方式为九宫格切分时，切分位置（2个或4个值）（可以是像素(不用加px)，百分比）（默认33.33%%）",
+              "type": "array"
+            },
+            "bgSearchSelect": {
+              "description": "搜索下拉框图片",
+              "type": "string"
+            },
+            "searchSelectExtraCSS": {
+              "description": "搜索下拉框扩展样式",
+              "type": "object"
+            },
+            "bgSearchInput": {
+              "description": "搜索输入框背景图片",
+              "type": "string"
+            },
+            "bgSearchInputBorderRound": {
+              "description": "搜索框输入框背景渲染方式为九宫格切分时，切分位置（2个或4个值）（可以是像素(不用加px)，百分比）（默认33.33%%）",
+              "type": "array"
+            },
+            "searchInputExtraCSS": {
+              "description": "搜索输入框扩展样式",
+              "type": "object"
+            },
+            "bgSearchBtn": {
+              "description": "搜索按钮背景图片",
+              "type": "string"
+            },
+            "bgSearchBtnBorderRound": {
+              "description": "搜索框按钮背景渲染方式为九宫格切分时，切分位置（2个或4个值）（可以是像素(不用加px)，百分比）（默认33.33%%）",
+              "type": "array"
+            },
+            "searchBtnExtraCSS": {
+              "description": "搜索按钮扩展样式",
+              "type": "object"
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": [],
+  "additionalProperties": false
+}

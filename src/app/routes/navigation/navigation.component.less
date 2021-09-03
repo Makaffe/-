@@ -1,0 +1,133 @@
+@div-logout-btn-wrapper-height: 5%;
+@div-empty-height: 20%;
+@div-btn-wrapper-height: 100% - (2*@div-empty-height) - @div-logout-btn-wrapper-height;
+@bottom-empty-height: @div-empty-height - 4%;
+// @small-nav-btn-bg-width: 411px;
+// @small-nav-btn-bg-height: 220px;
+// @big-nav-btn-bg-width: 358px;
+// @big-nav-btn-bg-height: 472px;
+@title-margin-left: 20px;
+@nav-img-radius: 10px;
+
+.logout-btn-wrapper {
+  height: @div-logout-btn-wrapper-height;
+}
+
+.nav-wrapper {
+  width: 100%;
+  height: 100%;
+  background: url(../../../assets/img/navigation/background.png);
+  background-size: cover;
+}
+
+.bottom-empty {
+  height: @bottom-empty-height;
+}
+
+.div-btn-wrapper {
+  height: @div-btn-wrapper-height;
+
+  >div {
+    height: 100%;
+
+    h2 {
+      margin-top: @title-margin-left;
+      margin-left: @title-margin-left;
+      font-size: 1.5rem;
+    }
+
+    >div {
+      height: 100%;
+
+      >div {
+        height: 100%;
+      }
+    }
+  }
+
+  div[nz-row] {
+    height: 100%;
+
+    div {
+      height: 100%;
+    }
+  }
+
+  .data-analysis-wrapper {
+    height: 100%;
+
+    div[nz-col] {
+      height: 100%;
+
+      div {
+        height: 48%;
+      }
+    }
+  }
+}
+
+.nav-image(@width, @height) {
+  width: @width;
+  height: @height;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.small-nav-image(@url) {
+  width: 100%;
+  background-image: @url;
+  border-radius: @nav-img-radius;
+  cursor: pointer;
+  // .nav-image(@small-nav-btn-bg-width, @small-nav-btn-bg-height);
+  .nav-image(98%, 48%)
+}
+
+.big-nav-image(@url) {
+  width: 100%;
+  background-image: @url;
+  border-radius: @nav-img-radius;
+  cursor: pointer;
+  // .nav-image(@big-nav-btn-bg-width, @big-nav-btn-bg-height);
+  .nav-image(98%, 100%);
+}
+
+.float-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.float-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.audit-management {
+  .small-nav-image(url(../../../assets/img/navigation/audit-manage.png));
+}
+
+.audit-risk {
+  .small-nav-image(url(../../../assets/img/navigation/risk.png));
+}
+
+.audit-work {
+  .big-nav-image(url(../../../assets/img/navigation/audit-work.png));
+}
+
+.audit-work-small {
+  .small-nav-image(url(../../../assets/img/navigation/audit-work-small.png));
+}
+
+.data-analysis {
+  .small-nav-image(url(../../../assets/img/navigation/data-analysis.png));
+}
+
+.financial-analysis {
+  .small-nav-image(url(../../../assets/img/navigation/financial.png));
+}
+
+.sys-management {
+  .small-nav-image(url(../../../assets/img/navigation/system.png));
+}

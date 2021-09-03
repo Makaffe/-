@@ -1,0 +1,8 @@
+<div class="alain-default__progress-bar" *ngIf="isFetching"></div>
+<layout-header class="alain-default__header" #layoutHeader></layout-header>
+<layout-sidebar class="alain-default__aside" *ngIf="userType != 'BUSINESS_DEPARTMENT'"></layout-sidebar>
+<section class="alain-default__content mt-flex-column" style="flex: 1 1 auto;" [ngClass]="{'no-margin-left': userType === 'BUSINESS_DEPARTMENT'}">
+  <reuse-tab max="100"></reuse-tab>
+  <router-outlet></router-outlet>
+</section>
+<ng-template #settingHost></ng-template>

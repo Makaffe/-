@@ -1,0 +1,796 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* 修改左边菜单收缩后的图标上下距离 */
+@media (min-width: @mobile-min) {
+  @{alain-default-prefix}__collapsed {
+    @{sidebar-nav-prefix}:not(@{sidebar-nav-prefix}__sub) {
+      @{sidebar-nav-prefix}__item {
+        border: none;
+
+        &-link {
+          justify-content: center;
+          padding: (@layout-gutter * 1.5) 0;
+        }
+      }
+    }
+  }
+}
+
+// 工作区缺省的内边距
+@alain-default-content-padding: 0;
+
+// 工具栏高度
+@mt-toolbar-height: 40px;
+
+// ST表格内边距
+@st-padding: 10px;
+
+/* 通用Flex布局 */
+.mt-flex {
+  display: flex;
+  overflow: hidden;
+}
+
+// 垂直Flex布局（需要自己设定高度，大部分情况是height: 100%;）
+.mt-flex-column {
+  .mt-flex;
+
+  flex-direction: column;
+  width: 100%;
+}
+
+// 水平Flex布局（需要自己设定宽度，大部分情况是width: 100%;）
+.mt-flex-row {
+  .mt-flex;
+
+  flex-direction: row;
+  height: 100%;
+}
+
+/* ST表格 */
+.st {
+  height: 100%;
+}
+
+/* 通用nz表格 */
+nz-table {
+  height: 100%;
+  padding: 0 @st-padding @st-padding @st-padding;
+
+  // 表头设置字体大小，背景颜色，文字颜色，加粗，隐藏滚动条等
+  .ant-table-header {
+    .ant-table-th-right-sticky {
+      background-color: #e5edf6 !important;
+    }
+
+    .ant-table-fixed {
+      overflow-x: hidden !important;
+    }
+
+    .ant-table-thead>tr>th {
+      color: #1b1b1b;
+      font-weight: bold;
+      font-size: 15px;
+      background-color: #e5edf6 !important;
+    }
+  }
+
+  // 表格重新按flex布局
+  nz-spin {
+    height: 100%;
+
+    .ant-spin-container {
+      .mt-flex-column;
+
+      height: 100%;
+
+      // 表格
+      .ant-table {
+        flex: 1 1 auto;
+        order: 1;
+        height: 150px;
+        .mt-flex-column;
+
+        .ant-table-content {
+          flex: 1 1 auto;
+          height: 130px;
+        }
+
+        // 继续向下flex
+        .ant-table-scroll {
+          .mt-flex-column;
+
+          height: 100%;
+
+          // 表头
+          .ant-table-header {
+            flex: none;
+            order: 1;
+            margin-bottom: 0 !important;
+            overflow-x: hidden !important;
+
+            .ant-table-row>th:last-child {
+              border-right-color: transparent;
+            }
+
+            &::-webkit-scrollbar {
+              border-color: transparent;
+            }
+          }
+
+          // 内容(最终需要它动态滚动)
+          .ant-table-body {
+            flex: 1 1 auto;
+            order: 2;
+            height: 100px;
+          }
+
+          // 没有数据时的占位图标
+          .ant-table-placeholder {
+            flex: 1 1 auto;
+            order: 3;
+            border-top: 0;
+          }
+        }
+      }
+
+      // 分页栏
+      nz-pagination {
+        order: 2;
+
+        .ant-table-pagination.ant-pagination {
+          margin-top: 10px;
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+
+  // 紧凑行
+  .ant-table-content>.ant-table-header>table>.ant-table-thead>tr>th,
+  .ant-table-content>.ant-table-body>table>.ant-table-thead>tr>th,
+  .ant-table-content>.ant-table-scroll>.ant-table-header>table>.ant-table-thead>tr>th,
+  .ant-table-content>.ant-table-scroll>.ant-table-body>table>.ant-table-thead>tr>th,
+  .ant-table-content>.ant-table-fixed-left>.ant-table-header>table>.ant-table-thead>tr>th,
+  .ant-table-content>.ant-table-fixed-right>.ant-table-header>table>.ant-table-thead>tr>th,
+  .ant-table-content>.ant-table-fixed-left>.ant-table-body-outer>.ant-table-body-inner>table>.ant-table-thead>tr>th,
+  .ant-table-content>.ant-table-fixed-right>.ant-table-body-outer>.ant-table-body-inner>table>.ant-table-thead>tr>th,
+  .ant-table-content>.ant-table-header>table>.ant-table-tbody>tr>td,
+  .ant-table-content>.ant-table-body>table>.ant-table-tbody>tr>td,
+  .ant-table-content>.ant-table-scroll>.ant-table-header>table>.ant-table-tbody>tr>td,
+  .ant-table-content>.ant-table-scroll>.ant-table-body>table>.ant-table-tbody>tr>td,
+  .ant-table-content>.ant-table-fixed-left>.ant-table-header>table>.ant-table-tbody>tr>td,
+  .ant-table-content>.ant-table-fixed-right>.ant-table-header>table>.ant-table-tbody>tr>td,
+  .ant-table-content>.ant-table-fixed-left>.ant-table-body-outer>.ant-table-body-inner>table>.ant-table-tbody>tr>td,
+  .ant-table-content>.ant-table-fixed-right>.ant-table-body-outer>.ant-table-body-inner>table>.ant-table-tbody>tr>td {
+    padding: 5px 8px !important;
+  }
+
+  // 选中行样式
+  .ant-table-thead>tr.ant-table-row-hover:not(.ant-table-expanded-row)>td,
+  .ant-table-tbody>tr.ant-table-row-hover:not(.ant-table-expanded-row)>td,
+  .ant-table-thead>tr:hover:not(.ant-table-expanded-row)>td,
+  .ant-table-tbody>tr:hover:not(.ant-table-expanded-row)>td {
+    color: @primary-color;
+    background: tint(@primary-color, 96%);
+  }
+}
+
+/* 弹窗下的表格 */
+.ant-modal-body>nz-table,
+.ant-modal-body>*>nz-table {
+  padding: 0;
+
+  .ant-table {
+    height: 100%;
+
+    .ant-table-content {
+      height: 100%;
+
+      .ant-table-body {
+        height: 100%;
+      }
+    }
+  }
+}
+
+// 面板组件上的小工具栏
+.matech-panel-toolbar {
+  background-color: white;
+}
+
+/* 通用搜索工具条表单 */
+.matech-toolbar {
+  padding: 0 @st-padding / 2 0 @st-padding / 2;
+  line-height: @mt-toolbar-height;
+
+  .ant-form-item {
+    display: flex;
+    justify-content: flex-end;
+
+    // 文字不要设置nzSpan宽度，间隔30px
+    .ant-form-item-label {
+      padding-left: 30px;
+    }
+
+    // 第一个元素不用间隔
+    .ant-form-item-label:first-child {
+      padding-left: 0;
+    }
+
+    .ant-form-item-control-wrapper {
+
+      // 组合文本框
+      .ant-input-affix-wrapper {
+        width: 100%;
+        margin-top: -5px;
+        vertical-align: middle;
+      }
+
+      // 搜索按钮所在formcontrol
+      &.btn-search {
+        width: auto;
+
+        button {
+          margin-left: 20px;
+        }
+      }
+    }
+  }
+
+  // 最后一个表单元素
+  .ant-form-item:last-child {
+    margin-bottom: 0;
+  }
+}
+
+/* angular-split页面布局 */
+.as-split-area {
+  height: 1px;
+
+  >.sider-trigger {
+    bottom: 0;
+    width: 100%;
+    height: 42px;
+    color: #002140;
+    line-height: 42px;
+    text-align: center;
+    background: #fafafa;
+    border: 1px solid #fafafa;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+}
+
+.as-split-area.flex-fixed {
+  flex: none !important;
+  height: auto;
+  overflow: hidden !important;
+}
+
+/* 水平Tab选项卡flex布局 */
+.ant-tabs.ant-tabs-top {
+  .mt-flex-column;
+
+  height: 100%;
+
+  .ant-tabs-content {
+    flex: 1 1 auto;
+
+    /* 取消mt-framework-ng下的delon设置，避免对话框中tabpage内容没有高度 */
+    height: 100%;
+
+    .ant-tabs-tabpane.ant-tabs-tabpane-active {
+      height: 100%;
+    }
+  }
+}
+
+.alain-default__content>router-outlet+* {
+  flex: 1 1 auto;
+  height: 100px;
+}
+
+/**
+  *不可点击
+  */
+.unclickable {
+  pointer-events: none;
+}
+
+.light-border {
+  border: solid 1px #e8e8e8;
+}
+
+/**
+ *测试更改自定义下拉组件样式
+ */
+.self-selector {
+  .ant-select-selection {
+    width: 115px !important;
+  }
+}
+
+.self-selector-min {
+  .ant-select-selection {
+    width: 100px !important;
+  }
+}
+
+/* 头部操作按钮 */
+.matech-toolbar-marigin {
+  padding: @st-padding @st-padding 0 @st-padding;
+
+  /* 按钮边距 */
+  // .ant-btn + .ant-btn,
+  // .ant-btn + nz-popconfirm,
+  // nz-popconfirm + .ant-btn,
+  // nz-popconfirm + nz-popconfirm,
+  // .ant-btn + nz-button-group,
+  // nz-button-group + .ant-btn,
+  // .ant-btn + nz-dropdown,
+  // nz-dropdown + .ant-btn,
+  // nz-popconfirm + nz-button-group,
+  // nz-button-group + nz-popconfirm {
+  //   margin-left: @st-padding !important;
+  // }
+  .ant-btn+.ant-btn,
+  .ant-btn+nz-popconfirm,
+  nz-popconfirm+.ant-btn,
+  nz-popconfirm+nz-popconfirm,
+  .ant-btn+nz-button-group,
+  nz-button-group+.ant-btn,
+  .ant-btn+nz-dropdown,
+  nz-dropdown+.ant-btn,
+  nz-popconfirm+nz-button-group,
+  nz-button-group+nz-popconfirm {
+    margin-left: unset;
+  }
+
+  [nz-button] {
+    margin-right: @st-padding !important;
+  }
+
+  .mb-sm {
+    margin-bottom: @st-padding !important;
+  }
+}
+
+/* 头部搜索条件边距背景颜色 */
+.head-form-search {
+  margin-bottom: @st-padding;
+  background-color: white;
+  border: 1px solid #e6e9f0;
+
+  .ant-row-flex-middle {
+    line-height: 60px;
+  }
+}
+
+/* 在没有toobar手动加上边距 */
+.matech-toolbar-marigin-top {
+  margin-top: @st-padding;
+}
+
+.app-toor-bar {
+  padding: 0 10px 0 10px;
+  line-height: 50px;
+
+  .ant-form-item {
+    display: flex;
+    justify-content: flex-end;
+
+    // 文字不要设置nzSpan宽度，间隔30px
+    .ant-form-item-label {
+      padding-left: 30px;
+    }
+
+    // 第一个元素不用间隔
+    .ant-form-item-label:first-child {
+      padding-left: 0;
+    }
+
+    .ant-form-item-control-wrapper {
+
+      // 组合文本框
+      .ant-input-affix-wrapper {
+        width: 100%;
+        margin-top: -5px;
+        vertical-align: middle;
+      }
+
+      // 搜索按钮所在formcontrol
+      &.btn-search {
+        width: auto;
+
+        button {
+          margin-left: 20px;
+        }
+      }
+    }
+  }
+
+  // 最后一个表单元素
+  .ant-form-item:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.matech-search-form {
+  margin-bottom: 10px;
+  background-color: white;
+  border: 1px solid #ccc;
+  button.ant-btn {
+    float: right;
+    margin-right: 10px;
+  }
+}
+
+.search-row {
+  height: 52px;
+}
+
+/* 英文汉字不换行引发的错行 */
+.ant-table-small>.ant-table-content>.ant-table-scroll>.ant-table-header>table,
+.ant-table-small>.ant-table-content>.ant-table-scroll>.ant-table-body>table,
+.ant-table-small>.ant-table-content>.ant-table-scroll>.ant-table-body>.cdk-virtual-scroll-content-wrapper>table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+/* 步骤条上下步按钮靠右 */
+.steps-action {
+  text-align: right;
+}
+
+// 覆盖之前设置的表头，上下边距增加4px
+nz-table .ant-table-content>.ant-table-scroll>.ant-table-header>table>.ant-table-thead>tr>th {
+  padding: 9px 8px !important;
+}
+
+// 表格样式
+.app-show-table {
+  width: 100%;
+  margin-bottom: 24px;
+  table-layout: fixed;
+  border: 1px solid #e8e8e8;
+  border-top: 1px solid #e8e8e8;
+  border-right: 1px solid #e8e8e8;
+  border-left: 1px solid #e8e8e8;
+  border-collapse: collapse;
+}
+
+.app-show-table tr {
+  height: 40px;
+  line-height: 2.5;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.app-show-table th {
+  width: 10%;
+  padding: 0 12px;
+  color: black;
+  font-weight: normal;
+  font-size: 14px;
+  background-color: #fafafa;
+  border-right: 1px solid #e8e8e8;
+}
+
+.app-show-table td {
+  width: 20%;
+  padding: 0 12px;
+  //超出部分隐藏
+  overflow: hidden;
+  //文本以单行显示，不换行
+  white-space: nowrap;
+  //超出部分以省略号显示
+  text-overflow: ellipsis;
+  border-right: 1px solid #e8e8e8;
+}
+
+// 居中列
+.app-show-table-center {
+  text-align: center;
+}
+
+.table-title {
+  color: #40a9ff;
+  background-color: #eceff6 !important;
+}
+
+.button-small-style {
+  font-size: 13px;
+}
+
+/* 表格字体超出后，自动换行表示 */
+.ant-table table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+
+  thead>tr>th {
+    overflow: hidden;
+    word-wrap: break-word;
+    word-break: break-all;
+  }
+
+  tbody>tr>td {
+    overflow: hidden;
+    word-wrap: normal;
+    word-break: break-all;
+  }
+}
+
+/* st表格列默认样式，为了设置文字超出换行 */
+.text-truncate {
+  white-space: break-spaces !important;
+}
+
+/* 只要左边距 */
+.mt-padding-left {
+  padding-left: @st-padding;
+
+  .ant-btn+.ant-btn,
+  .ant-btn+nz-popconfirm,
+  nz-popconfirm+.ant-btn,
+  nz-popconfirm+nz-popconfirm,
+  .ant-btn+nz-button-group,
+  nz-button-group+.ant-btn,
+  .ant-btn+nz-dropdown,
+  nz-dropdown+.ant-btn,
+  nz-popconfirm+nz-button-group,
+  nz-button-group+nz-popconfirm {
+    margin-left: @st-padding !important;
+  }
+
+  .mb-sm {
+    margin-bottom: @st-padding !important;
+  }
+}
+
+/* 必填字段 */
+.requiredFlag {
+  margin-right: 4px;
+  color: #f5222d;
+  font-size: 14px;
+  font-family: SimSun, sans-serif;
+  line-height: 1;
+}
+
+/* disabled input */
+.ant-input[disabled] {
+  color: inherit !important;
+  background: inherit !important;
+  cursor: default;
+}
+
+input[disabled].ant-calendar-picker-input+span {
+  visibility: hidden;
+}
+
+.ant-select-disabled {
+  color: inherit;
+  background: inherit !important;
+  cursor: default;
+
+  .ant-select-arrow {
+    visibility: hidden;
+  }
+
+  .ant-select-selection {
+    background: inherit !important;
+    cursor: default;
+  }
+}
+
+/* 轮播图切换按钮 */
+@image-wrapper-width: 764px;
+@image-wrapper-height: 532px;
+
+nz-carousel[data='site-image'] {
+  .slick-dots {
+    bottom: 10px;
+    height: 20px;
+    background: rgba(0, 0, 0, 0.5);
+
+    li {
+      vertical-align: middle;
+    }
+  }
+
+  .wrapper {
+    // display: table;
+    width: @image-wrapper-width;
+    height: @image-wrapper-height;
+    margin-top: 20px;
+    // vertical-align: middle;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.6);
+
+    div {
+      // display: table-cell;
+      width: 100%;
+      height: @image-wrapper-height;
+      line-height: @image-wrapper-height;
+
+      img {
+        display: inline-block;
+        width: auto;
+        max-width: 100%;
+        height: auto;
+        max-height: 100%;
+        vertical-align: middle;
+      }
+    }
+  }
+}
+
+app-dashboard {
+  overflow-y: auto;
+}
+
+.anchorBL {
+  display: none;
+}
+
+/* 联动选择框禁用状态 */
+.ant-cascader-picker-disabled {
+  color: rgba(0, 0, 0, 0.65) !important;
+  background-color: white !important;
+
+  .ant-cascader-picker-arrow {
+    visibility: hidden;
+  }
+}
+
+/* 弹窗固定步骤条后内容样式 */
+.mt-modal-content {
+  height: 45vh;
+  margin-right: -22px;
+  padding-right: 10px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* 金额在上级元素中靠右显示 */
+.account-span-right {
+  text-align: right;
+}
+
+/* nz-input-number 隐藏 */
+.input-display {
+  display: none;
+}
+
+/* 数字输入框宽度 */
+.input-number {
+  width: 100%;
+}
+
+/* table偶数行背景色 */
+.odd-tr-bg {
+  background: rgba(229, 237, 246, 0.5);
+}
+
+/* 固钉 */
+.ant-anchor-wrapper {
+  padding-left: 0 !important;
+
+  .ant-anchor-ink::before {
+    background-color: transparent !important;
+  }
+
+  .ant-anchor-link a:hover {
+    color: @link-color !important;
+  }
+}
+
+/* 固定边距 */
+.ant-anchor-link {
+  padding: 7px 7px 7px 7px !important;
+}
+
+/* 右上角固钉样式 */
+.toc-affix {
+  position: absolute;
+  top: 127px;
+  right: 15px;
+  max-width: 120px;
+  margin-right: 10px;
+  cursor: all-scroll;
+}
+
+/* nz-card左边距 */
+.ant-card-head-title {
+  padding-left: 16px !important;
+}
+
+/* nz-card内容padding */
+.ant-card-body {
+  padding: 24px !important;
+}
+
+/* nz-card操作区右边距 */
+.ant-card-extra {
+  padding-right: 16px !important;
+}
+
+/* label文字超出，自动折行 */
+.ant-form-item-label {
+  white-space: break-spaces !important;
+}
+
+/* 树节点文字超出折行显示 */
+.ant-tree li .ant-tree-node-content-wrapper {
+  height: 100%;
+  padding-right: 20px;
+  white-space: pre-wrap;
+}
+
+.ant-calendar-picker {
+  /* 日期框长度占满 */
+  width: 100% !important;
+
+  /* 日期选择框禁用样式 */
+  .ant-input-disabled {
+    color: inherit;
+    background-color: inherit;
+  }
+}
+
+/* 下拉选择框禁用样式 */
+.ant-select-disabled .ant-select-selection--multiple .ant-select-selection__choice {
+  color: inherit;
+}
+
+
+/** */
+.reuse-tab__line .ant-tabs-nav .ant-tabs-tab .reuse-tab__name {
+  padding: 8px 20px;
+}
+.ant-tabs.ant-tabs-top .ant-tabs-ink-bar {
+  height: 1px;
+}
+
+/* 带附件组件app-attach-list的nz-form-item的高度 */
+.form-item-attach-height {
+  height: 300px;
+}
+
+/* 纵向下划线的上下边距 */
+.ant-divider-horizontal {
+  margin: 10px 0;
+}
+
+.p-10 {
+  padding: 10px;
+}
+
+.m-10 {
+  margin: 10px
+}
+
+// 审计作业-审计项目-项目进度看板 甘特图使用到的颜色
+// begin
+.bg-fail {
+  background-color: #fff1f0 !important;
+}
+
+.bg-started {
+  background-color: #e6fffb !important;
+}
+
+.bg-canceled {
+  background-color: #fff2e8 !important;
+}
+
+.bg-filed {
+  background-color: #fcffe6 !important;
+}
+// end
+
+/* 下拉选择框下拉列表最大高度 */
+.ant-select-dropdown-menu {
+  max-height: 250px !important;
+}

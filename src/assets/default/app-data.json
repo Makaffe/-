@@ -1,0 +1,30 @@
+{
+  "$schema": "../app-data.schema.json",
+  "app": {
+    "name": "人大预决算大数据智能分析系统",
+    "description": "人大预决算大数据智能分析系统",
+    "vender": "广东铭太信息科技有限公司",
+    "apiServer_local": "http://192.168.1.109:8000/insight/api",
+    "apiServer_": "http://192.168.1.148:13000/czbi/api",
+    "apiServer": "http://localhost:8080/insight/api",
+    "outsideReportServer": "",
+    "fullIndexRetrievalURL": "/intelligent/#/fullscreen/full-index/retrieval",
+    "canShowErrorDetail": true,
+    "noReloadOnRouteError": true,
+    "login": {
+      "theme": "1",
+      "navigation": false
+    },
+    "navigation": {
+      "theme": "1",
+      "supervisionMenuName": {
+        "name": "预决算智能分析目录"
+      }
+    },
+    "home": { 
+      "theme": "1",
+      "bg": "assets/img/dashboard/bg.png",
+      "topBg": "assets/default/home.1/top_bg.png"
+    }
+  }
+}

@@ -1,0 +1,112 @@
+.jd img {
+  display: block;
+  width: 35px;
+  height: 35px;
+  background: transparent url(images/jxface2.gif?v=1.1) no-repeat scroll left top;
+  cursor: pointer;
+}
+.pp img {
+  display: block;
+  width: 25px;
+  height: 25px;
+  background: transparent url(images/fface.gif?v=1.1) no-repeat scroll left top;
+  cursor: pointer;
+}
+.ldw img {
+  display: block;
+  width: 35px;
+  height: 35px;
+  background: transparent url(images/wface.gif?v=1.1) no-repeat scroll left top;
+  cursor: pointer;
+}
+.tsj img {
+  display: block;
+  width: 35px;
+  height: 35px;
+  background: transparent url(images/tface.gif?v=1.1) no-repeat scroll left top;
+  cursor: pointer;
+}
+.cat img {
+  display: block;
+  width: 35px;
+  height: 35px;
+  background: transparent url(images/cface.gif?v=1.1) no-repeat scroll left top;
+  cursor: pointer;
+}
+.bb img {
+  display: block;
+  width: 35px;
+  height: 35px;
+  background: transparent url(images/bface.gif?v=1.1) no-repeat scroll left top;
+  cursor: pointer;
+}
+.youa img {
+  display: block;
+  width: 35px;
+  height: 35px;
+  background: transparent url(images/yface.gif?v=1.1) no-repeat scroll left top;
+  cursor: pointer;
+}
+
+.smileytable td {
+  height: 37px;
+}
+#tabPanel {
+  margin-left: 5px;
+  overflow: hidden;
+}
+#tabContent {
+  float: left;
+  background: #fff;
+}
+#tabContent div {
+  display: none;
+  width: 480px;
+  overflow: hidden;
+}
+#tabIconReview.show {
+  left: 17px;
+  display: block;
+}
+.menuFocus {
+  background: #accd3c;
+}
+.menuDefault {
+  background: #fff;
+}
+#tabIconReview {
+  position: absolute;
+  top: 41px;
+  left: 406px;
+  left: 398px \9;
+  z-index: 65533;
+  width: 90px;
+  height: 76px;
+}
+img.review {
+  width: 90px;
+  height: 76px;
+  background: #fff;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: 2px solid #9cb945;
+}
+
+.wrapper .tabbody {
+  position: relative;
+  float: left;
+  clear: both;
+  width: 95%;
+  padding: 10px;
+}
+.tabbody table {
+  width: 100%;
+}
+.tabbody td {
+  border: 1px solid #bac498;
+}
+.tabbody td span {
+  display: block;
+  padding: 0 4px;
+  zoom: 1;
+}

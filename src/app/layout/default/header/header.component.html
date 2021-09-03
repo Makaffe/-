@@ -1,0 +1,53 @@
+<div class="alain-default__header-logo">
+  <a [routerLink]="['/']" class="alain-default__header-logo-link">
+    <img
+      class="alain-default__header-logo-expanded"
+      src="./assets/img/logo-full.png"
+      alt="{{ settings.app.name }}"
+      style="max-height:40px;"
+    />
+    <img
+      class="alain-default__header-logo-collapsed"
+      src="./assets/img/logo.png"
+      alt="{{ settings.app.name }}"
+      style="max-height: 30px;"
+    />
+  </a>
+</div>
+<div
+  class="alain-default__nav-wrap"
+  style="position: relative;height: 64px; margin-right: -15px;margin-left: -1px;background-color: white;"
+>
+  <ul class="alain-default__nav">
+    <li *ngIf="userType != 'BUSINESS_DEPARTMENT'">
+      <div class="alain-default__nav-item" style="color: rgba(0, 0, 0, 0.45)" (click)="toggleCollapsedSidebar()">
+        <i nz-icon type="menu-{{ settings.layout.collapsed ? 'unfold' : 'fold' }}"></i>
+      </div>
+    </li>
+    <li class="pr-lg pl-sm pt-sm" style="position: relative; min-width: 50px; margin: 0 !important; text-align: center">
+      <h1 style="min-width: 50px;color: #1890ff;font-weight:bold; white-space:nowrap;">
+        {{ userType === 'AUDIT_DEPARTMENT' ? systemName+' — '+title : systemName}}
+      </h1>
+    </li>
+  </ul>
+
+  <ul class="alain-default__nav">
+    <li class="hidden-mobile" *ngIf="userType != 'BUSINESS_DEPARTMENT'">
+      <div class="alain-default__nav-item header-font" nz-tooltip nzTooltipTitle="返回首页"
+        nzTooltipPlacement="bottom" (click)="return()">
+        <i nz-icon nzType="home" nzTheme="outline" style="color: rgba(0, 0, 0, 0.45)"></i>
+      </div>
+    </li>
+    <li class="hidden-mobile" *ngIf="userType === 'BUSINESS_DEPARTMENT'">
+      <div class="alain-default__nav-item header-font" nz-tooltip nzTooltipTitle="返回首页"
+        nzTooltipPlacement="bottom" (click)="returnMyTodo()">
+        <i nz-icon nzType="home" nzTheme="outline" style="color: rgba(0, 0, 0, 0.45)"></i>
+      </div>
+    </li>
+    <li class="hidden-mobile">
+      <div class="alain-default__nav-item">
+        <header-user></header-user>
+      </div>
+    </li>
+  </ul>
+</div>

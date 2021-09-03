@@ -1,0 +1,308 @@
+export const APP_FINANCIAL_DATA = {
+  app: {
+    name: 'Matech',
+    description: 'Ng-zorro & Ng-alain admin panel front-end framework',
+  },
+  menu: [
+    {
+      text: '',
+      i18n: '',
+      group: true,
+      hideInBreadcrumb: true,
+      children: [
+        // {
+        //   text: '首页',
+        //   link: '/financial-analysis/comprehensive-analysis',
+        //   i18n: 'menu.dashboard',
+        //   icon: 'anticon-dashboard',
+        // },
+        {
+          text: '模型管理',
+          i18n: 'menu.model.management',
+          icon: 'anticon-windows',
+          acl: ['DATA_SOURCE', 'DATA_SET', 'ALARM_FUNCTION', 'INSIGHT_MANAGER'],
+          children: [
+            {
+              text: '数据源管理',
+              link: '/insight/data-source',
+              i18n: 'menu.finance.datasource',
+              acl: ['DATA_SOURCE'],
+            },
+            {
+              text: '数据集管理',
+              link: '/insight/data-set',
+              i18n: 'menu.finance.dataset',
+              acl: ['DATA_SET'],
+            },
+            {
+              text: '指数函数构建',
+              link: '/function/aviator-function',
+              i18n: 'menu.finance.aviator-function',
+              acl: ['ALARM_FUNCTION'],
+            },
+            {
+              text: '多维分析模型',
+              link: '/insight/data-insight/insight-manager/tab',
+              i18n: 'menu.finance.insight-manager',
+              acl: ['INSIGHT_MANAGER'],
+            },
+            {
+              text: '报表模板',
+              link: '/insight-report/template',
+              i18n: 'menu.finance.insight-report-template',
+              acl: ['INSIGHT_MANAGER'],
+            },
+            {
+              text: '展示报表',
+              link: '/insight-report/display',
+              i18n: 'menu.finance.insight-report-display',
+              acl: ['INSIGHT_MANAGER'],
+            },
+            {
+              text: '导入导出',
+              link: '/insight/resource-prototype/resource',
+              i18n: 'menu.finance.insight-import-export',
+              acl: ['INSIGHT_MANAGER'],
+            },
+          ],
+        },
+        {
+          text: '报告管理',
+          // i18n: '',
+          icon: 'anticon-snippets',
+          // acl: [],
+          children: [
+            {
+              text: '模板管理',
+              // i18n: '',
+              icon: 'anticon-file-excel',
+              link: '/financial-analysis/template-info',
+              // acl: [],
+            },
+            {
+              text: '报告管理',
+              // i18n: '',
+              icon: 'anticon-file-excel',
+              link: '/financial-analysis/report-info',
+              // acl: [],
+            },
+          ],
+        },
+        {
+          text: '数据管理',
+          i18n: 'menu.data.management',
+          icon: 'anticon-database',
+          acl: [
+            'FINANCE_DATA_GATHER',
+            'FINANCE_REPORT_DATA_MANAGE',
+            'FINANCE_REPORT_FORMULA_MANAGE',
+            'FINANCE_TARGET_DATA_MANAGE',
+            'FINANCE_TARGET_FORMULA_MANAGE',
+          ],
+          children: [
+            {
+              text: '财务数据采集',
+              i18n: 'menu.financial.gather',
+              icon: 'anticon-import',
+              link: '/financial-analysis/financial-data-gather',
+              acl: ['FINANCE_DATA_GATHER'],
+            },
+            {
+              text: '财务数据包装载',
+              i18n: 'menu.financial.data.import',
+              link: '/financial-analysis/financial-data-import',
+              acl: ['FINANCE_IMPORT_DELETE', 'FINANCE_IMPORT_UPDATE', 'FINANCE_IMPORT_CREATE'],
+            },
+            {
+              text: '单位财务账套对应关系管理',
+              i18n: 'menu.financial.c-unit-unit',
+              icon: 'anticon-import',
+              link: '/financial-analysis/c-unit-unit',
+              acl: ['FINANCE_DATA_GATHER'],
+            },
+            {
+              text: '财务报表数据导入',
+              i18n: 'menu.import.financial.statement',
+              icon: 'anticon-import',
+              link: '/financial-analysis/import-financial-statement',
+              acl: ['FINANCE_REPORT_DATA_MANAGE'],
+            },
+            {
+              text: '久其报表数据导入',
+              i18n: 'menu.import.jiuqi.statement',
+              icon: 'anticon-import',
+              link: '/financial-analysis/import-jiuqi-statement',
+              // acl: [],
+            },
+            {
+              text: '财务报表公式导入',
+              i18n: 'menu.financial.formula.import',
+              icon: 'anticon-import',
+              link: '/financial-analysis/financial-formula-import',
+              acl: ['FINANCE_REPORT_FORMULA_MANAGE'],
+            },
+            {
+              text: '财务报表计算',
+              i18n: 'menu.financial.formula.calculate',
+              icon: 'anticon-import',
+              link: '/financial-analysis/financial-formula-calculate',
+              acl: ['FINANCE_REPORT_DATA_MANAGE'],
+            },
+            {
+              text: '财务指标数据导入',
+              i18n: 'menu.import.financial.indicator',
+              icon: 'anticon-import',
+              link: '/financial-analysis/import-financial-indicator',
+              acl: ['FINANCE_TARGET_DATA_MANAGE'],
+            },
+            {
+              text: '财务指标公式导入',
+              i18n: 'menu.financial.indicator.formula.import',
+              icon: 'anticon-import',
+              link: '/financial-analysis/financial-indicator-formula-import',
+              acl: ['FINANCE_TARGET_FORMULA_MANAGE'],
+            },
+            {
+              text: '财务指标计算',
+              i18n: 'menu.financial.indicator.calculate',
+              icon: 'anticon-import',
+              link: '/financial-analysis/financial-indicator-calculate',
+              acl: ['FINANCE_TARGET_DATA_MANAGE'],
+            },
+            {
+              text: '财务账龄数据生成',
+              i18n: 'menu.financial.account-age-data',
+              icon: 'anticon-import',
+              link: '/financial-analysis/account-age-data',
+              // acl: [],
+            },
+            {
+              text: '标准科目管理',
+              i18n: 'menu.financial.standard-subject',
+              icon: 'anticon-tag',
+              link: '/financial-analysis/std-subject-management',
+              // acl: [],
+            },
+            {
+              text: '科目完整性对照',
+              i18n: 'menu.financial.subject.mapping',
+              icon: 'anticon-snippets',
+              link: '/financial-analysis/subject-std-mapping',
+              // acl: [],
+            },
+          ],
+        },
+        // {
+        //   text: '企业综合',
+        //   link: '/financial-analysis/comprehensive-analysis',
+        //   i18n: 'menu.finance.group-analyse',
+        //   icon: 'anticon-bank',
+        //   linkMatchForce: true,
+        //   acl: ['FINANCE_GROUP_ANALYSIS'],
+        // },
+        // {
+        //   text: '单个企业',
+        //   link: '/financial-analysis/single-unit-analysis',
+        //   i18n: 'menu.finance.single-unit-analyse',
+        //   icon: 'anticon-home',
+        //   acl: ['FINANCE_SINGLE_UNIT_ANALYSIS'],
+        // },
+        {
+          text: '账务查询',
+          i18n: 'menu.finance.analyse',
+          icon: 'anticon-file-search',
+          link: '/financial-analysis/financial-analysis-view',
+          acl: ['FINANCIAL_QUERY_RETRIEVE'],
+        },
+        {
+          text: '账务分析',
+          i18n: 'menu.finance.analysis',
+          icon: 'anticon-bars',
+          // acl: [],
+          children: [
+            {
+              text: '财务账龄分析',
+              i18n: 'menu.finance.analysis.age',
+              icon: 'anticon-file-excel',
+              link: '/financial-analysis/age-analyis',
+              // acl: [],
+            },
+            {
+              text: '分析摘要',
+              i18n: 'menu.finance.analysis.summary',
+              icon: 'anticon-file-excel',
+              link: '/financial-analysis/analysis-summary',
+              // acl: [],
+            },
+            {
+              text: '科目绝对数',
+              i18n: 'menu.finance.analysis.subject.abs',
+              icon: 'anticon-file-excel',
+              link: '/financial-analysis/subject-abs-analysis',
+              // acl: [],amount-bulr-search
+            },
+            {
+              text: '金额模糊查询',
+              i18n: 'menu.finance.analysis.amoumt-blur-search',
+              icon: 'anticon-file-excel',
+              link: '/financial-analysis/amount-bulr-search',
+              // acl: [],subject-layer-statistics
+            },
+            {
+              text: '科目分层统计',
+              i18n: 'menu.finance.analysis.subject-layer-statistics',
+              icon: 'anticon-file-excel',
+              link: '/financial-analysis/subject-layer-statistics',
+              // acl: [],ledger-opposite-analyze
+            },
+            {
+              text: '总账发生额',
+              i18n: 'menu.finance.analysis.ledger-opposite-analyze',
+              icon: 'anticon-file-excel',
+              link: '/financial-analysis/ledger-opposite-analyze',
+              // acl: [],
+            },
+            {
+              text: '账表对照',
+              i18n: 'menu.finance.report-comparison',
+              icon: 'anticon-diff',
+              link: '/financial-analysis/report-comparison',
+              acl: ['FINANCE_REPORT_COMPARISON'],
+            },
+            {
+              text: '报表科目变动分析',
+              link: '/financial-analysis/financial-statements',
+              i18n: 'menu.finance.change-analyse',
+              icon: 'anticon-build',
+              acl: ['FINANCE_REPORT_CHANGE_ANALYSIS'],
+            },
+          ],
+        },
+        // {
+        //   text: '财务指标分析',
+        //   link: '/insight/data-insight/insight-preview?theme=lsd&resourceId=326743489167626240&insightForce=true',
+        //   i18n: 'menu.finance.target-analyse',
+        //   icon: 'anticon-stock',
+        //   linkMatchForce: true,
+        //   acl: ['FINANCE_TARGET_ANALYSIS'],
+        // },
+        {
+          text: '财务报告',
+          i18n: 'menu.finance.post',
+          icon: 'anticon-bars',
+          children: [
+            {
+              text: '报告生成',
+              link: '/financial-analysis/finance-year-post-generate',
+              i18n: 'menu.finance.post.generate',
+              icon: 'anticon-build',
+              // acl: [],
+            },
+          ]
+        }
+      ],
+    },
+
+
+  ],
+};
