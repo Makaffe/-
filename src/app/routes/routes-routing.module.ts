@@ -5,7 +5,7 @@ import { environment } from '@env/environment';
 import { DataResourceViewComponent, DataResourceViewServiceComponent } from '@mt-framework-ng/view';
 // layout
 import { LayoutDefaultComponent } from '../layout/default/default.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+
 import { SystemDashboardComponent } from './dashboard/system/system-dashboard.component';
 // passport pages
 import { LoginComponent } from './login/login.component';
@@ -48,6 +48,7 @@ const routes = [
         loadChildren: './rectify/audit-rectify/audit-rectify.module#AuditRectifyModule',
         data: { reuse: true },
       },
+     
     ],
   },
 

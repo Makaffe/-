@@ -32,18 +32,6 @@
   </ul>
 
   <ul class="alain-default__nav">
-    <li class="hidden-mobile" *ngIf="userType != 'BUSINESS_DEPARTMENT'">
-      <div class="alain-default__nav-item header-font" nz-tooltip nzTooltipTitle="返回首页"
-        nzTooltipPlacement="bottom" (click)="return()">
-        <i nz-icon nzType="home" nzTheme="outline" style="color: rgba(0, 0, 0, 0.45)"></i>
-      </div>
-    </li>
-    <li class="hidden-mobile" *ngIf="userType === 'BUSINESS_DEPARTMENT'">
-      <div class="alain-default__nav-item header-font" nz-tooltip nzTooltipTitle="返回首页"
-        nzTooltipPlacement="bottom" (click)="returnMyTodo()">
-        <i nz-icon nzType="home" nzTheme="outline" style="color: rgba(0, 0, 0, 0.45)"></i>
-      </div>
-    </li>
     <li class="hidden-mobile">
       <div class="alain-default__nav-item">
         <header-user></header-user>

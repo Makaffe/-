@@ -13,10 +13,9 @@ import { CacheService } from '@delon/cache';
 
 import { I18N_DATA } from './i18n-data';
 
-import { environment } from '../../../environments/environment';
-import { APP_DATA } from './app-data';
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { ReuseTabService } from '@delon/abc';
+import { APP_DATA } from './app-data';
 
 /** 缓存的Key前缀 */
 export const CACHE_KEY_PREFIX = window.location.origin + window.location.pathname + '_';
@@ -42,7 +41,6 @@ export class StartupService {
     private encryptionService: EncryptionService,
     private reuseTabService: ReuseTabService,
   ) {
-
     // 重写原方法，给key增加前缀
     // settingService['set'] = (key: string, value: any) => {
     //   localStorage.setItem(CACHE_KEY_PREFIX + key, JSON.stringify(value));
@@ -61,9 +59,12 @@ export class StartupService {
           .filter(i => i)
           .reverse()
           .join('/');
-      if (route.queryParams) { // 此段为特殊增加
-        const params = Object.keys(route.queryParams).map(p => p + '=' + route.queryParams[p]).join('&');
-        url += params ? ('?' + params) : '';
+      if (route.queryParams) {
+        // 此段为特殊增加
+        const params = Object.keys(route.queryParams)
+          .map(p => p + '=' + route.queryParams[p])
+          .join('&');
+        url += params ? '?' + params : '';
       }
       return url;
     };
@@ -90,7 +91,12 @@ export class StartupService {
     // });
     const fullscreenPrefix = '/fullscreen/';
     // 重写菜单的获取（根据URL）（默认忽略URL的?后面的参数）
-    menuService.getHit = (data: Menu[], url: string, recursive = false, cb: ((i: Menu) => void) | null = null): Menu | null => {
+    menuService.getHit = (
+      data: Menu[],
+      url: string,
+      recursive = false,
+      cb: ((i: Menu) => void) | null = null,
+    ): Menu | null => {
       url = decodeURIComponent(url);
       if (url.indexOf('?ct=') > -1 || url.indexOf('&ct=') > -1) {
         // 去除时间段再匹配
@@ -105,7 +111,8 @@ export class StartupService {
         if (idx > -1) {
           compareURL = compareURL.substring(0, idx);
         }
-        if (compareURL.startsWith(fullscreenPrefix)) { // 忽略最前面的 fullscreen
+        if (compareURL.startsWith(fullscreenPrefix)) {
+          // 忽略最前面的 fullscreen
           compareURL = compareURL.substring(fullscreenPrefix.length - 1);
         }
       }
@@ -116,13 +123,15 @@ export class StartupService {
             cb(i);
           }
           link = i.linkFinal || i.link;
-          if (link && !i.linkMatchForce) { // linkMatchForce为强制URL匹配（即问号?后面的参数也要匹配）
+          if (link && !i.linkMatchForce) {
+            // linkMatchForce为强制URL匹配（即问号?后面的参数也要匹配）
             const idx = link.indexOf('?');
             if (idx > -1) {
               link = link.substring(0, idx);
             }
           }
-          if (link.startsWith(fullscreenPrefix)) { // 忽略最前面的 fullscreen
+          if (link.startsWith(fullscreenPrefix)) {
+            // 忽略最前面的 fullscreen
             link = link.substring(fullscreenPrefix.length - 1);
           }
           if (link && (i.linkMatchForce ? (i.linkFinal || i.link) === url : !item && link === compareURL)) {
@@ -180,7 +189,35 @@ export class StartupService {
     resolve(null);
   }
 
-  load(): Promise<any> {
+  load(userType = 'AUDIT_DEPARTMENT'): Promise<any> {
+    switch (userType) {
+      case 'AUDIT_DEPARTMENT':
+        this.menuTree.menu[0].children[0] = {
+          text: '首页',
+          link: '/audit-rectify/auditor-dashboard',
+          i18n: 'menu.dashboard',
+          icon: 'anticon-dashboard',
+        }
+        break;
+      case 'SUPERVISE_DEPARTMENT':
+        this.menuTree.menu[0].children[0] = {
+          text: '首页',
+          link: '/audit-rectify/supervise-dashboard',
+          i18n: 'menu.dashboard',
+          icon: 'anticon-dashboard',
+        }
+        break;
+      case 'RECTIFY_DEPARTMENT':
+        this.menuTree.menu[0].children[0] = {
+          text: '首页',
+          link: '/audit-rectify/rectify-dashboard',
+          i18n: 'menu.dashboard',
+          icon: 'anticon-dashboard',
+        }
+        break;
+      default:
+        break;
+    }
     return new Promise((resolve, reject) => {
       this.viaLocal(resolve, reject);
     });

@@ -1,0 +1,84 @@
+<div style="height:100%;margin-left:10px;margin-top:10px;overflow:scroll;">
+  <form nz-form>
+    <nz-form-item>
+      <nz-form-label nzSpan="4">上传审计报告</nz-form-label>
+      <nz-form-control nzSpan="20">
+        <nz-upload
+          nzAction="https://jsonplaceholder.typicode.com/posts/"
+          [nzFileList]="fileList"
+          nzMultiple
+          [nzLimit]="2"
+          [nzFilter]="filters"
+          (nzChange)="handleChange($event)"
+        >
+          <button nz-button nzShape="round"><i nz-icon nzType="upload"></i><span>上传文件</span></button>
+        </nz-upload>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="4">报告内容提取</nz-form-label>
+      <nz-form-control nzSpan="18">
+        <button nz-button><i nz-icon nzType="search" nzTheme="outline"></i>查看报告</button>
+        <button nz-button><i nz-icon nzType="file-search" nzTheme="outline"></i>开始读取</button>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="4">审计报告名称</nz-form-label>
+      <nz-form-control nzSpan="18">
+        <input nz-input />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="4">审计单位名称</nz-form-label>
+      <nz-form-control nzSpan="18">
+        <input nz-input />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="4">审计时间</nz-form-label>
+      <nz-form-control nzSpan="6">
+        <input nz-input />
+      </nz-form-control>
+      <nz-form-label nzSpan="4">报告来源</nz-form-label>
+      <nz-form-control nzSpan="6">
+        <input nz-input />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="4">整改问题清单</nz-form-label>
+      <nz-form-control nzSpan="18">
+        <nz-table #columnTable nzBordered [nzData]="listOfData" [nzScroll]="{ x: '900px' }">
+          <thead>
+            <tr>
+              <th nzWidth="100px" nzLeft="0px">序号</th>
+              <th nzWidth="100px" nzLeft="100px">问题名称</th>
+              <th nzWidth="100px">问题描述</th>
+              <th nzWidth="100px">问题类型</th>
+              <th nzWidth="100px">整改部门</th>
+              <th nzWidth="100px">整改负责人</th>
+              <th nzWidth="100px">审计建议</th>
+              <th nzRight="100px" nzWidth="100px">问题来源</th>
+              <th nzWidth="100px" nzRight="0px">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of columnTable.data">
+              <td nzLeft="0px">{{ data.name }}</td>
+              <td nzLeft="100px">{{ data.age }}</td>
+              <td>{{ data.address }}</td>
+              <td>{{ data.address }}</td>
+              <td>{{ data.address }}</td>
+              <td>{{ data.address }}</td>
+              <td>{{ data.address }}</td>
+
+              <td nzRight="100px">{{ data.address }}</td>
+              <td nzRight="0px">
+                <a>action</a>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>

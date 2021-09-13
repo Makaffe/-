@@ -12,7 +12,6 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { NavigationComponent } from './navigation/navigation.component';
 import { CopyRightComponent } from './navigation/copyright/copyright.component';
 import { SysNameComponent } from './navigation/sys-name/sys-name.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { MtBaseDataModule } from '@mt-framework-ng/view';
 import { SystemDashboardComponent } from './dashboard/system/system-dashboard.component';
 
