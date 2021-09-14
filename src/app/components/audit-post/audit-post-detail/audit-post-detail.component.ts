@@ -55,9 +55,8 @@ export class AuditPostDetailComponent implements OnInit {
   fileList = [
     {
       uid: -1,
-      name: 'xxx.png',
+      name: '《2021-10-01年度中期审计报告》.docx',
       status: 'done',
-      url: 'http://www.baidu.com/xxx.png',
     },
   ];
 

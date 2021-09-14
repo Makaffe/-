@@ -38,13 +38,13 @@ export const APP_DATA = {
           children: [
             {
               text: '整改问题',
-              link: '',
+              link: '/audit-rectify/rectify-issue',
               i18n: '',
               // acl: [],
             },
             {
               text: '整改跟踪',
-              link: '',
+              link: '/audit-rectify/rectify-track',
               i18n: '',
               // acl: [],
             },
