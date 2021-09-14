@@ -1,0 +1,79 @@
+<nz-modal
+  [(nzVisible)]="isVisible"
+  [nzMaskClosable]="false"
+  (nzOnCancel)="handleCancel()"
+  [nzFooter]="editorFooter"
+  nzWidth="1050"
+  [nzTitle]="'新增类型'"
+  [nzStyle]="{ top: '65px' }"
+  [nzBodyStyle]="{
+    'max-height': '455px',
+    'min-height': '300px',
+    'overflow-y': 'auto',
+    'overflow-x': 'hidden',
+    padding: '24px 24px 0 24px'
+  }"
+>
+  <form nz-form #form="ngForm">
+    <!-- 第一行：类型名称 -->
+    <nz-form-item nz-row>
+      <nz-form-label [nzSpan]="2" nzRequired>类型名称</nz-form-label>
+      <nz-form-control [nzSpan]="22" [nzValidateStatus]="type.invalid && (type.dirty || type.touched) ? 'error' : ''">
+        <input required nz-input name="type" #type="ngModel" [(ngModel)]="currentItem.name" maxlength="200" 
+        [pattern]="PATTERN" required/>
+        <nz-form-explain *ngIf="type.invalid && (type.dirty || type.touched)">
+          请填写类型名称
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <!-- 第一行：上级节点和显示顺序 -->
+    <nz-form-item id="detail" nz-row nzType="flex" nzJustify="space-between">
+      <div nz-col nzSpan="12">
+        <nz-form-label [nzSpan]="4" nzFor="title">上级节点</nz-form-label>
+        <nz-form-control [nzSpan]="20" nzErrorTip="Please select your gender!">
+          <input
+            readonly
+            nz-input
+            [value]="currentItem.parent ? currentItem.parent.name : currentNode ? currentNode.name : ''"
+          />
+        </nz-form-control>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-label [nzSpan]="5" nzFor="showOrder">显示顺序</nz-form-label>
+        <nz-form-control
+          [nzSpan]="19"
+          [nzValidateStatus]="showOrder.invalid && (showOrder.dirty || showOrder.touched) ? 'error' : ''"
+        >
+          <nz-input-number
+            [nzPlaceHolder]="'请填写显示顺序'"
+            class="input-number "
+            [nzPrecision]="2"
+            name="estimateTotal"
+            #showOrder="ngModel"
+            [nzMin]="1"
+            [(ngModel)]="currentItem.showOrder"
+            required
+          ></nz-input-number>
+          <nz-form-explain *ngIf="showOrder.invalid && (showOrder.dirty || showOrder.touched)">
+            请填写显示顺序
+          </nz-form-explain>
+        </nz-form-control>
+      </div>
+    </nz-form-item>
+    <!-- 第三行：备注 -->
+    <nz-form-item nz-row>
+      <nz-form-label [nzSpan]="2" nzFor="remark">备注</nz-form-label>
+      <nz-form-control [nzSpan]="22">
+        <textarea nz-input rows="5" name="remark" [(ngModel)]="currentItem.remark" maxlength="1000"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+  <ng-template #editorFooter>
+    <div class="steps-action">
+      <button nz-button nzType="default" (click)="handleCancel()">取消</button>
+      <button nz-button nzType="primary" >
+        <span>完成</span>
+      </button>
+    </div>
+  </ng-template>
+</nz-modal>

@@ -1,0 +1,59 @@
+<as-split direction="vertical" unit="pixel" gutterSize="0">
+  <as-split-area class="flex-fixed" [size]="40">
+    <div class="app-toor-bar">
+      <!-- <div nz-row nzType="flex" nzJustify="space-around" nzAlign="middle">
+          <div nz-col nzSpan="24">
+            <button nz-button><i nz-icon type="plus" theme="outline"></i>新增</button>
+            <button nz-button><i nz-icon type="reload" theme="outline"></i>刷新</button>
+          </div>
+        </div> -->
+      <!-- 搜索栏 -->
+      <form #searchForm="ngForm" nz-form class="matech-search-form">
+        <div nz-row [nzGutter]="24" nzType="flex" nzJustify="space-between" nzAlign="middle" class="search-row">
+          <!-- 搜索框 -->
+          <div nz-col [nzSpan]="21">
+            <div nz-col [nzSpan]="5">
+              <nz-form-item style="justify-content: start;">
+                <nz-form-label [nzSpan]="8">整改问题</nz-form-label>
+                <nz-form-control [nzSpan]="16">
+                  <input nz-input type="text" name="name" placeholder="请输入搜索名称" />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col [nzSpan]="5">
+              <nz-form-item style="justify-content: start;">
+                <nz-form-label [nzSpan]="8">整改部门</nz-form-label>
+                <nz-form-control [nzSpan]="16">
+                  <input nz-input type="text" name="name" placeholder="请输入搜索名称" />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col [nzSpan]="5">
+              <nz-form-item style="justify-content: start;">
+                <nz-form-label [nzSpan]="8">状态</nz-form-label>
+                <nz-form-control [nzSpan]="16">
+                  <input nz-input type="text" name="name" placeholder="请输入搜索名称" />
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div nz-col [nzSpan]="6">
+              <nz-form-item style="justify-content: start;">
+                <nz-form-label [nzSpan]="6">时间</nz-form-label>
+                <nz-form-control [nzSpan]="18">
+                <nz-range-picker ></nz-range-picker>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+          <!-- 查找按钮 -->
+          <div nz-col [nzSpan]="3">
+            <button nz-button nzType="primary"><i nz-icon nzType="search" nzTheme="outline"></i>查找</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </as-split-area>
+  <as-split-area [size]="'*'">
+    <rectify-issue-list></rectify-issue-list>
+  </as-split-area>
+</as-split>

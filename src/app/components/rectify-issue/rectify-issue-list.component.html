@@ -1,0 +1,35 @@
+<st
+  #st
+  [data]="tableData"
+  nzSize="middle"
+  [multiSort]="tableParameter.multiSort"
+  [loading]="loading"
+  [req]="tableParameter.req"
+  [scroll]="{ y: '100%', x: '1100px' }"
+  [bordered]="true"
+  [res]="tableParameter.res"
+  [total]="tableParameter.page.total"
+  [size]="tableParameter.size"
+  [pi]="tableParameter.pi"
+  [ps]="tableParameter.ps"
+  [columns]="columns"
+  [rowClickTime]="500"
+  [page]="tableParameter.page"
+  [noResult]="null"
+>
+  <ng-template st-row="number" let-row let-index="index">
+    {{ ((st.pi ? st.pi : 1) - 1) * (st.ps ? st.ps : 0) + (index + 1) }}
+  </ng-template>
+  <ng-template st-row="releaseDate" let-row let-index="index">
+    {{ row.releaseDate | date: 'yyyy-MM-dd' }}
+  </ng-template>
+  <ng-template st-row="operations" let-row let-index="index">
+    <a (click)="splitIssue(row)">拆分</a>
+    <nz-divider nzType="vertical"></nz-divider>
+    <a (click)="transfer(row)">移交</a>
+    <nz-divider nzType="vertical"></nz-divider>
+    <a>下发</a>
+  </ng-template>
+</st>
+<rectify-issue-split #rectifyIssueSplitComponent></rectify-issue-split>
+<rectify-issue-transfer #rectifyIssueTransferComponent></rectify-issue-transfer>

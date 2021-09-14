@@ -20,5 +20,5 @@ export interface LonginDTO {
   /**
    * 用户类型
    */
-  userType?: 'AUDIT_DEPARTMENT' | 'BUSINESS_DEPARTMENT';
+  userType?: 'AUDIT_DEPARTMENT' | 'SUPERVISE_DEPARTMENT' | 'RECTIFY_DEPARTMENT';
 }

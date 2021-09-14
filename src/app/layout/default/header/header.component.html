@@ -26,24 +26,13 @@
     </li>
     <li class="pr-lg pl-sm pt-sm" style="position: relative; min-width: 50px; margin: 0 !important; text-align: center">
       <h1 style="min-width: 50px;color: #1890ff;font-weight:bold; white-space:nowrap;">
-        {{ userType === 'AUDIT_DEPARTMENT' ? systemName+' — '+title : systemName}}
+        <!-- {{ userType === 'AUDIT_DEPARTMENT' ? systemName+' — '+title : systemName}} -->
+        {{systemName}}
       </h1>
     </li>
   </ul>
 
   <ul class="alain-default__nav">
-    <li class="hidden-mobile" *ngIf="userType != 'BUSINESS_DEPARTMENT'">
-      <div class="alain-default__nav-item header-font" nz-tooltip nzTooltipTitle="返回首页"
-        nzTooltipPlacement="bottom" (click)="return()">
-        <i nz-icon nzType="home" nzTheme="outline" style="color: rgba(0, 0, 0, 0.45)"></i>
-      </div>
-    </li>
-    <li class="hidden-mobile" *ngIf="userType === 'BUSINESS_DEPARTMENT'">
-      <div class="alain-default__nav-item header-font" nz-tooltip nzTooltipTitle="返回首页"
-        nzTooltipPlacement="bottom" (click)="returnMyTodo()">
-        <i nz-icon nzType="home" nzTheme="outline" style="color: rgba(0, 0, 0, 0.45)"></i>
-      </div>
-    </li>
     <li class="hidden-mobile">
       <div class="alain-default__nav-item">
         <header-user></header-user>

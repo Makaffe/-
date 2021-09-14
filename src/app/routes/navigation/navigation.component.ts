@@ -1,8 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { StartupService } from '@core';
-import { APP_RECTIFY_DATA } from '@core/startup/app-rectify-data';
-import { APP_SYSTEM_DATA } from '@core/startup/app-system-data';
+
 import { ReuseTabService } from '@delon/abc';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { CacheService } from '@delon/cache';
@@ -61,23 +60,8 @@ export class NavigationComponent implements OnInit {
 
   ngOnInit() {}
 
-  /**
-   * 财务分析
-   */
-  clickFinancialAnalysis() {
-    this.common(APP_RECTIFY_DATA, this.FINANCIAL_ANALYSIS_SYS_NAME);
-    this.starupService.load().then(() => {
-      this.router.navigate(['/audit-rectify/dashboard']);
-    });
-  }
 
-  /**
-   * 系统管理
-   */
-  clickSystem() {
-    this.common(APP_SYSTEM_DATA, this.SYS_MANAGEMENT_SYS_NAME);
-    this.starupService.load().then(() => this.router.navigate(['/sys-dashboard']));
-  }
+
 
   /**
    * 拼接动态菜单项

@@ -36,6 +36,18 @@
                   <nz-form-explain *ngIf="password.dirty && password.errors"> 请输入密码！ </nz-form-explain>
                 </nz-form-control>
               </nz-form-item>
+              <nz-form-item>
+                <nz-form-control
+                  [nzValidateStatus]="userType.invalid && (userType.dirty || userType.touched) ? 'error' : ''"
+                  nzHasFeedback>
+                  <nz-select nzSize="default" name="userType" #userType="ngModel"
+                    [(ngModel)]="loginDTO.userType" nzPlaceHolder="请选择用户类型" required nzSize="large">
+                    <nz-option *ngFor="let userType of userTypeList" [nzLabel]="userType.label"
+                      [nzValue]="userType.value">
+                    </nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
               <nz-form-item style="margin-bottom: 10px;">
                 <button style="height: 38px;" nz-button (click)="onLogin($event)" nzType="primary" [nzLoading]="loading"
                   nzBlock>

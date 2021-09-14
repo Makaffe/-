@@ -1,0 +1,49 @@
+<nz-modal
+  [(nzVisible)]="isVisible"
+  [nzMaskClosable]="false"
+  (nzOnCancel)="handleCancel()"
+  [nzFooter]="rectifyIssueSplitFooter"
+  nzWidth="800"
+  [nzTitle]="'移交纪检提示'"
+  [nzBodyStyle]="{
+    'height.px': modalBodyHeight,
+    'overflow-y': 'auto',
+    'overflow-x': 'hidden',
+    'padding-top': '0px',
+    'padding-bottom': '0px'
+  }"
+>
+  <form nz-form>
+    <nz-form-item>
+      <nz-form-label nzSpan="4">移交内容</nz-form-label>
+      <nz-form-control nzSpan="20">
+        <div nz-row nzJustify="space-between">
+          <div nz-col nzSpan="6"><label nz-checkbox>问题名称</label></div>
+          <div nz-col nzSpan="6"><label nz-checkbox>问题描述</label></div>
+          <div nz-col nzSpan="6"><label nz-checkbox>问题类型</label></div>
+          <div nz-col nzSpan="6"><label nz-checkbox>问题来源</label></div>
+        </div>
+        <div nz-row nzJustify="space-between">
+          <div nz-col nzSpan="6"><label nz-checkbox>整改部门</label></div>
+          <div nz-col nzSpan="6"><label nz-checkbox>整改负责人</label></div>
+          <div nz-col nzSpan="6"><label nz-checkbox>审计建议</label></div>
+          <div nz-col nzSpan="6"><label nz-checkbox>整改截止时间</label></div>
+        </div>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="4">移交原因</nz-form-label>
+      <nz-form-control nzSpan="20"> </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="4">上传附件</nz-form-label>
+      <nz-form-control nzSpan="20"> </nz-form-control>
+    </nz-form-item>
+  </form>
+  <ng-template #rectifyIssueSplitFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">取消</button>
+    <button nz-button nzType="primary" [nzLoading]="loading" (click)="save()">
+      确定
+    </button>
+  </ng-template>
+</nz-modal>

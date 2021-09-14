@@ -26,8 +26,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
    * 用户类型列表
    */
   userTypeList = [
-    {label: '审计部门用户', value: 'AUDIT_DEPARTMENT'},
-    {label: '业务部门用户', value: 'BUSINESS_DEPARTMENT'},
+    { label: '审计人员', value: 'AUDIT_DEPARTMENT' },
+    { label: '纪检部门', value: 'SUPERVISE_DEPARTMENT' },
+    { label: '整改部门', value: 'RECTIFY_DEPARTMENT' },
   ];
 
   /**
@@ -55,8 +56,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
   loading = false;
 
   loginDTO: LonginDTO = {
-    account: null,
-    password: null,
+    account: 'admin',
+    password: '!qAz@wSx',
     organizationType: 'POSITION',
     // tslint:disable-next-line:no-string-literal
     userType: 'AUDIT_DEPARTMENT',
@@ -94,7 +95,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
     private longinService: LoginService,
     private starupService: StartupService,
     private settingService: SettingsService,
-
   ) {}
 
   ngOnInit(): void {
@@ -183,16 +183,22 @@ export class LoginComponent implements OnInit, AfterViewInit {
         });
       }
 
-
-
       this.cacheService.set(LARGE_SCREEN_MODE_STROE_KEY, true);
-
-      if (this.loginDTO.userType && this.loginDTO.userType === 'BUSINESS_DEPARTMENT') {
-        // 规自局系统 业务部门人员直接进入待办
-        this.starupService.load().then(() => this.router.navigate(['/rectify-sys/rectify-sys-dashboard']));
-      } else {
-        this.starupService.load().then(() => this.router.navigate(['/navigation']));
+      switch (this.loginDTO.userType) {
+        case 'AUDIT_DEPARTMENT':
+          this.starupService.load(this.loginDTO.userType).then(() => this.router.navigate(['/audit-rectify/auditor-dashboard']));
+          break;
+        case 'SUPERVISE_DEPARTMENT':
+          this.starupService.load(this.loginDTO.userType).then(() => this.router.navigate(['/audit-rectify/supervise-dashboard']));
+          break;
+        case 'RECTIFY_DEPARTMENT':
+          this.starupService.load(this.loginDTO.userType).then(() => this.router.navigate(['/audit-rectify/rectify-dashboard']));
+          break;
+        default:
+          break;
       }
+
+      //   this.starupService.load().then(() => this.router.navigate(['/navigation']));
     });
   }
 }
