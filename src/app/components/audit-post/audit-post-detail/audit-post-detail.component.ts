@@ -10,23 +10,15 @@ import { Observable, Observer } from 'rxjs';
 export class AuditPostDetailComponent implements OnInit {
   listOfData = [
     {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park'
+      id: '1',
+      issueName: '不明资金来源',
+      issueDesc: '年度收入大于支出',
+      issueType: '资金',
+      rectifyDepartment: '部门一',
+      rectifyPrincipal: '张三',
+      auditingAdvice: '立即整改',
+      source: '审计发现',
     },
-    {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park'
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park'
-    }
   ];
   filters: UploadFilter[] = [
     {

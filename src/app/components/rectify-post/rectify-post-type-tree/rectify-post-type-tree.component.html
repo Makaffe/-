@@ -6,7 +6,7 @@
       <button nz-button (click)="openTree()" nz-tooltip nzTooltipTitle="新增节点"><i nz-icon type="plus"
           theme="outline"></i></button>
       <button [disabled]="!selectedNode" (click)="deleteNode()" nz-button nz-tooltip nzTooltipTitle="删除节点"><i nz-icon
-          nzType="delete" nzTheme="outline"></i></button>
+          nzType="close" nzTheme="outline"></i></button>
       <button [disabled]="!selectedNode" nz-button (click)="editTree()" nz-tooltip nzTooltipTitle="编辑节点"><i nz-icon
           nzType="edit" nzTheme="outline"></i></button>
     </div>
@@ -22,5 +22,5 @@
     <nz-tree [nzData]="nodes" [nzSearchValue]="searchValue" (nzClick)="nzClick($event)"></nz-tree>
   </as-split-area>
 </as-split>
-<audit-post-tree-edit (dataChange)="loadTree()" [knowledgeType]="knowledgeType" #knowledgeTypeTreeEditComponent>
-</audit-post-tree-edit>
+<rectify-post-type-tree-edit (dataChange)="loadTree()" [knowledgeType]="knowledgeType" #knowledgeTypeTreeEditComponent>
+</rectify-post-type-tree-edit>

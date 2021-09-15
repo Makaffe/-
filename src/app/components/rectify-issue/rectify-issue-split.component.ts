@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styles: [],
 })
 export class RectifyIssueSplitComponent implements OnInit {
+  listOfData = []
   isVisible = false;
   handleCancel() {
     this.isVisible = false;

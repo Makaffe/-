@@ -50,7 +50,7 @@ export const APP_DATA = {
             },
             {
               text: '整改报告',
-              link: '',
+              link: '/audit-rectify/rectify-post',
               i18n: '',
               // acl: [],
             },
@@ -64,7 +64,7 @@ export const APP_DATA = {
           children: [
             {
               text: 'OA发文模板',
-              link: '',
+              link: '/audit-rectify/oa-template',
               i18n: '',
               // acl: [],
             },
@@ -76,7 +76,7 @@ export const APP_DATA = {
             },
             {
               text: '建议模板',
-              link: '',
+              link: '/audit-rectify/advice-template',
               i18n: '',
               // acl: [],
             },

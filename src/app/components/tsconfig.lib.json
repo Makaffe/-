@@ -17,7 +17,7 @@
     "skipLibCheck": true,
     "types": [],
     "paths": {
-      "@mt-rectify-framework/comp/*": ["src/app/components/*/public_api"]
+      "@mt-rectify-framework/comp/*": ["src/app/components/*/public_api"],
     }
   },
   "angularCompilerOptions": {

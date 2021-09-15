@@ -40,7 +40,8 @@
       ],
       "@mt-rectify-framework/comp/*": [
         "src/app/components/*/public_api"
-      ]
+      ],
+      "@mt-rectify-framework/common/*": ["src/app/common/*/public_api"]
     }
   }
 }
