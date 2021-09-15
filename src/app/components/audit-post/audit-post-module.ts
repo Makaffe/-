@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SharedModule } from '../shared.module';
+import { SharedModule } from '@shared';
+
 import { AuditPostDetailComponent } from './audit-post-detail/audit-post-detail.component';
 import { AuditPostListComponent } from './audit-post-list.component';
 
