@@ -7,11 +7,15 @@ import { SuperviseDashboardComponent } from '../../dashboard/supervise/supervise
 import { AuditPostModule } from '@mt-rectify-framework/comp/audit-post';
 import { RectifyIssueModule } from '@mt-rectify-framework/comp/rectify-issue';
 import { RectifyTrackModule } from '@mt-rectify-framework/comp/rectify-track';
+import { RectifyPostModule } from '@mt-rectify-framework/comp/rectify-post';
+import { OATemplateModule } from '@mt-rectify-framework/comp/oa-template';
+import { AdviceTemplateModule } from '@mt-rectify-framework/comp/advice-template';
 
 const COMMPONENTS = [AuditorDashboardComponent, RectifyDashboardComponent, SuperviseDashboardComponent];
 @NgModule({
   declarations: [...COMMPONENTS],
-  imports: [CommonModule, AuditRectifyRoutingModule, AuditPostModule, RectifyIssueModule, RectifyTrackModule],
+  imports: [CommonModule, AuditRectifyRoutingModule, AuditPostModule, RectifyIssueModule, RectifyTrackModule,
+    RectifyPostModule,OATemplateModule ,AdviceTemplateModule],
   exports: [...COMMPONENTS],
 })
 export class AuditRectifyModule {}

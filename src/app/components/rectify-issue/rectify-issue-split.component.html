@@ -10,23 +10,23 @@
     <nz-form-item>
       <nz-form-label nzSpan="4">问题名称</nz-form-label>
       <nz-form-control nzSpan="8">
-      
+        <input nz-input />
       </nz-form-control>
       <nz-form-label nzSpan="4">问题类型</nz-form-label>
       <nz-form-control nzSpan="8">
-      
+        <input nz-input />
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
         <nz-form-label nzSpan="4">问题描述</nz-form-label>
         <nz-form-control nzSpan="20">
-        
+          <input nz-input />
         </nz-form-control>
       </nz-form-item>
     <nz-form-item>
       <nz-form-label nzSpan="4">子问题</nz-form-label>
       <nz-form-control nzSpan="18">
-        <nz-table #columnTable nzBordered [nzData]="listOfData" [nzScroll]="{ x: '900px' }">
+        <nz-table #columnTable [nzFooter]="footer" nzBordered [nzData]="listOfData" [nzScroll]="{ x: '900px' }">
           <thead>
             <tr>
               <th nzWidth="100px" nzLeft="0px">序号</th>
@@ -56,6 +56,9 @@
               </td>
             </tr>
           </tbody>
+          <ng-template #footer>
+              <button nz-button nzType="primary" nzSize="small"><i nz-icon type="plus" theme="outline"></i>添加</button>
+          </ng-template>
         </nz-table>
       </nz-form-control>
     </nz-form-item>
