@@ -1,7 +1,111 @@
-<div class="alain-default__content-title">
-  <h1>
-    
-    审计部门首页
-    <small>--副标题 !</small>
-  </h1>
+<div style="overflow:scroll;height:800px" nz-col>
+  <div nz-row>
+    <div nz-col>
+      <div nz-row>
+        <div class="small-card-area">
+          <div nz-row class="small-card">
+            <div nz-col *ngFor="let c of cards; let i = index" [nzSpan]="4">
+              <div nz-row nzType="flex" nzAlign="middle" [ngClass]="c.className">
+                <div nz-col nzSpan="8" class="text-white card-icon">
+                  <i nz-icon [nzType]="c.icon" class="h1"></i>
+                </div>
+                <div nz-col nzSpan="16" class="card-statistic">
+                  <nz-statistic [nzValue]="c.value | number" [nzTitle]="c.title"></nz-statistic>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="order-warp">
+        <div class="order-status-view">
+          <!--status start-->
+          <div class="order-status lt-flexbox vertical">
+            <div class="box-item">
+              <nz-card style="width:300px;" nzTitle="部门一历史整改情况">
+                <p>历史未整改问题:3</p>
+                <p>历史重复问题:4</p>
+                <p>历史最高频问题类型:类型一</p>
+              </nz-card>
+            </div>
+            <div class="box-item">
+              <nz-card style="width:300px;" nzTitle="部门二历史整改情况">
+                <p>历史未整改问题:3</p>
+                <p>历史重复问题:4</p>
+                <p>历史最高频问题类型:类型一</p>
+              </nz-card>
+            </div>
+            <div class="box-item">
+              <nz-card style="width:300px;" nzTitle="部门三历史整改情况">
+                <p>历史未整改问题:3</p>
+                <p>历史重复问题:4</p>
+                <p>历史最高频问题类型:类型一</p>
+              </nz-card>
+            </div>
+            <div class="box-item">
+              <nz-card style="width:300px;" nzTitle="部门四历史整改情况">
+                <p>历史未整改问题:3</p>
+                <p>历史重复问题:4</p>
+                <p>历史最高频问题类型:类型一</p>
+              </nz-card>
+            </div>
+            <div class="box-item">
+              <nz-card style="width:300px;" nzTitle="部门五历史整改情况">
+                <p>历史未整改问题:3</p>
+                <p>历史重复问题:4</p>
+                <p>历史最高频问题类型:类型一</p>
+              </nz-card>
+            </div>
+            <div class="box-item">
+              <nz-card style="width:300px;" nzTitle="部门六历史整改情况">
+                <p>历史未整改问题:3</p>
+                <p>历史重复问题:4</p>
+                <p>历史最高频问题类型:类型一</p>
+              </nz-card>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div nz-row>
+    <div nz-col>
+      <div nz-row>
+        <div nz-row nzJustify="space-between" style="height:200px">
+          <div nz-col nzSpan="12">
+            <st
+              style="height:300px"
+              [header]="myHeader"
+              #st
+              [scroll]="{ y: '240px' }"
+              [data]="users"
+              [columns]="columns"
+            >
+              <ng-template #myHeader>
+                <h3>整改问题到期</h3>
+              </ng-template>
+            </st>
+          </div>
+          <div nz-col nzSpan="12" style="margin-top:30px">
+            <nz-card nzTitle="我的工作量统计">
+              <p>Card content</p>
+              <p>Card content</p>
+              <p>Card content</p>
+            </nz-card>
+          </div>
+        </div>
+      </div>
+      <div nz-row style="height:400px">
+        <div nz-row nzJustify="space-between">
+          <div nz-col nzSpan="12">
+            <st [scroll]="{ y: '240px' }" #st [data]="users" [columns]="columns"></st>
+          </div>
+          <div nz-col nzSpan="12">
+            <st [scroll]="{ y: '240px' }" #st [data]="users" [columns]="columns"></st>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

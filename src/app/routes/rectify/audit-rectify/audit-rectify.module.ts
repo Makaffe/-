@@ -10,12 +10,22 @@ import { RectifyTrackModule } from '@mt-rectify-framework/comp/rectify-track';
 import { RectifyPostModule } from '@mt-rectify-framework/comp/rectify-post';
 import { OATemplateModule } from '@mt-rectify-framework/comp/oa-template';
 import { AdviceTemplateModule } from '@mt-rectify-framework/comp/advice-template';
+import { SharedModule } from '@shared';
 
 const COMMPONENTS = [AuditorDashboardComponent, RectifyDashboardComponent, SuperviseDashboardComponent];
 @NgModule({
   declarations: [...COMMPONENTS],
-  imports: [CommonModule, AuditRectifyRoutingModule, AuditPostModule, RectifyIssueModule, RectifyTrackModule,
-    RectifyPostModule,OATemplateModule ,AdviceTemplateModule],
+  imports: [
+    CommonModule,
+    SharedModule,
+    AuditRectifyRoutingModule,
+    AuditPostModule,
+    RectifyIssueModule,
+    RectifyTrackModule,
+    RectifyPostModule,
+    OATemplateModule,
+    AdviceTemplateModule,
+  ],
   exports: [...COMMPONENTS],
 })
 export class AuditRectifyModule {}
