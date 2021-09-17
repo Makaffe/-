@@ -1,11 +1,11 @@
 <div style="overflow:scroll;height:800px" nz-col>
   <div nz-row>
     <div nz-col>
-      <div nz-row>
+      <div nz-row  >
         <div class="small-card-area">
-          <div nz-row class="small-card">
-            <div nz-col *ngFor="let c of cards; let i = index" [nzSpan]="4">
-              <div nz-row nzType="flex" nzAlign="middle" [ngClass]="c.className">
+          <div nz-row   class="small-card">
+            <div nz-col  *ngFor="let c of cards; let i = index" [nzSpan]="4">
+              <div nz-row  nzType="flex" nzAlign="middle" [ngClass]="c.className">
                 <div nz-col nzSpan="8" class="text-white card-icon">
                   <i nz-icon [nzType]="c.icon" class="h1"></i>
                 </div>
@@ -23,10 +23,16 @@
           <!--status start-->
           <div class="order-status lt-flexbox vertical">
             <div class="box-item">
-              <nz-card style="width:300px;" nzTitle="部门一历史整改情况">
-                <p>历史未整改问题:3</p>
-                <p>历史重复问题:4</p>
-                <p>历史最高频问题类型:类型一</p>
+              <nz-card  style="width:300px;" nzTitle="部门一历史整改情况">
+                <nz-card-meta  [nzDescription]="myDesc">
+              
+                </nz-card-meta>
+                <ng-template #myDesc>
+                  <p>历史未整改问题:3</p>
+                  <p>历史重复问题:4</p>
+                  <p>历史最高频问题类型:类型一</p>
+                  <a (click)="goDepartmentDraw()">部门问题画像</a>
+                </ng-template>
               </nz-card>
             </div>
             <div class="box-item">
@@ -80,7 +86,7 @@
               #st
               [scroll]="{ y: '240px' }"
               [data]="users"
-              [columns]="columns"
+              [columns]="rectifyIssuecolumns"
             >
               <ng-template #myHeader>
                 <h3>整改问题到期</h3>
@@ -88,10 +94,50 @@
             </st>
           </div>
           <div nz-col nzSpan="12" style="margin-top:30px">
-            <nz-card nzTitle="我的工作量统计">
-              <p>Card content</p>
-              <p>Card content</p>
-              <p>Card content</p>
+            <nz-card [nzTitle]="myTitle">
+              <div nz-row  nzJustify="space-between">
+                <div nzSpan="6" nz-col>
+                  <p>已下发整改问题</p>
+                </div>
+                <div nzSpan="16" nz-col>
+                  <nz-progress [nzPercent]="100"></nz-progress>
+                </div>
+              </div>
+              <div nz-row  nzJustify="space-between">
+                <div nzSpan="6" nz-col>
+                  <p>已完成整改问题</p>
+                </div>
+                <div nzSpan="16" nz-col>
+                  <nz-progress [nzPercent]="60"></nz-progress>
+                </div>
+              </div>
+              <div nz-row  nzJustify="space-between">
+                <div nzSpan="6" nz-col>
+                  <p>已回复整改反馈</p>
+                </div>
+                <div nzSpan="16" nz-col>
+                  <nz-progress [nzPercent]="55"></nz-progress>
+                </div>
+              </div>
+              <div nz-row  nzJustify="space-between">
+                <div nzSpan="6" nz-col>
+                  <p>已完成整改报告</p>
+                </div>
+                <div nzSpan="16" nz-col>
+                  <nz-progress [nzPercent]="67"></nz-progress>
+                </div>
+              </div>
+              <div nz-row  nzJustify="space-between">
+                <div nzSpan="6" nz-col>
+                  <p>跟进中整改问题</p>
+                </div>
+                <div nzSpan="16" nz-col>
+                  <nz-progress [nzPercent]="89"></nz-progress>
+                </div>
+              </div>
+              <ng-template #myTitle>
+                <h3>我的工作量统计</h3>
+              </ng-template>
             </nz-card>
           </div>
         </div>
@@ -99,10 +145,15 @@
       <div nz-row style="height:400px">
         <div nz-row nzJustify="space-between">
           <div nz-col nzSpan="12">
-            <st [scroll]="{ y: '240px' }" #st [data]="users" [columns]="columns"></st>
+            <st [scroll]="{ y: '240px' }" #st [data]="users" [columns]="rectifyProcesscolumns">
+              <ng-template st-row="operations" let-row let-index="index">
+                <a (click)="goWorkBeach()">进入工作台</a>
+              </ng-template>
+            </st>
+          
           </div>
           <div nz-col nzSpan="12">
-            <st [scroll]="{ y: '240px' }" #st [data]="users" [columns]="columns"></st>
+            <st [scroll]="{ y: '240px' }" #st [data]="users" [columns]="rectifyIssuecolumns"></st>
           </div>
         </div>
       </div>

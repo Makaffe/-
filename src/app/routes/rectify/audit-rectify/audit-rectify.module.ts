@@ -11,6 +11,8 @@ import { RectifyPostModule } from '@mt-rectify-framework/comp/rectify-post';
 import { OATemplateModule } from '@mt-rectify-framework/comp/oa-template';
 import { AdviceTemplateModule } from '@mt-rectify-framework/comp/advice-template';
 import { SharedModule } from '@shared';
+import { DepartmentDrawModule } from '@mt-rectify-framework/comp/unit-draw';
+import { RectifyWorkBeachModule } from '@mt-rectify-framework/comp/rectify-workbeach';
 
 const COMMPONENTS = [AuditorDashboardComponent, RectifyDashboardComponent, SuperviseDashboardComponent];
 @NgModule({
@@ -25,6 +27,8 @@ const COMMPONENTS = [AuditorDashboardComponent, RectifyDashboardComponent, Super
     RectifyPostModule,
     OATemplateModule,
     AdviceTemplateModule,
+    DepartmentDrawModule,
+    RectifyWorkBeachModule
   ],
   exports: [...COMMPONENTS],
 })
