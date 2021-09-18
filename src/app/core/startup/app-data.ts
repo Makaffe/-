@@ -90,13 +90,13 @@ export const APP_DATA = {
           children: [
             {
               text: '审计问题',
-              link: '',
+              link: '/audit-rectify/audit-issue-analysis',
               i18n: '',
               // acl: [],
             },
             {
               text: '整改成果',
-              link: '',
+              link: '/audit-rectify/rectify-result-analysis',
               i18n: '',
               // acl: [],
             },
