@@ -1,14 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { AuditPostTreeEditComponent } from '../../audit-post/audit-post-type-tree/audit-post-tree-edit.component';
+import { RectifyPostTypeTreeEditComponent } from './rectify-post-type-tree-edit.component';
 
 @Component({
   selector: 'rectify-post-type-tree',
   templateUrl: './rectify-post-type-tree.component.html',
-  styleUrls: ['./rectify-post-type-tree.component.less']
+  styleUrls: ['./rectify-post-type-tree.component.less'],
 })
 export class RectifyPostTypeTreeComponent implements OnInit {
   @ViewChild('knowledgeTypeTreeEditComponent', { static: false })
-  knowledgeTypeTreeEditComponent: AuditPostTreeEditComponent;
+  knowledgeTypeTreeEditComponent: RectifyPostTypeTreeEditComponent;
   /**
    * 在法规索引引用时不显示操作按钮
    */
@@ -47,7 +47,7 @@ export class RectifyPostTypeTreeComponent implements OnInit {
    */
   searchValue = '';
 
-  constructor() { }
+  constructor() {}
 
   // 左侧树节点数据
   nodes = [];
@@ -81,10 +81,9 @@ export class RectifyPostTypeTreeComponent implements OnInit {
 
   loadTree(): void {
     // tslint:disable-next-line: deprecation
-    
   }
 
-  nzSearch($event) { }
+  nzSearch($event) {}
 
   tramsform(data: any[], level: number): void {
     let counter = 0;
@@ -100,7 +99,5 @@ export class RectifyPostTypeTreeComponent implements OnInit {
 
   deleteNode(): void {
     // tslint:disable-next-line: deprecation
-   
   }
-
 }

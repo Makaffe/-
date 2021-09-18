@@ -18,7 +18,7 @@
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
     "hmr": "ng serve -c=hmr",
     "sync-version": "node scripts/publish/sync-version.js",
-    "build-lib": "ng build rectify-common && ng build rectify-comp",
+    "build-lib": "ng build rectify-comp",
     "publish": "npm run build-lib && bash scripts/publish/publish.sh"
   },
   "private": true,
