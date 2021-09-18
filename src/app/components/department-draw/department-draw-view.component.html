@@ -1,0 +1,25 @@
+<div style="height:100%;margin-left:10px;margin-top:10px;overflow:scroll;">
+  <div nz-col>
+    <div nz-row>
+      <department-draw-list></department-draw-list>
+    </div>
+    <div nz-row>
+      <div nz-row nzJustify="space-around">
+        <div nz-col nzSpan="12">
+          <nz-card nzTitle="多发问题详情">
+            <div echarts [options]="option"></div>
+          </nz-card>
+        </div>
+        <div nz-col nzSpan="12">
+          <nz-card nzTitle="多发问题分析">
+            <div nz-row nzSpan="12" style="height:200px"><div style="height:100%" echarts [options]="option01"></div></div>
+            <div nz-row nzSpan="12" style="height:200px">
+
+              <div  style="height:100%" echarts [options]="option02" ></div>
+            </div>
+          </nz-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

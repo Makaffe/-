@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { STColumn } from '@delon/abc';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -15,58 +16,68 @@ export class AuditorDashboardComponent implements OnInit {
     title: string;
     className: string;
   }> = [];
-  constructor() {}
+  constructor(private router: Router) {}
   users: any[] = [];
-  columns: STColumn[] = [
+  rectifyIssuecolumns: STColumn[] = [
     {
-      title: '编号',
+      title: '排名',
       index: 'id',
-      type: 'checkbox',
-      selections: [
-        {
-          text: '小于25岁',
-          select: data => data.forEach(item => (item.checked = item.age < 25)),
-        },
-        {
-          text: '大于25岁',
-          select: data => data.forEach(item => (item.checked = item.age >= 25)),
-        },
-      ],
+      
     },
     {
-      title: '姓名',
+      title: '整改部门',
       index: 'name',
-      sort: {
-        compare: (a, b) => a.name.length - b.name.length,
-      },
-      filter: {
-        type: 'keyword',
-        fn: (filter, record) => !filter.value || record.name.indexOf(filter.value) !== -1,
-      },
+     
     },
     {
-      title: '年龄',
+      title: '整改问题',
       index: 'age',
-      sort: {
-        compare: (a, b) => a.age - b.age,
-      },
-      filter: {
-        menus: [{ text: '20岁以下', value: [0, 20] }, { text: '20-25岁', value: [20, 25] }, { text: '25岁以上', value: [25, 100] }],
-        fn: (filter, record) => record.age >= filter.value[0] && record.age <= filter.value[1],
-        multiple: false,
-      },
+     
     },
     {
-      title: '状态',
-      type: 'badge',
-      index: 'status',
-      badge: {
-        1: { text: 'Success', color: 'success' },
-        2: { text: 'Error', color: 'error' },
-        3: { text: 'Processing', color: 'processing' },
-        4: { text: 'Default', color: 'default' },
-        5: { text: 'Warning', color: 'warning' },
-      },
+      title: '整改反馈进度',
+      index: 'age',
+    },
+    {
+      title: '整改截止时间',
+      index: 'age',
+    },
+    {
+      title: '剩余整改天数',
+      index: 'age',
+    },
+  ];
+  rectifyProcesscolumns: STColumn[] = [
+    {
+      title: '排名',
+      index: 'id',
+      
+    },
+    {
+      title: '整改部门',
+      index: 'name',
+     
+    },
+    {
+      title: '整改问题',
+      index: 'age',
+     
+    },
+    {
+      title: '整改反馈进度',
+      index: 'age',
+    },
+    {
+      title: '整改截止时间',
+      index: 'age',
+    },
+    {
+      title: '剩余整改天数',
+      index: 'age',
+    },
+    {
+      title: '操作',
+      render:'operations'
     },
   ];
   ngOnInit() {
@@ -123,5 +134,10 @@ export class AuditorDashboardComponent implements OnInit {
       .pipe(delay(500))
       .subscribe(res => (this.users = res));
   }
-  
+  goDepartmentDraw(){
+  this.router.navigate(['/audit-rectify/department-draw']);
+  }
+  goWorkBeach(){
+    this.router.navigate(['/audit-rectify/rectify-workbeach']);
+  }
 }

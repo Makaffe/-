@@ -6,6 +6,10 @@ import { OaTemplateViewComponent } from '@mt-rectify-framework/comp/oa-template'
 import { RectifyIssueViewComponent } from '@mt-rectify-framework/comp/rectify-issue';
 import { RectifyPostDetailComponent, RectifyPostViewComponent } from '@mt-rectify-framework/comp/rectify-post';
 import { RectifyTrackViewComponent, TransferResultViewComponent } from '@mt-rectify-framework/comp/rectify-track';
+import { RectifyEffectComponent, RectifyWorkbeachViewComponent } from '@mt-rectify-framework/comp/rectify-workbeach';
+import { StatisticsAnalysisAuditIssueViewComponent, StatisticsAnalysisAuditRectifyResultComponent } from '@mt-rectify-framework/comp/statistics-analysis';
+import { DepartmentDrawViewComponent } from '@mt-rectify-framework/comp/department-draw';
+
 import { AuditorDashboardComponent } from '../../dashboard/auditor/auditor.dashboard.component';
 import { RectifyDashboardComponent } from '../../dashboard/rectify/rectify.dashboard.component';
 import { SuperviseDashboardComponent } from '../../dashboard/supervise/supervise.dashboard.component';
@@ -54,7 +58,38 @@ const routes: Routes = [
   {
     path: 'advice-template',
     component: AdviceTemplateViewComponent,
-    data: { title: '建议模板', reuse: true },
+    data: {
+       title: '建议模板', reuse: true },
+  },
+  {
+    path: 'department-draw',
+    component: DepartmentDrawViewComponent,
+    data: {
+       title: '部门画像', reuse: true },
+  },
+  {
+    path: 'rectify-workbeach',
+    component: RectifyWorkbeachViewComponent,
+    data: {
+       title: '整改工作台', reuse: true },
+  },
+  {
+    path: 'audit-issue-analysis',
+    component: StatisticsAnalysisAuditIssueViewComponent,
+    data: {
+       title: '审计问题分析', reuse: true },
+  },
+  {
+    path: 'rectify-result-analysis',
+    component: StatisticsAnalysisAuditRectifyResultComponent,
+    data: {
+       title: '整改成果分析', reuse: true },
+  },
+  {
+    path: 'rectify-effect',
+    component: RectifyEffectComponent,
+    data: {
+       title: '整改成效', reuse: true },
   },
   {
     path: 'auditor-dashboard',
