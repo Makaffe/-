@@ -14,8 +14,9 @@ import { SharedModule } from '@shared';
 import { DepartmentDrawModule } from '@mt-rectify-framework/comp/department-draw';
 import { RectifyWorkBeachModule } from '@mt-rectify-framework/comp/rectify-workbeach';
 import { StatisticsAnalysisModule } from '@mt-rectify-framework/comp/statistics-analysis';
+import { DictPipe } from 'src/app/matech/pipe/dict-pipe.pipe';
 
-const COMMPONENTS = [AuditorDashboardComponent, RectifyDashboardComponent, SuperviseDashboardComponent];
+const COMMPONENTS = [AuditorDashboardComponent, RectifyDashboardComponent, SuperviseDashboardComponent, DictPipe];
 @NgModule({
   declarations: [...COMMPONENTS],
   imports: [
@@ -30,7 +31,7 @@ const COMMPONENTS = [AuditorDashboardComponent, RectifyDashboardComponent, Super
     AdviceTemplateModule,
     DepartmentDrawModule,
     RectifyWorkBeachModule,
-    StatisticsAnalysisModule
+    StatisticsAnalysisModule,
   ],
   exports: [...COMMPONENTS],
 })
