@@ -18,12 +18,10 @@
     <!-- 第一行：类型名称 -->
     <nz-form-item nz-row>
       <nz-form-label [nzSpan]="2" nzRequired>类型名称</nz-form-label>
-      <nz-form-control [nzSpan]="22" [nzValidateStatus]="type.invalid && (type.dirty || type.touched) ? 'error' : ''">
-        <input required nz-input name="type" #type="ngModel" [(ngModel)]="currentItem.name" maxlength="200" 
+      <nz-form-control [nzSpan]="22" >
+        <input required nz-input name="type"  maxlength="200" 
         [pattern]="PATTERN" required/>
-        <nz-form-explain *ngIf="type.invalid && (type.dirty || type.touched)">
-          请填写类型名称
-        </nz-form-explain>
+       
       </nz-form-control>
     </nz-form-item>
     <!-- 第一行：上级节点和显示顺序 -->
@@ -34,7 +32,7 @@
           <input
             readonly
             nz-input
-            [value]="currentItem.parent ? currentItem.parent.name : currentNode ? currentNode.name : ''"
+           
           />
         </nz-form-control>
       </div>
@@ -42,21 +40,19 @@
         <nz-form-label [nzSpan]="5" nzFor="showOrder">显示顺序</nz-form-label>
         <nz-form-control
           [nzSpan]="19"
-          [nzValidateStatus]="showOrder.invalid && (showOrder.dirty || showOrder.touched) ? 'error' : ''"
+          
         >
           <nz-input-number
             [nzPlaceHolder]="'请填写显示顺序'"
             class="input-number "
             [nzPrecision]="2"
             name="estimateTotal"
-            #showOrder="ngModel"
+         
             [nzMin]="1"
-            [(ngModel)]="currentItem.showOrder"
+           
             required
           ></nz-input-number>
-          <nz-form-explain *ngIf="showOrder.invalid && (showOrder.dirty || showOrder.touched)">
-            请填写显示顺序
-          </nz-form-explain>
+     
         </nz-form-control>
       </div>
     </nz-form-item>
@@ -64,7 +60,7 @@
     <nz-form-item nz-row>
       <nz-form-label [nzSpan]="2" nzFor="remark">备注</nz-form-label>
       <nz-form-control [nzSpan]="22">
-        <textarea nz-input rows="5" name="remark" [(ngModel)]="currentItem.remark" maxlength="1000"></textarea>
+        <textarea nz-input rows="5" name="remark" maxlength="1000"></textarea>
       </nz-form-control>
     </nz-form-item>
   </form>
