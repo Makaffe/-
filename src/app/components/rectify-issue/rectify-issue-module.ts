@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SharedModule } from '@shared';
+import { SharedModule } from '@mt-framework-ng/view';
 
 import { RectifyIssueListComponent } from './rectify-issue-list.component';
 import { RectifyIssueSplitComponent } from './rectify-issue-split.component';

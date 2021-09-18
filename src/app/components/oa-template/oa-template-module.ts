@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SharedModule } from '@shared';
+import { SharedModule } from '@mt-framework-ng/view';
+
 import { OaTemplateDetailComponent } from './oa-template-detail.component';
 import { OaTemplateListComponent } from './oa-template-list.component';
 import { OaTemplateViewComponent } from './oa-template-view.component';

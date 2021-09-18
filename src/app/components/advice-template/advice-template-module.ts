@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SharedModule } from '@shared';
+import { SharedModule } from '@mt-framework-ng/view';
+
 import { AdviceTemplateDetailComponent } from './advice-template-detail.component';
 import { AdviceTemplateListComponent } from './advice-template-list.component';
 import { AdviceTemplateViewComponent } from './advice-template-view.component';
