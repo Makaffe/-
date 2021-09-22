@@ -1,6 +1,217 @@
-<div class="alain-default__content-title">
-  <h1>
-    纪检部门首页
-    <small>--副标题 !</small>
-  </h1>
+<div nz-col style="overflow:scroll;height:800px">
+  <div sg-container="5">
+    <sg style="width:20%">
+      <nz-card nzTitle="累计整改问题数">
+        <div nz-col>
+          <div nz-row>
+            <h1>560</h1>
+          </div>
+          <div nz-row nzJustify="space-between">
+            <div nz-col nzSpan="6">年同比</div>
+            <div nz-col nzSpan="6">
+              <i nz-icon [nzType]="'caret-up'" style="font-size: 16px; color: rgb(26, 241, 80);"></i>
+
+              &nbsp;10%
+            </div>
+            <div nz-col nzSpan="6">季环比</div>
+            <div nz-col nzSpan="6">
+              <i nz-icon [nzType]="'caret-up'" style="font-size: 16px; color: rgb(26, 241, 80);"></i>
+
+              &nbsp;10%
+            </div>
+          </div>
+          <div nz-row>
+            月均问题数 23
+          </div>
+        </div>
+      </nz-card>
+    </sg>
+    <sg style="width:20%">
+      <nz-card nzTitle="累计整改回复数">
+        <div nz-col>
+          <div nz-row>
+            <h1>846</h1>
+          </div>
+          <div nz-row></div>
+          <div nz-row>月均问题数 23</div>
+        </div>
+      </nz-card>
+    </sg>
+    <sg style="width:20%">
+      <nz-card nzTitle="整改反馈及时率">
+        <div nz-col>
+          <div nz-row>
+            <h1>78%</h1>
+          </div>
+          <div nz-row></div>
+          <div nz-row nzJustify="space-between">
+            <div nz-col nzSpan="6">年同比</div>
+            <div nz-col nzSpan="6">
+              <i nz-icon [nzType]="'caret-up'" style="font-size: 16px; color: rgb(26, 241, 80);"></i>
+
+              &nbsp;10%
+            </div>
+            <div nz-col nzSpan="6">季环比</div>
+            <div nz-col nzSpan="6">
+              <i nz-icon [nzType]="'caret-up'" style="font-size: 16px; color: rgb(26, 241, 80);"></i>
+
+              &nbsp;10%
+            </div>
+          </div>
+        </div>
+      </nz-card>
+    </sg>
+    <sg style="width:20%">
+      <nz-card nzTitle="整改完成率">
+        <div nz-col>
+          <div nz-row>
+            <h1>78%</h1>
+          </div>
+          <div nz-row></div>
+          <div nz-row nzJustify="space-between">
+            <div nz-col nzSpan="6">年同比</div>
+            <div nz-col nzSpan="6">
+              <i nz-icon [nzType]="'caret-up'" style="font-size: 16px; color: rgb(26, 241, 80);"></i>
+
+              &nbsp;10%
+            </div>
+            <div nz-col nzSpan="6">季环比</div>
+            <div nz-col nzSpan="6">
+              <i nz-icon [nzType]="'caret-up'" style="font-size: 16px; color: rgb(26, 241, 80);"></i>
+
+              &nbsp;10%
+            </div>
+          </div>
+        </div>
+      </nz-card>
+    </sg>
+    <sg style="width:20%">
+      <nz-card nzTitle="问题类型分布">
+        <div nz-col>
+          <div nz-row>
+            <h1>29</h1>
+          </div>
+          <div nz-row></div>
+          <div nz-row>
+            高频问题xx占比60%
+          </div>
+        </div>
+      </nz-card>
+    </sg>
+  </div>
+  <div nz-row nzJustify="space-between">
+    <div nz-col nzSpan="5">
+      <nz-form-item>
+        <nz-form-label nzSpan="8">整改问题</nz-form-label>
+        <nz-form-control nzSpan="16"><input nz-input/></nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col nzSpan="5">
+      <nz-form-item>
+        <nz-form-label nzSpan="8">时间</nz-form-label>
+        <nz-form-control nzSpan="16">
+          <nz-range-picker></nz-range-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col nzSpan="5">
+      <nz-form-item>
+        <nz-form-label nzSpan="8">状态</nz-form-label>
+        <nz-form-control nzSpan="16">
+          <nz-select style="width:200px" nzAllowClear>
+            <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
+            <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col nzSpan="5">
+      <nz-form-item>
+        <nz-form-label nzSpan="8">问题类型</nz-form-label>
+        <nz-form-control nzSpan="16">
+          <nz-select style="width:200px" nzAllowClear>
+            <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
+            <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col nzSpan="4">
+      <div style="float:right;margin-right:10px">
+        <button nz-button nzType="primary"><i nz-icon nzType="reload" nzTheme="outline"></i>刷新</button>
+
+        <button nz-button nzType="primary"><i nz-icon nzType="search" nzTheme="outline"></i>搜索</button>
+      </div>
+    </div>
+  </div>
+  <div nz-row></div>
+  <div nz-row style="height:800px">
+    <st
+      #st
+      [data]="tableData"
+      nzSize="middle"
+      [multiSort]="tableParameter.multiSort"
+      [header]="header"
+      [req]="tableParameter.req"
+      [scroll]="{ y: '100%' }"
+      [bordered]="true"
+      [res]="tableParameter.res"
+      [total]="tableParameter.page.total"
+      [size]="tableParameter.size"
+      [pi]="tableParameter.pi"
+      [ps]="tableParameter.ps"
+      [columns]="columns"
+      [rowClickTime]="500"
+      [page]="tableParameter.page"
+      [noResult]="null"
+    >
+      <ng-template st-row="number" let-row let-index="index">
+        {{ ((st.pi ? st.pi : 1) - 1) * (st.ps ? st.ps : 0) + (index + 1) }}
+      </ng-template>
+      <ng-template st-row="releaseDate" let-row let-index="index">
+        {{ row.releaseDate | date: 'yyyy-MM-dd' }}
+      </ng-template>
+      <ng-template st-row="operations" let-row let-index="index">
+        <a (click)="process()">处理</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a>查看</a>
+      </ng-template>
+
+      <ng-template #header>
+        <div nz-row nzJustify="space-between">
+          <div nz-col nzSpan="5">
+            <nz-form-item>
+              <nz-form-label nzSpan="8">问题总数</nz-form-label>
+              <nz-form-control nzSpan="16">44</nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="5">
+            <nz-form-item>
+              <nz-form-label nzSpan="8">未开始</nz-form-label>
+              <nz-form-control nzSpan="16">23</nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="5">
+            <nz-form-item>
+              <nz-form-label nzSpan="8">已完成</nz-form-label>
+              <nz-form-control nzSpan="16">43</nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="5">
+            <nz-form-item>
+              <nz-form-label nzSpan="8">整改中</nz-form-label>
+              <nz-form-control nzSpan="16">32</nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col nzSpan="4">
+            <nz-form-item>
+              <nz-form-label nzSpan="8">已逾期</nz-form-label>
+              <nz-form-control nzSpan="16">22</nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </ng-template>
+    </st>
+  </div>
 </div>
+<supervise-process-form #superviseProcessFormComponent></supervise-process-form>

@@ -13,6 +13,7 @@ import { DepartmentDrawViewComponent } from '@mt-rectify-framework/comp/departme
 import { AuditorDashboardComponent } from '../../dashboard/auditor/auditor.dashboard.component';
 import { RectifyDashboardComponent } from '../../dashboard/rectify/rectify.dashboard.component';
 import { SuperviseDashboardComponent } from '../../dashboard/supervise/supervise.dashboard.component';
+import { ReportEditComponent, ReportInfoComponent, ReportViewComponent, TemplateEditComponent, TemplateInfoComponent } from '@mt-insight-ng/insight';
 
 const routes: Routes = [
   {
@@ -106,6 +107,15 @@ const routes: Routes = [
     component: SuperviseDashboardComponent,
     data: { title: '首页', reuse: true },
   },
+    // 模板管理主页面
+    { path: 'template-info', component: TemplateInfoComponent, data: { reuse: true } },
+    { path: 'report-info', component: ReportInfoComponent, data: { reuse: true } },
+    { path: 'report-edit', component: ReportEditComponent, data: { reuse: true, title: '编辑报告' } },
+    { path: 'report-edit/:id/:status', component: ReportEditComponent, data: { reuse: true, title: '编辑报告' } },
+    { path: 'template-edit', component: TemplateEditComponent, data: { reuse: true, title: '编辑模板' } },
+    { path: 'template-edit/:id', component: TemplateEditComponent, data: { reuse: true, title: '编辑模板' } },
+    { path: 'report-view/:id', component: ReportViewComponent, data: { reuse: true } },
+  
 ];
 
 @NgModule({

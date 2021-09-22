@@ -72,6 +72,22 @@ export const APP_DATA = {
               text: '文书模板',
               link: '',
               i18n: '',
+              children: [
+                {
+                  text: '模板管理',
+                  // i18n: '',
+                  icon: 'anticon-file-excel',
+                  link: '/audit-rectify/template-info',
+                  // acl: [],
+                },
+                {
+                  text: '报告管理',
+                  // i18n: '',
+                  icon: 'anticon-file-excel',
+                  link: '/audit-rectify/report-info',
+                  // acl: [],
+                },
+              ]
               // acl: [],
             },
             {
