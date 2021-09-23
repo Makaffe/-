@@ -1,31 +1,42 @@
-<nz-modal
-  [(nzVisible)]="isVisible"
-  [nzMaskClosable]="false"
-  (nzOnCancel)="handleCancel()"
-  [nzFooter]="editorFooter"
-  nzWidth="1050"
-  [nzTitle]="'纪检处理'"
-  [nzStyle]="{ top: '65px' }"
-  [nzBodyStyle]="{
+<nz-modal [(nzVisible)]="isVisible" [nzMaskClosable]="false" (nzOnCancel)="handleCancel()" [nzFooter]="editorFooter"
+  nzWidth="1050" [nzTitle]="'纪检处理'" [nzStyle]="{ top: '65px' }" [nzBodyStyle]="{
     'max-height': '455px',
     'min-height': '300px',
     'overflow-y': 'auto',
     'overflow-x': 'hidden',
     padding: '24px 24px 0 24px'
-  }"
->
+  }">
   <form nz-form>
     <nz-form-item>
       <nz-form-label nzSpan="4">问题名称</nz-form-label>
       <nz-form-control nzSpan="8">
         <input nz-input />
       </nz-form-control>
-      <nz-form-label nzSpan="4">问题类型</nz-form-label>
+      <nz-form-label nzSpan="4">整改负责人</nz-form-label>
       <nz-form-control nzSpan="8">
-        <nz-select style="width:200px" nzAllowClear>
+        <nz-select nzAllowClear>
           <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
           <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
         </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="4">整改截止时间</nz-form-label>
+      <nz-form-control nzSpan="8">
+        <nz-date-picker [(ngModel)]="date" (ngModelChange)="''" [nzFormat]="'yyyy-MM-dd'"></nz-date-picker>
+      </nz-form-control>
+      <nz-form-label nzSpan="4">问题类型</nz-form-label>
+      <nz-form-control nzSpan="8">
+        <nz-select nzAllowClear>
+          <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
+          <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="4">问题来源</nz-form-label>
+      <nz-form-control nzSpan="20">
+        <textarea nz-input rows="3"></textarea>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
@@ -35,33 +46,76 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label nzSpan="4">是否拆分问题</nz-form-label>
+      <nz-form-label nzSpan="4">移交原因</nz-form-label>
       <nz-form-control nzSpan="20">
-        <nz-radio-group [(ngModel)]="radioValue">
-          <label nz-radio nzValue="A">是</label>
-          <label nz-radio nzValue="B">否</label>
+        <textarea nz-input rows="3"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="4">是否发函</nz-form-label>
+      <nz-form-control nzSpan="8">
+        <nz-radio-group [(ngModel)]="radioLetterValue">
+          <label nz-radio nzValue="A">已发函</label>
+          <label nz-radio nzValue="B">未发函</label>
+        </nz-radio-group>
+      </nz-form-control>
+      <nz-form-label nzSpan="4">是否处分</nz-form-label>
+      <nz-form-control nzSpan="8">
+        <nz-radio-group [(ngModel)]="radioDisciplineValue">
+          <label nz-radio nzValue="A">已处分</label>
+          <label nz-radio nzValue="B">未处分</label>
         </nz-radio-group>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label nzSpan="4">整改具体负责人</nz-form-label>
+      <nz-form-label nzSpan="4">处分记录</nz-form-label>
       <nz-form-control nzSpan="20">
-        <nz-select style="width:200px" nzAllowClear>
-          <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
-          <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
-        </nz-select>
+        <nz-table #editRowTable nzBordered [nzData]="listOfData" [nzShowPagination]="false" [nzFooter]="footer">
+          <thead>
+            <tr>
+              <th nzWidth="25%">处分类型</th>
+              <th nzWidth="15%">处分人数</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of editRowTable.data">
+              <td>
+                <ng-container *ngIf="!editCache[data.id].edit; else nameInputTpl">
+                  {{ data.name }}
+                </ng-container>
+                <ng-template #nameInputTpl>
+                  <input type="text" nz-input [(ngModel)]="editCache[data.id].data.name" />
+                </ng-template>
+              </td>
+              <td>
+                <ng-container *ngIf="!editCache[data.id].edit; else ageInputTpl">
+                  {{ data.age }}
+                </ng-container>
+                <ng-template #ageInputTpl>
+                  <input type="text" nz-input [(ngModel)]="editCache[data.id].data.age" />
+                </ng-template>
+              </td>
+            </tr>
+          </tbody>
+          <ng-template #footer>
+            <button nz-button nzType="primary" (click)="addRow()"><i nz-icon nzType="plus"
+                nzTheme="outline"></i>添加</button>
+          </ng-template>
+        </nz-table>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label nzSpan="4">整改措施提交时间</nz-form-label>
+      <nz-form-label nzSpan="4">处理描述</nz-form-label>
       <nz-form-control nzSpan="20">
         <nz-date-picker></nz-date-picker>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label nzSpan="4">整改要求</nz-form-label>
+      <nz-form-label nzSpan="4">上传附件</nz-form-label>
       <nz-form-control nzSpan="20">
-        <textarea nz-input rows="8"></textarea>
+        <nz-upload nzAction="https://jsonplaceholder.typicode.com/posts/">
+          <button nz-button><i nz-icon nzType="upload"></i><span>上传文件</span></button>
+        </nz-upload>
       </nz-form-control>
     </nz-form-item>
   </form>

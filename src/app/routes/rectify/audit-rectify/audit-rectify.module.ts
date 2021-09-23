@@ -29,7 +29,7 @@ const COMMPONENTS = [
   SuperviseDashboardComponent,
   DictPipe,
   IssueAssignFormComponent,
-  SuperviseProcessFormComponent
+  SuperviseProcessFormComponent,
 ];
 @NgModule({
   declarations: [...COMMPONENTS],
