@@ -16,106 +16,190 @@ export class AuditorDashboardComponent implements OnInit {
     title: string;
     className: string;
   }> = [];
+  date = null;
+  data1 = [132, 324, 327];
+  xData = ['9:00-10:00', '10:00-11:00', '11:00-12:00'];
+
+  option1 = {
+    color: ['#3398DB'],
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        // 坐标轴指示器，坐标轴触发有效
+        type: 'shadow', // 默认为直线，可选为：'line' | 'shadow'
+      },
+    },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true,
+    },
+    xAxis: [
+      {
+        type: 'category',
+        data: this.xData,
+        axisLine: {
+          show: false,
+        },
+        axisTick: {
+          show: false,
+        },
+        axisLabel: {
+          show: false,
+        },
+        show: false,
+      },
+    ],
+    yAxis: [
+      {
+        type: 'value',
+        axisLine: {
+          show: false,
+        },
+        axisTick: {
+          show: false,
+        },
+        axisLabel: {
+          show: false,
+        },
+        show: false,
+      },
+    ],
+    series: [
+      {
+        name: '直接访问',
+        type: 'bar',
+        barWidth: '40%',
+        data: this.data1,
+      },
+    ],
+  };
   constructor(private router: Router) {}
   users: any[] = [];
   rectifyIssuecolumns: STColumn[] = [
     {
       title: '排名',
       index: 'id',
-      
+      width: '100px',
     },
     {
       title: '整改部门',
       index: 'name',
-     
+      width: '10%',
     },
     {
       title: '整改问题',
       index: 'age',
-     
+      width: '20%',
     },
     {
       title: '整改反馈进度',
       index: 'age',
+      width: '40%',
     },
     {
       title: '整改截止时间',
       index: 'age',
+      width: '15%',
     },
     {
       title: '剩余整改天数',
       index: 'age',
+      width: '15%',
     },
   ];
   rectifyProcesscolumns: STColumn[] = [
     {
-      title: '排名',
+      title: '序号',
       index: 'id',
-      
+      width: '50px',
+    },
+    {
+      title: '状态',
+      index: 'name',
+      width: '100px',
+    },
+    {
+      title: '移交情况',
+      index: 'age',
+      width: '100px',
+    },
+    {
+      title: '问题名称',
+      index: 'age',
+      width: '100px',
     },
     {
       title: '整改部门',
-      index: 'name',
-     
+      index: 'age',
+      width: '100px',
     },
     {
-      title: '整改问题',
+      title: '整改负责人',
       index: 'age',
-     
+      width: '100px',
+    },
+    {
+      title: '整改具体负责人',
+      index: 'age',
+      width: '100px',
     },
     {
       title: '整改反馈进度',
-      index: 'age',
-    },
-    {
-      title: '整改截止时间',
-      index: 'age',
-    },
-    {
-      title: '剩余整改天数',
-      index: 'age',
+      index: '500px',
     },
     {
       title: '操作',
-      render:'operations'
+      render: 'operations',
+      width: '150px',
     },
   ];
+
+  Reminderscolumns: STColumn[] = [
+    {
+      title: '待办事项',
+      index: 'name',
+      width: '100%',
+    },
+  ];
+
   ngOnInit() {
     this.cards = [
       {
-        icon: 'audit',
+        icon: 'info-circle',
         value: 1,
-        title: '审计类型',
+        title: '报告总数:',
         className: 'bg-orange',
       },
       {
-        icon: 'project',
+        icon: 'warning',
         value: 2,
-        title: '项目',
+        title: '问题总数:',
         className: 'bg-magenta',
       },
       {
-        icon: 'bank',
+        icon: 'check-circle',
         value: 3,
-        title: '被审计单位',
+        title: '已整改:',
         className: 'bg-primary',
       },
       {
-        icon: 'exclamation-circle',
+        icon: 'hourglass',
         value: 4,
-        title: '发现问题类型',
+        title: '整改中:',
         className: 'bg-volcano',
       },
       {
-        icon: 'exception',
+        icon: 'swap',
         value: 5,
-        title: '发现问题',
+        title: '移交纪检:',
         className: 'bg-purple',
       },
       {
-        icon: 'file-done',
+        icon: 'clock-circle',
         value: 6,
-        title: '已整改',
+        title: '未整改:',
         className: 'bg-success',
       },
     ];
@@ -134,10 +218,13 @@ export class AuditorDashboardComponent implements OnInit {
       .pipe(delay(500))
       .subscribe(res => (this.users = res));
   }
-  goDepartmentDraw(){
-  this.router.navigate(['/audit-rectify/department-draw']);
+  goDepartmentDraw() {
+    this.router.navigate(['/audit-rectify/department-draw']);
   }
-  goWorkBeach(){
+  goWorkBeach() {
     this.router.navigate(['/audit-rectify/rectify-workbeach']);
+  }
+  onChange(result: Date): void {
+    console.log('onChange: ', result);
   }
 }
