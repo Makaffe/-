@@ -6,7 +6,17 @@ import { Component, OnInit } from '@angular/core';
   styles: [],
 })
 export class IssueAssignFormComponent implements OnInit {
+  listOfData = [
+    {
+      key: '1',
+      name: 'John Brown',
+      age: 32,
+      address: 'New York No. 1 Lake Park',
+    },
+  ];
   isVisible = false;
+
+  radioValue = false;
   constructor() {}
 
   ngOnInit() {}
@@ -17,5 +27,15 @@ export class IssueAssignFormComponent implements OnInit {
 
   show() {
     this.isVisible = true;
+  }
+
+  addRow() {
+    this.listOfData.push({
+      key: '1',
+      name: 'John Brown',
+      age: 32,
+      address: 'New York No. 1 Lake Park',
+    });
+    this.listOfData = [...this.listOfData];
   }
 }
