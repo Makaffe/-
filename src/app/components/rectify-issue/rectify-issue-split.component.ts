@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styles: [],
 })
 export class RectifyIssueSplitComponent implements OnInit {
-  listOfData = []
+  listOfData = [{ order: 0 }];
   isVisible = false;
   handleCancel() {
     this.isVisible = false;
@@ -20,4 +20,16 @@ export class RectifyIssueSplitComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+
+  addRow() {
+    if (this.listOfData.length > 0) {
+      this.listOfData.push({ order: this.listOfData[this.listOfData.length - 1].order + 1 });
+    } else {
+      this.listOfData.push({ order: 1 });
+    }
+    this.listOfData = [...this.listOfData];
+  }
+  deletRow(data) {
+    this.listOfData = [...this.listOfData.filter(item => item.order !== data.order)];
+  }
 }
