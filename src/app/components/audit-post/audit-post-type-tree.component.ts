@@ -81,7 +81,7 @@ export class AuditPostTypeTreeComponent implements OnInit {
 
   loadTree(): void {
     // tslint:disable-next-line: deprecation
-    
+
   }
 
   nzSearch($event) { }
@@ -100,7 +100,7 @@ export class AuditPostTypeTreeComponent implements OnInit {
 
   deleteNode(): void {
     // tslint:disable-next-line: deprecation
-   
+
   }
 
 }
