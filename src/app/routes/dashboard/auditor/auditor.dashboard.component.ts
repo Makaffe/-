@@ -96,6 +96,7 @@ export class AuditorDashboardComponent implements OnInit {
     {
       title: '整改反馈进度',
       index: 'age',
+      render: 'process',
       width: '40%',
     },
     {
@@ -119,11 +120,13 @@ export class AuditorDashboardComponent implements OnInit {
       title: '状态',
       index: 'name',
       width: '100px',
+      render: 'status',
     },
     {
       title: '移交情况',
       index: 'age',
       width: '100px',
+      render: 'situation',
     },
     {
       title: '问题名称',
@@ -148,6 +151,7 @@ export class AuditorDashboardComponent implements OnInit {
     {
       title: '整改反馈进度',
       index: '500px',
+      render: 'process',
     },
     {
       title: '操作',
@@ -159,6 +163,7 @@ export class AuditorDashboardComponent implements OnInit {
   Reminderscolumns: STColumn[] = [
     {
       title: '待办事项',
+      render: 'remain',
       index: 'name',
       width: '100%',
     },
@@ -169,43 +174,44 @@ export class AuditorDashboardComponent implements OnInit {
       {
         icon: 'info-circle',
         value: 1,
-        title: '报告总数:',
+        title: '报告总数:3',
         className: 'bg-orange',
       },
       {
         icon: 'warning',
         value: 2,
-        title: '问题总数:',
+        title: '问题总数:3',
         className: 'bg-magenta',
       },
       {
         icon: 'check-circle',
         value: 3,
-        title: '已整改:',
-        className: 'bg-primary',
+        title: '已整改:3',
+        className: 'bg-success',
       },
       {
         icon: 'hourglass',
         value: 4,
-        title: '整改中:',
+        title: '整改中:3',
         className: 'bg-volcano',
       },
       {
         icon: 'swap',
         value: 5,
-        title: '移交纪检:',
+        title: '移交纪检:3',
         className: 'bg-purple',
       },
       {
         icon: 'clock-circle',
         value: 6,
-        title: '未整改:',
-        className: 'bg-success',
+        title: '未整改:3',
+        className: 'bg-primary',
       },
     ];
     of(
       Array(100)
         .fill({})
+        // tslint:disable-next-line:variable-name
         .map((_item: any, idx: number) => {
           return {
             id: idx + 1,
