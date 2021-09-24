@@ -197,7 +197,7 @@ export class StartupService {
           link: '/audit-rectify/auditor-dashboard',
           i18n: 'menu.dashboard',
           icon: 'anticon-dashboard',
-        }
+        };
         break;
       case 'SUPERVISE_DEPARTMENT':
         this.menuTree.menu[0].children[0] = {
@@ -205,7 +205,7 @@ export class StartupService {
           link: '/audit-rectify/supervise-dashboard',
           i18n: 'menu.dashboard',
           icon: 'anticon-dashboard',
-        }
+        };
         break;
       case 'RECTIFY_DEPARTMENT':
         this.menuTree.menu[0].children[0] = {
@@ -213,7 +213,7 @@ export class StartupService {
           link: '/audit-rectify/rectify-dashboard',
           i18n: 'menu.dashboard',
           icon: 'anticon-dashboard',
-        }
+        };
         break;
       default:
         break;

@@ -70,4 +70,7 @@ export class AuditPostListComponent implements OnInit {
   edit(row): void {
     this.router.navigate(['/audit-rectify/audit-post-detail']);
   }
+  check(row): void {
+    this.router.navigate(['/audit-rectify/audit-post-detail']);
+  }
 }

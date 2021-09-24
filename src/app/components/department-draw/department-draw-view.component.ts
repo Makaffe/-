@@ -84,7 +84,7 @@ option02 = {
   tooltip: {
       trigger: 'axis'
   },
- 
+
   grid: {
       left: '3%',
       right: '4%',

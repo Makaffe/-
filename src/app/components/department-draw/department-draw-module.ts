@@ -12,7 +12,7 @@ const COMPONENTS = [
   DepartmentDrawViewComponent
 ];
 @NgModule({
-  imports: [CommonModule, SharedModule,NgxEchartsModule],
+  imports: [CommonModule, SharedModule, NgxEchartsModule],
   exports: [...COMPONENTS],
   declarations: [...COMPONENTS],
 })

@@ -115,7 +115,7 @@ const routes: Routes = [
     { path: 'template-edit', component: TemplateEditComponent, data: { reuse: true, title: '编辑模板' } },
     { path: 'template-edit/:id', component: TemplateEditComponent, data: { reuse: true, title: '编辑模板' } },
     { path: 'report-view/:id', component: ReportViewComponent, data: { reuse: true } },
-  
+
 ];
 
 @NgModule({
