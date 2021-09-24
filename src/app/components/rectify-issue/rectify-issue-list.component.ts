@@ -5,7 +5,6 @@ import { RectifyIssueSplitComponent } from './rectify-issue-split.component';
 import { RectifyIssueTransferComponent } from './rectify-issue-transfer.component';
 
 @Component({
-  // tslint:disable-next-line: component-selector
   selector: 'rectify-issue-list',
   templateUrl: './rectify-issue-list.component.html',
   styles: [],

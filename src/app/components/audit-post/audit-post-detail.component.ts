@@ -10,7 +10,7 @@ import { Observable, Observer } from 'rxjs';
 export class AuditPostDetailComponent implements OnInit {
   listOfData = [
     {
-      id: 1,
+      id: '1',
       issueName: '不明资金来源',
       issueDesc: '年度收入大于支出',
       issueType: '资金',
@@ -71,36 +71,4 @@ export class AuditPostDetailComponent implements OnInit {
   constructor(private msg: NzMessageService) {}
 
   ngOnInit() {}
-
-  deleteRow(data) {
-    this.listOfData = [...this.listOfData.filter(item => item.id !== data.id)];
-  }
-
-  addRow(data) {
-    if (this.listOfData.length > 0) {
-      this.listOfData.push({
-        id: this.listOfData[this.listOfData.length - 1].id + 1,
-        issueName: '不明资金来源',
-        issueDesc: '年度收入大于支出',
-        issueType: '资金',
-        rectifyDepartment: '部门一',
-        rectifyPrincipal: '张三',
-        auditingAdvice: '立即整改',
-        source: '审计发现',
-      });
-      this.listOfData = [...this.listOfData];
-    } else {
-      this.listOfData.push({
-        id: 1,
-        issueName: '不明资金来源',
-        issueDesc: '年度收入大于支出',
-        issueType: '资金',
-        rectifyDepartment: '部门一',
-        rectifyPrincipal: '张三',
-        auditingAdvice: '立即整改',
-        source: '审计发现',
-      });
-      this.listOfData = [...this.listOfData];
-    }
-  }
 }
