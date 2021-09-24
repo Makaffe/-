@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AttachListComponent } from 'src/app/components/common/attach/attach-list.component';
 
 interface ItemData {
   id: string;
@@ -12,6 +13,11 @@ interface ItemData {
   styles: [],
 })
 export class SuperviseProcessFormComponent implements OnInit {
+  @ViewChild('attachListComponent', { static: false })
+  attachListComponent: AttachListComponent;
+
+  disabled = false;
+
   constructor() {}
   isVisible = false;
   date = new Date();
@@ -20,25 +26,16 @@ export class SuperviseProcessFormComponent implements OnInit {
   editCache: { [key: string]: { edit: boolean; data: ItemData } } = {};
   listOfData: ItemData[] = [];
 
-  updateEditCache(): void {
+  updateEditCache(edit: boolean): void {
     this.listOfData.forEach(item => {
       this.editCache[item.id] = {
-        edit: true,
+        edit,
         data: { ...item },
       };
     });
   }
 
-  ngOnInit(): void {
-    for (let i = 0; i < 2; i++) {
-      this.listOfData.push({
-        id: `${i}`,
-        name: `Edrward ${i}`,
-        age: 32,
-      });
-    }
-    this.updateEditCache();
-  }
+  ngOnInit(): void {}
 
   handleCancel() {
     this.isVisible = false;
@@ -46,13 +43,22 @@ export class SuperviseProcessFormComponent implements OnInit {
 
   show() {
     this.isVisible = true;
+    if (this.disabled) {
+      this.updateEditCache(false);
+    }
   }
 
   addRow() {
     this.listOfData.push({
-      id: (this.listOfData.length + 1).toString(),
+      id: this.listOfData.length.toString(),
       name: `sss`,
       age: 22,
     });
+    this.listOfData = [...this.listOfData];
+    this.updateEditCache(true);
+  }
+
+  deletePunishment(id: any) {
+    this.listOfData = this.listOfData.filter(data => data.id !== id);
   }
 }

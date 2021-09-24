@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { IssueAssignFormComponent } from './issue-assign-form/issue-assign-form.component';
 export interface TreeNodeInterface {
   key: number;
@@ -20,7 +21,7 @@ export class RectifyDashboardComponent implements OnInit {
   issueAssignFormComponent: IssueAssignFormComponent;
 
   option = {
-    color: ['#2990ef'],
+    color: ['#8A2BE2'],
     grid: {
       left: '0',
       right: '0',
@@ -227,6 +228,8 @@ export class RectifyDashboardComponent implements OnInit {
     }
   }
 
+  constructor(private router: Router) {}
+
   ngOnInit(): void {
     this.listOfMapData.forEach(item => {
       this.mapOfExpandedData[item.key] = this.convertTreeToList(item);
@@ -235,5 +238,9 @@ export class RectifyDashboardComponent implements OnInit {
 
   assignIssue() {
     this.issueAssignFormComponent.show();
+  }
+
+  workbench() {
+    this.router.navigate(['audit-rectify/rectify-workbeach'], {});
   }
 }

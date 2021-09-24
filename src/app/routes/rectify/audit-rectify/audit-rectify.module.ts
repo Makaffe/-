@@ -22,6 +22,7 @@ import { InsightReportModule } from '../../insight-report/insight-report.module'
 import { MtReportModule } from '@mt-insight-ng/insight-report';
 import { IssueAssignFormComponent } from '../../dashboard/rectify/issue-assign-form/issue-assign-form.component';
 import { SuperviseProcessFormComponent } from '../../dashboard/supervise/supervise-process-form/supervise-process-form.component';
+import { AttachListModule } from 'src/app/components/common/attach/attach-list.module';
 
 const COMMPONENTS = [
   AuditorDashboardComponent,
@@ -53,6 +54,7 @@ const COMMPONENTS = [
     DepartmentDrawModule,
     RectifyWorkBeachModule,
     StatisticsAnalysisModule,
+    AttachListModule,
   ],
   exports: [...COMMPONENTS],
 })

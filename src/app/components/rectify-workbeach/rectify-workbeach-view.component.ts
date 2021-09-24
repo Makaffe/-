@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'rectify-workbeach-view',
   templateUrl: './rectify-workbeach-view.component.html',
   styles: [],

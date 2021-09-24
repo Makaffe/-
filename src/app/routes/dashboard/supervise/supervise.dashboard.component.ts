@@ -20,7 +20,7 @@ export class SuperviseDashboardComponent implements OnInit {
   @ViewChild('superviseProcessFormComponent', { static: false })
   superviseProcessFormComponent: SuperviseProcessFormComponent;
   option = {
-    color: ['#2990ef'],
+    color: ['#8A2BE2'],
     grid: {
       left: '0',
       right: '0',
@@ -235,5 +235,10 @@ export class SuperviseDashboardComponent implements OnInit {
 
   process() {
     this.superviseProcessFormComponent.show();
+  }
+
+  show() {
+    this.superviseProcessFormComponent.show();
+    this.superviseProcessFormComponent.disabled = true;
   }
 }
