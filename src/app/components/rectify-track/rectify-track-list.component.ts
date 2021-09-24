@@ -17,7 +17,6 @@ const RETIFY_TAG: STColumnTag = {
   true: { text: '未激活', color: 'red' },
 };
 @Component({
-  // tslint:disable-next-line: component-selector
   selector: 'rectify-track-list',
   templateUrl: './rectify-track-list.component.html',
   styles: [],
