@@ -1,9 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { STColumn } from '@delon/abc';
+import { STColumn, STColumnTag } from '@delon/abc';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
+const TAG: STColumnTag = {
+  'name 1': { text: '未开始', color: 'grey' },
+  'name 2': { text: '整改中', color: '#008CEC' },
+  'name 3': { text: '已逾期', color: '#F76A00' },
+};
+const situationTAG: STColumnTag = {
+  21: { text: '未移交', color: '#D9001B' },
+  27: { text: '已移交', color: 'green' },
+};
 @Component({
   selector: 'app-auditor-dashboard',
   templateUrl: './auditor.dashboard.component.html',
@@ -77,6 +86,7 @@ export class AuditorDashboardComponent implements OnInit {
   };
   constructor(private router: Router) {}
   users: any[] = [];
+
   rectifyIssuecolumns: STColumn[] = [
     {
       title: '排名',
@@ -121,12 +131,18 @@ export class AuditorDashboardComponent implements OnInit {
       index: 'name',
       width: '100px',
       render: 'status',
+      className: 'text-center',
+      type: 'tag',
+      tag: TAG,
     },
     {
       title: '移交情况',
       index: 'age',
       width: '100px',
       render: 'situation',
+      className: 'text-center',
+      type: 'tag',
+      tag: situationTAG,
     },
     {
       title: '问题名称',
