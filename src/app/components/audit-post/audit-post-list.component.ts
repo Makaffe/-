@@ -4,6 +4,7 @@ import { TABLE_PARAMETER } from '@mt-framework-ng/core';
 import { ObjectUtil } from '@ng-mt-framework/util';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'audit-post-list',
   templateUrl: './audit-post-list.component.html',
   styles: [],
@@ -68,6 +69,9 @@ export class AuditPostListComponent implements OnInit {
   ngOnInit() {}
 
   edit(row): void {
+    this.router.navigate(['/audit-rectify/audit-post-detail']);
+  }
+  check(row): void {
     this.router.navigate(['/audit-rectify/audit-post-detail']);
   }
 }
