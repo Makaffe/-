@@ -22,17 +22,17 @@ export class AuditorDashboardComponent implements OnInit {
     {
       title: '排名',
       index: 'id',
-      
+
     },
     {
       title: '整改部门',
       index: 'name',
-     
+
     },
     {
       title: '整改问题',
       index: 'age',
-     
+
     },
     {
       title: '整改反馈进度',
@@ -51,17 +51,17 @@ export class AuditorDashboardComponent implements OnInit {
     {
       title: '排名',
       index: 'id',
-      
+
     },
     {
       title: '整改部门',
       index: 'name',
-     
+
     },
     {
       title: '整改问题',
       index: 'age',
-     
+
     },
     {
       title: '整改反馈进度',
@@ -77,7 +77,7 @@ export class AuditorDashboardComponent implements OnInit {
     },
     {
       title: '操作',
-      render:'operations'
+      render: 'operations'
     },
   ];
   ngOnInit() {
@@ -134,10 +134,10 @@ export class AuditorDashboardComponent implements OnInit {
       .pipe(delay(500))
       .subscribe(res => (this.users = res));
   }
-  goDepartmentDraw(){
+  goDepartmentDraw() {
   this.router.navigate(['/audit-rectify/department-draw']);
   }
-  goWorkBeach(){
+  goWorkBeach() {
     this.router.navigate(['/audit-rectify/rectify-workbeach']);
   }
 }

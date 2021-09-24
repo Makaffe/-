@@ -17,6 +17,7 @@ const RETIFY_TAG: STColumnTag = {
   true: { text: '未激活', color: 'red' },
 };
 @Component({
+  // tslint:disable-next-line: component-selector
   selector: 'rectify-track-list',
   templateUrl: './rectify-track-list.component.html',
   styles: [],
@@ -122,7 +123,7 @@ export class RectifyTrackListComponent implements OnInit {
       title: '整改反馈进度',
       index: 'unitName',
       width: '200px',
-      render:'progressbar'
+      render: 'progressbar'
     },
     {
       title: '备注',
@@ -138,7 +139,7 @@ export class RectifyTrackListComponent implements OnInit {
   ngOnInit() {}
 
 
-  checkTransferResult(){
-     this.router.navigate(['/audit-rectify/transfer-result'])
+  checkTransferResult() {
+     this.router.navigate(['/audit-rectify/transfer-result']);
   }
 }

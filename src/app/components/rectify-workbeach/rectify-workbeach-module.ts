@@ -14,7 +14,7 @@ const COMPONENTS = [
     RectifyEffectComponent
 ];
 @NgModule({
-  imports: [CommonModule, SharedModule,NgxEchartsModule],
+  imports: [CommonModule, SharedModule, NgxEchartsModule],
   exports: [...COMPONENTS],
   declarations: [...COMPONENTS],
 })
