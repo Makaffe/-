@@ -11,7 +11,7 @@
       <form #searchForm="ngForm" nz-form class="matech-search-form">
         <div nz-row [nzGutter]="24" nzType="flex" nzJustify="space-between" nzAlign="middle" class="search-row">
           <!-- 搜索框 -->
-          <div nz-col [nzSpan]="21">
+          <div nz-col [nzSpan]="22">
             <div nz-col [nzSpan]="5">
               <nz-form-item style="justify-content: start;">
                 <nz-form-label [nzSpan]="8">整改问题</nz-form-label>
@@ -28,30 +28,39 @@
                 </nz-form-control>
               </nz-form-item>
             </div>
-            <div nz-col [nzSpan]="5">
+            <div nz-col [nzSpan]="6">
               <nz-form-item style="justify-content: start;">
-                <nz-form-label [nzSpan]="8">状态</nz-form-label>
-                <nz-form-control [nzSpan]="16">
-                  <input nz-input type="text" name="name" placeholder="请输入搜索名称" />
+                <nz-form-label [nzSpan]="5">状态</nz-form-label>
+                <nz-form-control [nzSpan]="19">
+                  <nz-select [nzMaxTagCount]="3" nzMode="multiple" nzPlaceHolder="" [(ngModel)]="listOfSelectedValue">
+                    <nz-option *ngFor="let item of listOfOption" [nzLabel]="item" [nzValue]="item"></nz-option>
+                  </nz-select>
                 </nz-form-control>
               </nz-form-item>
             </div>
             <div nz-col [nzSpan]="6">
               <nz-form-item style="justify-content: start;">
-                <nz-form-label [nzSpan]="6">时间</nz-form-label>
-                <nz-form-control [nzSpan]="18">
-                <nz-range-picker ></nz-range-picker>
+                <nz-form-label [nzSpan]="5">时间</nz-form-label>
+                <nz-form-control [nzSpan]="19">
+                  <nz-range-picker></nz-range-picker>
                 </nz-form-control>
               </nz-form-item>
             </div>
           </div>
           <!-- 查找按钮 -->
-          <div nz-col [nzSpan]="3">
+          <div nz-col [nzSpan]="2">
             <button nz-button nzType="primary"><i nz-icon nzType="search" nzTheme="outline"></i>查找</button>
           </div>
         </div>
       </form>
     </div>
+  </as-split-area>
+  <as-split-area class="flex-fixed" [size]="40" style="margin:5px 0px">
+    <button nz-button nzType="primary" style="margin-left: 20px;">问题下发</button>
+
+    <button nz-button nzType="primary" style="margin-left: 20px;">问题拆分</button>
+
+    <button nz-button nzType="danger" nzDanger style="margin-left: 20px;">移交纪检</button>
   </as-split-area>
   <as-split-area [size]="'*'">
     <rectify-issue-list></rectify-issue-list>
