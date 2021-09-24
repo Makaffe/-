@@ -191,6 +191,7 @@ export class SuperviseDashboardComponent implements OnInit {
     if ($event === false) {
       if (data.children) {
         data.children.forEach(d => {
+          // tslint:disable-next-line:no-non-null-assertion
           const target = array.find(a => a.key === d.key)!;
           target.expand = false;
           this.collapse(array, target, false);
@@ -208,10 +209,12 @@ export class SuperviseDashboardComponent implements OnInit {
     stack.push({ ...root, level: 0, expand: false });
 
     while (stack.length !== 0) {
+      // tslint:disable-next-line:no-non-null-assertion
       const node = stack.pop()!;
       this.visitNode(node, hashMap, array);
       if (node.children) {
         for (let i = node.children.length - 1; i >= 0; i--) {
+          // tslint:disable-next-line:no-non-null-assertion
           stack.push({ ...node.children[i], level: node.level! + 1, expand: false, parent: node });
         }
       }
