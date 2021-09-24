@@ -5,6 +5,7 @@ import { RectifyIssueSplitComponent } from './rectify-issue-split.component';
 import { RectifyIssueTransferComponent } from './rectify-issue-transfer.component';
 
 @Component({
+  // tslint:disable-next-line: component-selector
   selector: 'rectify-issue-list',
   templateUrl: './rectify-issue-list.component.html',
   styles: [],
@@ -12,8 +13,8 @@ import { RectifyIssueTransferComponent } from './rectify-issue-transfer.componen
 export class RectifyIssueListComponent implements OnInit {
   @ViewChild('rectifyIssueSplitComponent', { static: false })
   rectifyIssueSplitComponent: RectifyIssueSplitComponent;
-  @ViewChild('rectifyIssueTransferComponent',{static: false})
-  rectifyIssueTransferComponent:RectifyIssueTransferComponent;
+  @ViewChild('rectifyIssueTransferComponent', {static: false})
+  rectifyIssueTransferComponent: RectifyIssueTransferComponent;
   /**
    * 列表数据
    */
@@ -115,10 +116,10 @@ export class RectifyIssueListComponent implements OnInit {
 
   ngOnInit() {}
 
-  splitIssue(row){
+  splitIssue(row) {
     this.rectifyIssueSplitComponent.edit();
   }
-  transfer(row){
+  transfer(row) {
     this.rectifyIssueTransferComponent.edit();
 
   }

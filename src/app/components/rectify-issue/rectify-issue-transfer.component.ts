@@ -11,14 +11,14 @@ export class RectifyIssueTransferComponent implements OnInit {
 
   ngOnInit() {
   }
-  handleCancel(){
-    this.isVisible = false
+  handleCancel() {
+    this.isVisible = false;
   }
-  save(){
-    this.isVisible = false
+  save() {
+    this.isVisible = false;
   }
-  edit(){
-    this.isVisible = true
+  edit() {
+    this.isVisible = true;
 
   }
 }

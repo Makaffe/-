@@ -1,4 +1,4 @@
-<div style="overflow:scroll;height:800px" nz-col>
+<div style="height:800px;overflow:scroll" nz-col>
   <div nz-row>
     <div nz-col>
       <div nz-row  >
@@ -25,7 +25,7 @@
             <div class="box-item">
               <nz-card  style="width:300px;" nzTitle="部门一历史整改情况">
                 <nz-card-meta  [nzDescription]="myDesc">
-              
+
                 </nz-card-meta>
                 <ng-template #myDesc>
                   <p>历史未整改问题:3</p>
@@ -150,7 +150,7 @@
                 <a (click)="goWorkBeach()">进入工作台</a>
               </ng-template>
             </st>
-          
+
           </div>
           <div nz-col nzSpan="12">
             <st [scroll]="{ y: '240px' }" #st [data]="users" [columns]="rectifyIssuecolumns"></st>

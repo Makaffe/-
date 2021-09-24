@@ -23,7 +23,7 @@
     {{ row.releaseDate | date: 'yyyy-MM-dd' }}
   </ng-template>
   <ng-template st-row="operations" let-row let-index="index">
-    <a >查看</a>
+    <a  (click)="check(row)">查看</a>
     <nz-divider nzType="vertical"></nz-divider>
     <a (click)="edit(row)">编辑</a>
     <nz-divider nzType="vertical"></nz-divider>
