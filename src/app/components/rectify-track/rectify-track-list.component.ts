@@ -122,7 +122,7 @@ export class RectifyTrackListComponent implements OnInit {
       title: '整改反馈进度',
       index: 'unitName',
       width: '200px',
-      render:'progressbar'
+      render: 'progressbar'
     },
     {
       title: '备注',
@@ -138,7 +138,7 @@ export class RectifyTrackListComponent implements OnInit {
   ngOnInit() {}
 
 
-  checkTransferResult(){
-     this.router.navigate(['/audit-rectify/transfer-result'])
+  checkTransferResult() {
+     this.router.navigate(['/audit-rectify/transfer-result']);
   }
 }
