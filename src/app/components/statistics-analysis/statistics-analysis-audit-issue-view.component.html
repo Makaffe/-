@@ -72,14 +72,75 @@
   </div>
   <div nz-row nzJustify="space-around">
     <div nz-col nzSpan="14">
-      <nz-card nzTitle="问题类型变化趋势" style="margin-right: 10px;">
+      <nz-card [nzTitle]="title1" style="margin-right: 10px;">
+        <ng-template #title1>
+          <form #searchForm="ngForm" nz-form>
+            <div nz-row [nzGutter]="24" nzType="flex" nzJustify="space-around" nzAlign="middle" class="search-row">
+              <div nz-col [nzSpan]="6">
+                <nz-form-item nzFlex>
+                  <font style="font-size: 16px;">问题类型变化趋势</font>
+                </nz-form-item>
+              </div>
+              <div nz-col [nzSpan]="7">
+                <nz-form-item nzFlex>
+                  <nz-form-label [nzSm]="10" [nzXs]="24">部门对比</nz-form-label>
+                  <nz-form-control [nzSm]="16" [nzXs]="24">
+                    <nz-select nzAllowClear>
+                      <nz-option nzValue="部门1" nzLabel="部门1"></nz-option>
+                      <nz-option nzValue="部门2" nzLabel="部门2"></nz-option>
+                    </nz-select>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col [nzSpan]="1"></div>
+              <div nz-col [nzSpan]="10">
+                <nz-form-item nzFlex>
+                  <nz-form-control [nzSm]="24" [nzXs]="20">
+                    <nz-range-picker></nz-range-picker>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+          </form>
+        </ng-template>
+        <div echarts [options]="option01"></div>
+      </nz-card>
+    </div>
+    <div nz-col nzSpan="10">
+      <nz-card [nzTitle]="title2">
+        <ng-template #title2>
+          <form #searchForm="ngForm" nz-form>
+            <div nz-row [nzGutter]="24" nzType="flex" nzJustify="space-around" nzAlign="middle" class="search-row">
+              <div nz-col [nzSpan]="8">
+                <font style="font-size: 16px;">问题移交排名</font>
+              </div>
+              <div nz-col [nzSpan]="16">
+                <nz-form-item nzFlex>
+                  <nz-form-control [nzSm]="24" [nzXs]="20">
+                    <nz-range-picker></nz-range-picker>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+          </form>
+        </ng-template>
+        <div echarts [options]="option02"></div>
+      </nz-card>
+    </div>
+  </div>
+  <div nz-row nzJustify="space-around">
+    <nz-card [nzTitle]="title3">
+      <ng-template #title3>
         <form #searchForm="ngForm" nz-form>
           <div nz-row [nzGutter]="24" nzType="flex" nzJustify="space-around" nzAlign="middle" class="search-row">
-            <div nz-col [nzSpan]="8">
+            <div nz-col [nzSpan]="9">
+              <nz-form-item nzFlex>
+                <font style="font-size: 16px;">问题增长情况</font>
+              </nz-form-item>
             </div>
             <div nz-col [nzSpan]="7">
               <nz-form-item nzFlex>
-                <nz-form-label [nzSm]="10" [nzXs]="24">部门</nz-form-label>
+                <nz-form-label [nzSm]="10" [nzXs]="24">部门对比</nz-form-label>
                 <nz-form-control [nzSm]="16" [nzXs]="24">
                   <nz-select nzAllowClear>
                     <nz-option nzValue="部门1" nzLabel="部门1"></nz-option>
@@ -96,69 +157,20 @@
                 </nz-form-control>
               </nz-form-item>
             </div>
-            <div nz-col [nzSpan]="1"></div>
           </div>
         </form>
-        <div echarts [options]="option01"></div>
-      </nz-card>
-    </div>
-    <div nz-col nzSpan="10">
-      <nz-card nzTitle="问题移交排名">
-        <form #searchForm="ngForm" nz-form>
-          <div nz-row [nzGutter]="24" nzType="flex" nzJustify="space-around" nzAlign="middle" class="search-row">
-            <div nz-col [nzSpan]="8">
-            </div>
-            <div nz-col [nzSpan]="15">
-              <nz-form-item nzFlex>
-                <nz-form-control [nzSm]="24" [nzXs]="20">
-                  <nz-range-picker></nz-range-picker>
-                </nz-form-control>
-              </nz-form-item>
-            </div>
-            <div nz-col [nzSpan]="1"></div>
-          </div>
-        </form>
-        <div echarts [options]="option02"></div>
-      </nz-card>
-    </div>
-  </div>
-  <div nz-row nzJustify="space-around">
-    <nz-card nzTitle="问题增长情况">
+      </ng-template>
+
       <div nz-col nzSpan="8">
         <div nz-row>
           <div nz-col>
             <div nz-row>
-              <form #searchForm="ngForm" nz-form>
-                <div nz-row [nzGutter]="24" nzType="flex" nzJustify="space-around" nzAlign="middle" class="search-row">
-                  <div nz-col [nzSpan]="11">
-                    <nz-form-item nzFlex>
-                      <nz-form-label [nzSm]="10" [nzXs]="24">部门</nz-form-label>
-                      <nz-form-control [nzSm]="16" [nzXs]="24">
-                        <nz-select nzAllowClear>
-                          <nz-option nzValue="部门1" nzLabel="部门1"></nz-option>
-                          <nz-option nzValue="部门2" nzLabel="部门2"></nz-option>
-                        </nz-select>
-                      </nz-form-control>
-                    </nz-form-item>
-                  </div>
-                  <div nz-col [nzSpan]="1"></div>
-                  <div nz-col [nzSpan]="11">
-                    <nz-form-item nzFlex>
-                      <nz-form-control [nzSm]="24" [nzXs]="20">
-                        <nz-range-picker></nz-range-picker>
-                      </nz-form-control>
-                    </nz-form-item>
-                  </div>
-                  <div nz-col [nzSpan]="1"></div>
-                </div>
-              </form>
               <div nz-col>问题增长数</div>
               <div nz-col>
                 <h1>320</h1>
               </div>
               <div nz-col>
                 <i nz-icon [nzType]="'caret-up'" style="font-size: 16px; color: rgb(26, 241, 80);"></i>
-
                 &nbsp;10% 同比上升
               </div>
             </div>

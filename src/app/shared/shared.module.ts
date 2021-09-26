@@ -18,11 +18,10 @@ import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
 // #endregion
 // #region your componets & directives
 import { UEditorModule } from 'ngx-ueditor';
+import { UeditorComponent } from '../components/common/ueditor/ueditor.component';
 const THIRDMODULES = [NgZorroAntdModule, CountdownModule, AngularSplitModule, NgxEchartsModule, PdfJsViewerModule];
 
-const COMPONENTS = [
-
-];
+const COMPONENTS = [UeditorComponent];
 
 const DIRECTIVES = [];
 // #endregion
@@ -39,7 +38,7 @@ const DIRECTIVES = [];
     DelonFormModule,
     // third libs
     ...THIRDMODULES,
-    UEditorModule
+    UEditorModule,
   ],
   declarations: [
     // your components
