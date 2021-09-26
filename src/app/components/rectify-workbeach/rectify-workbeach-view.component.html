@@ -70,21 +70,25 @@
           <div nz-row>
             <nz-card nzTitle="整改跟踪时间轴" [nzExtra]="extraTemplateDiv">
               <ng-template #extraTemplateDiv>
-                <div style="height: 32px;"></div>
+                <div style="height: 32px;" *ngIf="isRectify"></div>
               </ng-template>
-              <div [ngStyle]="{'height':isRectify ? '670px' : '380px' }">
+              <div [ngStyle]="{'height':isRectify ? '670px' : '340px' }">
                 <nz-timeline>
                   <nz-timeline-item>审计人员问题下发 2015-09-01</nz-timeline-item>
-                  <nz-timeline-item>审计人员整改通知书发送到OA 2015-09-01</nz-timeline-item>
-                  <nz-timeline-item>失效整改措施 2015-09-01</nz-timeline-item>
-                  <nz-timeline-item>回复审计人员 2015-09-01</nz-timeline-item>
+                  <nz-timeline-item nzColor="green">审计人员整改通知书发送到OA 2015-09-01</nz-timeline-item>
+                  <nz-timeline-item nzColor="red">失效整改措施 2015-09-01</nz-timeline-item>
+                  <nz-timeline-item nzColor="gray">回复审计人员 2015-09-01</nz-timeline-item>
                 </nz-timeline>
               </div>
             </nz-card>
           </div>
-          <div nz-row *ngIf="!isRectify" style="height:300px">
+          <div nz-row *ngIf="!isRectify">
             <nz-card nzTitle="工作备忘录">
-              <textarea nz-input rows="10"> </textarea>
+              <div style="height:222px">
+                <textarea nz-input rows="10"
+                  style="box-shadow: 5px 5px 5px rgb(0 0 0 / 20%); background-color: rgba(255, 223, 37, 1);"> </textarea>
+              </div>
+
             </nz-card>
           </div>
         </div>
@@ -111,17 +115,21 @@
                           <nz-option nzValue="disabled" nzLabel="Disabled" nzDisabled></nz-option>
                         </nz-select>
                         <nz-select style="width:50%">
-                          <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
+                          <nz-option nzValue="day" nzLabel="日"></nz-option>
+                          <nz-option nzValue="week" nzLabel="周"></nz-option>
+                          <nz-option nzValue="month" nzLabel="月"></nz-option>
+                          <nz-option nzValue="year" nzLabel="年"></nz-option>
                         </nz-select>
                       </nz-form-control>
                     </nz-form-item>
                   </div>
                 </div>
               </div>
-              <nz-table #nzTable1 [nzData]="listOfData" [nzScroll]="{x:'1500px',y: '240px' }" nzBordered>
+              <nz-table #nzTable1 [nzData]="listOfData" [nzScroll]="{x:'1500px',y: '240px' }" nzBordered
+                style="height:640px">
                 <thead>
                   <tr>
-                    <th nzShowExpand nzWidth="50px">按钮</th>
+                    <th nzShowExpand nzWidth="80px">按钮</th>
                     <th nzWidth="90px" [nzAlign]="'center'">状态</th>
                     <th>措施类型</th>
                     <th>整改措施</th>
@@ -135,7 +143,14 @@
                 <tbody>
                   <ng-template ngFor let-data [ngForOf]="nzTable1.data">
                     <tr>
-                      <td nzWidth="50px" nzShowExpand [(nzExpand)]="mapOfExpandData[data.id]"></td>
+                      <td nzWidth="80px" nzShowExpand [(nzExpand)]="mapOfExpandData[data.id]">
+                        <nz-badge [nzCount]="5">
+                          <font style="color:white;">通</font>
+                        </nz-badge>
+                        <!-- <div style=" display:inline;background-color: red; border-radius: 100%;">
+                          <font style="size:0.1;color:white;">&nbsp;5&nbsp;</font>
+                        </div> -->
+                      </td>
                       <td nzWidth="90px" [nzAlign]="'center'">
                         <nz-tag [nzColor]="'#2db7f5'">整改中</nz-tag>
                       </td>
@@ -178,7 +193,7 @@
                 style="height:670px">
                 <thead>
                   <tr>
-                    <th nzShowExpand nzWidth="50px">按钮</th>
+                    <th nzShowExpand nzWidth="80px">按钮</th>
                     <th nzWidth="90px" [nzAlign]="'center'">状态</th>
                     <th>措施类型</th>
                     <th>整改措施</th>
@@ -191,7 +206,11 @@
                 <tbody>
                   <ng-template ngFor let-data [ngForOf]="nzTable2.data">
                     <tr>
-                      <td nzWidth="50px" nzShowExpand [(nzExpand)]="mapOfExpandData[data.id]"></td>
+                      <td nzWidth="50px" nzShowExpand [(nzExpand)]="mapOfExpandData[data.id]">
+                        <nz-badge [nzCount]="5">
+                          <font style="color:white;">通</font>
+                        </nz-badge>
+                      </td>
                       <td nzWidth="90px" [nzAlign]="'center'">
                         <nz-tag [nzColor]="'#2db7f5'">整改中</nz-tag>
                       </td>
