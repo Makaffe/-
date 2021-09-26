@@ -1,23 +1,35 @@
-<div style="height:100%;margin-left:10px;margin-top:10px;overflow:scroll;">
+<div style="height:100%;margin:10px 0 0 10px; background-color: white;"
+  [ngStyle]="{'overflow':isFold ? 'auto' : 'scroll' }">
   <div nz-col>
-    <div nz-row>
+    <div nz-row style="border:1px solid #797979;margin-bottom: 5px; padding: 5px 0 5px 0;">
       <div nz-col>
         <div style="margin-left: 40px;" nz-row nzJustify="space-between">
-          <div nzSpan="8" nz-col>整改问题名称</div>
-          <div nzSpan="3" nz-col>整改反馈进度</div>
-          <div nzSpan="5" nz-col>
+          <div nzSpan="8" nz-col>
+            <button nz-button nzType="primary" (click)="clickFold()">
+              <i nz-icon nzType="up" nzTheme="outline" *ngIf="!isFold"></i>
+              <i nz-icon nzType="down" nzTheme="outline" *ngIf="isFold"></i>
+            </button>
+            <font color="#3399f7"> 整改问题名称</font>
+          </div>
+          <div nzSpan="2" nz-col>整改反馈进度</div>
+          <div nzSpan="6" nz-col>
             <nz-progress nzSize="small" [nzPercent]="50" nzStatus="active"></nz-progress>
           </div>
-          
-          <div nzSpan="8" nz-col>
+          <div nzSpan="2" nz-col *ngIf="isRectify"></div>
+          <div nzSpan="6" nz-col *ngIf="isRectify">
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            <button nz-button nzType="primary">切换问题</button>
+          </div>
+          <div nzSpan="8" nz-col *ngIf="!isRectify">
             &nbsp;
             <button nz-button nzType="primary">反馈提醒</button>
             <button nz-button nzType="primary" (click)="goRectifyEffect()">整改成效</button>
             <button nz-button nzType="danger">移交纪检</button>
             <button nz-button nzType="primary">切换问题</button>
+            <button nz-button nzType="primary">结束整改</button>
           </div>
         </div>
-        <div nz-row style="margin-top:20px">
+        <div nz-row style="margin-top:20px" *ngIf="!isFold">
           <form nz-form>
             <nz-form-item>
               <nz-form-label nzSpan="2">整改部门</nz-form-label>
@@ -35,12 +47,18 @@
               <nz-form-control nzSpan="18"><textarea rows="3" nz-input></textarea> </nz-form-control>
             </nz-form-item>
             <nz-form-item>
-              <nz-form-label nzSpan="2">问题描述</nz-form-label>
+              <nz-form-label nzSpan="2" *ngIf="!isRectify">问题描述</nz-form-label>
+              <nz-form-label nzSpan="2" *ngIf="isRectify">子问题描述</nz-form-label>
               <nz-form-control nzSpan="18"><textarea rows="3" nz-input></textarea> </nz-form-control>
             </nz-form-item>
             <nz-form-item>
-              <nz-form-label nzSpan="2">审计建议</nz-form-label>
+              <nz-form-label nzSpan="2" *ngIf="!isRectify">审计建议</nz-form-label>
+              <nz-form-label nzSpan="2" *ngIf="isRectify">子问题审计建议</nz-form-label>
               <nz-form-control nzSpan="18"> <textarea rows="3" nz-input></textarea></nz-form-control>
+            </nz-form-item>
+            <nz-form-item *ngIf="isRectify">
+              <nz-form-label nzSpan="2">整改要求</nz-form-label>
+              <nz-form-control nzSpan="18"><textarea rows="3" nz-input></textarea> </nz-form-control>
             </nz-form-item>
           </form>
         </div>
@@ -50,24 +68,33 @@
       <div nz-row nzJustify="space-between">
         <div nz-col nzSpan="8">
           <div nz-row>
-            <nz-card nzTitle="整改跟踪时间轴">
-              <nz-timeline>
-                <nz-timeline-item>审计人员问题下发 2015-09-01</nz-timeline-item>
-                <nz-timeline-item>审计人员整改通知书发送到OA 2015-09-01</nz-timeline-item>
-                <nz-timeline-item>失效整改措施 2015-09-01</nz-timeline-item>
-                <nz-timeline-item>回复审计人员 2015-09-01</nz-timeline-item>
-              </nz-timeline>
+            <nz-card nzTitle="整改跟踪时间轴" [nzExtra]="extraTemplateDiv">
+              <ng-template #extraTemplateDiv>
+                <div style="height: 32px;" *ngIf="isRectify"></div>
+              </ng-template>
+              <div [ngStyle]="{'height':isRectify ? '670px' : '340px' }">
+                <nz-timeline>
+                  <nz-timeline-item>审计人员问题下发 2015-09-01</nz-timeline-item>
+                  <nz-timeline-item nzColor="green">审计人员整改通知书发送到OA 2015-09-01</nz-timeline-item>
+                  <nz-timeline-item nzColor="red">失效整改措施 2015-09-01</nz-timeline-item>
+                  <nz-timeline-item nzColor="gray">回复审计人员 2015-09-01</nz-timeline-item>
+                </nz-timeline>
+              </div>
             </nz-card>
           </div>
-          <div nz-row>
+          <div nz-row *ngIf="!isRectify">
             <nz-card nzTitle="工作备忘录">
-              <textarea nz-input rows="10"> </textarea>
+              <div style="height:222px">
+                <textarea nz-input rows="10"
+                  style="box-shadow: 5px 5px 5px rgb(0 0 0 / 20%); background-color: rgba(255, 223, 37, 1);"> </textarea>
+              </div>
+
             </nz-card>
           </div>
         </div>
         <div nz-col nzSpan="16">
           <div nz-row nzJustify="space-between">
-            <nz-card nzTitle="整改反馈情况">
+            <nz-card nzTitle="整改反馈情况" *ngIf="!isRectify">
               <div nz-col>
                 <div nz-row nzJustify="space-between">
                   <div nz-col nzSpan="12">
@@ -88,33 +115,143 @@
                           <nz-option nzValue="disabled" nzLabel="Disabled" nzDisabled></nz-option>
                         </nz-select>
                         <nz-select style="width:50%">
-                          <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
+                          <nz-option nzValue="day" nzLabel="日"></nz-option>
+                          <nz-option nzValue="week" nzLabel="周"></nz-option>
+                          <nz-option nzValue="month" nzLabel="月"></nz-option>
+                          <nz-option nzValue="year" nzLabel="年"></nz-option>
                         </nz-select>
                       </nz-form-control>
                     </nz-form-item>
                   </div>
                 </div>
               </div>
-              <nz-table #basicTable [nzData]="listOfData">
+              <nz-table #nzTable1 [nzData]="listOfData" [nzScroll]="{x:'1500px',y: '240px' }" nzBordered
+                style="height:640px">
                 <thead>
                   <tr>
-                    <th>Name</th>
-                    <th>Age</th>
-                    <th>Address</th>
-                    <th>Action</th>
+                    <th nzShowExpand nzWidth="80px">按钮</th>
+                    <th nzWidth="90px" [nzAlign]="'center'">状态</th>
+                    <th>措施类型</th>
+                    <th>整改措施</th>
+                    <th nzWidth="200px">整改进度</th>
+                    <th>附件</th>
+                    <th>整改拟完成时间</th>
+                    <th>整改截止时间</th>
+                    <th nzWidth="180px" [nzAlign]="'center'">整改结果</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let data of basicTable.data">
-                    <td>{{ data.name }}</td>
-                    <td>{{ data.age }}</td>
-                    <td>{{ data.address }}</td>
-                    <td>
-                      <a>Action 一 {{ data.name }}</a>
-                      <nz-divider nzType="vertical"></nz-divider>
-                      <a>Delete</a>
-                    </td>
+                  <ng-template ngFor let-data [ngForOf]="nzTable1.data">
+                    <tr>
+                      <td nzWidth="80px" nzShowExpand [(nzExpand)]="mapOfExpandData[data.id]">
+                        <nz-badge [nzCount]="5">
+                          <font style="color:white;">通</font>
+                        </nz-badge>
+                        <!-- <div style=" display:inline;background-color: red; border-radius: 100%;">
+                          <font style="size:0.1;color:white;">&nbsp;5&nbsp;</font>
+                        </div> -->
+                      </td>
+                      <td nzWidth="90px" [nzAlign]="'center'">
+                        <nz-tag [nzColor]="'#2db7f5'">整改中</nz-tag>
+                      </td>
+                      <td>{{ data.age }}</td>
+                      <td>{{ data.address }}</td>
+                      <td nzWidth="200px">
+                        <div style="display: inline-block;width:120px">
+                          <nz-progress [nzPercent]="demoValue" nzSize="small" [nzShowInfo]="false" [nzStrokeWidth]="10">
+                          </nz-progress>
+                        </div>
+                        <div style="display: inline-block;width: 60px;">
+                          <nz-input-number [(ngModel)]="demoValue" [nzMin]="0" [nzMax]="100" [nzStep]="1"
+                            [nzFormatter]="formatterPercent" style="width: 60px; border: none;">
+                          </nz-input-number>
+                        </div>
+                      </td>
+                      <td><a>{{ data.address }}</a></td>
+                      <td>{{ data.address }}</td>
+                      <td>{{ data.address }}</td>
+                      <td nzWidth="180px" [nzAlign]="'center'">
+                        <a>整改完成</a>
+                        <nz-divider nzType="vertical"></nz-divider>
+                        <a>重新整改</a>
+                      </td>
+                    </tr>
+                    <tr [nzExpand]="mapOfExpandData[data.id]">
+                      <td></td>
+                      <td colspan="8">{{ data.description }}</td>
+                    </tr>
+                  </ng-template>
+                </tbody>
+              </nz-table>
+
+            </nz-card>
+            <nz-card nzTitle="整改详情" [nzExtra]="extraTemplate" *ngIf="isRectify">
+              <ng-template #extraTemplate>
+                <button nz-button nzType="primary">新增措施</button>
+              </ng-template>
+              <nz-table #nzTable2 [nzData]="listOfData" [nzScroll]="{x:'1500px',y: '240px' }" nzBordered
+                style="height:670px">
+                <thead>
+                  <tr>
+                    <th nzShowExpand nzWidth="80px">按钮</th>
+                    <th nzWidth="90px" [nzAlign]="'center'">状态</th>
+                    <th>措施类型</th>
+                    <th>整改措施</th>
+                    <th nzWidth="200px">整改进度</th>
+                    <th>附件</th>
+                    <th>整改拟完成时间</th>
+                    <th nzWidth="180px" [nzAlign]="'center'">操作</th>
                   </tr>
+                </thead>
+                <tbody>
+                  <ng-template ngFor let-data [ngForOf]="nzTable2.data">
+                    <tr>
+                      <td nzWidth="50px" nzShowExpand [(nzExpand)]="mapOfExpandData[data.id]">
+                        <nz-badge [nzCount]="5">
+                          <font style="color:white;">通</font>
+                        </nz-badge>
+                      </td>
+                      <td nzWidth="90px" [nzAlign]="'center'">
+                        <nz-tag [nzColor]="'#2db7f5'">整改中</nz-tag>
+                      </td>
+                      <td>{{ data.age }}</td>
+                      <td>{{ data.address }}</td>
+                      <td nzWidth="200px">
+                        <div style="display: inline-block;width:120px">
+                          <nz-progress [nzPercent]="demoValue" nzSize="small" [nzShowInfo]="false" [nzStrokeWidth]="10">
+                          </nz-progress>
+                        </div>
+                        <div style="display: inline-block;width: 60px;">
+                          <nz-input-number [(ngModel)]="demoValue" [nzMin]="0" [nzMax]="100" [nzStep]="1"
+                            [nzFormatter]="formatterPercent" style="width: 60px; border: none;">
+                          </nz-input-number>
+                        </div>
+                      </td>
+                      <td><a>{{ data.address }}</a></td>
+                      <td>{{ data.address }}</td>
+                      <td nzWidth="180px" [nzAlign]="'center'">
+                        <div *ngIf="isRectify">
+                          <a>编辑</a>
+                          <nz-divider nzType="vertical"></nz-divider>
+                          <a>提交</a>
+                          <nz-divider nzType="vertical"></nz-divider>
+                          <a>删除</a>
+                        </div>
+                        <div *ngIf="!isRectify">
+                          <a>查看</a>
+                        </div>
+                        <div *ngIf="!isRectify">
+                          <a>上传</a>
+                          <nz-divider nzType="vertical"></nz-divider>
+                          <a>失效</a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr [nzExpand]="mapOfExpandData[data.id]">
+                      <td></td>
+                      <td colspan="8">{{ data.description }}</td>
+                    </tr>
+                  </ng-template>
                 </tbody>
               </nz-table>
             </nz-card>
