@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -8,31 +8,69 @@ import { Router } from '@angular/router';
   styles: [],
 })
 export class RectifyWorkbeachViewComponent implements OnInit {
+  // 判断是否为整改部门
+  isRectify = false;
+
+  // 折叠与展开
+  isFold = false;
+
+  demoValue = 20;
+
+  mapOfExpandData: { [key: string]: boolean } = {};
   listOfData = [
     {
-      key: '1',
+      id: 1,
       name: 'John Brown',
       age: 32,
+      expand: false,
       address: 'New York No. 1 Lake Park',
+      description: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',
     },
     {
-      key: '2',
+      id: 2,
       name: 'Jim Green',
       age: 42,
+      expand: false,
       address: 'London No. 1 Lake Park',
+      description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.',
     },
     {
-      key: '3',
+      id: 3,
       name: 'Joe Black',
       age: 32,
+      expand: false,
       address: 'Sidney No. 1 Lake Park',
+      description: 'My name is Joe Black, I am 32 years old, living in Sidney No. 1 Lake Park.',
     },
   ];
-  constructor(private router: Router) {}
 
-  ngOnInit() {}
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
+
+  ngOnInit() {
+    this.resolveQueryParam();
+  }
+
+  /**
+   * 处理路由参数
+   */
+  resolveQueryParam() {
+    // 处理路由参数
+    this.activatedRoute.queryParams.subscribe(queryParams => {
+      if (queryParams.isRectify === 'true') {
+        this.isRectify = true;
+      } else {
+        this.isRectify = false;
+      }
+    });
+  }
+
+  formatterPercent = (value: number) => `${value} %`;
 
   goRectifyEffect() {
     this.router.navigate(['/audit-rectify/rectify-effect']);
+  }
+
+  clickFold() {
+    this.isFold = !this.isFold;
   }
 }

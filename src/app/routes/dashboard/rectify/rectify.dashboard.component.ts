@@ -241,6 +241,10 @@ export class RectifyDashboardComponent implements OnInit {
   }
 
   workbench() {
-    this.router.navigate(['audit-rectify/rectify-workbeach'], {});
+    this.router.navigate(['audit-rectify/rectify-workbeach'], {
+      queryParams: {
+        isRectify: true,
+      },
+    });
   }
 }
