@@ -7,9 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IssueAssignFormComponent implements OnInit {
   isVisible = false;
-  constructor() {}
 
-  ngOnInit() {}
+  radioValue: any;
+  constructor() { }
+
+  ngOnInit() { }
 
   handleCancel() {
     this.isVisible = false;
