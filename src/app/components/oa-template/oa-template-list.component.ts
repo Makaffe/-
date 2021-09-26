@@ -1,13 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TABLE_PARAMETER } from '@mt-framework-ng/core';
 import { ObjectUtil } from '@ng-mt-framework/util';
+import { OaTemplateDetailComponent } from './oa-template-detail.component';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'oa-template-list',
   templateUrl: './oa-template-list.component.html',
   styles: [],
 })
 export class OaTemplateListComponent implements OnInit {
+  @ViewChild('oaTemplateDetailComponent', { static: true })
+  oaTemplateDetailComponent: OaTemplateDetailComponent;
 
   /**
    * 列表数据
@@ -16,9 +20,6 @@ export class OaTemplateListComponent implements OnInit {
     {
       state: '待处理',
       postName: '2021-09审计报告',
-      unitName: '审计一部',
-      time: '2021-10-12',
-      issueAmount: '33',
     },
   ];
   /**
@@ -26,44 +27,35 @@ export class OaTemplateListComponent implements OnInit {
    */
   tableParameter = ObjectUtil.deepClone(TABLE_PARAMETER);
   columns = [
-    { title: '序号', render: 'number', width: '10px', className: 'text-center', type: 'radio' },
+    { title: '序号', render: 'number', width: '100px', className: 'text-center', type: 'radio' },
     {
-      title: '状态',
+      title: '用途',
       index: 'state',
-      width: '15px',
+      width: '400px',
       sort: this.tableParameter.sortDef,
     },
     {
-      title: '审计报告名称',
+      title: '发文内容',
       index: 'postName',
-      width: '40px',
       sort: this.tableParameter.sortDef,
-      className: 'text-center',
     },
-    {
-      title: '审计单位名称',
-      index: 'unitName',
-      width: '40px',
-      sort: this.tableParameter.sortDef,
-      className: 'text-left',
-    },
-    {
-      title: '审计时间',
-      index: 'time',
-      width: '40px',
-      sort: this.tableParameter.sortDef,
-      className: 'text-left',
-    },
-    {
-      title: '审计问题数',
-      index: 'issueAmount',
-      width: '40px',
-      sort: this.tableParameter.sortDef,
-      className: 'text-left',
-    },
-    { title: '操作', render: 'operations', width: '30px', className: 'text-center', fixed: 'right' },
+    { title: '操作', render: 'operations', width: '150px', className: 'text-center', fixed: 'right' },
   ];
   constructor() {}
 
   ngOnInit() {}
+
+  showModel(id: string, edit: boolean) {
+    if (edit) {
+      this.oaTemplateDetailComponent.isVisible = true;
+      this.oaTemplateDetailComponent.disabled = false;
+    } else {
+      this.oaTemplateDetailComponent.isVisible = true;
+      this.oaTemplateDetailComponent.disabled = true;
+    }
+  }
+
+  delete(id: string) {
+    this.tableData = [];
+  }
 }

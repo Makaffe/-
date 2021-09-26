@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { RectifyDiaryComponent } from './rectify-diary.component';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -8,6 +9,9 @@ import { ActivatedRoute, Router } from '@angular/router';
   styles: [],
 })
 export class RectifyWorkbeachViewComponent implements OnInit {
+  @ViewChild('rectifyDiaryComponent', { static: false })
+  rectifyDiaryComponent: RectifyDiaryComponent;
+
   // 判断是否为整改部门
   isRectify = false;
 

@@ -68,11 +68,14 @@
       <div nz-row nzJustify="space-between">
         <div nz-col nzSpan="8">
           <div nz-row>
-            <nz-card nzTitle="整改跟踪时间轴" [nzExtra]="extraTemplateDiv">
-              <ng-template #extraTemplateDiv>
-                <div style="height: 32px;" *ngIf="isRectify"></div>
+            <nz-card [nzTitle]="extraTemplateTitle" [nzExtra]="extraTemplateDiv">
+              <ng-template #extraTemplateTitle>
+                <font style="color:#0000FF; font-size: 14px;">整改跟踪时间轴</font>
               </ng-template>
-              <div [ngStyle]="{'height':isRectify ? '670px' : '340px' }">
+              <ng-template #extraTemplateDiv>
+                <div style="height: 32px;"></div>
+              </ng-template>
+              <div [ngStyle]="{'height':'680px' }">
                 <nz-timeline>
                   <nz-timeline-item>审计人员问题下发 2015-09-01</nz-timeline-item>
                   <nz-timeline-item nzColor="green">审计人员整改通知书发送到OA 2015-09-01</nz-timeline-item>
@@ -82,19 +85,25 @@
               </div>
             </nz-card>
           </div>
-          <div nz-row *ngIf="!isRectify">
-            <nz-card nzTitle="工作备忘录">
+          <!-- <div nz-row *ngIf="!isRectify">
+            <nz-card [nzTitle]="extraTemplateTitle1">
+              <ng-template #extraTemplateTitle1>
+                <font style="color:#0000FF; font-size: 14px;">工作备忘录</font>
+              </ng-template>
               <div style="height:222px">
                 <textarea nz-input rows="10"
                   style="box-shadow: 5px 5px 5px rgb(0 0 0 / 20%); background-color: rgba(255, 223, 37, 1);"> </textarea>
               </div>
 
             </nz-card>
-          </div>
+          </div> -->
         </div>
         <div nz-col nzSpan="16">
           <div nz-row nzJustify="space-between">
-            <nz-card nzTitle="整改反馈情况" *ngIf="!isRectify">
+            <nz-card nzTitle="整改反馈情况" *ngIf="!isRectify" [nzExtra]="extraTemplate2">
+              <ng-template #extraTemplate2>
+                <button nz-button nzType="primary">工作备忘录</button>
+              </ng-template>
               <div nz-col>
                 <div nz-row nzJustify="space-between">
                   <div nz-col nzSpan="12">
@@ -261,3 +270,5 @@
     </div>
   </div>
 </div>
+
+<rectify-diary #rectifyDiaryComponent></rectify-diary>
