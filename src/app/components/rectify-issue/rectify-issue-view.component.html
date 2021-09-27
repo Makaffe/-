@@ -60,9 +60,9 @@
       <div nz-col nzSpan="24">
         <button nz-button nzType="primary" style="margin-left: 11px;">问题下发</button>
 
-        <button nz-button nzType="primary" style="margin-left: 20px;">问题拆分</button>
+        <button nz-button nzType="primary" style="margin-left: 20px;" (click)="splitIssue()">问题拆分</button>
 
-        <button nz-button nzType="danger" nzDanger style="margin-left: 20px;">移交纪检</button>
+        <button nz-button nzType="danger" nzDanger style="margin-left: 20px;" (click)="transfer()">移交纪检</button>
       </div>
     </div>
   </as-split-area>
@@ -70,3 +70,6 @@
     <rectify-issue-list></rectify-issue-list>
   </as-split-area>
 </as-split>
+
+<rectify-issue-split #rectifyIssueSplitComponent></rectify-issue-split>
+<rectify-issue-transfer #rectifyIssueTransferComponent></rectify-issue-transfer>

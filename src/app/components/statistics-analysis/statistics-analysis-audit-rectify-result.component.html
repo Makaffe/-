@@ -95,7 +95,10 @@
           <div echarts [options]="option01"></div>
         </nz-card>
       </div>
-      <div nzSpan="8" nz-col></div>
+      <div nzSpan="8" nz-col>
+        <nz-card nzTitle="整改部门配合排行榜" [nzExtra]="extraTemplate"> </nz-card>
+        <ng-template #extraTemplate> </ng-template>
+      </div>
     </div>
     <div nz-row></div>
   </div>

@@ -1,11 +1,18 @@
-<nz-modal [(nzVisible)]="isVisible" [nzMaskClosable]="false" (nzOnCancel)="handleCancel()"
-  [nzFooter]="rectifyIssueSplitFooter" nzWidth="800" [nzTitle]="'问题拆分'" [nzBodyStyle]="{
+<nz-modal
+  [(nzVisible)]="isVisible"
+  [nzMaskClosable]="false"
+  (nzOnCancel)="handleCancel()"
+  [nzFooter]="rectifyIssueSplitFooter"
+  nzWidth="800"
+  [nzTitle]="'问题拆分'"
+  [nzBodyStyle]="{
     'height.px': '300px',
     'overflow-y': 'auto',
     'overflow-x': 'hidden',
-    'padding-top':'0px',
-    'padding-bottom':'0px'
-  }">
+    'padding-top': '0px',
+    'padding-bottom': '0px'
+  }"
+>
   <form nz-form>
     <nz-form-item>
       <nz-form-label nzSpan="4">问题名称</nz-form-label>
@@ -18,14 +25,14 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-        <nz-form-label nzSpan="4">问题描述</nz-form-label>
-        <nz-form-control nzSpan="20">
-          <input nz-input />
-        </nz-form-control>
-      </nz-form-item>
+      <nz-form-label nzSpan="4">问题描述</nz-form-label>
+      <nz-form-control nzSpan="20">
+        <input nz-input />
+      </nz-form-control>
+    </nz-form-item>
     <nz-form-item>
       <nz-form-label nzSpan="4">子问题</nz-form-label>
-      <nz-form-control nzSpan="18">
+      <nz-form-control nzSpan="20">
         <nz-table #columnTable [nzFooter]="footer" nzBordered [nzData]="listOfData" [nzScroll]="{ x: '900px' }">
           <thead>
             <tr>
@@ -57,7 +64,7 @@
             </tr>
           </tbody>
           <ng-template #footer>
-              <button nz-button nzType="primary" nzSize="small"><i nz-icon type="plus" theme="outline"></i>添加</button>
+            <button nz-button nzType="primary" nzSize="small"><i nz-icon type="plus" theme="outline"></i>添加</button>
           </ng-template>
         </nz-table>
       </nz-form-control>
@@ -65,8 +72,8 @@
   </form>
   <ng-template #rectifyIssueSplitFooter>
     <button nz-button nzType="default" (click)="handleCancel()">取消</button>
-    <button nz-button nzType="primary" [nzLoading]="loading" (click)="save()"
-    >
+    <button nz-button nzType="danger" (click)="handleEdit()">修改</button>
+    <button nz-button nzType="primary" [nzLoading]="loading" (click)="save()">
       确定
     </button>
   </ng-template>

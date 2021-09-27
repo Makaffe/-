@@ -1,9 +1,18 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { STColumnTag } from '@delon/abc';
 import { TABLE_PARAMETER } from '@mt-framework-ng/core';
 import { ObjectUtil } from '@ng-mt-framework/util';
 import { RectifyIssueSplitComponent } from './rectify-issue-split.component';
 import { RectifyIssueTransferComponent } from './rectify-issue-transfer.component';
-
+const TAG: STColumnTag = {
+  未下发: { text: '未下发', color: 'grey' },
+  已下发: { text: '已下发', color: '#008CEC' },
+  待处理: { text: '待处理', color: '#F76A00' },
+};
+const situationTAG: STColumnTag = {
+  未移交: { text: '未移交', color: '#D9001B' },
+  已移交: { text: '已移交', color: 'green' },
+};
 @Component({
   selector: 'rectify-issue-list',
   templateUrl: './rectify-issue-list.component.html',
@@ -12,15 +21,16 @@ import { RectifyIssueTransferComponent } from './rectify-issue-transfer.componen
 export class RectifyIssueListComponent implements OnInit {
   @ViewChild('rectifyIssueSplitComponent', { static: false })
   rectifyIssueSplitComponent: RectifyIssueSplitComponent;
-  @ViewChild('rectifyIssueTransferComponent', {static: false})
+  @ViewChild('rectifyIssueTransferComponent', { static: false })
   rectifyIssueTransferComponent: RectifyIssueTransferComponent;
   /**
    * 列表数据
    */
   tableData: Array<any> = [
     {
-      state: '待处理',
+      state: '未下发',
       postName: '2021-09审计报告',
+      situation: '未移交',
       unitName: '审计一部',
       time: '2021-10-12',
       issueAmount: '33',
@@ -38,6 +48,18 @@ export class RectifyIssueListComponent implements OnInit {
       width: '100px',
       sort: this.tableParameter.sortDef,
       fixed: 'left',
+      className: 'text-center',
+      type: 'tag',
+      tag: TAG,
+    },
+    {
+      title: '移交情况',
+      index: 'situation',
+      width: '150px',
+      sort: this.tableParameter.sortDef,
+      className: 'text-center',
+      type: 'tag',
+      tag: situationTAG,
     },
     {
       title: '审计报告名称',
@@ -45,13 +67,6 @@ export class RectifyIssueListComponent implements OnInit {
       width: '150px',
       sort: this.tableParameter.sortDef,
       className: 'text-center',
-    },
-    {
-      title: '移交情况',
-      index: 'unitName',
-      width: '150px',
-      sort: this.tableParameter.sortDef,
-      className: 'text-left',
     },
     {
       title: '问题名称',
@@ -120,6 +135,5 @@ export class RectifyIssueListComponent implements OnInit {
   }
   transfer(row) {
     this.rectifyIssueTransferComponent.edit();
-
   }
 }

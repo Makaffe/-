@@ -6,6 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styles: [],
 })
 export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
+  tableData = [
+    { rank: 1, department: '部门一', Rectification: 35, ratio: 10 },
+    { rank: 2, department: '部门二', Rectification: 25, ratio: 10 },
+  ];
   option = null;
   option01 = {
     xAxis: {
