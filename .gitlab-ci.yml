@@ -1,0 +1,21 @@
+# 缓存文件, 如果有文件需要多个stages共用，例如jar/war包
+# cache:
+#  paths:
+#    - node_modules/
+#    - dist/
+stages:
+  - build
+build:
+  stage: build
+  script:
+    - echo "build ..."
+    - yarn
+    - npm run build
+    - echo "deploy ..."
+    - sudo ssh root@192.168.1.46 "rm -rf /data/app/mt-rectify-framework/web/*"
+    - sudo scp -r dist/mt-rectify-framework/* root@192.168.1.46:/data/app/mt-rectify-framework/web/
+    - sudo ssh root@192.168.1.46 "nginx -s reload"
+  only:
+    - master
+  tags:
+    - angular
