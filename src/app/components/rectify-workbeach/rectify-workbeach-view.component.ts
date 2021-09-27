@@ -77,4 +77,8 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   clickFold() {
     this.isFold = !this.isFold;
   }
+
+  openRectifyDiaryComponent() {
+    this.rectifyDiaryComponent.isVisible = true;
+  }
 }

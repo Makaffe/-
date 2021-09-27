@@ -102,7 +102,7 @@
           <div nz-row nzJustify="space-between">
             <nz-card nzTitle="整改反馈情况" *ngIf="!isRectify" [nzExtra]="extraTemplate2">
               <ng-template #extraTemplate2>
-                <button nz-button nzType="primary">工作备忘录</button>
+                <button nz-button nzType="primary" (click)="openRectifyDiaryComponent()">工作备忘录</button>
               </ng-template>
               <div nz-col>
                 <div nz-row nzJustify="space-between">
@@ -271,4 +271,4 @@
   </div>
 </div>
 
-<rectify-diary #rectifyDiaryComponent></rectify-diary>
+<app-rectify-diary #rectifyDiaryComponent></app-rectify-diary>

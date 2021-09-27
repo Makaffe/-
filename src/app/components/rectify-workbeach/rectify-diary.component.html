@@ -1,18 +1,18 @@
 <nz-modal [(nzVisible)]="isVisible" [nzMaskClosable]="false" (nzOnCancel)="handleCancel()" [nzFooter]="editorFooter"
-    nzWidth="1050" [nzTitle]="'新增模板'" [nzStyle]="{ top: '65px' }" [nzBodyStyle]="{
+  nzWidth="1050" [nzTitle]="'工作备忘录详情'" [nzStyle]="{ top: '65px' }" [nzBodyStyle]="{
     'max-height': '455px',
     'min-height': '250px',
     'overflow-y': 'auto',
     'overflow-x': 'hidden',
     padding: '24px 24px 0 24px'
   }">
-    <app-ueditor #ueComp *ngIf="isVisible" [(html)]="content" [disabled]="false"></app-ueditor>
-    <ng-template #editorFooter>
-        <div class="steps-action">
-            <button nz-button nzType="default" (click)="handleCancel()">取消</button>
-            <button nz-button nzType="primary">
-                <span>完成</span>
-            </button>
-        </div>
-    </ng-template>
+  <app-ueditor #ueComp *ngIf="isVisible" [(html)]="content" [disabled]="false"></app-ueditor>
+  <ng-template #editorFooter>
+    <div class="steps-action">
+      <button nz-button nzType="default" (click)="handleCancel()">取消</button>
+      <button nz-button nzType="primary">
+        <span>完成</span>
+      </button>
+    </div>
+  </ng-template>
 </nz-modal>

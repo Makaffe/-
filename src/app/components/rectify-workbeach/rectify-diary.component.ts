@@ -3,8 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UeditorComponent } from '../common/ueditor/ueditor.component';
 
 @Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'rectify-diary',
+  selector: 'app-rectify-diary',
   templateUrl: './rectify-diary.component.html',
   styles: [],
 })
