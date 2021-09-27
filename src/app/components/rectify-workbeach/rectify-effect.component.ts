@@ -1,24 +1,36 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'rectify-effect',
   templateUrl: './rectify-effect.component.html',
-  styles: [],
+  styles: [
+    `
+      tr {
+        background-color: white !important;
+      }
+    `,
+  ],
 })
 export class RectifyEffectComponent implements OnInit {
+  date = new Date();
+
   listOfData = [
     {
-      id: '1',
-      type: '类型一',
-      measure: '开除',
+      key: '1',
+      name: '修改制度',
+      age: '1111',
     },
     {
-      id: '2',
-      type: '类型二',
-      measure: '罚款',
+      key: '2',
+      name: '新建制度',
+      age: '2222',
     },
   ];
   constructor() {}
 
   ngOnInit() {}
+
+  close() {}
+  save() {}
 }
