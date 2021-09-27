@@ -1,24 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { TABLE_PARAMETER } from '@mt-framework-ng/core';
 import { ObjectUtil } from '@ng-mt-framework/util';
+import { AdviceTemplateDetailComponent } from './advice-template-detail.component';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'advice-template-list',
   templateUrl: './advice-template-list.component.html',
-  styles: []
+  styles: [],
 })
 export class AdviceTemplateListComponent implements OnInit {
+  @Output()
+  tableOperations = new EventEmitter();
 
   /**
    * 列表数据
    */
-   tableData: Array<any> = [
+  tableData: Array<any> = [
     {
       state: '待处理',
       postName: '2021-09审计报告',
-      unitName: '审计一部',
-      time: '2021-10-12',
-      issueAmount: '33',
+      unitName: '2',
     },
   ];
   /**
@@ -26,45 +28,45 @@ export class AdviceTemplateListComponent implements OnInit {
    */
   tableParameter = ObjectUtil.deepClone(TABLE_PARAMETER);
   columns = [
-    { title: '序号', render: 'number', width: '10px', className: 'text-center', type: 'radio' },
+    { title: '序号', render: 'number', width: '80px', className: 'text-center', type: 'radio' },
     {
-      title: '状态',
+      title: '问题类型',
       index: 'state',
-      width: '15px',
+      width: '300px',
       sort: this.tableParameter.sortDef,
     },
     {
-      title: '审计报告名称',
+      title: '审计建议',
       index: 'postName',
-      width: '40px',
       sort: this.tableParameter.sortDef,
-      className: 'text-center',
     },
     {
-      title: '审计单位名称',
+      title: '历史引用次数',
       index: 'unitName',
-      width: '40px',
+      width: '80px',
+      className: 'text-center',
       sort: this.tableParameter.sortDef,
-      className: 'text-left',
     },
-    {
-      title: '审计时间',
-      index: 'time',
-      width: '40px',
-      sort: this.tableParameter.sortDef,
-      className: 'text-left',
-    },
-    {
-      title: '审计问题数',
-      index: 'issueAmount',
-      width: '40px',
-      sort: this.tableParameter.sortDef,
-      className: 'text-left',
-    },
-    { title: '操作', render: 'operations', width: '30px', className: 'text-center', fixed: 'right' },
+    { title: '操作', render: 'operations', width: '150px', className: 'text-center', fixed: 'right' },
   ];
   constructor() {}
 
   ngOnInit() {}
+  showModel(id: string, edit: boolean) {
+    if (edit) {
+      this.tableOperations.emit({
+        id,
+        edit,
+      });
+    } else {
+      this.tableOperations.emit({
+        id,
+        edit,
+      });
+    }
+  }
 
+  delete(id: string) {
+    this.tableData = [];
+  }
 }
