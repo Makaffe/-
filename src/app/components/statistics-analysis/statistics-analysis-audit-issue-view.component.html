@@ -133,7 +133,7 @@
       <ng-template #title3>
         <form #searchForm="ngForm" nz-form>
           <div nz-row [nzGutter]="24" nzType="flex" nzJustify="space-around" nzAlign="middle" class="search-row">
-            <div nz-col [nzSpan]="9">
+            <div nz-col [nzSpan]="5">
               <nz-form-item nzFlex>
                 <font style="font-size: 16px;">问题增长情况</font>
               </nz-form-item>
@@ -157,11 +157,12 @@
                 </nz-form-control>
               </nz-form-item>
             </div>
+            <div nz-col [nzSpan]="4"></div>
           </div>
         </form>
       </ng-template>
 
-      <div nz-col nzSpan="8">
+      <div nz-col nzSpan="4">
         <div nz-row>
           <div nz-col>
             <div nz-row>
@@ -187,7 +188,7 @@
           </div>
         </div>
       </div>
-      <div nz-col nzSpan="16">
+      <div nz-col nzSpan="20">
         <div echarts [options]="option03"></div>
       </div>
     </nz-card>

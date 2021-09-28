@@ -95,6 +95,8 @@ export class StatisticsAnalysisAuditIssueViewComponent implements OnInit {
     },
     legend: {
       selectedMode: false, // 取消图例上的点击事件
+      x: 'right', // 右对齐
+      padding: [10, 40, 0, 0],
       data: ['已逾期', '已整改', '整改中', '未整改'],
     },
     grid: {
@@ -245,7 +247,7 @@ export class StatisticsAnalysisAuditIssueViewComponent implements OnInit {
     tooltip: {
       trigger: 'axis',
       axisPointer: {
-        type: 'line'
+        type: 'line',
       },
       extraCssText: 'font-size:14px;line-height:24px;color:#567;background:#fff;box-shadow:0 0 3px rgba(0, 0, 0, 0.2)',
       formatter(params) {
@@ -256,7 +258,7 @@ export class StatisticsAnalysisAuditIssueViewComponent implements OnInit {
           html += `<div><span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:#0090FF};"></span>${v.seriesName}<span style="color:#FFC005};font-size:18px;font-weight:700">${v.value}</span>`;
         });
         return html;
-      }
+      },
     },
     xAxis: {
       type: 'category',
@@ -274,19 +276,18 @@ export class StatisticsAnalysisAuditIssueViewComponent implements OnInit {
         areaStyle: {
           normal: {
             color: '#18dbff',
-            shadowBlur: 10
-          }
+            shadowBlur: 10,
+          },
         },
         lineStyle: {
           normal: {
             color: '#49a9ee',
-          }
+          },
         },
-
       },
     ],
   };
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 }

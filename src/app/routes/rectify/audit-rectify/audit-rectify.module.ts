@@ -23,6 +23,7 @@ import { MtReportModule } from '@mt-insight-ng/insight-report';
 import { IssueAssignFormComponent } from '../../dashboard/rectify/issue-assign-form/issue-assign-form.component';
 import { SuperviseProcessFormComponent } from '../../dashboard/supervise/supervise-process-form/supervise-process-form.component';
 import { AttachListModule } from 'src/app/components/common/attach/attach-list.module';
+import { IssueAssignTableComponent } from '../../dashboard/rectify/issue-assign-form/issue-assign-table.component';
 
 const COMMPONENTS = [
   AuditorDashboardComponent,
@@ -30,6 +31,7 @@ const COMMPONENTS = [
   SuperviseDashboardComponent,
   DictPipe,
   IssueAssignFormComponent,
+  IssueAssignTableComponent,
   SuperviseProcessFormComponent,
 ];
 @NgModule({
