@@ -1,105 +1,279 @@
-<div style="height:100%;margin-left:10px;margin-top:10px;overflow:scroll;">
-  <div nz-col>
-    <div nz-row nzJustify="space-between">
-      <div nz-col nzSpan="4">
-        <nz-card>
-          <div nz-row>
-            <div nz-col nzSpan="8"><i nz-icon nzType="database" nzTheme="twotone"></i></div>
-            <div nz-col nzSpan="16">
-              <div nz-col>本年审计挽回资金</div>
-              <div nz-col>
-                <h1>320</h1>
-              </div>
-              <div nz-col>
-                <i nz-icon [nzType]="'caret-up'" style="font-size: 16px; color: rgb(26, 241, 80);"></i>
-                &nbsp;10% 同比上年
-              </div>
+<div nz-col style="height:100%;margin-left:10px;margin-top:10px;overflow:scroll;">
+  <div nz-row nzJustify="space-between">
+    <div nz-col nzSpan="4">
+      <nz-card>
+        <div nz-row>
+          <div nz-col nzSpan="8"><i nz-icon nzType="database" nzTheme="twotone"></i></div>
+          <div nz-col nzSpan="16">
+            <div nz-col>本年审计挽回资金</div>
+            <div nz-col>
+              <h1>320</h1>
+            </div>
+            <div nz-col>
+              <i nz-icon [nzType]="'caret-up'" style="font-size: 16px; color: rgb(26, 241, 80);"></i>
+              &nbsp;10% 同比上年
             </div>
           </div>
-        </nz-card>
-      </div>
-      <div nz-col nzSpan="4">
-        <nz-card [nzBordered]="false">
-          <div nz-col>上缴（追回）资金</div>
-          <div nz-col>
-            <h1>320</h1>
-          </div>
-          <div nz-col>
-            <i nz-icon [nzType]="'caret-up'" style="font-size: 16px; color: rgb(26, 241, 80);"></i>
-
-            &nbsp;10% 同比上年
-          </div>
-        </nz-card>
-      </div>
-      <div nz-col nzSpan="4">
-        <nz-card [nzBordered]="false">
-          <div nz-col>整改管理效益提升</div>
-          <div nz-col>
-            <h1>320</h1>
-          </div>
-          <div nz-col>
-            <i nz-icon [nzType]="'caret-up'" style="font-size: 16px; color: rgb(26, 241, 80);"></i>
-
-            &nbsp;10% 同比上年
-          </div>
-        </nz-card>
-      </div>
-      <div nz-col nzSpan="4">
-        <nz-card [nzBordered]="false">
-          <div nz-col>纪检处分统计</div>
-          <div nz-col>
-            <h1>320</h1>
-          </div>
-          <div nz-col>
-            <i nz-icon [nzType]="'caret-up'" style="font-size: 16px; color: rgb(26, 241, 80);"></i>
-
-            &nbsp;10% 同比上年
-          </div>
-        </nz-card>
-      </div>
-      <div nz-col nzSpan="4">
-        <nz-card [nzBordered]="false">
-          <div nz-col>纪检发函统计</div>
-          <div nz-col>
-            <h1>320</h1>
-          </div>
-          <div nz-col>
-            <i nz-icon [nzType]="'caret-up'" style="font-size: 16px; color: rgb(26, 241, 80);"></i>
-
-            &nbsp;10% 同比上年
-          </div>
-        </nz-card>
-      </div>
-      <div nz-col nzSpan="4">
-        <nz-card [nzBordered]="false">
-          <div nz-col>完善管理制度</div>
-          <div nz-col>
-            <h1>320</h1>
-          </div>
-          <div nz-col>
-            <i nz-icon [nzType]="'caret-up'" style="font-size: 16px; color: rgb(26, 241, 80);"></i>
-
-            &nbsp;10% 同比上年
-          </div>
-        </nz-card>
-      </div>
+        </div>
+      </nz-card>
     </div>
-    <div nz-row nzJustify="space-between">
-      <div nzSpan="8" nz-col>
-        <nz-card nzTitle="整改完成率统计">
-          <div echarts [options]="option"></div>
-        </nz-card>
-      </div>
-      <div nzSpan="8" nz-col>
-        <nz-card nzTitle="整改及时率统计">
-          <div echarts [options]="option01"></div>
-        </nz-card>
-      </div>
-      <div nzSpan="8" nz-col>
-        <nz-card nzTitle="整改部门配合排行榜" [nzExtra]="extraTemplate"> </nz-card>
-        <ng-template #extraTemplate> </ng-template>
-      </div>
+    <div nz-col nzSpan="4">
+      <nz-card [nzBordered]="false">
+        <div nz-col>上缴（追回）资金</div>
+        <div nz-col>
+          <h1>320</h1>
+        </div>
+        <div nz-col>
+          <i nz-icon [nzType]="'caret-up'" style="font-size: 16px; color: rgb(26, 241, 80);"></i>
+
+          &nbsp;10% 同比上年
+        </div>
+      </nz-card>
     </div>
-    <div nz-row></div>
+    <div nz-col nzSpan="4">
+      <nz-card [nzBordered]="false">
+        <div nz-col>整改管理效益提升</div>
+        <div nz-col>
+          <h1>320</h1>
+        </div>
+        <div nz-col>
+          <i nz-icon [nzType]="'caret-up'" style="font-size: 16px; color: rgb(26, 241, 80);"></i>
+
+          &nbsp;10% 同比上年
+        </div>
+      </nz-card>
+    </div>
+    <div nz-col nzSpan="4">
+      <nz-card [nzBordered]="false">
+        <div nz-col>纪检处分统计</div>
+        <div nz-col>
+          <h1>320</h1>
+        </div>
+        <div nz-col>
+          <i nz-icon [nzType]="'caret-up'" style="font-size: 16px; color: rgb(26, 241, 80);"></i>
+
+          &nbsp;10% 同比上年
+        </div>
+      </nz-card>
+    </div>
+    <div nz-col nzSpan="4">
+      <nz-card [nzBordered]="false">
+        <div nz-col>纪检发函统计</div>
+        <div nz-col>
+          <h1>320</h1>
+        </div>
+        <div nz-col>
+          <i nz-icon [nzType]="'caret-up'" style="font-size: 16px; color: rgb(26, 241, 80);"></i>
+
+          &nbsp;10% 同比上年
+        </div>
+      </nz-card>
+    </div>
+    <div nz-col nzSpan="4">
+      <nz-card [nzBordered]="false">
+        <div nz-col>完善管理制度</div>
+        <div nz-col>
+          <h1>320</h1>
+        </div>
+        <div nz-col>
+          <i nz-icon [nzType]="'caret-up'" style="font-size: 16px; color: rgb(26, 241, 80);"></i>
+
+          &nbsp;10% 同比上年
+        </div>
+      </nz-card>
+    </div>
+  </div>
+  <div nz-row nzJustify="space-between">
+    <div nzSpan="8" nz-col>
+      <nz-card [nzTitle]="title1">
+        <ng-template #title1>
+          <form #searchForm="ngForm" nz-form>
+            <div nz-row [nzGutter]="24" nzType="flex" nzJustify="space-around" nzAlign="middle" class="search-row">
+              <div nz-col [nzSpan]="8">
+                <font style="font-size: 16px;">整改完成率统计</font>
+              </div>
+              <div nz-col [nzSpan]="16">
+                <nz-form-item nzFlex>
+                  <nz-form-control [nzSm]="24" [nzXs]="20">
+                    <nz-range-picker></nz-range-picker>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+          </form>
+        </ng-template>
+        <div echarts [options]="option"></div>
+      </nz-card>
+    </div>
+    <div nzSpan="8" nz-col>
+      <nz-card [nzTitle]="title2">
+        <ng-template #title2>
+          <form #searchForm="ngForm" nz-form>
+            <div nz-row [nzGutter]="24" nzType="flex" nzJustify="space-around" nzAlign="middle" class="search-row">
+              <div nz-col [nzSpan]="8">
+                <font style="font-size: 16px;">整改及时率统计</font>
+              </div>
+              <div nz-col [nzSpan]="16">
+                <nz-form-item nzFlex>
+                  <nz-form-control [nzSm]="24" [nzXs]="20">
+                    <nz-range-picker></nz-range-picker>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+          </form>
+        </ng-template>
+        <div echarts [options]="option01"></div>
+      </nz-card>
+    </div>
+    <div nzSpan="8" nz-col>
+      <nz-card [nzTitle]="title3">
+        <ng-template #title3>
+          <form #searchForm="ngForm" nz-form>
+            <div nz-row [nzGutter]="24" nzType="flex" nzJustify="space-around" nzAlign="middle" class="search-row">
+              <div nz-col [nzSpan]="8">
+                <font style="font-size: 16px;">整改配合部门排行榜</font>
+              </div>
+              <div nz-col [nzSpan]="16">
+                <nz-form-item nzFlex>
+                  <nz-form-control [nzSm]="24" [nzXs]="20">
+                    <nz-range-picker></nz-range-picker>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+          </form>
+        </ng-template>
+        <st
+          #st
+          [data]="tableData"
+          nzSize="middle"
+          [scroll]="{ y: '100%' }"
+          [bordered]="true"
+          [columns]="columns"
+          [rowClickTime]="200"
+          style="height: 400px;"
+        >
+          <ng-template st-row="number" let-row let-index="index">
+            {{ ((st.pi ? st.pi : 1) - 1) * (st.ps ? st.ps : 0) + (index + 1) }}
+          </ng-template>
+        </st>
+      </nz-card>
+    </div>
+  </div>
+  <div nz-row nzJustify="space-between">
+    <div nzSpan="16" nz-col>
+      <nz-card [nzTitle]="title4">
+        <ng-template #title4>
+          <form #searchForm="ngForm" nz-form>
+            <div nz-row [nzGutter]="24" nzType="flex" nzJustify="space-around" nzAlign="middle" class="search-row">
+              <div nz-col [nzSpan]="3">
+                <font style="font-size: 16px;"> 整改反馈分析</font>
+              </div>
+              <div nz-col [nzSpan]="7">
+                <nz-form-item nzFlex>
+                  <nz-form-label [nzSm]="10" [nzXs]="24">分析部门</nz-form-label>
+                  <nz-form-control [nzSm]="16" [nzXs]="24">
+                    <nz-select nzAllowClear>
+                      <nz-option nzValue="部门1" nzLabel="部门1"></nz-option>
+                      <nz-option nzValue="部门2" nzLabel="部门2"></nz-option>
+                    </nz-select>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col [nzSpan]="7">
+                <nz-form-item nzFlex>
+                  <nz-form-label [nzSm]="10" [nzXs]="24">问题类型</nz-form-label>
+                  <nz-form-control [nzSm]="16" [nzXs]="24">
+                    <nz-select nzAllowClear>
+                      <nz-option nzValue="问题类型1" nzLabel="问题类型1"></nz-option>
+                      <nz-option nzValue="问题类型2" nzLabel="问题类型2"></nz-option>
+                    </nz-select>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col [nzSpan]="1"></div>
+              <div nz-col [nzSpan]="6">
+                <nz-form-item nzFlex>
+                  <nz-form-control [nzSm]="24" [nzXs]="20">
+                    <nz-range-picker></nz-range-picker>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+          </form>
+        </ng-template>
+        <div nz-row>
+          <div nz-col nzSpan="8">
+            <div nz-col>整改提醒次数</div>
+            <div nz-col>
+              <h1>1200</h1>
+            </div>
+            <div nz-col>
+              <i nz-icon [nzType]="'caret-up'" style="font-size: 16px; color: rgb(26, 241, 80);"></i>
+
+              &nbsp;26% 同比上升
+            </div>
+            <div echarts [options]="optionData1" style="margin-left: -100px;margin-right: -100px;"></div>
+          </div>
+          <div nz-col nzSpan="8">
+            <div nz-col>审计人员回复次数</div>
+            <div nz-col>
+              <h1>680</h1>
+            </div>
+            <div nz-col>
+              <i nz-icon [nzType]="'caret-up'" style="font-size: 16px; color: rgb(26, 241, 80);"></i>
+
+              &nbsp;26% 同比上升
+            </div>
+            <div echarts [options]="optionData2" style="margin-left: -100px;margin-right: -100px;"></div>
+          </div>
+          <div nz-col nzSpan="8">
+            <div nz-col>整改部门反馈次数</div>
+            <div nz-col>
+              <h1>16324</h1>
+            </div>
+            <div nz-col>
+              <i nz-icon [nzType]="'caret-down'" style="font-size: 16px; color: rgb(236, 13, 13);"></i>
+
+              &nbsp;10% 同比下降
+            </div>
+            <div echarts [options]="optionData3" style="margin-left: -100px;"></div>
+          </div>
+        </div>
+      </nz-card>
+    </div>
+    <div nzSpan="8" nz-col>
+      <nz-card [nzTitle]="title5">
+        <ng-template #title5>
+          <form #searchForm="ngForm" nz-form>
+            <div nz-row [nzGutter]="24" nzType="flex" nzJustify="space-around" nzAlign="middle" class="search-row">
+              <div nz-col [nzSpan]="4">
+                <font style="font-size: 16px;"> 整改成果分析</font>
+              </div>
+              <div nz-col [nzSpan]="10">
+                <nz-form-item nzFlex>
+                  <nz-form-label [nzSm]="10" [nzXs]="24">分析部门</nz-form-label>
+                  <nz-form-control [nzSm]="16" [nzXs]="24">
+                    <nz-select nzAllowClear>
+                      <nz-option nzValue="部门1" nzLabel="部门1"></nz-option>
+                      <nz-option nzValue="部门2" nzLabel="部门2"></nz-option>
+                    </nz-select>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col [nzSpan]="10">
+                <nz-form-item nzFlex>
+                  <nz-form-control [nzSm]="24" [nzXs]="20">
+                    <nz-range-picker></nz-range-picker>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+          </form>
+        </ng-template>
+        <div echarts [options]="lastOption" style="height: 484px;"></div>
+      </nz-card>
+    </div>
   </div>
 </div>

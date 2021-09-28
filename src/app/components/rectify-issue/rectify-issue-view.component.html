@@ -32,7 +32,13 @@
               <nz-form-item style="justify-content: start;">
                 <nz-form-label [nzSpan]="5">状态</nz-form-label>
                 <nz-form-control [nzSpan]="19">
-                  <nz-select [nzMaxTagCount]="3" nzMode="multiple" nzPlaceHolder="" [(ngModel)]="listOfSelectedValue">
+                  <nz-select
+                    [nzMaxTagCount]="3"
+                    name="status"
+                    nzMode="multiple"
+                    nzPlaceHolder=""
+                    [(ngModel)]="listOfSelectedValue"
+                  >
                     <nz-option *ngFor="let item of listOfOption" [nzLabel]="item" [nzValue]="item"></nz-option>
                   </nz-select>
                 </nz-form-control>

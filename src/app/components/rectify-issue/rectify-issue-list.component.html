@@ -1,4 +1,4 @@
-<st
+<!-- <st
   #st
   [data]="tableData"
   nzSize="middle"
@@ -30,6 +30,78 @@
     <nz-divider nzType="vertical"></nz-divider>
     <a>下发</a>
   </ng-template>
-</st>
+</st> -->
+
+<nz-table #expandTable [nzData]="listOfMapData" [nzScroll]="{ x: '1150px', y: '240px' }">
+  <thead>
+    <tr>
+      <th
+        nzShowCheckbox
+        [(nzChecked)]="isAllDisplayDataChecked"
+        [nzIndeterminate]="isIndeterminate"
+        (nzCheckedChange)="checkAll($event)"
+        nzWidth="50px"
+      ></th>
+      <th nzWidth="150px">序号</th>
+      <th nzWidth="100px">状态</th>
+      <th nzWidth="100px">移交情况</th>
+      <th nzWidth="170px">审计报告名称</th>
+      <th nzWidth="150px">问题名称</th>
+      <th nzWidth="150px">问题描述</th>
+      <th nzWidth="150px">问题类型</th>
+      <th nzWidth="150px">整改部门</th>
+      <th nzWidth="150px">整改负责人</th>
+      <th nzWidth="150px">审计建议</th>
+      <th nzWidth="150px">问题来源</th>
+      <th nzWidth="150px">OA发送情况</th>
+      <th nzWidth="150px" nzAlign="center" nzRight="0px">操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let data of expandTable.data">
+      <ng-container *ngFor="let item of mapOfExpandedData[data.key]">
+        <tr *ngIf="(item.parent && item.parent.expand) || !item.parent">
+          <!-- <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[data.key]" (nzCheckedChange)="refreshStatus()"></td> -->
+          <td nzShowCheckbox [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"></td>
+
+          <td
+            [nzIndentSize]="item.level * 20"
+            [nzShowExpand]="!!item.children"
+            [(nzExpand)]="item.expand"
+            (nzExpandChange)="collapse(mapOfExpandedData[data.key], item, $event)"
+          >
+            {{ item.key }}
+          </td>
+          <td nzAlign="center">
+            <nz-tag *ngIf="item.status === '未下发'" [nzColor]="'red'">未下发</nz-tag>
+            <nz-tag *ngIf="item.status === '已下发'" [nzColor]="'#008CEC'">已下发</nz-tag>
+            <nz-tag *ngIf="item.status === '待处理'" [nzColor]="'#F76A00'">待处理</nz-tag>
+          </td>
+
+          <td nzAlign="center">
+            <nz-tag *ngIf="item.situation === '未移交'" [nzColor]="'#D9001B'">未移交</nz-tag>
+            <nz-tag *ngIf="item.situation === '已移交'" [nzColor]="'green'">已移交</nz-tag>
+          </td>
+          <td>{{ item.admitName }}</td>
+          <td>{{ item.proName }}</td>
+          <td>{{ item.proDes }}</td>
+          <td>{{ item.proType }}</td>
+          <td>{{ item.department }}</td>
+          <td>{{ item.person }}</td>
+          <td>{{ item.suggest }}</td>
+          <td>{{ item.proCome }}</td>
+          <td>{{ item.oaSend }}</td>
+          <td nzRight="0px">
+            <a (click)="splitIssue(item)">拆分</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a (click)="transfer(item)">移交</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a>下发</a>
+          </td>
+        </tr>
+      </ng-container>
+    </ng-container>
+  </tbody>
+</nz-table>
 <rectify-issue-split #rectifyIssueSplitComponent></rectify-issue-split>
 <rectify-issue-transfer #rectifyIssueTransferComponent></rectify-issue-transfer>
