@@ -10,11 +10,11 @@
     <nz-form-item>
       <nz-form-label nzSpan="4">问题名称</nz-form-label>
       <nz-form-control nzSpan="8">
-        <input nz-input [disabled]="disabled" />
+        <input nz-input disabled />
       </nz-form-control>
       <nz-form-label nzSpan="4">整改负责人</nz-form-label>
       <nz-form-control nzSpan="8">
-        <nz-select nzAllowClear [nzDisabled]="disabled">
+        <nz-select nzAllowClear nzDisabled>
           <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
           <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
         </nz-select>
@@ -23,12 +23,12 @@
     <nz-form-item>
       <nz-form-label nzSpan="4">整改截止时间</nz-form-label>
       <nz-form-control nzSpan="8">
-        <nz-date-picker [(ngModel)]="date" (ngModelChange)="''" [nzFormat]="'yyyy-MM-dd'" [nzDisabled]="disabled">
+        <nz-date-picker [(ngModel)]="date" (ngModelChange)="''" [nzFormat]="'yyyy-MM-dd'" nzDisabled>
         </nz-date-picker>
       </nz-form-control>
       <nz-form-label nzSpan="4">问题类型</nz-form-label>
       <nz-form-control nzSpan="8">
-        <nz-select nzAllowClear [nzDisabled]="disabled">
+        <nz-select nzAllowClear nzDisabled>
           <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
           <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
         </nz-select>
@@ -37,19 +37,19 @@
     <nz-form-item>
       <nz-form-label nzSpan="4">问题来源</nz-form-label>
       <nz-form-control nzSpan="20">
-        <textarea nz-input rows="3" [disabled]="disabled"></textarea>
+        <textarea nz-input rows="3" disabled></textarea>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label nzSpan="4">问题描述</nz-form-label>
       <nz-form-control nzSpan="20">
-        <textarea nz-input rows="3" [disabled]="disabled"></textarea>
+        <textarea nz-input rows="3" disabled></textarea>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label nzSpan="4">移交原因</nz-form-label>
       <nz-form-control nzSpan="20">
-        <textarea nz-input rows="3" [disabled]="disabled"></textarea>
+        <textarea nz-input rows="3" disabled></textarea>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
