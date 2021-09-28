@@ -144,7 +144,6 @@
             </div>
           </form>
         </ng-template>
-<<<<<<< HEAD
         <st
           #st
           [data]="tableData"
@@ -155,10 +154,6 @@
           [rowClickTime]="200"
           style="height: 400px;"
         >
-=======
-        <st #st [data]="tableData" nzSize="middle" [scroll]="{ y: '100%' }" [bordered]="true" [columns]="columns"
-          [rowClickTime]="200" style="height: 400px;">
->>>>>>> master
           <ng-template st-row="number" let-row let-index="index">
             {{ ((st.pi ? st.pi : 1) - 1) * (st.ps ? st.ps : 0) + (index + 1) }}
           </ng-template>
@@ -173,12 +168,7 @@
           <form #searchForm="ngForm" nz-form>
             <div nz-row [nzGutter]="24" nzType="flex" nzJustify="space-around" nzAlign="middle" class="search-row">
               <div nz-col [nzSpan]="3">
-<<<<<<< HEAD
                 <font style="font-size: 16px;"> 整改反馈分析</font>
-=======
-                <font style="font-size: 16px;">
-                  整改反馈分析</font>
->>>>>>> master
               </div>
               <div nz-col [nzSpan]="7">
                 <nz-form-item nzFlex>
@@ -259,12 +249,7 @@
           <form #searchForm="ngForm" nz-form>
             <div nz-row [nzGutter]="24" nzType="flex" nzJustify="space-around" nzAlign="middle" class="search-row">
               <div nz-col [nzSpan]="4">
-<<<<<<< HEAD
                 <font style="font-size: 16px;"> 整改成果分析</font>
-=======
-                <font style="font-size: 16px;">
-                  整改成果分析</font>
->>>>>>> master
               </div>
               <div nz-col [nzSpan]="10">
                 <nz-form-item nzFlex>
