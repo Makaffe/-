@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { STColumn } from '@delon/abc';
+<<<<<<< HEAD
 import { TABLE_PARAMETER } from '@ng-mt-framework/comp';
 import { ObjectUtil } from '@ng-mt-framework/util';
+=======
+>>>>>>> master
 import * as echarts from 'echarts';
 @Component({
   selector: 'app-statistics-analysis-audit-rectify-result',

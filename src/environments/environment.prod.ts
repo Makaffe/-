@@ -1,5 +1,8 @@
 export const environment = {
+<<<<<<< HEAD
   // SERVER_URL: `http://192.168.1.46:9740/eia-auditing/server`,
+=======
+>>>>>>> master
   SERVER_URL: `http://192.168.1.46:9740/mt-rectify-framework/server`,
   production: true,
   useHash: true,
