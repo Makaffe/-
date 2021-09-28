@@ -35,13 +35,16 @@
       <nz-form-label nzSpan="4">移交原因</nz-form-label>
       <nz-form-control nzSpan="20">
         <nz-select></nz-select>
-        <textarea nz-input></textarea>
+        <textarea rows="6" nz-input></textarea>
       </nz-form-control>
-   
     </nz-form-item>
     <nz-form-item>
       <nz-form-label nzSpan="4">上传附件</nz-form-label>
-      <nz-form-control nzSpan="20"> </nz-form-control>
+      <nz-form-control nzSpan="20">
+        <nz-upload nzAction="">
+          <button nz-button><i nz-icon nzType="upload"></i><span>Click to Upload</span></button>
+        </nz-upload></nz-form-control
+      >
     </nz-form-item>
   </form>
   <ng-template #rectifyIssueSplitFooter>

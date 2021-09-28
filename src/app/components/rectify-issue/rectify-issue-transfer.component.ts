@@ -3,14 +3,14 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'rectify-issue-transfer',
   templateUrl: './rectify-issue-transfer.component.html',
-  styles: []
+  styles: [],
 })
 export class RectifyIssueTransferComponent implements OnInit {
   isVisible = false;
-  constructor() { }
+  loading = false;
+  constructor() {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
   handleCancel() {
     this.isVisible = false;
   }
@@ -19,6 +19,5 @@ export class RectifyIssueTransferComponent implements OnInit {
   }
   edit() {
     this.isVisible = true;
-
   }
 }

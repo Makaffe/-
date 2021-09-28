@@ -162,7 +162,7 @@ export class AuditorDashboardComponent implements OnInit {
     {
       title: '整改具体负责人',
       index: 'age',
-      width: '100px',
+      width: '130px',
     },
     {
       title: '整改反馈进度',
