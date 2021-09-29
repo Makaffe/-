@@ -44,16 +44,19 @@ export class RectifyTrackListComponent implements OnInit {
       title: '状态',
       index: 'state',
       width: '100px',
-      className: 'text-center', type: 'tag', tag: TAG,
+      className: 'text-center',
+      type: 'tag',
+      tag: TAG,
       fixed: 'left',
     },
     {
       title: '移交情况',
       index: 'unitName',
       width: '150px',
-      className: 'text-center', type: 'tag', tag: RETIFY_TAG,
+      className: 'text-center',
+      type: 'tag',
+      tag: RETIFY_TAG,
       sort: this.tableParameter.sortDef,
-
     },
     {
       title: '问题名称',
@@ -122,7 +125,7 @@ export class RectifyTrackListComponent implements OnInit {
       title: '整改反馈进度',
       index: 'unitName',
       width: '200px',
-      render: 'progressbar'
+      render: 'progressbar',
     },
     {
       title: '备注',
@@ -137,8 +140,10 @@ export class RectifyTrackListComponent implements OnInit {
 
   ngOnInit() {}
 
-
   checkTransferResult() {
-     this.router.navigate(['/audit-rectify/transfer-result']);
+    this.router.navigate(['/audit-rectify/transfer-result']);
+  }
+  goWorkBeach() {
+    this.router.navigate(['/audit-rectify/rectify-workbeach']);
   }
 }

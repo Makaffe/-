@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { STChange } from '@delon/abc';
 import { TABLE_PARAMETER } from '@mt-framework-ng/core';
 import { ObjectUtil } from '@ng-mt-framework/util';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'rectify-post-list',
   templateUrl: './rectify-post-list.component.html',
   styles: [],
@@ -26,6 +28,7 @@ export class RectifyPostListComponent implements OnInit {
    */
   tableParameter = ObjectUtil.deepClone(TABLE_PARAMETER);
   columns = [
+    { title: '编号', index: 'id', type: 'checkbox', width: '10px', className: 'text-center' },
     { title: '序号', render: 'number', width: '10px', className: 'text-center', type: 'radio' },
     {
       title: '状态',
@@ -68,5 +71,9 @@ export class RectifyPostListComponent implements OnInit {
   ngOnInit() {}
   edit(row): void {
     this.router.navigate(['/audit-rectify/rectify-post-detail']);
+  }
+
+  change(e: STChange): void {
+    console.log('change', e);
   }
 }

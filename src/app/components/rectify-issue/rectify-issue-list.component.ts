@@ -25,8 +25,9 @@ const situationTAG: STColumnTag = {
 //     <th nzWidth="150px">审计建议</th>
 //     <th nzWidth="150px">问题来源</th>
 //     <th nzWidth="150px">OA发送情况</th>
-interface ItemData {
+export interface ItemData {
   key: number;
+  id: string;
   status: string;
   situation: string;
   admitName: string;
@@ -167,6 +168,7 @@ export class RectifyIssueListComponent implements OnInit {
   listOfMapData: ItemData[] = [
     {
       key: 1,
+      id: '1',
       status: '未下发',
       situation: '未移交',
       admitName: '审计报告2019',
@@ -182,6 +184,8 @@ export class RectifyIssueListComponent implements OnInit {
       children: [
         {
           key: 11,
+          id: '11',
+
           status: '未下发',
           situation: '未移交',
           admitName: '审计报告2019',
@@ -197,6 +201,8 @@ export class RectifyIssueListComponent implements OnInit {
         },
         {
           key: 12,
+          id: '12',
+
           status: '未下发',
           situation: '未移交',
           admitName: '审计报告2019',
@@ -212,6 +218,8 @@ export class RectifyIssueListComponent implements OnInit {
           children: [
             {
               key: 121,
+              id: '121',
+
               status: '未下发',
               situation: '未移交',
               admitName: '审计报告2019',
@@ -229,6 +237,8 @@ export class RectifyIssueListComponent implements OnInit {
         },
         {
           key: 13,
+          id: '13',
+
           status: '未下发',
           situation: '已移交',
           admitName: '审计报告2019',
@@ -244,6 +254,8 @@ export class RectifyIssueListComponent implements OnInit {
           children: [
             {
               key: 131,
+              id: '131',
+
               status: '未下发',
               situation: '已移交',
               admitName: '审计报告2019',
@@ -259,6 +271,8 @@ export class RectifyIssueListComponent implements OnInit {
               children: [
                 {
                   key: 1311,
+                  id: '1311',
+
                   status: '已下发',
                   situation: '已移交',
                   admitName: '审计报告2019',
@@ -274,6 +288,8 @@ export class RectifyIssueListComponent implements OnInit {
                 },
                 {
                   key: 1312,
+                  id: '1312',
+
                   status: '待处理',
                   situation: '已移交',
                   admitName: '审计报告2019',
@@ -295,6 +311,8 @@ export class RectifyIssueListComponent implements OnInit {
     },
     {
       key: 2,
+      id: '2',
+
       status: '待处理',
       situation: '已移交',
       admitName: '审计报告2019',
@@ -361,7 +379,7 @@ export class RectifyIssueListComponent implements OnInit {
   }
 
   splitIssue(row) {
-    this.rectifyIssueSplitComponent.edit();
+    this.rectifyIssueSplitComponent.edit(row);
   }
   transfer(row) {
     this.rectifyIssueTransferComponent.edit();
