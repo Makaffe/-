@@ -13,6 +13,8 @@ export class AdviceTemplateViewComponent implements OnInit {
 
   searchValue: string;
 
+  isVisible = false;
+
   /*
    * 左侧宽度常量
    */
@@ -72,4 +74,8 @@ export class AdviceTemplateViewComponent implements OnInit {
       this.adviceTemplateDetailComponent.disabled = false;
     }
   }
+
+  edit() {}
+
+  delete() {}
 }

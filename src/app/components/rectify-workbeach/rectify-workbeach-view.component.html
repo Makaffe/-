@@ -33,32 +33,32 @@
           <form nz-form>
             <nz-form-item>
               <nz-form-label nzSpan="2">整改部门</nz-form-label>
-              <nz-form-control nzSpan="3"><input nz-input /> </nz-form-control>
+              <nz-form-control nzSpan="3"><input nz-input readonly /> </nz-form-control>
               <nz-form-label nzSpan="2">整改负责人</nz-form-label>
-              <nz-form-control nzSpan="3"><input nz-input /> </nz-form-control>
+              <nz-form-control nzSpan="3"><input nz-input readonly /> </nz-form-control>
               <nz-form-label nzSpan="2">问题类型</nz-form-label>
-              <nz-form-control nzSpan="3"><input nz-input /> </nz-form-control>
+              <nz-form-control nzSpan="3"><input nz-input readonly /> </nz-form-control>
               <nz-form-label nzSpan="2">整改截止日期</nz-form-label>
-              <nz-form-control nzSpan="3"><input nz-input /> </nz-form-control>
+              <nz-form-control nzSpan="3"><input nz-input readonly /> </nz-form-control>
             </nz-form-item>
 
             <nz-form-item>
               <nz-form-label nzSpan="2">问题来源</nz-form-label>
-              <nz-form-control nzSpan="18"><textarea rows="3" nz-input></textarea> </nz-form-control>
+              <nz-form-control nzSpan="18"><textarea rows="3" nz-input readonly></textarea> </nz-form-control>
             </nz-form-item>
             <nz-form-item>
               <nz-form-label nzSpan="2" *ngIf="!isRectify">问题描述</nz-form-label>
               <nz-form-label nzSpan="2" *ngIf="isRectify">子问题描述</nz-form-label>
-              <nz-form-control nzSpan="18"><textarea rows="3" nz-input></textarea> </nz-form-control>
+              <nz-form-control nzSpan="18"><textarea rows="3" nz-input readonly></textarea> </nz-form-control>
             </nz-form-item>
             <nz-form-item>
               <nz-form-label nzSpan="2" *ngIf="!isRectify">审计建议</nz-form-label>
               <nz-form-label nzSpan="2" *ngIf="isRectify">子问题审计建议</nz-form-label>
-              <nz-form-control nzSpan="18"> <textarea rows="3" nz-input></textarea></nz-form-control>
+              <nz-form-control nzSpan="18"> <textarea rows="3" nz-input readonly></textarea></nz-form-control>
             </nz-form-item>
             <nz-form-item *ngIf="isRectify">
               <nz-form-label nzSpan="2">整改要求</nz-form-label>
-              <nz-form-control nzSpan="18"><textarea rows="3" nz-input></textarea> </nz-form-control>
+              <nz-form-control nzSpan="18"><textarea rows="3" nz-input readonly></textarea> </nz-form-control>
             </nz-form-item>
           </form>
         </div>

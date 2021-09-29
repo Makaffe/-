@@ -59,10 +59,18 @@
             </form>
           </as-split-area>
           <as-split-area [size]="'*'">
-            <st #st [data]="tableData" nzSize="middle" [scroll]="{ y: '100%' }" [bordered]="true" [columns]="columns"
+            <st #st [data]="tableData" nzSize="middle" [scroll]="{ y: '100%' }" [bordered]="false" [columns]="columns"
               [rowClickTime]="200" style="height: 400px;">
               <ng-template st-row="number" let-row let-index="index">
                 {{ ((st.pi ? st.pi : 1) - 1) * (st.ps ? st.ps : 0) + (index + 1) }}
+              </ng-template>
+              <ng-template st-row="b" let-row let-index="index">
+                <nz-progress [nzPercent]="row.b" nzSize="small"></nz-progress>
+              </ng-template>
+              <ng-template st-row="c" let-row let-index="index">
+                {{row.c>0?row.c:-row.c}}%&nbsp;
+                <i nz-icon [nzType]="row.c>0?'caret-up':'caret-down'" style="font-size: 16px; color: rgb(26, 241, 80);"
+                  [ngStyle]="{'color':row.c>0?'rgb(26, 241, 80)':'rgb(248, 15, 7)'}"></i>
               </ng-template>
             </st>
           </as-split-area>

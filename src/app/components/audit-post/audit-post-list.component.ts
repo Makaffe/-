@@ -21,6 +21,13 @@ export class AuditPostListComponent implements OnInit {
       time: '2021-10-12',
       issueAmount: '33',
     },
+    {
+      state: '已处理',
+      postName: '2021-10审计报告',
+      unitName: '审计一部',
+      time: '2021-12-12',
+      issueAmount: '26',
+    },
   ];
   /**
    * 列表参数
@@ -30,9 +37,8 @@ export class AuditPostListComponent implements OnInit {
     { title: '序号', render: 'number', width: '10px', className: 'text-center', type: 'radio' },
     {
       title: '状态',
-      index: 'state',
+      render: 'state',
       width: '15px',
-      sort: this.tableParameter.sortDef,
     },
     {
       title: '审计报告名称',

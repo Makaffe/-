@@ -10,8 +10,18 @@ export class StatisticsAnalysisAuditIssueViewComponent implements OnInit {
   tableData = [
     {
       a: '部门一',
-      b: 'xxx',
-      c: 'xxx',
+      b: 35,
+      c: 10,
+    },
+    {
+      a: '部门二',
+      b: 25,
+      c: 10,
+    },
+    {
+      a: '部门三',
+      b: 25,
+      c: -10,
     },
   ];
 
@@ -20,17 +30,17 @@ export class StatisticsAnalysisAuditIssueViewComponent implements OnInit {
     {
       title: '部门',
       index: 'a',
-      width: '30%',
+      width: '40%',
     },
     {
       title: '问题占比',
-      index: 'b',
+      render: 'b',
       width: '40%',
     },
     {
       title: '问题增长率',
-      index: 'c',
-      width: '30%',
+      render: 'c',
+      width: '20%',
     },
   ];
 
