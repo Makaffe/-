@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { STColumnTag } from '@delon/abc';
 import { TABLE_PARAMETER } from '@mt-framework-ng/core';
 import { ObjectUtil } from '@ng-mt-framework/util';
-
+const TAG: STColumnTag = {
+  未处理: { text: '未处理', color: 'grey' },
+  已处理: { text: '已处理', color: 'blue' },
+};
 @Component({
   selector: 'transfer-result-list',
   templateUrl: './transfer-result-list.component.html',
@@ -13,8 +18,15 @@ export class TransferResultListComponent implements OnInit {
    */
   tableData: Array<any> = [
     {
-      state: 'false',
+      state: '未处理',
       postName: '2021-09审计报告',
+      unitName: 'false',
+      time: '2021-10-12',
+      issueAmount: '33',
+    },
+    {
+      state: '已处理',
+      postName: '2021-09审计报告二',
       unitName: 'false',
       time: '2021-10-12',
       issueAmount: '33',
@@ -31,15 +43,25 @@ export class TransferResultListComponent implements OnInit {
       index: 'state',
       width: '100px',
       fixed: 'left',
+      className: 'text-center',
+      type: 'tag',
+      tag: TAG,
     },
     {
-      title: '移交情况',
+      title: '问题来源',
       index: 'unitName',
       width: '150px',
       sort: this.tableParameter.sortDef,
     },
     {
       title: '问题名称',
+      index: 'unitName',
+      width: '150px',
+      sort: this.tableParameter.sortDef,
+      className: 'text-left',
+    },
+    {
+      title: '问题类型',
       index: 'unitName',
       width: '150px',
       sort: this.tableParameter.sortDef,
@@ -60,63 +82,52 @@ export class TransferResultListComponent implements OnInit {
       className: 'text-left',
     },
     {
-      title: '整改具体负责人',
+      title: '移交时间',
       index: 'unitName',
       width: '150px',
       sort: this.tableParameter.sortDef,
       className: 'text-left',
     },
     {
-      title: '已完成整改措施数',
+      title: '是否发函',
       index: 'unitName',
       width: '150px',
       sort: this.tableParameter.sortDef,
       className: 'text-left',
     },
     {
-      title: '整改截止时间',
+      title: '是否处分',
       index: 'unitName',
       width: '150px',
       sort: this.tableParameter.sortDef,
       className: 'text-left',
     },
     {
-      title: '整改拟完成时间',
+      title: '处分记录',
       index: 'unitName',
       width: '150px',
       sort: this.tableParameter.sortDef,
       className: 'text-left',
     },
     {
-      title: '最近一次反馈时间',
+      title: '处分描述',
       index: 'unitName',
       width: '150px',
       sort: this.tableParameter.sortDef,
       className: 'text-left',
     },
     {
-      title: '下一次反馈时间',
-      index: 'unitName',
-      width: '150px',
-      sort: this.tableParameter.sortDef,
-      className: 'text-left',
-    },
-    {
-      title: '整改反馈进度',
+      title: '附件',
       index: 'unitName',
       width: '200px',
       render: 'progressbar',
     },
-    {
-      title: '备注',
-      index: 'unitName',
-      width: '150px',
-      sort: this.tableParameter.sortDef,
-      className: 'text-left',
-    },
-    { title: '操作', render: 'operations', width: '150px', className: 'text-center', fixed: 'right' },
   ];
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit() {}
+
+  goWorkBeach() {
+    this.router.navigate(['/audit-rectify/rectify-workbeach']);
+  }
 }

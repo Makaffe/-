@@ -3,7 +3,7 @@
   [data]="tableData"
   nzSize="middle"
   [multiSort]="tableParameter.multiSort"
-
+  (change)="change($event)"
   [req]="tableParameter.req"
   [scroll]="{ y: '100%' }"
   [bordered]="true"
@@ -24,7 +24,7 @@
     {{ row.releaseDate | date: 'yyyy-MM-dd' }}
   </ng-template>
   <ng-template st-row="operations" let-row let-index="index">
-    <a >查看</a>
+    <a>查看</a>
     <nz-divider nzType="vertical"></nz-divider>
     <a (click)="edit(row)">编辑</a>
     <nz-divider nzType="vertical"></nz-divider>

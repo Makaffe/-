@@ -1,29 +1,99 @@
-<div style="height:100%;margin-left:10px;margin-top:10px;overflow:scroll;">
-  <form nz-form>
-    <nz-form-item>
-      <nz-form-label nzSpan="4"> 整改报告名称</nz-form-label>
-      <nz-form-control nzSpan="18">
-        <input nz-input />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzSpan="4">整改统计时间</nz-form-label>
-      <nz-form-control nzSpan="18">
-        <nz-range-picker></nz-range-picker>
-      </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item>
-      <nz-form-label nzSpan="4">整改报告</nz-form-label>
-      <nz-form-control nzSpan="18">
-        <button nz-button nzType="primary"><i nz-icon nzType="link" nzTheme="outline"></i>引用模板</button>
-        <button nz-button nzType="primary"><i nz-icon nzType="sync" nzTheme="outline"></i>提交审核</button>
-        <button nz-button nzType="primary"><i nz-icon nzType="file-word" nzTheme="outline"></i>生成报告</button>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzSpan="4">整改报告列表</nz-form-label>
-      <nz-form-control nzSpan="18"> </nz-form-control>
-    </nz-form-item>
-  </form>
-</div>
+<as-split
+  direction="horizontal"
+  unit="pixel"
+  [useTransition]="true"
+  gutterSize="3"
+  (gutterClick)="leftSize = leftSize == 0 ? LEFT_WIDTH : 0"
+>
+  <!-- 左侧审计知识树 -->
+  <as-split-area
+    [size]="leftSize"
+    minSize="180"
+    maxSize="300"
+    class="app-audit-tree app-audit-tree-left"
+    style="background-color: white;"
+  >
+    <rectify-post-type-tree></rectify-post-type-tree>
+  </as-split-area>
+  <as-split-area [size]="'*'" style="background-color: white;overflow:hidden">
+    <div style="height:100%;margin-left:50px;margin-top:50px;">
+      <form nz-form>
+        <nz-steps [nzCurrent]="1" nzDirection="vertical">
+          <nz-step nzTitle="报告基本信息" [nzDescription]="step1"></nz-step>
+          <nz-step nzTitle="报告生成" [nzDescription]="step2"></nz-step>
+        </nz-steps>
+        <ng-template #step1>
+          <div style="margin:30px 0px 20px -100px">
+            <nz-form-item>
+              <nz-form-label nzSpan="4"> 整改报告名称</nz-form-label>
+              <nz-form-control nzSpan="16">
+                <input nz-input />
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzSpan="4">整改统计时间</nz-form-label>
+              <nz-form-control nzSpan="8">
+                <nz-range-picker></nz-range-picker>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzSpan="4">统计</nz-form-label>
+              <nz-form-control nzSpan="8">
+                <span>问题总数：20 未开始：1 整改中：18 已逾期：8 已移交：2</span>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </ng-template>
+        <ng-template #step2>
+          <div style="margin:30px 0px 20px -100px">
+            <nz-form-item>
+              <nz-form-label nzSpan="4">操作</nz-form-label>
+              <nz-form-control nzSpan="16">
+                <button nz-button nzType="primary" style="margin-left:10px;">
+                  <i nz-icon nzType="link" nzTheme="outline"></i>引用模板
+                </button>
+                <button nz-button nzType="primary"><i nz-icon nzType="sync" nzTheme="outline"></i>提交审核</button>
+                <button nz-button nzType="primary"><i nz-icon nzType="file-word" nzTheme="outline"></i>生成报告</button>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzSpan="4">整改报告列表</nz-form-label>
+              <nz-form-control nzSpan="16">
+                <nz-table #basicTable [nzData]="listOfData" [nzShowPagination]="false">
+                  <thead>
+                    <tr>
+                      <th>引用模板</th>
+                      <th>整改报告名称</th>
+                      <th>操作</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let data of basicTable.data">
+                      <td>{{ data.quote }}</td>
+                      <td>{{ data.reportName }}</td>
+                      <td>
+                        <a>编辑</a>
+                        <nz-divider nzType="vertical"></nz-divider>
+                        <a>查看</a>
+                        <nz-divider nzType="vertical"></nz-divider>
+                        <a>保存</a>
+                        <nz-divider nzType="vertical"></nz-divider>
+                        <a>删除</a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </nz-table>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <div style="margin-left: 180px;">
+                <button nz-button nzType="default">上一步</button>
+                <button nz-button nzType="primary" style="margin-left: 100px;">完成</button>
+              </div>
+            </nz-form-item>
+          </div>
+        </ng-template>
+      </form>
+    </div>
+  </as-split-area>
+</as-split>
