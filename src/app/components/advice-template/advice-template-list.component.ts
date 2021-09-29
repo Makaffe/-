@@ -28,23 +28,23 @@ export class AdviceTemplateListComponent implements OnInit {
    */
   tableParameter = ObjectUtil.deepClone(TABLE_PARAMETER);
   columns = [
-    { title: '序号', render: 'number', width: '80px', className: 'text-center', type: 'radio' },
+    { title: '序号', render: 'number', width: '50px', className: 'text-center', type: 'radio' },
     {
       title: '问题类型',
       index: 'state',
-      width: '300px',
+      width: '30%',
       sort: this.tableParameter.sortDef,
     },
     {
       title: '审计建议',
       index: 'postName',
+      width: '55%',
       sort: this.tableParameter.sortDef,
     },
     {
       title: '历史引用次数',
       index: 'unitName',
-      width: '80px',
-      className: 'text-center',
+      width: '15%',
       sort: this.tableParameter.sortDef,
     },
     { title: '操作', render: 'operations', width: '150px', className: 'text-center', fixed: 'right' },

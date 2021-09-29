@@ -13,6 +13,8 @@ export class OaTemplateViewComponent implements OnInit {
 
   searchValue: string;
 
+  isVisible = false;
+
   /*
    * 左侧宽度常量
    */
@@ -63,4 +65,8 @@ export class OaTemplateViewComponent implements OnInit {
   create() {
     this.oaTemplateDetailComponent.edit();
   }
+
+  edit() {}
+
+  delete() {}
 }

@@ -1,24 +1,22 @@
 <nz-modal [(nzVisible)]="isVisible" [nzMaskClosable]="false" (nzOnCancel)="handleCancel()" [nzFooter]="editorFooter"
   nzWidth="1050" [nzTitle]="'新增模板'" [nzStyle]="{ top: '65px' }" [nzBodyStyle]="{
-    'max-height': '455px',
-    'min-height': '250px',
     'overflow-y': 'auto',
     'overflow-x': 'hidden',
     padding: '24px 24px 0 24px'
   }">
   <form nz-form #form="ngForm">
     <nz-form-item>
-      <nz-form-label nzSpan="2">问题类型</nz-form-label>
-      <nz-form-control nzSpan="18">
-        <nz-select style="width:300px" nzAllowClear [nzDisabled]="disabled">
+      <nz-form-label nzSpan="4">问题类型</nz-form-label>
+      <nz-form-control nzSpan="20">
+        <nz-select nzAllowClear [nzDisabled]="disabled">
           <nz-option nzValue="jack" nzLabel="类型一"></nz-option>
           <nz-option nzValue="lucy" nzLabel="类型二"></nz-option>
         </nz-select>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label nzSpan="2">审计建议</nz-form-label>
-      <nz-form-control nzSpan="18"><textarea rows="5" nz-input [disabled]="disabled"></textarea> </nz-form-control>
+      <nz-form-label nzSpan="4">审计建议</nz-form-label>
+      <nz-form-control nzSpan="20"><textarea rows="5" nz-input [disabled]="disabled"></textarea> </nz-form-control>
     </nz-form-item>
   </form>
   <ng-template #editorFooter>
