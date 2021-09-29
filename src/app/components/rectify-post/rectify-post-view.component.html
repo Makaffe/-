@@ -18,6 +18,8 @@
             <div nz-col nzSpan="24">
               <button nz-button><i nz-icon type="plus" theme="outline"></i>新增</button>
               <button nz-button><i nz-icon type="reload" theme="outline"></i>刷新</button>
+              <button nz-button><i nz-icon type="plus" theme="outline"></i>批量导出</button>
+              <button nz-button><i nz-icon type="reload" theme="outline"></i>批量删除</button>
             </div>
           </div>
           <!-- 搜索栏 -->
@@ -34,21 +36,21 @@
                   </nz-form-item>
                 </div>
                 <div nz-col [nzSpan]="7">
-                    <nz-form-item style="justify-content: start;">
-                      <nz-form-label [nzSpan]="7">审计时间</nz-form-label>
-                      <nz-form-control [nzSpan]="19">
-                        <nz-range-picker ></nz-range-picker>
-                      </nz-form-control>
-                    </nz-form-item>
-                  </div>
-                  <div nz-col [nzSpan]="7">
-                    <nz-form-item style="justify-content: start;">
-                      <nz-form-label [nzSpan]="7">审计单位</nz-form-label>
-                      <nz-form-control [nzSpan]="19">
-                        <input nz-input type="text" name="name" placeholder="请输入搜索名称" />
-                      </nz-form-control>
-                    </nz-form-item>
-                  </div>
+                  <nz-form-item style="justify-content: start;">
+                    <nz-form-label [nzSpan]="7">审计时间</nz-form-label>
+                    <nz-form-control [nzSpan]="19">
+                      <nz-range-picker></nz-range-picker>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+                <div nz-col [nzSpan]="7">
+                  <nz-form-item style="justify-content: start;">
+                    <nz-form-label [nzSpan]="7">审计单位</nz-form-label>
+                    <nz-form-control [nzSpan]="19">
+                      <input nz-input type="text" name="name" placeholder="请输入搜索名称" />
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
               </div>
               <!-- 查找按钮 -->
               <div nz-col [nzSpan]="3">

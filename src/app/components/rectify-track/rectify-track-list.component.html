@@ -4,7 +4,6 @@
   [data]="tableData"
   nzSize="middle"
   [multiSort]="tableParameter.multiSort"
- 
   [req]="tableParameter.req"
   [scroll]="{ y: '100%', x: '1100px' }"
   [bordered]="true"
@@ -28,9 +27,11 @@
     <nz-progress [nzPercent]="50" nzStatus="active"></nz-progress>
   </ng-template>
   <ng-template st-row="operations" let-row let-index="index">
-    <a>进入工作台</a>
+    <a (click)="goWorkBeach()">进入工作台</a>
   </ng-template>
   <ng-template #tableHeader>
-   <button nz-button nzType="primary" (click)="checkTransferResult()"> <i nz-icon nzType="search" nzTheme="outline"></i>移交结果查看</button>
+    <button nz-button nzType="primary" (click)="checkTransferResult()">
+      <i nz-icon nzType="search" nzTheme="outline"></i>移交结果查看
+    </button>
   </ng-template>
 </st>
