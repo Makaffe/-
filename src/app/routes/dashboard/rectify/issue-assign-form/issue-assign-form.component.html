@@ -1,50 +1,17 @@
 <nz-modal [(nzVisible)]="isVisible" [nzMaskClosable]="false" (nzOnCancel)="handleCancel()" [nzFooter]="editorFooter"
   nzWidth="1050" [nzTitle]="'问题分配'" [nzStyle]="{ top: '65px' }" [nzBodyStyle]="{
-    'max-height': '455px',
-    'min-height': '300px',
     'overflow-y': 'auto',
     'overflow-x': 'hidden',
     padding: '24px 24px 0 24px'
   }">
   <form nz-form>
     <nz-form-item>
-      <nz-form-label nzSpan="3">问题名称</nz-form-label>
-      <nz-form-control nzSpan="9">
+      <nz-form-label nzSpan="4">问题名称</nz-form-label>
+      <nz-form-control nzSpan="8">
         <input nz-input />
       </nz-form-control>
-      <nz-form-label nzSpan="3">问题类型</nz-form-label>
-      <nz-form-control nzSpan="9">
-        <nz-select style="width:200px" nzAllowClear>
-          <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
-          <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
-        </nz-select>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzSpan="3">问题描述</nz-form-label>
-      <nz-form-control nzSpan="20">
-        <textarea nz-input rows="3"></textarea>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzSpan="3">是否拆分问题</nz-form-label>
-      <nz-form-control>
-        <nz-radio-group name="radioValue" [(ngModel)]="radioValue">
-          <label nz-radio [nzValue]="false">否</label>
-          <label nz-radio [nzValue]="true">是</label>
-        </nz-radio-group>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item *ngIf="radioValue">
-      <nz-form-label nzSpan="3">问题拆分</nz-form-label>
-      <nz-form-control nzSpan="20">
-        <issue-assign-table #issueAssignTableComponent></issue-assign-table>
-      </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item>
-      <nz-form-label nzSpan="3">整改具体负责人</nz-form-label>
-      <nz-form-control nzSpan="9">
+      <nz-form-label nzSpan="4">问题类型</nz-form-label>
+      <nz-form-control nzSpan="8">
         <nz-select nzAllowClear>
           <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
           <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
@@ -52,13 +19,43 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label nzSpan="3">整改措施提交时间</nz-form-label>
-      <nz-form-control nzSpan="9">
+      <nz-form-label nzSpan="4">问题描述</nz-form-label>
+      <nz-form-control nzSpan="20">
+        <textarea nz-input rows="3"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="4">是否拆分问题</nz-form-label>
+      <nz-form-control nzSpan="20">
+        <nz-radio-group name="radioValue" [(ngModel)]="radioValue">
+          <label nz-radio [nzValue]="false">否</label>
+          <label nz-radio [nzValue]="true">是</label>
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item *ngIf="radioValue">
+      <nz-form-label nzSpan="4">问题拆分</nz-form-label>
+      <nz-form-control nzSpan="20">
+        <issue-assign-table #issueAssignTableComponent></issue-assign-table>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzSpan="4">整改具体负责人</nz-form-label>
+      <nz-form-control nzSpan="8">
+        <nz-select nzAllowClear>
+          <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
+          <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
+        </nz-select>
+      </nz-form-control>
+
+      <nz-form-label nzSpan="4">整改措施提交时间</nz-form-label>
+      <nz-form-control nzSpan="8">
         <nz-date-picker></nz-date-picker>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label nzSpan="3">整改要求</nz-form-label>
+      <nz-form-label nzSpan="4">整改要求</nz-form-label>
       <nz-form-control nzSpan="20">
         <textarea nz-input rows="9"></textarea>
       </nz-form-control>
