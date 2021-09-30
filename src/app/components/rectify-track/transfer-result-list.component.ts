@@ -120,7 +120,7 @@ export class TransferResultListComponent implements OnInit {
       title: '附件',
       index: 'unitName',
       width: '200px',
-      render: 'progressbar',
+      className: 'text-left',
     },
   ];
   constructor(private router: Router) {}
