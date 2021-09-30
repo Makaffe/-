@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { RectifyIssueOrderComponent } from './rectify-issue-order.component';
 import { RectifyIssueSplitComponent } from './rectify-issue-split.component';
 import { RectifyIssueTransferComponent } from './rectify-issue-transfer.component';
 
@@ -12,6 +13,8 @@ export class RectifyIssueViewComponent implements OnInit {
   rectifyIssueSplitComponent: RectifyIssueSplitComponent;
   @ViewChild('rectifyIssueTransferComponent', { static: false })
   rectifyIssueTransferComponent: RectifyIssueTransferComponent;
+  @ViewChild('rectifyIssueOrderComponent', { static: false })
+  rectifyIssueOrderComponent: RectifyIssueOrderComponent;
   listOfOption: string[] = ['未下发', '已下发', '未移交'];
   listOfSelectedValue = ['未下发'];
   constructor() {}
@@ -23,5 +26,8 @@ export class RectifyIssueViewComponent implements OnInit {
   }
   transfer() {
     this.rectifyIssueTransferComponent.edit();
+  }
+  order() {
+    this.rectifyIssueOrderComponent.edit();
   }
 }
