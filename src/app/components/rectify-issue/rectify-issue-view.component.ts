@@ -16,7 +16,7 @@ export class RectifyIssueViewComponent implements OnInit {
   @ViewChild('rectifyIssueOrderComponent', { static: false })
   rectifyIssueOrderComponent: RectifyIssueOrderComponent;
   listOfOption: string[] = ['未下发', '已下发', '未移交'];
-  listOfSelectedValue = ['未下发'];
+  listOfSelectedValue = [];
   constructor() {}
 
   ngOnInit() {}

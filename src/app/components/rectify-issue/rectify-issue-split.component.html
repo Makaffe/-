@@ -3,7 +3,7 @@
   [nzMaskClosable]="false"
   (nzOnCancel)="handleCancel()"
   [nzFooter]="rectifyIssueSplitFooter"
-  nzWidth="800"
+  nzWidth="1200"
   [nzTitle]="'问题拆分'"
   [nzBodyStyle]="{
     'height.px': '300px',
@@ -27,7 +27,7 @@
     <nz-form-item>
       <nz-form-label nzSpan="4">问题描述</nz-form-label>
       <nz-form-control nzSpan="20">
-        <input nz-input name="proDes" [(ngModel)]="data.proDes" />
+        <textarea nz-input name="proDes" [(ngModel)]="data.proDes"></textarea>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
@@ -60,7 +60,12 @@
                   {{ data.proName }}
                 </ng-container>
                 <ng-template #proNameInputTpl>
-                  <input name="proName" type="text" nz-input [(ngModel)]="editCache[data.id].data.proName" />
+                  <textarea
+                    name="proName"
+                    type="text"
+                    nz-input
+                    [(ngModel)]="editCache[data.id].data.proName"
+                  ></textarea>
                 </ng-template>
               </td>
               <td>
@@ -68,7 +73,20 @@
                   {{ data.proDes }}
                 </ng-container>
                 <ng-template #proDesInputTpl>
-                  <input name="proDes" type="text" nz-input [(ngModel)]="editCache[data.id].data.proDes" />
+                  <textarea name="proDes" type="text" nz-input [(ngModel)]="editCache[data.id].data.proDes"></textarea>
+                </ng-template>
+              </td>
+              <td>
+                <ng-container *ngIf="!editCache[data.id].edit; else suggestInputTpl">
+                  {{ data.suggest }}
+                </ng-container>
+                <ng-template #suggestInputTpl>
+                  <textarea
+                    name="suggest"
+                    type="text"
+                    nz-input
+                    [(ngModel)]="editCache[data.id].data.suggest"
+                  ></textarea>
                 </ng-template>
               </td>
               <td>
@@ -87,14 +105,7 @@
                   <input name="department" type="text" nz-input [(ngModel)]="editCache[data.id].data.department" />
                 </ng-template>
               </td>
-              <td>
-                <ng-container *ngIf="!editCache[data.id].edit; else suggestInputTpl">
-                  {{ data.suggest }}
-                </ng-container>
-                <ng-template #suggestInputTpl>
-                  <input name="suggest" type="text" nz-input [(ngModel)]="editCache[data.id].data.suggest" />
-                </ng-template>
-              </td>
+
               <td>
                 <ng-container *ngIf="!editCache[data.id].edit; else personInputTpl">
                   {{ data.person }}

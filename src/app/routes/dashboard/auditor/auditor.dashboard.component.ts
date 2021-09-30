@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { STColumn, STColumnTag } from '@delon/abc';
+import { STColumn, STColumnTag, STPage } from '@delon/abc';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 

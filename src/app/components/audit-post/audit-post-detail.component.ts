@@ -52,6 +52,16 @@ export class AuditPostDetailComponent implements OnInit {
     },
   ];
 
+  /**
+   * 步骤条进度
+   */
+  current = 0;
+  /**
+   * 判断是否只读
+   */
+  readFlag1: boolean;
+  readFlag2: boolean;
+  visabled = false;
   // tslint:disable-next-line:no-any
   handleChange(info: any): void {
     const fileList = info.fileList;
@@ -71,4 +81,38 @@ export class AuditPostDetailComponent implements OnInit {
   constructor(private msg: NzMessageService) {}
 
   ngOnInit() {}
+
+  pre(): void {
+    this.current -= 1;
+    this.changeContent();
+  }
+
+  next(): void {
+    this.current += 1;
+    this.visabled = true;
+    this.changeContent();
+  }
+
+  done(): void {
+    console.log('done');
+  }
+
+  changeContent(): void {
+    switch (this.current) {
+      case 0: {
+        this.readFlag1 = false;
+        this.readFlag2 = true;
+        break;
+      }
+      case 1: {
+        this.readFlag1 = true;
+        this.readFlag2 = false;
+        break;
+      }
+      default: {
+        this.readFlag1 = true;
+        this.readFlag1 = false;
+      }
+    }
+  }
 }
