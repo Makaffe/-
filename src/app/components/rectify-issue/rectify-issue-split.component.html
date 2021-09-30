@@ -81,7 +81,7 @@
               </td>
               <td>
                 <ng-container *ngIf="!editCache[data.id].edit; else departmentInputTpl">
-                  {{ data.proType }}
+                  {{ data.department }}
                 </ng-container>
                 <ng-template #departmentInputTpl>
                   <input name="department" type="text" nz-input [(ngModel)]="editCache[data.id].data.department" />
@@ -89,7 +89,7 @@
               </td>
               <td>
                 <ng-container *ngIf="!editCache[data.id].edit; else suggestInputTpl">
-                  {{ data.proType }}
+                  {{ data.suggest }}
                 </ng-container>
                 <ng-template #suggestInputTpl>
                   <input name="suggest" type="text" nz-input [(ngModel)]="editCache[data.id].data.suggest" />
@@ -97,7 +97,7 @@
               </td>
               <td>
                 <ng-container *ngIf="!editCache[data.id].edit; else personInputTpl">
-                  {{ data.proType }}
+                  {{ data.person }}
                 </ng-container>
                 <ng-template #personInputTpl>
                   <input name="person" type="text" nz-input [(ngModel)]="editCache[data.id].data.person" />
