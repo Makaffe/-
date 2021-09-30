@@ -96,7 +96,7 @@
             <nz-divider nzType="vertical"></nz-divider>
             <a (click)="transfer(item)">移交</a>
             <nz-divider nzType="vertical"></nz-divider>
-            <a>下发</a>
+            <a (click)="order(item)">下发</a>
           </td>
         </tr>
       </ng-container>
@@ -105,3 +105,4 @@
 </nz-table>
 <rectify-issue-split #rectifyIssueSplitComponent></rectify-issue-split>
 <rectify-issue-transfer #rectifyIssueTransferComponent></rectify-issue-transfer>
+<rectify-issue-order #rectifyIssueOrderComponent></rectify-issue-order>

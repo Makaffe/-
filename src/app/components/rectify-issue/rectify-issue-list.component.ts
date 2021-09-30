@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { STColumnTag } from '@delon/abc';
 import { TABLE_PARAMETER } from '@mt-framework-ng/core';
 import { ObjectUtil } from '@ng-mt-framework/util';
+import { RectifyIssueOrderComponent } from './rectify-issue-order.component';
 import { RectifyIssueSplitComponent } from './rectify-issue-split.component';
 import { RectifyIssueTransferComponent } from './rectify-issue-transfer.component';
 const TAG: STColumnTag = {
@@ -56,6 +57,8 @@ export class RectifyIssueListComponent implements OnInit {
   rectifyIssueSplitComponent: RectifyIssueSplitComponent;
   @ViewChild('rectifyIssueTransferComponent', { static: false })
   rectifyIssueTransferComponent: RectifyIssueTransferComponent;
+  @ViewChild('rectifyIssueOrderComponent', { static: false })
+  rectifyIssueOrderComponent: RectifyIssueOrderComponent;
   // /**
   //  * 列表数据
   //  */
@@ -383,6 +386,9 @@ export class RectifyIssueListComponent implements OnInit {
   }
   transfer(row) {
     this.rectifyIssueTransferComponent.edit();
+  }
+  order(row) {
+    this.rectifyIssueOrderComponent.edit(row);
   }
 
   currentPageDataChange($event: ItemData[]): void {
