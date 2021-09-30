@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { STColumn } from '@delon/abc';
-import { TABLE_PARAMETER } from '@ng-mt-framework/comp';
-import { ObjectUtil } from '@ng-mt-framework/util';
+import { STColumn, STPage } from '@delon/abc';
 import * as echarts from 'echarts';
 @Component({
   selector: 'app-statistics-analysis-audit-rectify-result',
@@ -10,6 +8,9 @@ import * as echarts from 'echarts';
 })
 export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
   option = null;
+  page: STPage = {
+    show: false,
+  };
   option01 = {
     xAxis: {
       type: 'category',

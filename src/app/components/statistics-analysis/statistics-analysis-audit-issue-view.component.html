@@ -60,7 +60,7 @@
           </as-split-area>
           <as-split-area [size]="'*'">
             <st #st [data]="tableData" nzSize="middle" [scroll]="{ y: '100%' }" [bordered]="false" [columns]="columns"
-              [rowClickTime]="200" style="height: 400px;">
+              [rowClickTime]="200" style="height: 400px;" [page]="page">
               <ng-template st-row="number" let-row let-index="index">
                 {{ ((st.pi ? st.pi : 1) - 1) * (st.ps ? st.ps : 0) + (index + 1) }}
               </ng-template>
