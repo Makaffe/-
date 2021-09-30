@@ -6,7 +6,7 @@
   (gutterClick)="leftSize = leftSize == 0 ? LEFT_WIDTH : 0"
 >
   <!-- 左侧审计知识树 -->
-  <as-split-area [size]="leftSize" minSize="180" maxSize="300" class="app-audit-tree app-audit-tree-left">
+  <as-split-area [size]="300" minSize="180" maxSize="300" class="app-audit-tree app-audit-tree-left">
     <audit-post-type-tree></audit-post-type-tree>
   </as-split-area>
   <!--右侧编辑区-->
@@ -34,21 +34,21 @@
                   </nz-form-item>
                 </div>
                 <div nz-col [nzSpan]="7">
-                    <nz-form-item style="justify-content: start;">
-                      <nz-form-label [nzSpan]="7">审计时间</nz-form-label>
-                      <nz-form-control [nzSpan]="19">
-                        <nz-range-picker ></nz-range-picker>
-                      </nz-form-control>
-                    </nz-form-item>
-                  </div>
-                  <div nz-col [nzSpan]="7">
-                    <nz-form-item style="justify-content: start;">
-                      <nz-form-label [nzSpan]="7">审计单位</nz-form-label>
-                      <nz-form-control [nzSpan]="19">
-                        <input nz-input type="text" name="name" placeholder="请输入搜索名称" />
-                      </nz-form-control>
-                    </nz-form-item>
-                  </div>
+                  <nz-form-item style="justify-content: start;">
+                    <nz-form-label [nzSpan]="7">审计时间</nz-form-label>
+                    <nz-form-control [nzSpan]="19">
+                      <nz-range-picker></nz-range-picker>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+                <div nz-col [nzSpan]="7">
+                  <nz-form-item style="justify-content: start;">
+                    <nz-form-label [nzSpan]="7">审计单位</nz-form-label>
+                    <nz-form-control [nzSpan]="19">
+                      <input nz-input type="text" name="name" placeholder="请输入搜索名称" />
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
               </div>
               <!-- 查找按钮 -->
               <div nz-col [nzSpan]="3">

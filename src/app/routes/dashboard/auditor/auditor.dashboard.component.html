@@ -4,12 +4,23 @@
       <div nz-row>
         <div class="small-card-area">
           <div nz-row class="small-card">
-            <div nz-col *ngFor="let c of cards; let i = index" [nzSpan]="4" style="height: 70px;"
-              [ngStyle]="{'padding-left':i === 0?'0px':'15px'}">
-              <div nz-row nzType="flex" nzAlign="middle" style="height: 70px;padding-left: 15px;
+            <div
+              nz-col
+              *ngFor="let c of cards; let i = index"
+              [nzSpan]="4"
+              style="height: 70px;"
+              [ngStyle]="{ 'padding-left': i === 0 ? '0px' : '15px' }"
+            >
+              <div
+                nz-row
+                nzType="flex"
+                nzAlign="middle"
+                style="height: 70px;padding-left: 15px;
                   display: flex;
                   justify-content: center;
-                  align-items: center;" [ngClass]="c.className">
+                  align-items: center;"
+                [ngClass]="c.className"
+              >
                 <div nz-col nzSpan="4" class="text-black card-icon">
                   <i nz-icon [nzType]="c.icon" class="h1"></i>
                 </div>
@@ -36,11 +47,15 @@
                   </div>
                   <div nz-col nzSpan="5" echarts [options]="option1" style="height: 160px; margin-top: -90px;"></div>
 
-                  <div nz-col nzSpan="16" style=" display: flex;
+                  <div
+                    nz-col
+                    nzSpan="16"
+                    style=" display: flex;
                   justify-content: center;
                   align-items: center;display: flex;
                   justify-content: center;
-                  align-items: center;background-color:#E9EEF4;height: 50px;width:100%">
+                  align-items: center;background-color:#E9EEF4;height: 50px;width:100%"
+                  >
                     <a (click)="goDepartmentDraw()">部门问题画像</a>
                   </div>
                 </div>
@@ -56,9 +71,13 @@
                   </div>
                   <div nz-col nzSpan="5" echarts [options]="option1" style="height: 160px; margin-top: -90px;"></div>
 
-                  <div nz-col nzSpan="16" style="display: flex;
+                  <div
+                    nz-col
+                    nzSpan="16"
+                    style="display: flex;
                   justify-content: center;
-                  align-items: center;background-color:#E9EEF4;height: 50px;width:100%">
+                  align-items: center;background-color:#E9EEF4;height: 50px;width:100%"
+                  >
                     <a (click)="goDepartmentDraw()">部门问题画像</a>
                   </div>
                 </div>
@@ -74,9 +93,13 @@
                   </div>
                   <div nz-col nzSpan="5" echarts [options]="option1" style="height: 160px; margin-top: -90px;"></div>
 
-                  <div nz-col nzSpan="16" style="display: flex;
+                  <div
+                    nz-col
+                    nzSpan="16"
+                    style="display: flex;
                   justify-content: center;
-                  align-items: center;background-color:#E9EEF4;height: 50px;width:100%">
+                  align-items: center;background-color:#E9EEF4;height: 50px;width:100%"
+                  >
                     <a (click)="goDepartmentDraw()">部门问题画像</a>
                   </div>
                 </div>
@@ -92,9 +115,13 @@
                   </div>
                   <div nz-col nzSpan="5" echarts [options]="option1" style="height: 160px; margin-top: -90px;"></div>
 
-                  <div nz-col nzSpan="16" style="display: flex;
+                  <div
+                    nz-col
+                    nzSpan="16"
+                    style="display: flex;
                   justify-content: center;
-                  align-items: center;background-color:#E9EEF4;height: 50px;width:100%">
+                  align-items: center;background-color:#E9EEF4;height: 50px;width:100%"
+                  >
                     <a (click)="goDepartmentDraw()">部门问题画像</a>
                   </div>
                 </div>
@@ -110,9 +137,13 @@
                   </div>
                   <div nz-col nzSpan="5" echarts [options]="option1" style="height: 160px; margin-top: -90px;"></div>
 
-                  <div nz-col nzSpan="16" style="display: flex;
+                  <div
+                    nz-col
+                    nzSpan="16"
+                    style="display: flex;
                   justify-content: center;
-                  align-items: center;background-color:#E9EEF4;height: 50px;width:100%">
+                  align-items: center;background-color:#E9EEF4;height: 50px;width:100%"
+                  >
                     <a (click)="goDepartmentDraw()">部门问题画像</a>
                   </div>
                 </div>
@@ -128,9 +159,13 @@
                   </div>
                   <div nz-col nzSpan="5" echarts [options]="option1" style="height: 160px; margin-top: -90px;"></div>
 
-                  <div nz-col nzSpan="16" style="display: flex;
+                  <div
+                    nz-col
+                    nzSpan="16"
+                    style="display: flex;
                   justify-content: center;
-                  align-items: center;background-color:#E9EEF4;height: 50px;width:100%">
+                  align-items: center;background-color:#E9EEF4;height: 50px;width:100%"
+                  >
                     <a (click)="goDepartmentDraw()">部门问题画像</a>
                   </div>
                 </div>
@@ -147,7 +182,14 @@
         <div nz-row nzJustify="space-between">
           <div nz-col nzSpan="17">
             <nz-card [nzTitle]="myHeader">
-              <st style="height:350px" #st [scroll]="{ y: '240px' }" [data]="users" [columns]="rectifyIssuecolumns">
+              <st
+                style="height:350px"
+                #st
+                [scroll]="{ y: '240px' }"
+                [page]="{ show: false, front: false }"
+                [data]="users"
+                [columns]="rectifyIssuecolumns"
+              >
                 <ng-template st-row="process">
                   <div nz-row nzJustify="space-between">
                     <div nzSpan="2" nz-col>
@@ -238,7 +280,14 @@
         <div nz-row nzJustify="space-between">
           <div nz-col nzSpan="17">
             <nz-card>
-              <st [scroll]="{ y: '240px' }" style="height:300px" #st [data]="users" [columns]="rectifyProcesscolumns">
+              <st
+                [scroll]="{ y: '240px' }"
+                style="height:300px"
+                #st
+                [data]="users"
+                [columns]="rectifyProcesscolumns"
+                [page]="{ show: false, front: false }"
+              >
                 <ng-template st-row="operations" let-row let-index="index">
                   <a (click)="goWorkBeach()">进入工作台</a>
                 </ng-template>
@@ -257,7 +306,14 @@
           </div>
           <div nz-col nzSpan="7">
             <nz-card>
-              <st style="height:300px" [scroll]="{ y: '240px' }" #st [data]="users" [columns]="Reminderscolumns">
+              <st
+                style="height:300px"
+                [scroll]="{ y: '240px' }"
+                #st
+                [data]="users"
+                [columns]="Reminderscolumns"
+                [page]="{ show: false, front: false }"
+              >
                 <ng-template st-row="remain" let-item>
                   <span>{{ item.name }}</span>
                   <nz-badge [nzCount]="109" style="float: right;"></nz-badge>

@@ -7,7 +7,7 @@
 >
   <!-- 左侧审计知识树 -->
   <as-split-area
-    [size]="leftSize"
+    [size]="300"
     minSize="180"
     maxSize="300"
     class="app-audit-tree app-audit-tree-left"
@@ -18,7 +18,7 @@
   <as-split-area [size]="'*'" style="background-color: white;overflow:hidden">
     <div style="height:100%;margin-left:50px;margin-top:50px;">
       <form nz-form>
-        <nz-steps [nzCurrent]="1" nzDirection="vertical">
+        <nz-steps [nzCurrent]="current" nzDirection="vertical">
           <nz-step nzTitle="报告基本信息" [nzDescription]="step1"></nz-step>
           <nz-step nzTitle="报告生成" [nzDescription]="step2"></nz-step>
         </nz-steps>
@@ -27,13 +27,13 @@
             <nz-form-item>
               <nz-form-label nzSpan="4"> 整改报告名称</nz-form-label>
               <nz-form-control nzSpan="16">
-                <input nz-input />
+                <input nz-input [readOnly]="readFlag1" />
               </nz-form-control>
             </nz-form-item>
             <nz-form-item>
               <nz-form-label nzSpan="4">整改统计时间</nz-form-label>
               <nz-form-control nzSpan="8">
-                <nz-range-picker></nz-range-picker>
+                <nz-range-picker [nzDisabled]="readFlag1"></nz-range-picker>
               </nz-form-control>
             </nz-form-item>
             <nz-form-item>
@@ -45,15 +45,19 @@
           </div>
         </ng-template>
         <ng-template #step2>
-          <div style="margin:30px 0px 20px -100px">
+          <div style="margin:30px 0px 20px -100px" *ngIf="visabled">
             <nz-form-item>
               <nz-form-label nzSpan="4">操作</nz-form-label>
               <nz-form-control nzSpan="16">
-                <button nz-button nzType="primary" style="margin-left:10px;">
+                <button nz-button nzType="primary" style="margin-left:10px;" [disabled]="readFlag2">
                   <i nz-icon nzType="link" nzTheme="outline"></i>引用模板
                 </button>
-                <button nz-button nzType="primary"><i nz-icon nzType="sync" nzTheme="outline"></i>提交审核</button>
-                <button nz-button nzType="primary"><i nz-icon nzType="file-word" nzTheme="outline"></i>生成报告</button>
+                <button nz-button nzType="primary" [disabled]="readFlag2">
+                  <i nz-icon nzType="sync" nzTheme="outline"></i>提交审核
+                </button>
+                <button nz-button nzType="primary" [disabled]="readFlag2">
+                  <i nz-icon nzType="file-word" nzTheme="outline"></i>生成报告
+                </button>
               </nz-form-control>
             </nz-form-item>
             <nz-form-item>
@@ -72,25 +76,32 @@
                       <td>{{ data.quote }}</td>
                       <td>{{ data.reportName }}</td>
                       <td>
-                        <a>编辑</a>
+                        <a *ngIf="readFlag2" style="pointer-events: none;color: #666666; opacity: 0.5">编辑</a>
+                        <a *ngIf="!readFlag2">编辑</a>
                         <nz-divider nzType="vertical"></nz-divider>
-                        <a>查看</a>
+                        <a *ngIf="readFlag2" style="pointer-events: none;color: #666666; opacity: 0.5">查看</a>
+                        <a *ngIf="!readFlag2">查看</a>
                         <nz-divider nzType="vertical"></nz-divider>
-                        <a>保存</a>
+                        <a *ngIf="readFlag2" style="pointer-events: none;color: #666666; opacity: 0.5">保存</a>
+                        <a *ngIf="!readFlag2">保存</a>
                         <nz-divider nzType="vertical"></nz-divider>
-                        <a>删除</a>
+                        <a *ngIf="readFlag2" style="pointer-events: none;color: #666666; opacity: 0.5">删除</a>
+                        <a *ngIf="!readFlag2">删除</a>
                       </td>
                     </tr>
                   </tbody>
                 </nz-table>
               </nz-form-control>
             </nz-form-item>
-            <nz-form-item>
-              <div style="margin-left: 180px;">
-                <button nz-button nzType="default">上一步</button>
-                <button nz-button nzType="primary" style="margin-left: 100px;">完成</button>
-              </div>
-            </nz-form-item>
+          </div>
+          <div style="position: absolute; top: 400px;">
+            <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">上一步</button>
+            <button nz-button style="margin-left: 50px;" nzType="default" (click)="next()" *ngIf="current < 1">
+              下一步
+            </button>
+            <button nz-button style="margin-left: 50px;" nzType="primary" (click)="done()" *ngIf="current === 1">
+              完成
+            </button>
           </div>
         </ng-template>
       </form>
