@@ -141,7 +141,7 @@
       <ng-template #title3>
         <form #searchForm="ngForm" nz-form>
           <div nz-row [nzGutter]="24" nzType="flex" nzJustify="space-around" nzAlign="middle" class="search-row">
-            <div nz-col [nzSpan]="5">
+            <div nz-col [nzSpan]="3">
               <nz-form-item nzFlex>
                 <font style="font-size: 16px;">问题增长情况</font>
               </nz-form-item>
@@ -165,18 +165,18 @@
                 </nz-form-control>
               </nz-form-item>
             </div>
-            <div nz-col [nzSpan]="4"></div>
+            <div nz-col [nzSpan]="6"></div>
           </div>
         </form>
       </ng-template>
 
-      <div nz-col nzSpan="4">
+      <div nz-col nzSpan="2">
         <div nz-row>
           <div nz-col>
             <div nz-row>
               <div nz-col>问题增长数</div>
               <div nz-col>
-                <h1>320</h1>
+                <font size="30px">320</font>
               </div>
               <div nz-col>
                 <i nz-icon [nzType]="'caret-up'" style="font-size: 16px; color: rgb(26, 241, 80);"></i>
@@ -186,7 +186,7 @@
             <div nz-row>
               <div nz-col>问题增长率</div>
               <div nz-col>
-                <h1>320</h1>
+                <font size="30px">320</font>
               </div>
               <div nz-col>
                 <i nz-icon [nzType]="'caret-down'" style="font-size: 16px; color:rgb(248, 15, 7);"></i>
@@ -196,7 +196,7 @@
           </div>
         </div>
       </div>
-      <div nz-col nzSpan="20">
+      <div nz-col nzSpan="22">
         <div echarts [options]="option03"></div>
       </div>
     </nz-card>
