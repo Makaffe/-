@@ -225,7 +225,7 @@ export class AuditorDashboardComponent implements OnInit {
       },
     ];
     of(
-      Array(100)
+      Array(10)
         .fill({})
         // tslint:disable-next-line:variable-name
         .map((_item: any, idx: number) => {
