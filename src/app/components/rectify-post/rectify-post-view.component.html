@@ -6,7 +6,7 @@
   (gutterClick)="leftSize = leftSize == 0 ? LEFT_WIDTH : 0"
 >
   <!-- 左侧审计知识树 -->
-  <as-split-area [size]="leftSize" minSize="180" maxSize="300" class="app-audit-tree app-audit-tree-left">
+  <as-split-area [size]="300" minSize="180" maxSize="300" class="app-audit-tree app-audit-tree-left">
     <rectify-post-type-tree></rectify-post-type-tree>
   </as-split-area>
   <!--右侧编辑区-->
@@ -18,8 +18,8 @@
             <div nz-col nzSpan="24">
               <button nz-button><i nz-icon type="plus" theme="outline"></i>新增</button>
               <button nz-button><i nz-icon type="reload" theme="outline"></i>刷新</button>
-              <button nz-button><i nz-icon type="plus" theme="outline"></i>批量导出</button>
-              <button nz-button><i nz-icon type="reload" theme="outline"></i>批量删除</button>
+              <button nz-button><i nz-icon nzType="vertical-align-bottom" nzTheme="outline"></i>批量导出</button>
+              <button nz-button><i nz-icon nzType="delete" nzTheme="outline"></i>批量删除</button>
             </div>
           </div>
           <!-- 搜索栏 -->

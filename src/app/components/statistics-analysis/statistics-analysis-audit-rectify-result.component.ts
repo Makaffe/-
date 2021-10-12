@@ -14,14 +14,14 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
   option01 = {
     xAxis: {
       type: 'category',
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      data: ['部门一', '部门二', '部门三', '部门四', '部门五'],
     },
     yAxis: {
       type: 'value',
     },
     series: [
       {
-        data: [120, 200, 150, 80, 70, 110, 130],
+        data: [120, 200, 150, 80, 70],
         type: 'bar',
       },
     ],
