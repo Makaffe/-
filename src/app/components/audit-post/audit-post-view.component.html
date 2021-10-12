@@ -6,7 +6,13 @@
   (gutterClick)="leftSize = leftSize == 0 ? LEFT_WIDTH : 0"
 >
   <!-- 左侧审计知识树 -->
-  <as-split-area [size]="300" minSize="180" maxSize="300" class="app-audit-tree app-audit-tree-left">
+  <as-split-area
+    [size]="300"
+    minSize="180"
+    maxSize="300"
+    class="app-audit-tree app-audit-tree-left"
+    style="background-color: white;"
+  >
     <audit-post-type-tree></audit-post-type-tree>
   </as-split-area>
   <!--右侧编辑区-->

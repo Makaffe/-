@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { FormUtil } from '@ng-mt-framework/util';
 import { NzMessageService, UploadFile } from 'ng-zorro-antd';
+import { AuditPostTypeDTO } from './model/AuditPostTypeDTO';
+import { AuditPostTypeService } from './service/AuditPostTypeService';
 
 @Component({
   selector: 'audit-post-tree-edit',
@@ -9,17 +12,28 @@ import { NzMessageService, UploadFile } from 'ng-zorro-antd';
   styles: [],
 })
 export class AuditPostTreeEditComponent implements OnInit {
-  constructor(private msg: NzMessageService, private http: HttpClient) {}
+  constructor(
+    private msg: NzMessageService,
+    private http: HttpClient,
+    private auditPostTypeService: AuditPostTypeService,
+  ) {}
   uploading = false;
   fileList: UploadFile[] = [];
   @ViewChild('form', { static: false })
-  knowledgeTypeForm: NgForm;
+  form: NgForm;
 
   @Input()
   knowledgeType = null;
 
-  currentItem = {};
+  /**
+   * 数据更改通知事件
+   */
+  @Output()
+  notification = new EventEmitter();
 
+  currentItem: AuditPostTypeDTO = this.initDTO();
+
+  parentName = '';
   /**
    * 禁止全部输入空格正则匹配
    */
@@ -29,17 +43,6 @@ export class AuditPostTreeEditComponent implements OnInit {
    * 窗口是否可见
    */
   isVisible = false;
-
-  item = {
-    id: null,
-    title: '',
-    categories: '公司制度',
-    unitName: '',
-    unitNumber: '',
-    version: '',
-    date: '',
-    content: '',
-  };
 
   @Output()
   dataChange = new EventEmitter();
@@ -59,11 +62,30 @@ export class AuditPostTreeEditComponent implements OnInit {
    * @param item 需要编辑的数据，item为null表示创建新数据
    * @param isWatch 是否处于预览状态
    */
-  edit() {
+  edit(item?: any, created?: boolean) {
+    if (created === false) {
+      this.currentItem = this.initDTO(item);
+      if (!this.currentItem.parentId) {
+        this.parentName = '';
+      } else {
+        this.auditPostTypeService.findByIdUsingGET(item.parentId).subscribe(data => {
+          this.parentName = data.name;
+        });
+      }
+    } else {
+      if (item) {
+        const parentId = item.id;
+        this.parentName = item.name;
+        this.currentItem.parentId = parentId;
+      } else {
+        this.parentName = '';
+      }
+    }
     this.isVisible = true;
   }
 
   handleCancel() {
+    this.currentItem = this.initDTO();
     this.isVisible = false;
   }
 
@@ -88,9 +110,9 @@ export class AuditPostTreeEditComponent implements OnInit {
   initDTO(item?: any): any {
     return {
       id: item ? item.id : null,
-      titleName: item ? item.titleName : null,
-      unitDate: item ? item.unitDate : null,
-      subtitleName: item ? item.subtitleName : null,
+      name: item ? item.name : null,
+      parentId: item ? item.parentId : null,
+      remark: item ? item.remark : null,
     };
   }
 
@@ -107,4 +129,39 @@ export class AuditPostTreeEditComponent implements OnInit {
   }
 
   ngOnInit() {}
+  /**
+   * 验证表单
+   */
+  private validate() {
+    return FormUtil.validateForm(this.form.form);
+  }
+
+  save() {
+    if (!this.validate() || !this.currentItem.name) {
+      this.msg.warning('请补全星号的必填信息项');
+      return;
+    }
+    this.loading = true;
+    if (this.currentItem.id) {
+      this.auditPostTypeService.updateUsingPUT(this.currentItem.id, this.currentItem).subscribe(
+        () => this.afterCompleted(),
+        null,
+        () => (this.loading = false),
+      );
+    } else {
+      this.auditPostTypeService.addUsingPOST(this.currentItem).subscribe(
+        () => this.afterCompleted(),
+        null,
+        () => (this.loading = false),
+      );
+    }
+  }
+  /**
+   * 新增或修改请求后调用
+   */
+  afterCompleted() {
+    this.handleCancel();
+    this.msg.success('操作成功！');
+    this.notification.emit();
+  }
 }
