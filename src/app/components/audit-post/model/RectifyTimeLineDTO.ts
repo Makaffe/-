@@ -1,5 +1,5 @@
 import { RoleDTO, UserBaseDTO, UserDTO } from '@ng-mt-framework/api';
-import { RectifyProblemDTO } from './RectifyProblemDTO';
+import { RectifyProblemDTO } from '../../rectify-issue/model/rectify-problem-dto';
 
 /**
  * 整改时间轴信息 DTO

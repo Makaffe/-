@@ -65,10 +65,10 @@ export class AuditPostTreeEditComponent implements OnInit {
   edit(item?: any, created?: boolean) {
     if (created === false) {
       this.currentItem = this.initDTO(item);
-      if (!this.currentItem.parentId) {
+      if (!this.currentItem.parent) {
         this.parentName = '';
       } else {
-        this.auditPostTypeService.findByIdUsingGET(item.parentId).subscribe(data => {
+        this.auditPostTypeService.findByIdUsingGET(item.parent.id).subscribe(data => {
           this.parentName = data.name;
         });
       }
@@ -76,7 +76,7 @@ export class AuditPostTreeEditComponent implements OnInit {
       if (item) {
         const parentId = item.id;
         this.parentName = item.name;
-        this.currentItem.parentId = parentId;
+        this.currentItem.parent.id = parentId;
       } else {
         this.parentName = '';
       }
@@ -111,7 +111,7 @@ export class AuditPostTreeEditComponent implements OnInit {
     return {
       id: item ? item.id : null,
       name: item ? item.name : null,
-      parentId: item ? item.parentId : null,
+      parent: item ? item.parent : null,
       remark: item ? item.remark : null,
     };
   }
