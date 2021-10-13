@@ -1,5 +1,5 @@
 import { SystemFileDTO } from '@ng-mt-framework/api';
-import { RectifyProblemDTO } from './RectifyProblemDTO';
+import { RectifyProblemDTO } from '../../rectify-issue/model/rectify-problem-dto';
 
 /**
  * 增加或修改审计报告信息基础信息 DTO

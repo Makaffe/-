@@ -37,7 +37,7 @@
                   <nz-form-item style="justify-content: start;">
                     <nz-form-label [nzSpan]="7">报告名称</nz-form-label>
                     <nz-form-control [nzSpan]="19">
-                      <input nz-input type="text" name="name" placeholder="请输入搜索名称" />
+                      <input nz-input type="text" name="name" [(ngModel)]="filterParams.name" placeholder="请输入搜索名称" />
                     </nz-form-control>
                   </nz-form-item>
                 </div>
@@ -45,7 +45,8 @@
                   <nz-form-item style="justify-content: start;">
                     <nz-form-label [nzSpan]="7">审计时间</nz-form-label>
                     <nz-form-control [nzSpan]="19">
-                      <nz-range-picker></nz-range-picker>
+                      <nz-range-picker name="auditDateRange" [(ngModel)]="filterParams.auditDateRange" 
+                       (ngModelChange)="selectDateRange($event)"></nz-range-picker>
                     </nz-form-control>
                   </nz-form-item>
                 </div>
@@ -53,21 +54,21 @@
                   <nz-form-item style="justify-content: start;">
                     <nz-form-label [nzSpan]="7">审计单位</nz-form-label>
                     <nz-form-control [nzSpan]="19">
-                      <input nz-input type="text" name="name" placeholder="请输入搜索名称" />
+                      <input nz-input type="text" name="auditUnitName" [(ngModel)]="filterParams.auditUnitName"  placeholder="请输入搜索名称" />
                     </nz-form-control>
                   </nz-form-item>
                 </div>
               </div>
               <!-- 查找按钮 -->
               <div nz-col [nzSpan]="3">
-                <button nz-button nzType="primary"><i nz-icon nzType="search" nzTheme="outline"></i>查找</button>
+                <button (click)="search()" nz-button nzType="primary"><i nz-icon nzType="search" nzTheme="outline"></i>查找</button>
               </div>
             </div>
           </form>
         </div>
       </as-split-area>
       <as-split-area [size]="'*'">
-        <audit-post-list></audit-post-list>
+        <audit-post-list [filterParams]="filterParams" #auditPostList></audit-post-list>
       </as-split-area>
     </as-split>
   </as-split-area>
