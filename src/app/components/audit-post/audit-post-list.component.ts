@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { TABLE_PARAMETER } from '@mt-framework-ng/core';
+import { ApiPagedData, QueryOptions, TABLE_PARAMETER } from '@mt-framework-ng/core';
 import { ObjectUtil } from '@ng-mt-framework/util';
+import { AuditPostDTO } from './model/AuditPostDTO';
+import { AuditPostService } from './service/AuditPostService';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -10,25 +12,11 @@ import { ObjectUtil } from '@ng-mt-framework/util';
   styles: [],
 })
 export class AuditPostListComponent implements OnInit {
+  loading = false;
   /**
    * 列表数据
    */
-  tableData: Array<any> = [
-    {
-      state: '待处理',
-      postName: '2021-09审计报告',
-      unitName: '审计一部',
-      time: '2021-10-12',
-      issueAmount: '33',
-    },
-    {
-      state: '已处理',
-      postName: '2021-10审计报告',
-      unitName: '审计一部',
-      time: '2021-12-12',
-      issueAmount: '26',
-    },
-  ];
+  tableData: Array<any> = [];
   /**
    * 列表参数
    */
@@ -70,9 +58,58 @@ export class AuditPostListComponent implements OnInit {
     },
     { title: '操作', render: 'operations', width: '30px', className: 'text-center', fixed: 'right' },
   ];
-  constructor(private router: Router) {}
 
-  ngOnInit() {}
+  /**
+   * 分页，排序参数
+   */
+  @Input()
+  queryOptions: QueryOptions = {
+    page: 0,
+    size: 10,
+    sort: 'id,desc',
+  };
+
+  /**
+   * 查询过滤参数
+   */
+
+  @Input()
+  filterParams: { name: string; auditBeginTime: string; auditEndTime: string; auditUnitName: string } = {
+    name: null,
+    auditBeginTime: null,
+    auditEndTime: null,
+    auditUnitName: null,
+  };
+
+  constructor(private router: Router, private auditPostService: AuditPostService) {}
+
+  ngOnInit() {
+    this.load();
+  }
+
+  load(): void {
+    this.loading = true;
+    this.auditPostService
+      .findOnePage(
+        this.queryOptions.page,
+        this.queryOptions.size,
+        this.queryOptions.sort,
+        this.filterParams.name,
+        this.filterParams.auditBeginTime,
+        this.filterParams.auditEndTime,
+        this.filterParams.auditUnitName,
+      )
+      .subscribe({
+        next: (data: ApiPagedData<AuditPostDTO>) => {
+          this.tableData = data.data;
+          this.tableParameter.page.total = data.totalRecords;
+        },
+        error: () => {},
+        complete: () => {
+          this.loading = false;
+        },
+      });
+  }
 
   edit(row): void {
     this.router.navigate(['/audit-rectify/audit-post-detail']);

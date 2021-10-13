@@ -96,19 +96,18 @@
                 <tbody>
                   <tr *ngFor="let data of columnTable.data">
                     <td nzAlign="center" nzLeft="0px">{{ data.id }}</td>
-                    <td nzLeft="50px">{{ data.issueName }}</td>
-                    <td>{{ data.issueDesc }}</td>
-                    <td>{{ data.issueType }}</td>
-                    <td>{{ data.rectifyDepartment }}</td>
-                    <td>{{ data.rectifyPrincipal }}</td>
-                    <td>{{ data.auditingAdvice }}</td>
-
+                    <td nzLeft="50px">{{ data.name }}</td>
+                    <td>{{ data.mark }}</td>
+                    <td>{{ data.type }}</td>
+                    <td>{{ data.rectifyDepartmentId }}</td>
+                    <td>{{ data.rectifyPeopleId }}</td>
+                    <td>{{ data.advice }}</td>
                     <td nzRight="100px">{{ data.source }}</td>
                     <td nzAlign="center" nzRight="0px">
                       <a *ngIf="readFlag2" style="pointer-events: none;color: #666666; opacity: 0.5">编辑</a>
                       <a *ngIf="!readFlag2">编辑</a>
                       <nz-divider nzType="vertical"></nz-divider>
-                      <nz-popconfirm [nzTitle]="confirmtittle">
+                      <nz-popconfirm [nzTitle]="confirmtittle" (nzOnConfirm)="deleteProblem(data)">
                         <ng-template #confirmtittle>是否要删除该条数据</ng-template>
                         <a *ngIf="readFlag2" style="pointer-events: none;color: #666666; opacity: 0.5">删除</a>
                         <a *ngIf="!readFlag2" nz-popconfirm>删除</a>
@@ -120,7 +119,7 @@
                   </tr>
                 </tbody>
                 <ng-template #tableFooter>
-                  <button nz-button nzType="primary" nzSize="small">
+                  <button (click)="addProblem()" nz-button nzType="primary" nzSize="small">
                     <i nz-icon nzType="plus" nzTheme="outline"></i>添加问题
                   </button>
                   <button nz-button nzType="danger" nzSize="small">
