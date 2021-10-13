@@ -61,4 +61,6 @@ export interface AuditPostTypeDTO {
    * 父id
    */
   parentId: string;
+
+  parent?: AuditPostTypeDTO;
 }
