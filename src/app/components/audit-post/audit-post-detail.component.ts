@@ -9,7 +9,7 @@ import UUID from 'uuidjs';
   styleUrls: ['./audit-post-detail.component.less'],
 })
 export class AuditPostDetailComponent implements OnInit {
-  listOfData = [];
+  listOfData: RectifyProblemDTO[] = [];
   filters: UploadFilter[] = [
     {
       name: 'type',
@@ -132,6 +132,31 @@ export class AuditPostDetailComponent implements OnInit {
       advice: null,
       source: null,
       uuid: UUID.generate(),
+      editable: true,
     };
   }
+
+  saveProblem(data: RectifyProblemDTO): void {
+    console.log('============SAVE= PROBLEM===========');
+    console.log(data);
+    if (
+      !data.name ||
+      !data.type ||
+      !data.remark ||
+      !data.rectifyDepartmentId ||
+      !data.rectifyPeopleId ||
+      !data.advice ||
+      !data.source
+    ) {
+      this.msg.warning(`请确认问题信息填写完整`);
+      return;
+    }
+    this.listOfData.filter(item => item.uuid === data.uuid)[0].editable = false;
+  }
+
+  editProblem(data: RectifyProblemDTO): void {
+    this.listOfData.filter(item => item.uuid === data.uuid)[0].editable = true;
+  }
+
+ 
 }
