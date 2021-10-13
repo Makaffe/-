@@ -35,16 +35,11 @@
 <nz-table #expandTable [nzData]="listOfMapData" [nzScroll]="{ x: '1150px', y: '240px' }">
   <thead>
     <tr>
-      <th
-        nzShowCheckbox
-        [(nzChecked)]="isAllDisplayDataChecked"
-        [nzIndeterminate]="isIndeterminate"
-        (nzCheckedChange)="checkAll($event)"
-        nzWidth="50px"
-      ></th>
+      <th nzShowCheckbox [(nzChecked)]="isAllDisplayDataChecked" [nzIndeterminate]="isIndeterminate"
+        (nzCheckedChange)="checkAll($event)" nzWidth="50px"></th>
       <th nzWidth="120px">序号</th>
-      <th nzWidth="100px" nzAlign="center">状态</th>
-      <th nzWidth="100px" nzAlign="center">移交情况</th>
+      <th nzWidth="100px" nzAlign="center">下发状态</th>
+      <th nzWidth="100px" nzAlign="center">移交状态</th>
       <th nzWidth="170px">审计报告名称</th>
       <th nzWidth="150px">问题名称</th>
       <th nzWidth="150px">问题描述</th>
@@ -64,12 +59,8 @@
           <!-- <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[data.key]" (nzCheckedChange)="refreshStatus()"></td> -->
           <td nzShowCheckbox [(nzChecked)]="item.checked" (nzCheckedChange)="refreshStatus()"></td>
 
-          <td
-            [nzIndentSize]="item.level * 20"
-            [nzShowExpand]="!!item.children"
-            [(nzExpand)]="item.expand"
-            (nzExpandChange)="collapse(mapOfExpandedData[data.key], item, $event)"
-          >
+          <td [nzIndentSize]="item.level * 20" [nzShowExpand]="!!item.children" [(nzExpand)]="item.expand"
+            (nzExpandChange)="collapse(mapOfExpandedData[data.key], item, $event)">
             {{ item.key }}
           </td>
           <td nzAlign="center">

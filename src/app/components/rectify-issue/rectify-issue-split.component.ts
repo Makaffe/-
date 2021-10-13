@@ -2,8 +2,7 @@
 // import { NzInputDirective } from 'ng-zorro-antd';
 
 import { Component, OnInit } from '@angular/core';
-import { ItemData } from './rectify-issue-list.component';
-// interface ItemData {
+// interface any {
 //   id: string;
 //   proName: string;
 //   proDes: string;
@@ -11,7 +10,7 @@ import { ItemData } from './rectify-issue-list.component';
 //   department: string;
 //   person: string;
 //   suggest: string;
-//   children?: ItemData[];
+//   children?: any[];
 // }
 @Component({
   // tslint:disable-next-line:component-selector
@@ -20,9 +19,9 @@ import { ItemData } from './rectify-issue-list.component';
   styles: [],
 })
 export class RectifyIssueSplitComponent implements OnInit {
-  editCache: { [key: string]: { edit: boolean; data: ItemData } } = {};
-  listOfData: ItemData[] = [];
-  data: ItemData = {
+  editCache: { [key: string]: { edit: boolean; data: any } } = {};
+  listOfData: any[] = [];
+  data: any = {
     key: null,
     id: null,
     proName: '',

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ItemData } from './rectify-issue-list.component';
-// interface ItemData {
+// interface any {
 //   id: string;
 //   proName: string;
 //   proDes: string;
@@ -8,7 +7,7 @@ import { ItemData } from './rectify-issue-list.component';
 //   department: string;
 //   person: string;
 //   suggest: string;
-//   children?: ItemData[];
+//   children?: any[];
 // }
 @Component({
   // tslint:disable-next-line:component-selector
@@ -19,7 +18,7 @@ import { ItemData } from './rectify-issue-list.component';
 export class RectifyIssueOrderComponent implements OnInit {
   isVisible = false;
   loading = false;
-  listOfData: ItemData[] = [];
+  listOfData: any[] = [];
   constructor() {}
 
   ngOnInit() {}
