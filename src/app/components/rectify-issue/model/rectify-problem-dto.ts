@@ -181,4 +181,9 @@ export class RectifyProblemDTO {
    * UUID
    */
   uuid?: string;
+
+  /**
+   * 是否可编辑
+   */
+  editable?: boolean;
 }
