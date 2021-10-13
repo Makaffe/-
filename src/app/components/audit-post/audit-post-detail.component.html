@@ -94,18 +94,80 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let data of columnTable.data">
-                    <td nzAlign="center" nzLeft="0px">{{ data.id }}</td>
-                    <td nzLeft="50px">{{ data.name }}</td>
-                    <td>{{ data.mark }}</td>
-                    <td>{{ data.type }}</td>
-                    <td>{{ data.rectifyDepartmentId }}</td>
-                    <td>{{ data.rectifyPeopleId }}</td>
-                    <td>{{ data.advice }}</td>
-                    <td nzRight="100px">{{ data.source }}</td>
+                  <tr *ngFor="let data of columnTable.data; let i = index">
+                    <td nzAlign="center" nzLeft="0px">
+                      {{
+                        ((columnTable.nzPageIndex ? columnTable.nzPageIndex : 1) - 1) *
+                          (columnTable.nzPageSize ? columnTable.nzPageSize : 0) +
+                          (i + 1)
+                      }}
+                    </td>
+
+                    <td nzLeft="50px">
+                      <nz-form-control [nzValidateStatus]="name.invalid && (name.dirty || name.touched) ? 'error' : ''">
+                        <input
+                          #name="ngModel"
+                          required
+                          [disabled]="!data.editable"
+                          nz-input
+                          [name]="'name' + i"
+                          [(ngModel)]="data.name"
+                        />
+
+                        <nz-form-explain *ngIf="name.invalid && (name.dirty || name.touched)">
+                          请填写问题名称
+                        </nz-form-explain>
+                      </nz-form-control>
+                    </td>
+                    <td>
+                      <textarea
+                        [disabled]="!data.editable"
+                        rows="1"
+                        nz-input
+                        [name]="'remark' + i"
+                        [(ngModel)]="data.remark"
+                      ></textarea>
+                    </td>
+                    <td>
+                      <nz-select [nzDisabled]="!data.editable" [name]="'type' + i " [(ngModel)]="data.type">
+                        <nz-option nzValue="类型一" nzLabel="类型一"></nz-option>
+                        <nz-option nzValue="类型二" nzLabel="类型二"></nz-option>
+                      </nz-select>
+                    </td>
+                    <td>
+                      <mt-organization-select
+                        [disabled]="!data.editable"
+                        placeHolder="请选择部门"
+                        organizationType="UNIT"
+                        [name]="'rectifyDepartmentId' +   i"
+                        [(ngModel)]="data.rectifyDepartmentId"
+                      >
+                      </mt-organization-select>
+                    </td>
+                    <td>
+                      <mt-user-select
+                        [isMultiSelect]="false"
+                        [name]="'rectifyPeopleId'+ i "
+                        [(ngModel)]="data.rectifyPeopleId"
+                        [disabled]="!data.editable"
+                      ></mt-user-select>
+                    </td>
+                    <td>
+                      <textarea
+                        [disabled]="!data.editable"
+                        rows="1"
+                        nz-input
+                        [name]="'advice' + i"
+                        [(ngModel)]="data.advice"
+                      ></textarea>
+                    </td>
+                    <td nzRight="100px">
+                      <input [disabled]="!data.editable" nz-input [name]="'source' +  i" [(ngModel)]="data.source" />
+                    </td>
+
                     <td nzAlign="center" nzRight="0px">
                       <a *ngIf="readFlag2" style="pointer-events: none;color: #666666; opacity: 0.5">编辑</a>
-                      <a *ngIf="!readFlag2">编辑</a>
+                      <a (click)="editProblem(data)" *ngIf="!readFlag2 && !data.editable">编辑</a>
                       <nz-divider nzType="vertical"></nz-divider>
                       <nz-popconfirm [nzTitle]="confirmtittle" (nzOnConfirm)="deleteProblem(data)">
                         <ng-template #confirmtittle>是否要删除该条数据</ng-template>
@@ -113,8 +175,10 @@
                         <a *ngIf="!readFlag2" nz-popconfirm>删除</a>
                       </nz-popconfirm>
                       <nz-divider nzType="vertical"></nz-divider>
-                      <a *ngIf="readFlag2" style="pointer-events: none;color: #666666; opacity: 0.5">保存</a>
-                      <a *ngIf="!readFlag2" nz-popconfirm>保存</a>
+                      <a *ngIf="readFlag2 && data.editable" style="pointer-events: none;color: #666666; opacity: 0.5"
+                        >保存</a
+                      >
+                      <a (click)="saveProblem(data)" *ngIf="!readFlag2 && data.editable" nz-popconfirm>保存</a>
                     </td>
                   </tr>
                 </tbody>
