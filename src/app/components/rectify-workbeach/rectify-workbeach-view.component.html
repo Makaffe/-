@@ -1,7 +1,5 @@
-<div
-  style="height:100%;margin:10px 0 0 10px; background-color: white;"
-  [ngStyle]="{ overflow: isFold ? 'auto' : 'scroll' }"
->
+<div style="height:100%;margin:10px 0 0 10px; background-color: white;"
+  [ngStyle]="{ overflow: isFold ? 'auto' : 'scroll' }">
   <div nz-col>
     <div nz-row style="border:1px solid #797979;margin-bottom: 5px; padding: 5px 0 5px 0;">
       <div nz-col>
@@ -136,17 +134,12 @@
                   </div>
                 </div>
               </div>
-              <nz-table
-                #nzTable1
-                [nzData]="listOfData"
-                [nzScroll]="{ x: '1500px', y: '240px' }"
-                nzBordered
-                style="height:640px"
-              >
+              <nz-table #nzTable1 [nzData]="listOfData" [nzScroll]="{ x: '1500px', y: '240px' }" nzBordered
+                style="height:640px">
                 <thead>
                   <tr>
                     <th nzShowExpand nzWidth="80px">按钮</th>
-                    <th nzWidth="90px" [nzAlign]="'center'">状态</th>
+                    <th nzWidth="90px" [nzAlign]="'center'">措施状态</th>
                     <th>措施类型</th>
                     <th>整改措施</th>
                     <th nzWidth="200px">整改进度</th>
@@ -161,48 +154,49 @@
                     <tr>
                       <td nzWidth="80px" nzShowExpand [(nzExpand)]="mapOfExpandData[data.id]">
                         <nz-badge [nzCount]="5">
-                          <font style="color:white;">通</font>
+                          <font style="color:white;">'</font>
                         </nz-badge>
                         <!-- <div style=" display:inline;background-color: red; border-radius: 100%;">
                           <font style="size:0.1;color:white;">&nbsp;5&nbsp;</font>
                         </div> -->
                       </td>
                       <td nzWidth="90px" [nzAlign]="'center'">
-                        <nz-tag [nzColor]="'#2db7f5'">整改中</nz-tag>
+                        <nz-tag [nzColor]="'#D3D3D3'" *ngIf="data.measureStatus==='NOT_SUBMITTED'">未提交</nz-tag>
+                        <nz-tag [nzColor]="'#2db7f5'" *ngIf="data.measureStatus==='RECTIFY_CENTRE'">整改中</nz-tag>
+                        <nz-tag [nzColor]="'#87d068'" *ngIf="data.measureStatus==='COMPLETED'">已完成</nz-tag>
+                        <nz-tag [nzColor]="'#FF4500'" *ngIf="data.measureStatus==='OVERDUE'">已逾期</nz-tag>
+                        <nz-tag [nzColor]="'#808080'" *ngIf="data.measureStatus==='INVALID'">已失效</nz-tag>
                       </td>
-                      <td>{{ data.age }}</td>
-                      <td>{{ data.address }}</td>
+                      <td>{{ data.measureType }}</td>
+                      <td>{{ data.measureContent }}</td>
                       <td nzWidth="200px">
                         <div style="display: inline-block;width:120px">
-                          <nz-progress [nzPercent]="demoValue" nzSize="small" [nzShowInfo]="false" [nzStrokeWidth]="10">
+                          <nz-progress [nzPercent]="data.rectifyProgress" nzSize="small" [nzShowInfo]="false"
+                            [nzStrokeWidth]="10">
                           </nz-progress>
                         </div>
                         <div style="display: inline-block;width: 60px;">
-                          <nz-input-number
-                            [(ngModel)]="demoValue"
-                            [nzMin]="0"
-                            [nzMax]="100"
-                            [nzStep]="1"
-                            [nzFormatter]="formatterPercent"
-                            style="width: 60px; border: none;"
-                          >
+                          <nz-input-number [(ngModel)]="data.rectifyProgress" [nzMin]="0" [nzMax]="100" [nzStep]="1"
+                            (ngModelChange)="chageRectifyProgress(data.id,data.rectifyProgress)"
+                            [nzFormatter]="formatterPercent" style="width: 60px; border: none;">
                           </nz-input-number>
                         </div>
                       </td>
                       <td>
-                        <a>{{ data.address }}</a>
+                        <a>{{ data?.systemFiles[0]?.originalName }}</a>
                       </td>
-                      <td>{{ data.address }}</td>
-                      <td>{{ data.address }}</td>
+                      <td>{{ formatDate(data.rectifyCompleteTime )}} </td>
+                      <td>{{ formatDate(data.rectifyEndTime )}}</td>
                       <td nzWidth="180px" [nzAlign]="'center'">
-                        <a>整改完成</a>
+                        <button nz-button nzType="link" nzGhost
+                          (click)="chageRectifyProgress(data.id,null,'COMPLETED')">整改完成</button>
                         <nz-divider nzType="vertical"></nz-divider>
-                        <a>重新整改</a>
+                        <button nz-button nzType="link" nzGhost>整改完成</button>
                       </td>
                     </tr>
                     <tr [nzExpand]="mapOfExpandData[data.id]">
                       <td></td>
-                      <td colspan="8">{{ data.description }}</td>
+                      <td colspan="8">{{ data.rectifyMeasureReplys }}</td>
                     </tr>
                   </ng-template>
                 </tbody>
@@ -212,13 +206,8 @@
               <ng-template #extraTemplate>
                 <button nz-button nzType="primary">新增措施</button>
               </ng-template>
-              <nz-table
-                #nzTable2
-                [nzData]="listOfData"
-                [nzScroll]="{ x: '1500px', y: '240px' }"
-                nzBordered
-                style="height:670px"
-              >
+              <nz-table #nzTable2 [nzData]="listOfData" [nzScroll]="{ x: '1500px', y: '240px' }" nzBordered
+                style="height:670px">
                 <thead>
                   <tr>
                     <th nzShowExpand nzWidth="80px">按钮</th>
@@ -250,14 +239,8 @@
                           </nz-progress>
                         </div>
                         <div style="display: inline-block;width: 60px;">
-                          <nz-input-number
-                            [(ngModel)]="demoValue"
-                            [nzMin]="0"
-                            [nzMax]="100"
-                            [nzStep]="1"
-                            [nzFormatter]="formatterPercent"
-                            style="width: 60px; border: none;"
-                          >
+                          <nz-input-number [(ngModel)]="demoValue" [nzMin]="0" [nzMax]="100" [nzStep]="1"
+                            [nzFormatter]="formatterPercent" style="width: 60px; border: none;">
                           </nz-input-number>
                         </div>
                       </td>
