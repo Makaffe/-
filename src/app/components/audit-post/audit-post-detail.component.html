@@ -20,15 +20,8 @@
           <nz-form-item>
             <nz-form-label nzSpan="4">上传审计报告</nz-form-label>
             <nz-form-control nzSpan="20">
-              <nz-upload
-                nzAction="https://jsonplaceholder.typicode.com/posts/"
-                [nzFileList]="fileList"
-                nzMultiple
-                [nzLimit]="2"
-                [nzFilter]="filters"
-                (nzChange)="handleChange($event)"
-                [nzDisabled]="readFlag1"
-              >
+              <nz-upload nzAction="https://jsonplaceholder.typicode.com/posts/" [nzFileList]="fileList" nzMultiple
+                [nzLimit]="2" [nzFilter]="filters" (nzChange)="handleChange($event)" [nzDisabled]="readFlag1">
                 <button nz-button nzShape="round" [disabled]="readFlag1">
                   <i nz-icon nzType="upload"></i><span>上传文件</span>
                 </button>
@@ -73,13 +66,8 @@
           <nz-form-item *ngIf="visabled">
             <nz-form-label nzSpan="4">整改问题清单</nz-form-label>
             <nz-form-control nzSpan="18">
-              <nz-table
-                [nzFooter]="tableFooter"
-                #columnTable
-                nzBordered
-                [nzData]="listOfData"
-                [nzScroll]="{ x: '900px' }"
-              >
+              <nz-table [nzFooter]="tableFooter" #columnTable nzBordered [nzData]="listOfData"
+                [nzScroll]="{ x: '900px' }">
                 <thead>
                   <tr>
                     <th nzWidth="50px" nzAlign="center" nzLeft="0px">序号</th>
@@ -87,13 +75,24 @@
                     <th nzWidth="100px" nzAlign="center">问题描述</th>
                     <th nzWidth="100px" nzAlign="center">问题类型</th>
                     <th nzWidth="100px" nzAlign="center">整改部门</th>
-                    <th nzWidth="100px" nzAlign="center">整改负责人</th>
+                    <th nzWidth="100px" nzAlign="center">整改责任人</th>
                     <th nzWidth="100px" nzAlign="center">审计建议</th>
                     <th nzRight="100px" nzAlign="center" nzWidth="100px">问题来源</th>
                     <th nzWidth="150px" nzAlign="center" nzRight="0px">操作</th>
                   </tr>
                 </thead>
                 <tbody>
+<<<<<<< HEAD
+                  <tr *ngFor="let data of columnTable.data">
+                    <td nzAlign="center" nzLeft="0px">{{ data.id }}</td>
+                    <td nzLeft="50px">{{ data.name }}</td>
+                    <td>{{ data.mark }}</td>
+                    <td>{{ data.type }}</td>
+                    <td>{{ data.rectifyDepartmentId }}</td>
+                    <td>{{ data.dutyUserId }}</td>
+                    <td>{{ data.advice }}</td>
+                    <td nzRight="100px">{{ data.source }}</td>
+=======
                   <tr *ngFor="let data of columnTable.data; let i = index">
                     <td nzAlign="center" nzLeft="0px">
                       {{
@@ -165,6 +164,7 @@
                       <input [disabled]="!data.editable" nz-input [name]="'source' +  i" [(ngModel)]="data.source" />
                     </td>
 
+>>>>>>> master
                     <td nzAlign="center" nzRight="0px">
                       <a *ngIf="readFlag2" style="pointer-events: none;color: #666666; opacity: 0.5">编辑</a>
                       <a (click)="editProblem(data)" *ngIf="!readFlag2 && !data.editable">编辑</a>

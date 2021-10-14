@@ -128,7 +128,7 @@ export class AuditPostDetailComponent implements OnInit {
       type: null,
       remark: null,
       rectifyDepartmentId: null,
-      rectifyPeopleId: null,
+      dutyUserId: null,
       advice: null,
       source: null,
       uuid: UUID.generate(),
