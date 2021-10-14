@@ -13,7 +13,7 @@
       </nz-form-control>
       <nz-form-label nzSpan="2">问题类型</nz-form-label>
       <nz-form-control nzSpan="10">
-        <input nz-input name="type" [value]="problemItem?.type" readonly />
+        <input nz-input name="type" [value]="this.convertProblemType(problemItem?.type)" readonly />
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
@@ -43,35 +43,37 @@
             <tr *ngFor="let data of editRowTable.data; let i = index">
               <td nzLeft="0px">{{ i + 1 }}</td>
               <td>
-                <ng-container *ngIf="!editCache[data.id].edit; else nameInputTpl">
+                <ng-container *ngIf="!editCache[data.uuid].edit; else nameInputTpl">
                   {{ data.name }}
                 </ng-container>
                 <ng-template #nameInputTpl>
-                  <input name="name" type="text" nz-input [(ngModel)]="editCache[data.id].data.name" />
+                  <input name="name" type="text" nz-input [(ngModel)]="editCache[data.uuid].data.name" />
                 </ng-template>
               </td>
               <td>
-                <ng-container *ngIf="!editCache[data.id].edit; else remarkInputTpl">
+                <ng-container *ngIf="!editCache[data.uuid].edit; else remarkInputTpl">
                   {{ data.remark }}
                 </ng-container>
                 <ng-template #remarkInputTpl>
-                  <textarea name="remark" type="text" nz-input [(ngModel)]="editCache[data.id].data.remark"></textarea>
+                  <textarea name="remark" type="text" nz-input
+                    [(ngModel)]="editCache[data.uuid].data.remark"></textarea>
                 </ng-template>
               </td>
               <td>
-                <ng-container *ngIf="!editCache[data.id].edit; else adviceInputTpl">
+                <ng-container *ngIf="!editCache[data.uuid].edit; else adviceInputTpl">
                   {{ data.advice }}
                 </ng-container>
                 <ng-template #adviceInputTpl>
-                  <textarea name="advice" type="text" nz-input [(ngModel)]="editCache[data.id].data.advice"></textarea>
+                  <textarea name="advice" type="text" nz-input
+                    [(ngModel)]="editCache[data.uuid].data.advice"></textarea>
                 </ng-template>
               </td>
               <td>
-                <ng-container *ngIf="!editCache[data.id].edit; else typeInputTpl">
-                  {{ data.type }}
+                <ng-container *ngIf="!editCache[data.uuid].edit; else typeInputTpl">
+                  {{ this.convertProblemType(data.type) }}
                 </ng-container>
                 <ng-template #typeInputTpl>
-                  <nz-select name="type" [(ngModel)]="editCache[data.id].data.type" style="width: 100%;"
+                  <nz-select name="type" [(ngModel)]="editCache[data.uuid].data.type" style="width: 100%;"
                     nzAllowClear="true" nzShowSearch="true">
                     <nz-option *ngFor="let option of problemTypeList" [nzLabel]="option.label" [nzValue]="option.value">
                     </nz-option>
@@ -79,23 +81,22 @@
                 </ng-template>
               </td>
               <td>
-                <ng-container *ngIf="!editCache[data.id].edit; else rectifyDepartmentInputTpl">
+                <ng-container *ngIf="!editCache[data.uuid].edit; else rectifyDepartmentInputTpl">
                   {{ data?.rectifyDepartment?.name }}
                 </ng-container>
                 <ng-template #rectifyDepartmentInputTpl>
                   <nz-tree-select [nzNodes]="organizationTree" [nzAllowClear]="true" nzDefaultExpandAll nzShowSearch
-                    name="rectifyDepartmentId" [(ngModel)]="editCache[data.id].data.rectifyDepartmentId"
+                    name="rectifyDepartmentId" [(ngModel)]="editCache[data.uuid].data.rectifyDepartmentId"
                     [nzDropdownStyle]="{ maxHeight: '280px' }">
                   </nz-tree-select>
                 </ng-template>
               </td>
               <td>
-                <ng-container *ngIf="!editCache[data.id].edit; else dutyUserInputTpl">
+                <ng-container *ngIf="!editCache[data.uuid].edit; else dutyUserInputTpl">
                   {{ data?.dutyUser?.name }}
                 </ng-container>
                 <ng-template #dutyUserInputTpl>
-                  <input name="dutyUser" type="text" nz-input [(ngModel)]="editCache[data.id].data.dutyUser" />
-                  <nz-select name="dutyUser" [(ngModel)]="editCache[data.id].data.dutyUser" style="width: 100%;"
+                  <nz-select name="dutyUser" [(ngModel)]="editCache[data.uuid].data.dutyUserId" style="width: 100%;"
                     nzAllowClear="true" nzShowSearch="true">
                     <nz-option *ngFor="let option of dutyUserList" [nzLabel]="option.name" [nzValue]="option.id">
                     </nz-option>
@@ -104,13 +105,13 @@
               </td>
               <td nzRight="0px" nzAlign="center">
                 <div class="editable-row-operations">
-                  <ng-container *ngIf="!editCache[data.id].edit; else saveTpl">
-                    <a (click)="startEdit(data.id)">编辑</a>
+                  <ng-container *ngIf="!editCache[data.uuid].edit; else saveTpl">
+                    <a (click)="startEdit(data.uuid)">编辑</a>
                   </ng-container>
                   <ng-template #saveTpl>
-                    <a (click)="saveEdit(data.id)">保存</a>
+                    <a (click)="saveEdit(data.uuid)">保存</a>
                     <nz-divider nzType="vertical"></nz-divider>
-                    <a nz-popconfirm nzTitle="确定取消?" (nzOnConfirm)="cancelEdit(data.id)">取消</a>
+                    <a nz-popconfirm nzTitle="确定取消?" (nzOnConfirm)="cancelEdit(data.uuid)">取消</a>
                   </ng-template>
                 </div>
               </td>

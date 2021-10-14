@@ -73,6 +73,20 @@ export class RectifyIssueListComponent implements OnInit {
    */
   checkboxIds = [];
 
+  /**
+   * 问题类型列表
+   */
+  problemTypeList = [
+    {
+      label: '问题类型1',
+      value: 'PROBLEM_ONE',
+    },
+    {
+      label: '问题类型2',
+      value: 'PROBLEM_TWO',
+    },
+  ];
+
   ngOnInit(): void {
     this.load();
   }
@@ -153,6 +167,16 @@ export class RectifyIssueListComponent implements OnInit {
   pageIndexChange(pageIndex: number) {
     this.queryOptions.page = pageIndex - 1;
     this.load();
+  }
+
+  /**
+   * 问题类型反显
+   * @param value 问题类型
+   */
+  convertProblemType(value: string) {
+    if (value) {
+      return this.problemTypeList.find(problem => problem.value === value).label;
+    }
   }
 
   /**
