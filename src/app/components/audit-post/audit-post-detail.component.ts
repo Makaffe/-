@@ -144,7 +144,7 @@ export class AuditPostDetailComponent implements OnInit {
       !data.type ||
       !data.remark ||
       !data.rectifyDepartmentId ||
-      !data.rectifyPeopleId ||
+      !data.dutyUserId ||
       !data.advice ||
       !data.source
     ) {
@@ -157,6 +157,4 @@ export class AuditPostDetailComponent implements OnInit {
   editProblem(data: RectifyProblemDTO): void {
     this.listOfData.filter(item => item.uuid === data.uuid)[0].editable = true;
   }
-
- 
 }
