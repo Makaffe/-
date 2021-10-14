@@ -60,10 +60,10 @@ export class RectifyMeasureService {
    */
   findOnePage(
     options: QueryOptions,
-    rectifyProblemId: string,
-    rectifyBackFeedHz?: number,
-    rectifyBackFeedHzUnit?: string,
-    rectifyEndTime?: string,
+    rectifyProblemId: any,
+    rectifyBackFeedHz?: any,
+    rectifyBackFeedHzUnit?: any,
+    rectifyEndTime?: any,
   ): Observable<ApiPagedData<RectifyMeasureDTO>> {
     const params = {};
     Object.assign(params, options);

@@ -15,10 +15,19 @@ export class RectifyDiaryComponent implements OnInit {
   isVisible = false;
   content: any;
 
+  // 整改问题id
+  rectifyProblemId: string;
+
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {}
   handleCancel() {
     this.isVisible = false;
   }
+
+  // 查询备忘录
+  loadData() {}
+
+  // 保存备忘录
+  save() {}
 }
