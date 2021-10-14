@@ -76,6 +76,7 @@ export class RectifyProblemDTO {
    * 审计报告
    */
   auditPost?: AuditPostDTO;
+  auditPostId?: string;
 
   /**
    * 移交状态，枚举
@@ -88,24 +89,21 @@ export class RectifyProblemDTO {
   oaSendCase?: boolean;
 
   /**
-   * 所属部门
+   * 整改部门
    */
-  rectifyDepartments?: Array<OrganizationDTO>;
+  rectifyDepartment?: OrganizationDTO;
+  rectifyDepartmentId?: string;
 
   /**
    * 整改责任人
    */
-  dutyUsers?: Array<UserBaseDTO>;
+  dutyUser?: UserBaseDTO;
+  dutyUserId?: string;
 
   /**
    * OA发送时间
    */
   oaSendTime?: string;
-
-  /**
-   * 整改具体负责人
-   */
-  responsibleUsers?: Array<UserBaseDTO>;
 
   /**
    * 移交时间
@@ -168,17 +166,12 @@ export class RectifyProblemDTO {
   parentId?: string;
 
   /**
-   * 整改部门ID
-   */
-  rectifyDepartmentId?: string;
-
-  /**
-   * 整改负责人ID
-   */
-  rectifyPeopleId?: string;
-
-  /**
    * UUID
    */
   uuid?: string;
+
+  /**
+   * key
+   */
+  key?: number;
 }

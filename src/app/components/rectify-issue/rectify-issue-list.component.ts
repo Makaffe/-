@@ -1,23 +1,19 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { STColumnTag } from '@delon/abc';
+import { QueryOptions } from '@mt-framework-ng/core';
+import { RectifyProblemDTO } from './model/rectify-problem-dto';
 import { RectifyIssueOrderComponent } from './rectify-issue-order.component';
 import { RectifyIssueSplitComponent } from './rectify-issue-split.component';
 import { RectifyIssueTransferComponent } from './rectify-issue-transfer.component';
-const TAG: STColumnTag = {
-  未下发: { text: '未下发', color: 'grey' },
-  已下发: { text: '已下发', color: '#008CEC' },
-  待处理: { text: '待处理', color: '#F76A00' },
-};
-const situationTAG: STColumnTag = {
-  未移交: { text: '未移交', color: '#D9001B' },
-  已移交: { text: '已移交', color: 'green' },
-};
+import { RectifyProblemService } from './service/RectifyProblemService';
 @Component({
   selector: 'app-rectify-issue-list',
   templateUrl: './rectify-issue-list.component.html',
   styles: [],
 })
 export class RectifyIssueListComponent implements OnInit {
+  constructor(private rectifyProblemService: RectifyProblemService) {}
+
   @ViewChild('rectifyIssueSplitComponent', { static: false })
   rectifyIssueSplitComponent: RectifyIssueSplitComponent;
   @ViewChild('rectifyIssueTransferComponent', { static: false })
@@ -27,178 +23,158 @@ export class RectifyIssueListComponent implements OnInit {
   isAllDisplayDataChecked = false;
   isIndeterminate = false;
   listOfAllData: any[] = [];
-  mapOfCheckedId: { [key: string]: boolean } = {};
+  mapOfCheckedId: { [id: string]: boolean } = {};
+  listOfMapData = [];
+  mapOfExpandedData: { [id: string]: any[] } = {};
 
-  listOfMapData: any[] = [
-    {
-      key: 1,
-      id: '1',
-      status: '未下发',
-      situation: '未移交',
-      admitName: '审计报告2019',
-      proName: '审计项目',
-      proDes: '这是一个审计项目',
-      proType: '审计整改函',
-      department: '整改部门',
-      person: '院长',
-      suggest: '继续整改',
-      proCome: '市医',
-      oaSend: '已发送',
-      checked: false,
-      children: [
-        {
-          key: 11,
-          id: '11',
+  /**
+   * checkbox的Output
+   */
+  @Output()
+  checkboxChange = new EventEmitter();
 
-          status: '未下发',
-          situation: '未移交',
-          admitName: '审计报告2019',
-          proName: '审计项目',
-          proDes: '这是一个审计项目',
-          proType: '审计整改函',
-          department: '整改部门',
-          person: '院长',
-          suggest: '继续整改',
-          proCome: '市医',
-          oaSend: '已发送',
-          checked: false,
+  /**
+   * 请求标识
+   */
+  loading = false;
+
+  /**
+   * 分页参数
+   */
+  private queryOptions: QueryOptions = {
+    page: 0,
+    size: 20,
+    sort: 'id,desc',
+  };
+
+  /**
+   * 树状表格分页参数
+   */
+  pageInfo = {
+    pageNo: 1,
+    pageSize: 20,
+    totalPages: 1,
+    totalRecords: 20,
+  };
+
+  /**
+   * 过滤参数
+   */
+  @Input()
+  params = {
+    rectifyProblemName: null,
+    rectifyDepartmentId: null,
+    sendStatus: null,
+    transferStatus: null,
+  };
+
+  /**
+   * checkbox选中的id
+   */
+  checkboxIds = [];
+
+  ngOnInit(): void {
+    this.load();
+  }
+
+  /**
+   * 加载表格数据
+   */
+  load() {
+    this.loading = true;
+    this.rectifyProblemService
+      .findOnePage(
+        this.queryOptions,
+        this.params.rectifyProblemName,
+        this.params.rectifyDepartmentId,
+        this.params.sendStatus,
+        this.params.transferStatus,
+      )
+      .subscribe(
+        data => {
+          if (data) {
+            this.listOfMapData = data.data;
+            this.pageInfo.pageNo = data.pageNo + 1;
+            this.pageInfo.pageSize = data.pageSize;
+            this.pageInfo.totalPages = data.totalPages;
+            this.pageInfo.totalRecords = Number(data.totalRecords);
+            this.listOfMapData.forEach(item => {
+              this.mapOfExpandedData[item.id] = this.convertTreeToList(item);
+            });
+          }
         },
-        {
-          key: 12,
-          id: '12',
-
-          status: '未下发',
-          situation: '未移交',
-          admitName: '审计报告2019',
-          proName: '审计项目',
-          proDes: '这是一个审计项目',
-          proType: '审计整改函',
-          department: '整改部门',
-          person: '院长',
-          suggest: '继续整改',
-          proCome: '市医',
-          oaSend: '已发送',
-          checked: false,
-          children: [
-            {
-              key: 121,
-              id: '121',
-
-              status: '未下发',
-              situation: '未移交',
-              admitName: '审计报告2019',
-              proName: '审计项目',
-              proDes: '这是一个审计项目',
-              proType: '审计整改函',
-              department: '整改部门',
-              person: '院长',
-              suggest: '继续整改',
-              proCome: '市医',
-              oaSend: '已发送',
-              checked: false,
-            },
-          ],
+        () => {},
+        () => {
+          this.loading = false;
         },
-        {
-          key: 13,
-          id: '13',
+      );
+  }
 
-          status: '未下发',
-          situation: '已移交',
-          admitName: '审计报告2019',
-          proName: '审计项目',
-          proDes: '这是一个审计项目',
-          proType: '审计整改函',
-          department: '整改部门',
-          person: '院长',
-          suggest: '继续整改',
-          proCome: '市医',
-          oaSend: '已发送',
-          checked: false,
-          children: [
-            {
-              key: 131,
-              id: '131',
+  /**
+   * 选中checkbox方法
+   * @param item 参数
+   * @param isCheck 是否选中
+   */
+  checked(item: RectifyProblemDTO, isCheck: boolean) {
+    if (item.children.length > 0) {
+      if (isCheck) {
+        this.checkboxChange.emit(item.children);
+      } else {
+        this.checkboxChange.emit([]);
+      }
+      item.children.forEach(child => {
+        this.mapOfCheckedId[child.id] = isCheck;
+      });
+    } else {
+      if (isCheck) {
+        this.checkboxChange.emit([item]);
+      } else {
+        this.checkboxChange.emit([]);
+      }
+    }
+    if (isCheck) {
+      this.checkboxIds.push(item.id);
+    } else {
+      this.checkboxIds = this.checkboxIds.filter(id => id !== item.id);
+    }
+  }
 
-              status: '未下发',
-              situation: '已移交',
-              admitName: '审计报告2019',
-              proName: '审计项目',
-              proDes: '这是一个审计项目',
-              proType: '审计整改函',
-              department: '整改部门',
-              person: '院长',
-              suggest: '继续整改',
-              proCome: '市医',
-              oaSend: '已发送',
-              checked: false,
-              children: [
-                {
-                  key: 1311,
-                  id: '1311',
+  /**
+   * 每页条数改变的回调
+   */
+  pageSizeChange(pageSize: number) {
+    this.queryOptions.size = pageSize;
+    this.load();
+  }
 
-                  status: '已下发',
-                  situation: '已移交',
-                  admitName: '审计报告2019',
-                  proName: '审计项目',
-                  proDes: '这是一个审计项目',
-                  proType: '审计整改函',
-                  department: '整改部门',
-                  person: '院长',
-                  suggest: '继续整改',
-                  proCome: '市医',
-                  oaSend: '已发送',
-                  checked: false,
-                },
-                {
-                  key: 1312,
-                  id: '1312',
+  /**
+   * 	页码改变的回调
+   */
+  pageIndexChange(pageIndex: number) {
+    this.queryOptions.page = pageIndex - 1;
+    this.load();
+  }
 
-                  status: '待处理',
-                  situation: '已移交',
-                  admitName: '审计报告2019',
-                  proName: '审计项目',
-                  proDes: '这是一个审计项目',
-                  proType: '审计整改函',
-                  department: '整改部门',
-                  person: '院长',
-                  suggest: '继续整改',
-                  proCome: '市医',
-                  oaSend: '已发送',
-                  checked: false,
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
-    {
-      key: 2,
-      id: '2',
-
-      status: '待处理',
-      situation: '已移交',
-      admitName: '审计报告2019',
-      proName: '审计项目',
-      proDes: '这是一个审计项目',
-      proType: '审计整改函',
-      department: '整改部门',
-      person: '院长',
-      suggest: '继续整改',
-      proCome: '市医',
-      oaSend: '已发送',
-      checked: false,
-    },
-  ];
-  mapOfExpandedData: { [key: string]: any[] } = {};
+  /**
+   * 拆分
+   * @param item 整改问题数据
+   */
+  splitIssue(item: RectifyProblemDTO) {
+    this.rectifyIssueSplitComponent.edit(item);
+  }
+  transfer(row) {
+    this.rectifyIssueTransferComponent.edit();
+  }
+  order(row) {
+    this.rectifyIssueOrderComponent.edit(row);
+  }
 
   collapse(array: any[], data: any, $event: boolean): void {
     if ($event === false) {
       if (data.children) {
         data.children.forEach(d => {
           // tslint:disable-next-line:no-non-null-assertion
-          const target = array.find(a => a.key === d.key)!;
+          const target = array.find(a => a.id === d.id)!;
           target.expand = false;
           this.collapse(array, target, false);
         });
@@ -225,46 +201,13 @@ export class RectifyIssueListComponent implements OnInit {
         }
       }
     }
-
     return array;
   }
 
-  visitNode(node: any, hashMap: { [key: string]: boolean }, array: any[]): void {
-    if (!hashMap[node.key]) {
-      hashMap[node.key] = true;
+  visitNode(node: any, hashMap: { [id: string]: boolean }, array: any[]): void {
+    if (!hashMap[node.id]) {
+      hashMap[node.id] = true;
       array.push(node);
     }
-  }
-
-  ngOnInit(): void {
-    this.listOfMapData.forEach(item => {
-      this.mapOfExpandedData[item.key] = this.convertTreeToList(item);
-    });
-  }
-
-  splitIssue(row) {
-    this.rectifyIssueSplitComponent.edit(row);
-  }
-  transfer(row) {
-    this.rectifyIssueTransferComponent.edit();
-  }
-  order(row) {
-    this.rectifyIssueOrderComponent.edit(row);
-  }
-
-  currentPageDataChange($event: any[]): void {
-    this.listOfMapData = $event;
-    this.refreshStatus();
-  }
-
-  refreshStatus(): void {
-    this.isAllDisplayDataChecked = this.listOfMapData.every(item => this.mapOfCheckedId[item.key]);
-    this.isIndeterminate =
-      this.listOfMapData.some(item => this.mapOfCheckedId[item.key]) && !this.isAllDisplayDataChecked;
-  }
-
-  checkAll(value: boolean): void {
-    this.listOfMapData.forEach(item => (this.mapOfCheckedId[item.key] = value));
-    this.refreshStatus();
   }
 }

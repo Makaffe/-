@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TreeUtil } from '@mt-framework-ng/util';
 import { OrganizationService } from '@ng-mt-framework/api';
+import { RectifyProblemDTO } from './model/rectify-problem-dto';
 import { RectifyIssueListComponent } from './rectify-issue-list.component';
 import { RectifyIssueOrderComponent } from './rectify-issue-order.component';
 import { RectifyIssueSplitComponent } from './rectify-issue-split.component';
@@ -14,8 +15,6 @@ import { RectifyIssueTransferComponent } from './rectify-issue-transfer.componen
 export class RectifyIssueViewComponent implements OnInit {
   constructor(private organizationService: OrganizationService) {}
   @ViewChild('rectifyIssueSplitComponent', { static: false })
-  rectifyIssueSplitComponent: RectifyIssueSplitComponent;
-  @ViewChild('rectifyIssueTransferComponent', { static: false })
   rectifyIssueTransferComponent: RectifyIssueTransferComponent;
   @ViewChild('rectifyIssueOrderComponent', { static: false })
   rectifyIssueOrderComponent: RectifyIssueOrderComponent;
@@ -28,10 +27,10 @@ export class RectifyIssueViewComponent implements OnInit {
    * 过滤参数
    */
   params = {
-    rectifyProblemName: '',
-    rectifyDepartmentId: '',
-    sendStatus: '',
-    transferStatus: '',
+    rectifyProblemName: null,
+    rectifyDepartmentId: null,
+    sendStatus: null,
+    transferStatus: null,
   };
 
   /**
@@ -83,22 +82,56 @@ export class RectifyIssueViewComponent implements OnInit {
     },
   ];
 
+  /**
+   * 整改表格checkbox选中的数据
+   */
+  checkboxData = [];
+
   ngOnInit() {
     this.organizationService.getOrganizationTreeOfEmployeeOrUser().subscribe(data => {
       this.organizationTree = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
     });
   }
 
-  splitIssue() {
-    this.rectifyIssueSplitComponent.edit();
-  }
+  /**
+   * 移交纪检
+   */
   transfer() {
     this.rectifyIssueTransferComponent.edit();
   }
+
+  /**
+   * 问题下发
+   */
   order() {
     this.rectifyIssueOrderComponent.edit();
   }
 
-  search() {}
-  clear() {}
+  /**
+   * 查询
+   */
+  search() {
+    this.rectifyIssueListComponent.load();
+  }
+
+  /**
+   * 清空查询条件
+   */
+  clear() {
+    this.params = {
+      rectifyProblemName: null,
+      rectifyDepartmentId: null,
+      sendStatus: null,
+      transferStatus: null,
+    };
+  }
+
+  /**
+   * 获取整改表格checkbox选中的数据
+   * @param data checkbox选中的数据
+   */
+  getCheckboxData(data: Array<RectifyProblemDTO>) {
+    console.log(data);
+    this.checkboxData = data;
+  }
 }

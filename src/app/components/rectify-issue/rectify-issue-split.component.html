@@ -1,117 +1,96 @@
-<nz-modal
-  [(nzVisible)]="isVisible"
-  [nzMaskClosable]="false"
-  (nzOnCancel)="handleCancel()"
-  [nzFooter]="rectifyIssueSplitFooter"
-  nzWidth="1200"
-  [nzTitle]="'问题拆分'"
-  [nzBodyStyle]="{
-    'height.px': '300px',
-    'overflow-y': 'auto',
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="'问题拆分详情'" [nzMaskClosable]="false" (nzOnCancel)="handleCancel()"
+  [nzFooter]="footer" [nzStyle]="{ top: '65px' }" nzWidth="1200" [nzBodyStyle]="{
+    'min-height': '300px',
     'overflow-x': 'hidden',
-    'padding-top': '0px',
-    'padding-bottom': '0px'
-  }"
->
+    padding: '24px 24px 0 24px'
+  }">
+
   <form nz-form>
     <nz-form-item>
-      <nz-form-label nzSpan="4">问题名称</nz-form-label>
-      <nz-form-control nzSpan="8">
-        <input nz-input name="proName" [(ngModel)]="data.proName" />
+      <nz-form-label nzSpan="2">问题名称</nz-form-label>
+      <nz-form-control nzSpan="10">
+        <input nz-input name="name" readonly [value]="problemItem?.name" />
       </nz-form-control>
-      <nz-form-label nzSpan="4">问题类型</nz-form-label>
-      <nz-form-control nzSpan="8">
-        <input nz-input name="proType" [(ngModel)]="data.proType" />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzSpan="4">问题描述</nz-form-label>
-      <nz-form-control nzSpan="20">
-        <textarea nz-input name="proDes" [(ngModel)]="data.proDes"></textarea>
+      <nz-form-label nzSpan="2">问题类型</nz-form-label>
+      <nz-form-control nzSpan="10">
+        <input nz-input name="type" [value]="problemItem?.type" readonly />
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label nzSpan="4">子问题</nz-form-label>
-      <nz-form-control nzSpan="20">
-        <nz-table
-          #editRowTable
-          nzBordered
-          [nzData]="listOfData"
-          [nzScroll]="{ x: '1300px', y: '240px' }"
-          [nzShowPagination]="false"
-        >
+      <nz-form-label nzSpan="2">问题描述</nz-form-label>
+      <nz-form-control nzSpan="22">
+        <textarea nz-input name="remark" [value]="problemItem?.remark" readonly></textarea>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="2">子问题</nz-form-label>
+      <nz-form-control nzSpan="22">
+        <nz-table #editRowTable nzBordered [nzData]="childrenProblemList" [nzScroll]="{ x: '1800px', y: '100%' }"
+          [nzShowPagination]="false">
           <thead>
             <tr>
-              <th nzWidth="30px" nzLeft="0px">序号</th>
-              <th nzWidth="100px">子问题名称</th>
-              <th nzWidth="100px">子问题描述</th>
-              <th nzWidth="100px">子问题审计建议</th>
+              <th nzWidth="50px" nzLeft="0px">序号</th>
+              <th nzWidth="150px">子问题名称</th>
+              <th nzWidth="200px">子问题描述</th>
+              <th nzWidth="200px">子问题审计建议</th>
               <th nzWidth="100px">子问题类型</th>
               <th nzWidth="100px">子问题整改部门</th>
               <th nzWidth="100px">子问题整改负责人</th>
-              <th nzWidth="60px" nzRight="0px" nzAlign="center">操作</th>
+              <th nzWidth="120px" nzRight="0px" nzAlign="center">操作</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let data of editRowTable.data; let number = index">
-              <td nzLeft="0px">{{ data.key }}</td>
+            <tr *ngFor="let data of editRowTable.data; let i = index">
+              <td nzLeft="0px">{{ i + 1 }}</td>
               <td>
-                <ng-container *ngIf="!editCache[data.id].edit; else proNameInputTpl">
-                  {{ data.proName }}
+                <ng-container *ngIf="!editCache[data.id].edit; else nameInputTpl">
+                  {{ data.name }}
                 </ng-container>
-                <ng-template #proNameInputTpl>
-                  <textarea
-                    name="proName"
-                    type="text"
-                    nz-input
-                    [(ngModel)]="editCache[data.id].data.proName"
-                  ></textarea>
+                <ng-template #nameInputTpl>
+                  <input name="name" type="text" nz-input [(ngModel)]="editCache[data.id].data.name" />
                 </ng-template>
               </td>
               <td>
-                <ng-container *ngIf="!editCache[data.id].edit; else proDesInputTpl">
-                  {{ data.proDes }}
+                <ng-container *ngIf="!editCache[data.id].edit; else remarkInputTpl">
+                  {{ data.remark }}
                 </ng-container>
-                <ng-template #proDesInputTpl>
-                  <textarea name="proDes" type="text" nz-input [(ngModel)]="editCache[data.id].data.proDes"></textarea>
+                <ng-template #remarkInputTpl>
+                  <textarea name="remark" type="text" nz-input [(ngModel)]="editCache[data.id].data.remark"></textarea>
                 </ng-template>
               </td>
               <td>
-                <ng-container *ngIf="!editCache[data.id].edit; else suggestInputTpl">
-                  {{ data.suggest }}
+                <ng-container *ngIf="!editCache[data.id].edit; else adviceInputTpl">
+                  {{ data.advice }}
                 </ng-container>
-                <ng-template #suggestInputTpl>
-                  <textarea
-                    name="suggest"
-                    type="text"
-                    nz-input
-                    [(ngModel)]="editCache[data.id].data.suggest"
-                  ></textarea>
+                <ng-template #adviceInputTpl>
+                  <textarea name="advice" type="text" nz-input [(ngModel)]="editCache[data.id].data.advice"></textarea>
                 </ng-template>
               </td>
               <td>
-                <ng-container *ngIf="!editCache[data.id].edit; else proTypeInputTpl">
-                  {{ data.proType }}
+                <ng-container *ngIf="!editCache[data.id].edit; else typeInputTpl">
+                  {{ data.type }}
                 </ng-container>
-                <ng-template #proTypeInputTpl>
-                  <input name="proType" type="text" nz-input [(ngModel)]="editCache[data.id].data.proType" />
+                <ng-template #typeInputTpl>
+                  <input name="type" type="text" nz-input [(ngModel)]="editCache[data.id].data.type" />
                 </ng-template>
               </td>
               <td>
-                <ng-container *ngIf="!editCache[data.id].edit; else departmentInputTpl">
-                  {{ data.department }}
+                <ng-container *ngIf="!editCache[data.id].edit; else rectifyDepartmentInputTpl">
+                  {{ data?.rectifyDepartment?.name }}
                 </ng-container>
-                <ng-template #departmentInputTpl>
-                  <input name="department" type="text" nz-input [(ngModel)]="editCache[data.id].data.department" />
+                <ng-template #rectifyDepartmentInputTpl>
+                  <nz-tree-select [nzNodes]="organizationTree" [nzAllowClear]="true" nzDefaultExpandAll nzShowSearch
+                    name="rectifyDepartmentId" [(ngModel)]="editCache[data.id].data.rectifyDepartment.id"
+                    [nzDropdownStyle]="{ maxHeight: '280px' }">
+                  </nz-tree-select>
                 </ng-template>
               </td>
-
               <td>
-                <ng-container *ngIf="!editCache[data.id].edit; else personInputTpl">
-                  {{ data.person }}
+                <ng-container *ngIf="!editCache[data.id].edit; else dutyUserInputTpl">
+                  {{ data?.dutyUser?.name }}
                 </ng-container>
-                <ng-template #personInputTpl>
-                  <input name="person" type="text" nz-input [(ngModel)]="editCache[data.id].data.person" />
+                <ng-template #dutyUserInputTpl>
+                  <input name="dutyUser" type="text" nz-input [(ngModel)]="editCache[data.id].data.dutyUser" />
                 </ng-template>
               </td>
               <td nzRight="0px" nzAlign="center">
@@ -132,9 +111,9 @@
       </nz-form-control>
     </nz-form-item>
   </form>
-  <ng-template #rectifyIssueSplitFooter>
+  <ng-template #footer>
     <button nz-button nzType="default" (click)="handleCancel()">取消</button>
-    <button nz-button nzType="primary" (click)="handleAdd()">新增</button>
+    <button nz-button nzType="primary" (click)="addChildrenProblem()">新增</button>
     <button nz-button nzType="primary" [nzLoading]="loading" (click)="save()">
       确定
     </button>
