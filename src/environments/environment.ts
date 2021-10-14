@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  SERVER_URL: `http://192.168.1.46:9740/mt-rectify-framework/server`,
+  // SERVER_URL: `http://192.168.1.46:9740/mt-rectify-framework/server`,
+  SERVER_URL: `http://localhost:9696/mt-rectify-framework/server`,
+
   // SERVER_URL: `http://192.168.0.109:9696/mt-rectify-framework/server`,
 
   // SERVER_URL: `http://localhost:8181/eia-auditing-finance/server`,

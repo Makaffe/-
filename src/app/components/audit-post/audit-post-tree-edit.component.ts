@@ -76,7 +76,8 @@ export class AuditPostTreeEditComponent implements OnInit {
       if (item) {
         const parentId = item.id;
         this.parentName = item.name;
-        this.currentItem.parent.id = parentId;
+
+        this.currentItem.parentId = parentId;
       } else {
         this.parentName = '';
       }
@@ -112,6 +113,7 @@ export class AuditPostTreeEditComponent implements OnInit {
       id: item ? item.id : null,
       name: item ? item.name : null,
       parent: item ? item.parent : null,
+      parentId: item ? item.parentId : null,
       remark: item ? item.remark : null,
     };
   }

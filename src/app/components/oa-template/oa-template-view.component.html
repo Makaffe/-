@@ -1,5 +1,10 @@
-<as-split direction="horizontal" unit="pixel" [useTransition]="true" gutterSize="2"
-  (gutterClick)="leftSize = leftSize == 0 ? LEFT_WIDTH : 0">
+<as-split
+  direction="horizontal"
+  unit="pixel"
+  [useTransition]="true"
+  gutterSize="2"
+  (gutterClick)="leftSize = leftSize == 0 ? LEFT_WIDTH : 0"
+>
   <!-- 左侧树 -->
   <as-split-area [size]="leftSize" minSize="120" maxSize="180" class="bg-white" style="padding:10px 0 0 10px">
     <div nz-row>
@@ -7,14 +12,20 @@
         <span><strong style="font-size: 20px;">发文类型</strong></span>
       </div>
       <div nz-col [nzSpan]="12" class="tree-top-btn">
-        <button nz-button (click)="this.isVisible = true;">
+        <button nz-button (click)="editNode(true, selectedNode)">
           <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
         </button>
-        <button nz-button (click)="this.isVisible = true;">
+        <button
+          nz-button
+          [disabled]="!selectedNode"
+          (click)="editNode(false, selectedNode)"
+          nz-tooltip
+          nzTooltipTitle="编辑节点"
+        >
           <i nz-icon nzType="edit" nzTheme="outline"></i>
         </button>
-        <nz-popconfirm (nzOnConfirm)="delete()" [nzTitle]="'是否要删除该发文类型？'">
-          <button nz-button class="mb-sm" nz-popconfirm>
+        <nz-popconfirm (nzOnConfirm)="deleteNode(selectedNode)" [nzTitle]="'是否要删除该发文类型？'">
+          <button nz-button class="mb-sm" nz-popconfirm [disabled]="!selectedNode" nz-tooltip nzTooltipTitle="删除节点">
             <i nz-icon type="delete" theme="outline"></i>
           </button>
         </nz-popconfirm>
@@ -26,7 +37,7 @@
     <ng-template #suffixIcon>
       <i nz-icon nzType="search"></i>
     </ng-template>
-    <nz-tree [nzData]="nodes" nzShowLine (nzClick)="''" [nzSearchValue]="searchValue"> </nz-tree>
+    <nz-tree [nzData]="nodes" nzShowLine (nzClick)="nzClick($event)" [nzSearchValue]="searchValue"> </nz-tree>
   </as-split-area>
   <!--右侧表格-->
   <as-split-area [size]="'*'">
@@ -81,29 +92,43 @@
 
 <oa-template-detail #oaTemplateDetailComponent></oa-template-detail>
 
-<nz-modal [(nzVisible)]="isVisible" [nzMaskClosable]="false" (nzOnCancel)="this.isVisible = false;"
-  [nzFooter]="editorFooter" nzWidth="800" [nzTitle]="'发文类型详情'" [nzStyle]="{ top: '65px' }" [nzBodyStyle]="{
+<nz-modal
+  [(nzVisible)]="isVisible"
+  [nzMaskClosable]="false"
+  (nzOnCancel)="this.isVisible = false"
+  [nzFooter]="editorFooter"
+  nzWidth="1200"
+  [nzTitle]="'OA发送模板详情'"
+  [nzStyle]="{ top: '65px' }"
+  [nzBodyStyle]="{
     'overflow-y': 'auto',
     'overflow-x': 'hidden',
     padding: '24px 24px 0 24px'
-  }">
+  }"
+>
   <form nz-form #form="ngForm">
     <nz-form-item>
-      <nz-form-label nzSpan="4">发文类型</nz-form-label>
-      <nz-form-control nzSpan="20"><input nz-input name="name" /></nz-form-control>
+      <nz-form-label nzSpan="4" nzRequired>OA发送模板名称</nz-form-label>
+      <nz-form-control nzSpan="20"><input nz-input name="name" [(ngModel)]="currentItem.name"/></nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label nzSpan="4">排序</nz-form-label>
+      <nz-form-label nzSpan="4">上级节点</nz-form-label>
+      <nz-form-control nzSpan="20"
+        ><input nz-input name="parentName" [(ngModel)]="parentName" readonly
+      /></nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="4">备注</nz-form-label>
       <nz-form-control nzSpan="20">
-        <nz-input-number [nzMin]="0" [nzStep]="1"></nz-input-number>
+        <textarea nz-input rows="5" name="remark" [(ngModel)]="currentItem.remark" maxlength="1000"></textarea>
       </nz-form-control>
     </nz-form-item>
   </form>
   <ng-template #editorFooter>
     <div class="steps-action">
-      <button nz-button nzType="default" (click)="this.isVisible = false;">取消</button>
-      <button nz-button nzType="primary">
-        <span>完成</span>
+      <button nz-button nzType="default" (click)="cancel()">取消</button>
+      <button nz-button nzType="primary" (click)="save()">
+        <span>确认</span>
       </button>
     </div>
   </ng-template>
