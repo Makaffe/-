@@ -173,14 +173,10 @@ export class RectifyProblemDTO {
   /**
    * key
    */
-<<<<<<< HEAD
   key?: number;
-=======
-  uuid?: string;
 
   /**
    * 是否可编辑
    */
   editable?: boolean;
->>>>>>> master
 }
