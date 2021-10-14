@@ -71,7 +71,11 @@
                   {{ data.type }}
                 </ng-container>
                 <ng-template #typeInputTpl>
-                  <input name="type" type="text" nz-input [(ngModel)]="editCache[data.id].data.type" />
+                  <nz-select name="type" [(ngModel)]="editCache[data.id].data.type" style="width: 100%;"
+                    nzAllowClear="true" nzShowSearch="true">
+                    <nz-option *ngFor="let option of problemTypeList" [nzLabel]="option.label" [nzValue]="option.value">
+                    </nz-option>
+                  </nz-select>
                 </ng-template>
               </td>
               <td>
@@ -80,7 +84,7 @@
                 </ng-container>
                 <ng-template #rectifyDepartmentInputTpl>
                   <nz-tree-select [nzNodes]="organizationTree" [nzAllowClear]="true" nzDefaultExpandAll nzShowSearch
-                    name="rectifyDepartmentId" [(ngModel)]="editCache[data.id].data.rectifyDepartment.id"
+                    name="rectifyDepartmentId" [(ngModel)]="editCache[data.id].data.rectifyDepartmentId"
                     [nzDropdownStyle]="{ maxHeight: '280px' }">
                   </nz-tree-select>
                 </ng-template>
@@ -91,6 +95,11 @@
                 </ng-container>
                 <ng-template #dutyUserInputTpl>
                   <input name="dutyUser" type="text" nz-input [(ngModel)]="editCache[data.id].data.dutyUser" />
+                  <nz-select name="dutyUser" [(ngModel)]="editCache[data.id].data.dutyUser" style="width: 100%;"
+                    nzAllowClear="true" nzShowSearch="true">
+                    <nz-option *ngFor="let option of dutyUserList" [nzLabel]="option.name" [nzValue]="option.id">
+                    </nz-option>
+                  </nz-select>
                 </ng-template>
               </td>
               <td nzRight="0px" nzAlign="center">
@@ -101,7 +110,7 @@
                   <ng-template #saveTpl>
                     <a (click)="saveEdit(data.id)">保存</a>
                     <nz-divider nzType="vertical"></nz-divider>
-                    <a nz-popconfirm nzTitle="Sure to cancel?" (nzOnConfirm)="cancelEdit(data.id)">取消</a>
+                    <a nz-popconfirm nzTitle="确定取消?" (nzOnConfirm)="cancelEdit(data.id)">取消</a>
                   </ng-template>
                 </div>
               </td>

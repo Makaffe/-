@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { TreeUtil } from '@mt-framework-ng/util';
-import { OrganizationService } from '@ng-mt-framework/api';
+import { OrganizationService, UserService } from '@ng-mt-framework/api';
 import { ObjectUtil } from '@ng-mt-framework/util';
 import { NzMessageService } from 'ng-zorro-antd';
 import { __spread } from 'tslib';
@@ -17,6 +17,7 @@ export class RectifyIssueSplitComponent implements OnInit {
     private rectifyProblemService: RectifyProblemService,
     private organizationService: OrganizationService,
     private msg: NzMessageService,
+    private userService: UserService,
   ) {}
 
   /**
@@ -49,6 +50,25 @@ export class RectifyIssueSplitComponent implements OnInit {
    * 整改部门树
    */
   organizationTree = [];
+
+  /**
+   * 整改负责人列表
+   */
+  dutyUserList = [];
+
+  /**
+   * 问题类型列表
+   */
+  problemTypeList = [
+    {
+      label: '问题类型1',
+      value: 'PROBLEM_ONE',
+    },
+    {
+      label: '问题类型2',
+      value: 'PROBLEM_TWO',
+    },
+  ];
 
   /**
    * 行内编辑缓存
@@ -101,6 +121,9 @@ export class RectifyIssueSplitComponent implements OnInit {
     this.organizationService.getOrganizationTreeOfEmployeeOrUser().subscribe(data => {
       this.organizationTree = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
     });
+    this.userService.findAll().subscribe(data => {
+      this.dutyUserList = data;
+    });
   }
 
   /**
@@ -138,7 +161,7 @@ export class RectifyIssueSplitComponent implements OnInit {
     if (item.children && item.children.length > 0) {
       item.children.forEach(problem => {
         this.childrenProblemList.push(this.initProblemDTO(problem));
-        this.childrenProblemList = __spread(this.childrenProblemList);
+        this.childrenProblemList = [...this.childrenProblemList];
       });
       this.updateEditCache();
     }
