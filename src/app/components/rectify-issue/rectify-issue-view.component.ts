@@ -131,7 +131,6 @@ export class RectifyIssueViewComponent implements OnInit {
    * @param data checkbox选中的数据
    */
   getCheckboxData(data: Array<RectifyProblemDTO>) {
-    console.log(data);
     this.checkboxData = data;
   }
 }
