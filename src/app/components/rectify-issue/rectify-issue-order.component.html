@@ -1,23 +1,15 @@
-<nz-modal
-  [(nzVisible)]="isVisible"
-  [nzMaskClosable]="false"
-  (nzOnCancel)="handleCancel()"
-  [nzFooter]="rectifyIssueOrderFooter"
-  nzWidth="800"
-  [nzTitle]="'问题下发'"
-  [nzBodyStyle]="{
-    'height.px': '300px',
-    'overflow-y': 'auto',
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="'问题下发'" [nzMaskClosable]="false" (nzOnCancel)="handleCancel()"
+  [nzFooter]="rectifyIssueOrderFooter" [nzStyle]="{ top: '65px' }" nzWidth="900" [nzBodyStyle]="{
+    'min-height': '300px',
     'overflow-x': 'hidden',
-    'padding-top': '0px',
-    'padding-bottom': '0px'
-  }"
->
+    padding: '24px 24px 0 24px'
+  }">
+
   <form nz-form>
     <nz-form-item>
       <nz-form-label nzSpan="4">发送对象</nz-form-label>
-      <nz-form-control nzSpan="20"
-        ><nz-table #basicTable [nzData]="listOfData" [nzShowPagination]="false">
+      <nz-form-control nzSpan="20">
+        <nz-table #basicTable [nzData]="listOfData" [nzShowPagination]="false" nzBordered="true">
           <thead>
             <tr>
               <th>序号</th>
@@ -32,8 +24,8 @@
               <td>{{ data.person }}</td>
             </tr>
           </tbody>
-        </nz-table></nz-form-control
-      >
+        </nz-table>
+      </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label nzSpan="4">OA发文模板</nz-form-label>

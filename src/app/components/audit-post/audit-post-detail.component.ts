@@ -172,7 +172,7 @@ export class AuditPostDetailComponent implements OnInit {
       type: null,
       remark: null,
       rectifyDepartmentId: null,
-      rectifyPeopleId: null,
+      dutyUserId: null,
       advice: null,
       source: null,
       selectedRectifyDepartment: null,
@@ -191,7 +191,7 @@ export class AuditPostDetailComponent implements OnInit {
       !data.type ||
       !data.remark ||
       !data.rectifyDepartmentId ||
-      !data.rectifyPeopleId ||
+      !data.dutyUserId ||
       !data.advice ||
       !data.source
     ) {
@@ -221,9 +221,9 @@ export class AuditPostDetailComponent implements OnInit {
     console.log($event);
     console.log(data);
     if ($event && $event.length > 0) {
-      this.listOfData.filter(item => item.uuid === data.uuid)[0].rectifyPeopleId = $event[0].id;
+      this.listOfData.filter(item => item.uuid === data.uuid)[0].dutyUserId = $event[0].id;
     } else {
-      this.listOfData.filter(item => item.uuid === data.uuid)[0].rectifyPeopleId = null;
+      this.listOfData.filter(item => item.uuid === data.uuid)[0].dutyUserId = null;
     }
   }
 

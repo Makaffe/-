@@ -19,6 +19,7 @@
         <ng-template #step1>
           <nz-form-item>
             <nz-form-label nzSpan="4">上传审计报告</nz-form-label>
+
             <nz-form-control nzSpan="18">
               <nz-upload
                 nzAction=""
@@ -32,9 +33,6 @@
                 [nzDisabled]="readFlag1"
                 [nzRemove]="removeFile"
               >
-                <button nz-button nzShape="round" [disabled]="readFlag1">
-                  <i nz-icon nzType="upload"></i><span>上传文件</span>
-                </button>
               </nz-upload>
             </nz-form-control>
           </nz-form-item>
@@ -146,7 +144,7 @@
                     <th nzWidth="100px" nzAlign="center">问题描述</th>
                     <th nzWidth="100px" nzAlign="center">问题类型</th>
                     <th nzWidth="100px" nzAlign="center">整改部门</th>
-                    <th nzWidth="100px" nzAlign="center">整改负责人</th>
+                    <th nzWidth="100px" nzAlign="center">整改责任人</th>
                     <th nzWidth="100px" nzAlign="center">审计建议</th>
                     <th nzRight="100px" nzAlign="center" nzWidth="100px">问题来源</th>
                     <th nzWidth="150px" nzAlign="center" nzRight="0px">操作</th>
@@ -345,7 +343,7 @@
                 </tbody>
                 <ng-template #tableFooter>
                   <button
-                    [disabled]="!allProblemSaved()||current !== 1"
+                    [disabled]="!allProblemSaved() || current !== 1"
                     (click)="addProblem()"
                     nz-button
                     nzType="primary"
