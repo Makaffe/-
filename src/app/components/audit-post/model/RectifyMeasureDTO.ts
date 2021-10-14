@@ -1,6 +1,6 @@
 import { SystemFileDTO, UserBaseDTO } from '@ng-mt-framework/api';
+import { RectifyProblemDTO } from '../../rectify-issue/model/rectify-problem-dto';
 import { RectifyMeasureReplyDTO } from './RectifyMeasureReplyDTO';
-import { RectifyProblemDTO } from './RectifyProblemDTO';
 
 /**
  * 整改措施信息 DTO

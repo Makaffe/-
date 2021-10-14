@@ -25,7 +25,7 @@ export class AuditPostService {
    * @param auditPostEditInfoDTO 审计报告DTO
    *
    */
-  addUsingPOST(auditPostEditInfoDTO?: AuditPostEditInfoDTO): Observable<AuditPostDTO> {
+  add(auditPostEditInfoDTO?: AuditPostEditInfoDTO): Observable<AuditPostDTO> {
     return this.http.post<AuditPostDTO>(`${AuditPostService.URL}/add`, auditPostEditInfoDTO);
   }
 
@@ -37,7 +37,7 @@ export class AuditPostService {
    * @param auditUnitName 审计单位名称
    *
    */
-  findAllUsingGET_9(
+  findAll(
     name?: string,
     auditBeginTime?: string,
     auditEndTime?: string,
@@ -57,34 +57,34 @@ export class AuditPostService {
    * @param id 审计报告ID
    *
    */
-  deleteUsingDELETE_23(id: string): Observable<any> {
+  delete(id: string): Observable<any> {
     return this.http.delete<any>(`${AuditPostService.URL}/delete/${id}`);
   }
 
   /**
    * 分页查询审计报告数据
-   * @param sort 排序字段, 例如：字段1,asc,字段2,desc
    * @param page 页号，从0开始
    * @param size 每页纪录条数
+   * @param sort 排序字段, 例如：字段1,asc,字段2,desc
    * @param name 报告名称
    * @param auditBeginTime 审计开始时间
    * @param auditEndTime 审计结束时间
    * @param auditUnitName 审计单位名称
    *
    */
-  findOnePageUsingGET_12(
-    sort?: string,
+  findOnePage(
     page?: number,
     size?: number,
+    sort?: string,
     name?: string,
     auditBeginTime?: string,
     auditEndTime?: string,
     auditUnitName?: string,
   ): Observable<ApiPagedData<AuditPostDTO>> {
     const params = {};
-    Object.assign(params, sort ? { sort } : {});
-    Object.assign(params, page ? { page } : {});
+    Object.assign(params, { page });
     Object.assign(params, size ? { size } : {});
+    Object.assign(params, sort ? { sort } : {});
     Object.assign(params, name ? { name } : {});
     Object.assign(params, auditBeginTime ? { auditBeginTime } : {});
     Object.assign(params, auditEndTime ? { auditEndTime } : {});
@@ -98,7 +98,7 @@ export class AuditPostService {
    * @param id 审计报告ID
    *
    */
-  findByIdUsingGET_26(id: string): Observable<AuditPostDTO> {
+  findById(id: string): Observable<AuditPostDTO> {
     return this.http.get<AuditPostDTO>(`${AuditPostService.URL}/${id}`);
   }
 
@@ -108,7 +108,7 @@ export class AuditPostService {
    * @param auditPostEditInfoDTO 审计报告DTO
    *
    */
-  updateUsingPUT_24(id: string, auditPostEditInfoDTO?: AuditPostEditInfoDTO): Observable<AuditPostDTO> {
+  update(id: string, auditPostEditInfoDTO?: AuditPostEditInfoDTO): Observable<AuditPostDTO> {
     return this.http.put<AuditPostDTO>(`${AuditPostService.URL}/${id}`, auditPostEditInfoDTO);
   }
 }

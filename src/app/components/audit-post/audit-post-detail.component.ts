@@ -1,25 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { NzMessageService, UploadFile, UploadFilter } from 'ng-zorro-antd';
 import { Observable, Observer } from 'rxjs';
-
+import { RectifyProblemDTO } from '../rectify-issue/model/rectify-problem-dto';
+import UUID from 'uuidjs';
 @Component({
   selector: 'audit-post-detail',
   templateUrl: './audit-post-detail.component.html',
   styleUrls: ['./audit-post-detail.component.less'],
 })
 export class AuditPostDetailComponent implements OnInit {
-  listOfData = [
-    {
-      id: '1',
-      issueName: '不明资金来源',
-      issueDesc: '年度收入大于支出',
-      issueType: '资金',
-      rectifyDepartment: '部门一',
-      rectifyPrincipal: '张三',
-      auditingAdvice: '立即整改',
-      source: '审计发现',
-    },
-  ];
+  listOfData: RectifyProblemDTO[] = [];
   filters: UploadFilter[] = [
     {
       name: 'type',
@@ -115,4 +105,58 @@ export class AuditPostDetailComponent implements OnInit {
       }
     }
   }
+
+  /**
+   *  添加问题
+   */
+  addProblem(): void {
+    this.listOfData.push(this.initProblem());
+    this.listOfData = [...this.listOfData];
+  }
+
+  deleteProblem(data: RectifyProblemDTO): void {
+    this.listOfData = [...this.listOfData.filter(item => item.uuid !== data.uuid)];
+  }
+
+  /**
+   *  初始化整改问题数据
+   * @returns RectifyProblemDTO
+   */
+  initProblem(): RectifyProblemDTO {
+    return {
+      name: null,
+      type: null,
+      remark: null,
+      rectifyDepartmentId: null,
+      rectifyPeopleId: null,
+      advice: null,
+      source: null,
+      uuid: UUID.generate(),
+      editable: true,
+    };
+  }
+
+  saveProblem(data: RectifyProblemDTO): void {
+    console.log('============SAVE= PROBLEM===========');
+    console.log(data);
+    if (
+      !data.name ||
+      !data.type ||
+      !data.remark ||
+      !data.rectifyDepartmentId ||
+      !data.rectifyPeopleId ||
+      !data.advice ||
+      !data.source
+    ) {
+      this.msg.warning(`请确认问题信息填写完整`);
+      return;
+    }
+    this.listOfData.filter(item => item.uuid === data.uuid)[0].editable = false;
+  }
+
+  editProblem(data: RectifyProblemDTO): void {
+    this.listOfData.filter(item => item.uuid === data.uuid)[0].editable = true;
+  }
+
+ 
 }
