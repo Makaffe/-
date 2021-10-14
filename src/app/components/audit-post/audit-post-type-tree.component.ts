@@ -164,7 +164,7 @@ export class AuditPostTypeTreeComponent implements OnInit {
       // });
       // this.nodes = nodes;
       if (data) {
-        this.nodes = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children', 'parentId');
+        this.nodes = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
       }
     });
   }
