@@ -1,4 +1,4 @@
-import { OrganizationDTO, UserBaseDTO } from '@ng-mt-framework/api';
+import { OrganizationDTO, UserBaseDTO, UserDTO } from '@ng-mt-framework/api';
 import { AuditPostDTO } from '../../audit-post/model/AuditPostDTO';
 
 /**
@@ -186,4 +186,8 @@ export class RectifyProblemDTO {
    * 是否可编辑
    */
   editable?: boolean;
+
+  selectedRectifyDepartment?: OrganizationDTO[];
+
+  selectedRectifyPeople?: UserDTO[];
 }
