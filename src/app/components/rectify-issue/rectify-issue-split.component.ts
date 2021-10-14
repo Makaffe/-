@@ -1,9 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { TreeUtil } from '@mt-framework-ng/util';
-import { OrganizationService } from '@ng-mt-framework/api';
+import { OrganizationService, UserService } from '@ng-mt-framework/api';
 import { ObjectUtil } from '@ng-mt-framework/util';
 import { NzMessageService } from 'ng-zorro-antd';
-import { __spread } from 'tslib';
+import UUID from 'uuidjs';
 import { RectifyProblemDTO } from './model/rectify-problem-dto';
 import { RectifyProblemService } from './service/RectifyProblemService';
 
@@ -17,6 +17,7 @@ export class RectifyIssueSplitComponent implements OnInit {
     private rectifyProblemService: RectifyProblemService,
     private organizationService: OrganizationService,
     private msg: NzMessageService,
+    private userService: UserService,
   ) {}
 
   /**
@@ -51,25 +52,44 @@ export class RectifyIssueSplitComponent implements OnInit {
   organizationTree = [];
 
   /**
+   * 整改负责人列表
+   */
+  dutyUserList = [];
+
+  /**
+   * 问题类型列表
+   */
+  problemTypeList = [
+    {
+      label: '问题类型1',
+      value: 'PROBLEM_ONE',
+    },
+    {
+      label: '问题类型2',
+      value: 'PROBLEM_TWO',
+    },
+  ];
+
+  /**
    * 行内编辑缓存
    */
   editCache: { [key: string]: { edit: boolean; data: any } } = {};
 
   /**
    * 开始行内编辑
-   * @param id 数据id
+   * @param uuid 数据uuid
    */
-  startEdit(id: string): void {
-    this.editCache[id].edit = true;
+  startEdit(uuid: string): void {
+    this.editCache[uuid].edit = true;
   }
 
   /**
    * 取消行内编辑
-   * @param id 数据id
+   * @param uuid 数据uuid
    */
-  cancelEdit(id: string): void {
-    const index = this.childrenProblemList.findIndex(item => item.id === id);
-    this.editCache[id] = {
+  cancelEdit(uuid: string): void {
+    const index = this.childrenProblemList.findIndex(item => item.uuid === uuid);
+    this.editCache[uuid] = {
       data: { ...this.childrenProblemList[index] },
       edit: false,
     };
@@ -77,12 +97,12 @@ export class RectifyIssueSplitComponent implements OnInit {
 
   /**
    * 保存行内编辑
-   * @param id 数据id
+   * @param uuid 数据uuid
    */
-  saveEdit(id: string): void {
-    const index = this.childrenProblemList.findIndex(item => item.id === id);
-    Object.assign(this.childrenProblemList[index], this.editCache[id].data);
-    this.editCache[id].edit = false;
+  saveEdit(uuid: string): void {
+    const index = this.childrenProblemList.findIndex(item => item.uuid === uuid);
+    Object.assign(this.childrenProblemList[index], this.editCache[uuid].data);
+    this.editCache[uuid].edit = false;
   }
 
   /**
@@ -90,7 +110,7 @@ export class RectifyIssueSplitComponent implements OnInit {
    */
   updateEditCache(): void {
     this.childrenProblemList.forEach(item => {
-      this.editCache[item.id] = {
+      this.editCache[item.uuid] = {
         edit: false,
         data: { ...item },
       };
@@ -100,6 +120,9 @@ export class RectifyIssueSplitComponent implements OnInit {
   ngOnInit(): void {
     this.organizationService.getOrganizationTreeOfEmployeeOrUser().subscribe(data => {
       this.organizationTree = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
+    });
+    this.userService.findAll().subscribe(data => {
+      this.dutyUserList = data;
     });
   }
 
@@ -138,7 +161,7 @@ export class RectifyIssueSplitComponent implements OnInit {
     if (item.children && item.children.length > 0) {
       item.children.forEach(problem => {
         this.childrenProblemList.push(this.initProblemDTO(problem));
-        this.childrenProblemList = __spread(this.childrenProblemList);
+        this.childrenProblemList = [...this.childrenProblemList];
       });
       this.updateEditCache();
     }
@@ -202,6 +225,7 @@ export class RectifyIssueSplitComponent implements OnInit {
   initProblemDTO(item: RectifyProblemDTO): RectifyProblemDTO {
     return {
       id: null,
+      uuid: UUID.generate(),
       name: item ? item.name : null,
       type: item ? item.type : null,
       remark: item ? item.remark : null,
@@ -212,7 +236,9 @@ export class RectifyIssueSplitComponent implements OnInit {
       auditPostId: item ? item.auditPost.id : null,
       transferStatus: item ? item.transferStatus : null,
       oaSendCase: item ? item.oaSendCase : false,
+      rectifyDepartment: item ? item.rectifyDepartment : null,
       rectifyDepartmentId: item ? item.rectifyDepartment.id : null,
+      dutyUser: item ? item.dutyUser : null,
       dutyUserId: item ? item.dutyUser.id : null,
       oaSendTime: item ? item.oaSendTime : null,
       transferTime: item ? item.transferTime : null,
@@ -227,5 +253,15 @@ export class RectifyIssueSplitComponent implements OnInit {
       parentId: item ? item.parent.id : null,
       children: [],
     };
+  }
+
+  /**
+   * 问题类型反显
+   * @param value 问题类型
+   */
+  convertProblemType(value: string) {
+    if (value) {
+      return this.problemTypeList.find(problem => problem.value === value).label;
+    }
   }
 }

@@ -51,7 +51,7 @@
           <td>{{ item?.auditPost?.auditName }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.remark }}</td>
-          <td>{{ item.type }}</td>
+          <td>{{ this.convertProblemType(item.type) }}</td>
           <td>{{ item?.rectifyDepartment?.name }}</td>
           <td>{{ item?.dutyUser?.name }}</td>
           <td>{{ item.advice }}</td>
@@ -60,8 +60,8 @@
           <td nzRight="0px">
             <ng-container *ngIf="item.level === 0">
               <a (click)="splitIssue(item)">拆分</a>
-              <nz-divider nzType="vertical"></nz-divider>
             </ng-container>
+            <nz-divider nzType="vertical" *ngIf="item.level === 0 && item.children.length === 0"></nz-divider>
             <ng-container *ngIf="item.children.length === 0">
               <a (click)="transfer(item)">移交</a>
               <nz-divider nzType="vertical"></nz-divider>
