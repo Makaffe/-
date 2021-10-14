@@ -12,6 +12,10 @@ export class AuditPostViewComponent implements OnInit {
   @ViewChild('auditPostList', { static: false })
   auditPostList: AuditPostListComponent;
   /**
+   * 喜欢总的审计报告版本
+   */
+  selectedPostType = null;
+  /**
    * 左侧宽度常量
    */
   LEFT_WIDTH = 180;
