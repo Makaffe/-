@@ -284,11 +284,12 @@
                           <nz-divider nzType="vertical"></nz-divider>
                           <a (click)="chageRectifyProgress(data.id,null,'RECTIFY_CENTRE')">提交</a>
                         </div>
-                        <div>
+                        <div *ngIf="isRectify&&data.measureStatus!=='NOT_SUBMITTED'">
                           <a (click)="watch(data)">查看</a>
-                          <nz-divider nzType="vertical"></nz-divider>
+                          <nz-divider nzType="vertical" *ngIf="isRectify&&data.measureStatus==='RECTIFY_CENTRE'">
+                          </nz-divider>
                         </div>
-                        <div *ngIf="!isRectify">
+                        <div *ngIf="isRectify&&data.measureStatus==='RECTIFY_CENTRE'">
                           <a (click)="update(data,true,false)">上传</a>
                           <nz-divider nzType="vertical"></nz-divider>
                           <a (click)="chageRectifyProgress(data.id,null,'INVALID')">失效</a>

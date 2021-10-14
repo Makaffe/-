@@ -137,8 +137,8 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   }
 
   openRectifyDiaryComponent() {
-    this.rectifyDiaryComponent.rectifyProblemId = '12345';
-    this.rectifyDiaryComponent.isVisible = true;
+    this.rectifyDiaryComponent.rectifyProblemId = '123456';
+    this.rectifyDiaryComponent.loadData();
   }
 
   chageRectifyProgress(id: string, rectifyProgress?: number, measureStatus?: string) {
@@ -223,6 +223,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   // 查看
   watch(item: RectifyMeasureEditInfoDTO) {
     this.rectifyMeasureComponent.isWatch = true;
+    this.rectifyMeasureComponent.isFile = false;
     this.rectifyMeasureComponent.edit(item);
   }
 }

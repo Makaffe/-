@@ -56,4 +56,23 @@ export class RectifyProblemService {
   rectifyProblemSplit(parentId: string, children: Array<RectifyProblemDTO>): Observable<Array<RectifyProblemDTO>> {
     return this.http.post<Array<RectifyProblemDTO>>(`${RectifyProblemService.URL}/split/${parentId}`, children);
   }
+
+  /**
+   * 根据整改问题id查询备忘录
+   * @param id 整改问题id
+   *
+   */
+  findMome(id?: string): Observable<string> {
+    return this.http.get<string>(`${RectifyProblemService.URL}/memo/${id}`);
+  }
+
+  /**
+   * 根据整改问题id保存备忘录
+   * @param id 整改问题id
+   * @param remark 备忘录文本
+   *
+   */
+  sevaMome(id: string, remark: string): Observable<string> {
+    return this.http.put<string>(`${RectifyProblemService.URL}/memo/${id}`, remark);
+  }
 }

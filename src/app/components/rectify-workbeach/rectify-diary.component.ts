@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NzMessageService } from 'ng-zorro-antd';
 import { UeditorComponent } from '../common/ueditor/ueditor.component';
+import { RectifyProblemService } from '../rectify-issue/service/RectifyProblemService';
 
 @Component({
   selector: 'app-rectify-diary',
@@ -13,12 +15,17 @@ export class RectifyDiaryComponent implements OnInit {
   ueComp: UeditorComponent;
 
   isVisible = false;
-  content: any;
+  remark: any;
 
   // 整改问题id
   rectifyProblemId: string;
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private rectifyProblemService: RectifyProblemService,
+    private msg: NzMessageService,
+  ) {}
 
   ngOnInit(): void {}
   handleCancel() {
@@ -26,8 +33,27 @@ export class RectifyDiaryComponent implements OnInit {
   }
 
   // 查询备忘录
-  loadData() {}
+  loadData() {
+    this.rectifyProblemService.findMome(this.rectifyProblemId).subscribe(
+      data => {
+        this.remark = data;
+      },
+      () => {},
+      () => {},
+    );
+    this.isVisible = true;
+  }
 
   // 保存备忘录
-  save() {}
+  save() {
+    this.rectifyProblemService.sevaMome(this.rectifyProblemId, this.remark).subscribe(
+      data => {
+        this.remark = data;
+        this.msg.success('保存成功！');
+      },
+      () => {},
+      () => {},
+    );
+    this.handleCancel();
+  }
 }

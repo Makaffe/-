@@ -20,6 +20,9 @@ export class RectifyMeasureComponent implements OnInit {
 
   isWatch = true;
 
+  // 整改问题id
+  rectifyProblemId: string;
+
   rectifyMeasure = this.initItem();
 
   date: Date;
@@ -49,9 +52,11 @@ export class RectifyMeasureComponent implements OnInit {
     }
 
     this.rectifyMeasure = this.initItem(item);
-    if (item.measureStatus === null) {
-      item.measureStatus = 'NOT_SUBMITTED';
+    if (this.rectifyMeasure.measureStatus === null) {
+      this.rectifyMeasure.measureStatus = 'NOT_SUBMITTED';
+      this.rectifyMeasure.rectifyProgress = 0;
     }
+    this.rectifyMeasure.rectifyProblemId = '123456';
     this.isVisible = true;
   }
 
@@ -100,6 +105,7 @@ export class RectifyMeasureComponent implements OnInit {
     this.rectifyMeasureService.add(this.rectifyMeasure).subscribe(data => {
       this.msg.success('保存整改措施数据成功！');
       this.saveRectifyMeasure.emit();
+      this.handleCancel();
     });
   }
 }
