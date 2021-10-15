@@ -10,7 +10,7 @@ export interface AuditPostEditInfoDTO {
   /**
    * 对象ID，新增时应当为null, 系统会自动生成
    */
-  id: string;
+  id?: string;
 
   /**
    * 审计单位名称
