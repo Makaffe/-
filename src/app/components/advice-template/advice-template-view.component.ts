@@ -1,5 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { TreeUtil } from '@mt-framework-ng/util';
+import { NzMessageService } from 'ng-zorro-antd';
 import { AdviceTemplateDetailComponent } from './advice-template-detail.component';
+import { AdviceTemplateListComponent } from './advice-template-list.component';
+import { ProposalTemplateTypeDTO } from './model/ProposalTemplateTypeDTO';
+import { ProposalTemplateTypeService } from './service/ProposalTemplateTypeService';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -8,8 +13,28 @@ import { AdviceTemplateDetailComponent } from './advice-template-detail.componen
   styles: [],
 })
 export class AdviceTemplateViewComponent implements OnInit {
+  /**
+   * 建议模板弹窗
+   */
   @ViewChild('adviceTemplateDetailComponent', { static: false })
   adviceTemplateDetailComponent: AdviceTemplateDetailComponent;
+  /**
+   * 建议模板列表
+   */
+  @ViewChild('adviceTemplateListComponent', { static: false })
+  adviceTemplateListComponent: AdviceTemplateListComponent;
+  /**
+   * 建议模板类型弹窗确定按钮加载状态
+   */
+  loading = false;
+  /**
+   * 树区域加载状态
+   */
+  treeLoading = false;
+  /**
+   * 当前点击的树节点
+   */
+  currentProposalTypeNode = new ProposalTemplateTypeDTO();
 
   searchValue: string;
 
@@ -25,57 +50,91 @@ export class AdviceTemplateViewComponent implements OnInit {
    */
   leftSize = this.LEFT_WIDTH;
 
-  nodes = [
-    {
-      title: 'parent 1',
-      key: '100',
-      expanded: true,
-      children: [
-        {
-          title: 'parent 1-0',
-          key: '1001',
-          expanded: true,
-          children: [
-            { title: 'leaf', key: '10010', isLeaf: true },
-            { title: 'leaf', key: '10011', isLeaf: true },
-            { title: 'leaf', key: '10012', isLeaf: true },
-          ],
-        },
-        {
-          title: 'parent 1-1',
-          key: '1002',
-          children: [{ title: 'leaf', key: '10020', isLeaf: true }],
-        },
-        {
-          title: 'parent 1-2',
-          key: '1003',
-          children: [
-            { title: 'leaf', key: '10030', isLeaf: true },
-            { title: 'leaf', key: '10031', isLeaf: true },
-          ],
-        },
-      ],
-    },
-  ];
+  /**
+   * 当前编辑建议模板类型dto
+   */
+  proposalTemplateTypeDTO: ProposalTemplateTypeDTO = new ProposalTemplateTypeDTO();
 
-  constructor() {}
+  /**
+   * 上级节点名称
+   */
+  parentName = null;
+  nodes: any;
 
-  ngOnInit() {}
+  constructor(private proposalTemplateTypeService: ProposalTemplateTypeService, private msg: NzMessageService) { }
 
-  create() {
-    this.adviceTemplateDetailComponent.edit();
+  ngOnInit() {
+    this.load();
   }
-
+  /**
+   * 初始化数据
+   */
+  load() {
+    this.treeLoading = true;
+    this.proposalTemplateTypeService.findAll().subscribe(data => {
+      this.nodes = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
+    }, () => { }, () => { this.treeLoading = false; });
+  }
+  /**
+   * 新增建议模板类型
+   */
+  add() {
+    this.loading = true;
+    if (this.proposalTemplateTypeDTO.id) {
+      this.proposalTemplateTypeDTO.parentId = this.proposalTemplateTypeDTO.parent ? this.proposalTemplateTypeDTO.parent.id : null;
+      this.proposalTemplateTypeService.update(this.proposalTemplateTypeDTO.id, this.proposalTemplateTypeDTO).subscribe(data => {
+        this.msg.success('修改成功');
+        this.load();
+      }, () => { }, () => { this.isVisible = false; this.loading = false; });
+    } else {
+      this.proposalTemplateTypeDTO.parentId = this.currentProposalTypeNode.id ? this.currentProposalTypeNode.id : null;
+      this.proposalTemplateTypeService.create(this.proposalTemplateTypeDTO).subscribe(() => {
+        this.msg.success('新增成功');
+        this.load();
+      }, () => { }, () => { this.isVisible = false; this.loading = false; });
+    }
+  }
+  create() {
+    this.adviceTemplateDetailComponent.edit(this.currentProposalTypeNode);
+  }
+  /**
+   * 显示建议模板类型编辑弹窗
+   */
+  showTypeModal(isEdit: boolean) {
+    this.proposalTemplateTypeDTO = isEdit ? this.currentProposalTypeNode : new ProposalTemplateTypeDTO();
+    this.isVisible = true;
+  }
   showModel(value: any) {
     if (value.edit) {
       this.adviceTemplateDetailComponent.edit();
-      this.adviceTemplateDetailComponent.disabled = false;
+      this.adviceTemplateDetailComponent.isWatch = false;
     } else {
-      this.adviceTemplateDetailComponent.disabled = false;
+      this.adviceTemplateDetailComponent.isWatch = false;
     }
   }
 
-  edit() {}
+  edit() { }
+  /**
+   * 查找 刷新
+   */
+  search() {
+    this.adviceTemplateListComponent.load();
+  }
+  /**
+   * 删除树节点
+   */
+  delete() {
+    this.proposalTemplateTypeService.delete(this.currentProposalTypeNode.id).subscribe(() => {
+      this.msg.success('删除成功');
+    }, () => { }, () => { this.load(); });
+  }
 
-  delete() {}
+  /**
+   * 树节点点击事件
+   */
+  nodeClick($event) {
+    this.currentProposalTypeNode = $event.keys.length > 0 ? $event.node.origin : new ProposalTemplateTypeDTO();
+    this.parentName = this.currentProposalTypeNode.id ? this.currentProposalTypeNode.name : null;
+    console.log(this.currentProposalTypeNode);
+  }
 }

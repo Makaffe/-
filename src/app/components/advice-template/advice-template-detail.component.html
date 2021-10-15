@@ -8,21 +8,23 @@
     <nz-form-item>
       <nz-form-label nzSpan="4">问题类型</nz-form-label>
       <nz-form-control nzSpan="20">
-        <nz-select nzAllowClear [nzDisabled]="disabled">
-          <nz-option nzValue="jack" nzLabel="类型一"></nz-option>
-          <nz-option nzValue="lucy" nzLabel="类型二"></nz-option>
+        <nz-select nzAllowClear [nzDisabled]="isWatch" name="problemType"
+          [(ngModel)]="currentProposalTemplate.problemType">
+          <nz-option nzValue="PROBLEM_ONE" nzLabel="类型一"></nz-option>
+          <nz-option nzValue="PROBLEM_TWO " nzLabel="类型二"></nz-option>
         </nz-select>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label nzSpan="4">审计建议</nz-form-label>
-      <nz-form-control nzSpan="20"><textarea rows="5" nz-input [disabled]="disabled"></textarea> </nz-form-control>
+      <nz-form-control nzSpan="20"><textarea rows="5" nz-input [disabled]="isWatch" name="auditProposal"
+          [(ngModel)]="currentProposalTemplate.auditProposal"></textarea> </nz-form-control>
     </nz-form-item>
   </form>
   <ng-template #editorFooter>
     <div class="steps-action">
       <button nz-button nzType="default" (click)="handleCancel()">取消</button>
-      <button nz-button nzType="primary">
+      <button nz-button nzType="primary" [nzLoading]="loading" (click)="save()">
         <span>完成</span>
       </button>
     </div>
