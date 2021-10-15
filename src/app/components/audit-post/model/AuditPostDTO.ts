@@ -28,7 +28,7 @@ export class AuditPostDTO {
   /**
    * 审计单位名称
    */
-   auditName?: string;
+  auditName?: string;
 
   /**
    * 报告名称
