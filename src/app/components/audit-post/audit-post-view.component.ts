@@ -43,12 +43,14 @@ export class AuditPostViewComponent implements OnInit {
     auditEndTime: string;
     auditUnitName: string;
     auditDateRange?: [];
+    typeId?: string;
   } = {
     name: null,
     auditBeginTime: null,
     auditEndTime: null,
     auditUnitName: null,
     auditDateRange: null,
+    typeId: null,
   };
 
   selectDateRange($event) {
@@ -70,6 +72,16 @@ export class AuditPostViewComponent implements OnInit {
   }
 
   search(): void {
+    if (this.selectedPostType) {
+      this.filterParams.typeId = this.selectedPostType.id;
+    }
+    this.auditPostList.load();
+  }
+
+  postTypeChange($event) {
+    console.log('=============TYPE CHANGE================');
+    console.log($event);
+    this.filterParams.typeId = $event.id;
     this.auditPostList.load();
   }
 }
