@@ -3,9 +3,6 @@ import { TreeUtil } from '@mt-framework-ng/util';
 import { OrganizationService } from '@ng-mt-framework/api';
 import { RectifyProblemDTO } from './model/rectify-problem-dto';
 import { RectifyIssueListComponent } from './rectify-issue-list.component';
-import { RectifyIssueOrderComponent } from './rectify-issue-order.component';
-import { RectifyIssueSplitComponent } from './rectify-issue-split.component';
-import { RectifyIssueTransferComponent } from './rectify-issue-transfer.component';
 
 @Component({
   selector: 'app-rectify-issue-view',
@@ -14,14 +11,12 @@ import { RectifyIssueTransferComponent } from './rectify-issue-transfer.componen
 })
 export class RectifyIssueViewComponent implements OnInit {
   constructor(private organizationService: OrganizationService) {}
-  @ViewChild('rectifyIssueSplitComponent', { static: false })
-  rectifyIssueTransferComponent: RectifyIssueTransferComponent;
-  @ViewChild('rectifyIssueOrderComponent', { static: false })
-  rectifyIssueOrderComponent: RectifyIssueOrderComponent;
+
+  /**
+   * 列表组件
+   */
   @ViewChild('rectifyIssueListComponent', { static: false })
   rectifyIssueListComponent: RectifyIssueListComponent;
-  listOfOption: string[] = ['未下发', '已下发', '未移交'];
-  listOfSelectedValue = [];
 
   /**
    * 过滤参数
@@ -97,14 +92,14 @@ export class RectifyIssueViewComponent implements OnInit {
    * 移交纪检
    */
   transfer() {
-    this.rectifyIssueTransferComponent.edit();
+    this.rectifyIssueListComponent.rectifyIssueTransferComponent.edit(this.checkboxData);
   }
 
   /**
    * 问题下发
    */
-  order() {
-    this.rectifyIssueOrderComponent.edit();
+  send() {
+    this.rectifyIssueListComponent.rectifyIssueOrderComponent.edit(this.checkboxData);
   }
 
   /**
@@ -128,9 +123,43 @@ export class RectifyIssueViewComponent implements OnInit {
 
   /**
    * 获取整改表格checkbox选中的数据
-   * @param data checkbox选中的数据
+   * @param datas checkbox选中的数据
    */
-  getCheckboxData(data: Array<RectifyProblemDTO>) {
-    this.checkboxData = data;
+  getCheckboxData(datas: Array<RectifyProblemDTO>) {
+    this.checkboxData = [];
+    datas.forEach(problem => {
+      if (!problem.children || problem.children.length === 0) {
+        this.checkboxData.push(problem);
+      }
+    });
+    this.checkboxData = [...this.checkboxData];
+  }
+
+  /**
+   * 问题下发或移交纪检按钮disabled判断
+   * @param index 0：问题下发，1：移交纪检
+   * @returns Boolean
+   */
+  disabledButton(index: number) {
+    if (this.checkboxData.length > 0) {
+      let flag = false;
+      this.checkboxData.forEach((data: RectifyProblemDTO) => {
+        switch (index) {
+          case 0:
+            if (data.sendStatus !== 'NOT_ISSUED') {
+              flag = true;
+            }
+            break;
+          case 1:
+            if (data.transferStatus !== 'NOT_HANDED_OVER') {
+              flag = true;
+            }
+            break;
+        }
+      });
+      return flag;
+    } else {
+      return true;
+    }
   }
 }
