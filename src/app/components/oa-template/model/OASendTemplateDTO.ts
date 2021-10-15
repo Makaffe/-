@@ -28,6 +28,11 @@ export interface OASendTemplateDTO {
   content: string;
 
   /**
+   * 类型id
+   */
+  typeId: string;
+
+  /**
    * 创建数据的用户ID，系统根据token自动填写
    */
   createUser: UserBaseDTO;

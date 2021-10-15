@@ -20,13 +20,13 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label nzSpan="4">模板名称</nz-form-label>
+      <nz-form-label nzSpan="4" nzRequired>模板名称</nz-form-label>
       <nz-form-control nzSpan="20"
         ><input nz-input name="name" placeholder="" [disabled]="disabled" [(ngModel)]="currentItem.name"
       /></nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label nzSpan="4">模板内容</nz-form-label>
+      <nz-form-label nzSpan="4" nzRequired>模板内容</nz-form-label>
       <nz-form-control nzSpan="20"
         ><textarea rows="5" name="content" nz-input [disabled]="disabled" [(ngModel)]="currentItem.content"></textarea>
       </nz-form-control>

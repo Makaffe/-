@@ -1,5 +1,6 @@
 ﻿import { Injectable } from '@angular/core';
 import { _HttpClient } from '@delon/theme';
+import { QueryOptions } from '@ng-mt-framework/api';
 import { Observable } from 'rxjs/internal/Observable';
 import { OASendTemplateDTO } from '../model/OASendTemplateDTO';
 import { OASendTemplateEditInfoDTO } from '../model/OASendTemplateEditInfoDTO';
@@ -62,16 +63,14 @@ export class OASendTemplateService {
    *
    */
   findOnePageUsingGET(
-    sort?: string,
-    page?: number,
-    size?: number,
+    options: QueryOptions,
+    typeId: string,
     name?: string,
     content?: string,
   ): Observable<PageDataDTO<OASendTemplateDTO>> {
     const params = {};
-    Object.assign(params, sort ? { sort } : {});
-    Object.assign(params, page ? { page } : {});
-    Object.assign(params, size ? { size } : {});
+    Object.assign(params, options);
+    Object.assign(params, typeId ? { typeId } : {});
     Object.assign(params, name ? { name } : {});
     Object.assign(params, content ? { content } : {});
 

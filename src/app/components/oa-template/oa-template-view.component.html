@@ -65,9 +65,9 @@
                       <input
                         nz-input
                         type="text"
-                        name="name"
-                        placeholder="请输入搜索发文内容"
-                        [(ngModel)]="currentItem.content"
+                        name="content"
+                        placeholder="请输入搜索模板内容"
+                        [(ngModel)]="templateContent"
                       />
                     </nz-form-control>
                   </nz-form-item>
@@ -77,34 +77,30 @@
                   <nz-form-item>
                     <nz-form-label [nzSpan]="7">模板名称</nz-form-label>
                     <nz-form-control [nzSpan]="19">
-                      <input
-                        nz-input
-                        type="text"
-                        name="name"
-                        placeholder="请输入搜索名称"
-                        [(ngModel)]="currentItem.name"
-                      />
+                      <input nz-input type="text" name="name" placeholder="请输入搜索名称" [(ngModel)]="templateName" />
                     </nz-form-control>
                   </nz-form-item>
                 </div>
               </div>
               <!-- 查找按钮 -->
               <div nz-col [nzSpan]="4">
-                <button nz-button nzType="default"><i nz-icon nzType="rest" nzTheme="outline"></i>重置</button>
-                <button nz-button nzType="primary"><i nz-icon nzType="search" nzTheme="outline"></i>查找</button>
+                <button nz-button nzType="default" (click)="clear()">
+                  <i nz-icon nzType="rest" nzTheme="outline"></i>重置
+                </button>
+                <button nz-button nzType="primary" (click)="loadList()">
+                  <i nz-icon nzType="search" nzTheme="outline"></i>查找
+                </button>
               </div>
             </div>
           </form>
         </div>
       </as-split-area>
       <as-split-area [size]="'*'">
-        <oa-template-list></oa-template-list>
+        <oa-template-list #oaTemplateListComponent></oa-template-list>
       </as-split-area>
     </as-split>
   </as-split-area>
 </as-split>
-
-<oa-template-detail #oaTemplateDetailComponent></oa-template-detail>
 
 <nz-modal
   [(nzVisible)]="isVisible"

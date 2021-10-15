@@ -5,8 +5,9 @@ import { FormUtil } from '@ng-mt-framework/util';
 import { NzDropdownContextComponent, NzFormatEmitEvent, NzMessageService, NzTreeNode } from 'ng-zorro-antd';
 import { OASendTemplateTypeDTO } from './model/OASendTemplateTypeDTO';
 import { OaTemplateDetailComponent } from './oa-template-detail.component';
+import { OaTemplateListComponent } from './oa-template-list.component';
 import { OASendTemplateTypeService } from './service/OASendTemplateTypeService';
-
+import { OASendTemplateEditInfoDTO } from './model/OASendTemplateEditInfoDTO';
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'oa-template-view',
@@ -14,8 +15,8 @@ import { OASendTemplateTypeService } from './service/OASendTemplateTypeService';
   styles: [],
 })
 export class OaTemplateViewComponent implements OnInit {
-  @ViewChild('oaTemplateDetailComponent', { static: false })
-  oaTemplateDetailComponent: OaTemplateDetailComponent;
+  @ViewChild('oaTemplateListComponent', { static: false })
+  oaTemplateListComponent: OaTemplateListComponent;
   @ViewChild('form', { static: false })
   form: NgForm;
 
@@ -53,6 +54,10 @@ export class OaTemplateViewComponent implements OnInit {
   loading = false;
 
   /**
+   * 类型ID
+   */
+  typeId: string;
+  /**
    * 右键存放节点
    */
   contextItem: NzTreeNode;
@@ -76,6 +81,10 @@ export class OaTemplateViewComponent implements OnInit {
 
   nodes = [];
 
+  // 搜索内容
+  templateName: '';
+  templateContent: '';
+
   constructor(private oASendTemplateTypeService: OASendTemplateTypeService, private msg: NzMessageService) {}
 
   ngOnInit() {
@@ -85,7 +94,7 @@ export class OaTemplateViewComponent implements OnInit {
 
   create(item: any) {
     this.currentItem = this.initDTO(item);
-    this.oaTemplateDetailComponent.edit(item, true);
+    this.oaTemplateListComponent.oaTemplateDetailComponent.edit(item, true);
   }
 
   nzClick(event: any) {
@@ -94,10 +103,13 @@ export class OaTemplateViewComponent implements OnInit {
       this.selectNodeEvent.emit(this.selectedNode);
       this.selectedNode = event.node.origin;
       this.selectedNodeChange.emit(this.selectedNode);
+      this.typeId = this.selectedNode.id;
+      this.loadList(this.typeId);
     } else {
       this.selectedNode = null;
       this.selectNodeEvent.emit(this.selectedNode);
       this.selectedNodeChange.emit(this.selectedNode);
+      this.loadAll();
     }
   }
 
@@ -186,10 +198,30 @@ export class OaTemplateViewComponent implements OnInit {
     this.loadTree();
   }
 
+  loadList(id?: string) {
+    if (this.selectedNode) {
+      if (id) {
+        this.oaTemplateListComponent.load(id, this.templateName, this.templateContent);
+      } else {
+        this.oaTemplateListComponent.load(this.typeId, this.templateName, this.templateContent);
+      }
+    } else {
+      this.loadAll();
+    }
+  }
+
+  clear() {
+    this.templateName = '';
+    this.templateContent = '';
+  }
   /**
    * 验证表单
    */
   private validate() {
     return FormUtil.validateForm(this.form.form);
+  }
+
+  loadAll() {
+    this.oaTemplateListComponent.loadAll(this.templateName, this.templateContent);
   }
 }

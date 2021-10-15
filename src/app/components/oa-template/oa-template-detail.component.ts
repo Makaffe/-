@@ -30,6 +30,9 @@ export class OaTemplateDetailComponent implements OnInit {
 
   typeName: string;
 
+  // OA发送模板类型
+  typeId: string;
+
   isVisible = false;
   disabled = false;
   constructor(
@@ -40,32 +43,37 @@ export class OaTemplateDetailComponent implements OnInit {
 
   ngOnInit() {}
   handleCancel() {
+    this.currentItem = this.InitDTO();
     this.isVisible = false;
   }
 
   edit(item: any, created: boolean) {
     if (created === true) {
+      this.currentItem = this.InitDTO();
       this.typeName = item.name;
       this.currentItem.oaSendTemplateTypeId = item.id;
     } else {
       this.typeName = item.oaSendTemplateType.name;
       this.currentItem = this.InitDTO(item);
+      this.currentItem.oaSendTemplateTypeId = item.oaSendTemplateType.id;
     }
     this.isVisible = true;
   }
 
   save() {
-    if (!this.validate() || !this.currentItem.name) {
+    if (!this.validate() || !this.currentItem.name || !this.currentItem.content) {
       this.msg.warning('请补全星号的必填信息项');
       return;
     }
     if (this.currentItem.id) {
+      this.typeId = this.currentItem.oaSendTemplateTypeId;
       this.oASendTemplateService.updateUsingPUT(this.currentItem.id, this.currentItem).subscribe(
         () => this.afterCompleted(),
         null,
         () => (this.loading = false),
       );
     } else {
+      this.typeId = this.currentItem.oaSendTemplateTypeId;
       this.oASendTemplateService.addUsingPOST(this.currentItem).subscribe(
         () => this.afterCompleted(),
         null,
@@ -78,7 +86,7 @@ export class OaTemplateDetailComponent implements OnInit {
   afterCompleted() {
     this.handleCancel();
     this.msg.success('操作成功！');
-    this.notification.emit();
+    this.notification.emit(this.typeId);
   }
 
   /**
