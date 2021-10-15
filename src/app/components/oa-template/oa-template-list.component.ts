@@ -1,7 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TABLE_PARAMETER } from '@mt-framework-ng/core';
 import { ObjectUtil } from '@ng-mt-framework/util';
+import { NzMessageService } from 'ng-zorro-antd';
+import { OASendTemplateDTO } from './model/OASendTemplateDTO';
+import { OASendTemplateEditInfoDTO } from './model/OASendTemplateEditInfoDTO';
 import { OaTemplateDetailComponent } from './oa-template-detail.component';
+import { OASendTemplateService } from './service/OASendTemplateService';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -16,12 +20,7 @@ export class OaTemplateListComponent implements OnInit {
   /**
    * 列表数据
    */
-  tableData: Array<any> = [
-    {
-      state: '待处理',
-      postName: '2021-09审计报告',
-    },
-  ];
+  tableData: Array<OASendTemplateDTO> = [];
   /**
    * 列表参数
    */
@@ -29,33 +28,46 @@ export class OaTemplateListComponent implements OnInit {
   columns = [
     { title: '序号', render: 'number', width: '100px', className: 'text-center', type: 'radio' },
     {
-      title: '用途',
-      index: 'state',
+      title: 'OA模板名称',
+      index: 'name',
       width: '400px',
       sort: this.tableParameter.sortDef,
     },
     {
-      title: '发文内容',
-      index: 'postName',
+      title: 'OA模板内容',
+      index: 'content',
       sort: this.tableParameter.sortDef,
     },
     { title: '操作', render: 'operations', width: '150px', className: 'text-center', fixed: 'right' },
   ];
-  constructor() {}
+  constructor(private oASendTemplateService: OASendTemplateService, private msg: NzMessageService) {}
 
-  ngOnInit() {}
-
-  showModel(id: string, edit: boolean) {
+  ngOnInit() {
+    this.load();
+  }
+  // 更新编辑
+  showModel(item: OASendTemplateEditInfoDTO, edit: boolean) {
     if (edit) {
-      this.oaTemplateDetailComponent.isVisible = true;
+      this.oaTemplateDetailComponent.edit(item, false);
       this.oaTemplateDetailComponent.disabled = false;
     } else {
-      this.oaTemplateDetailComponent.isVisible = true;
+      this.oaTemplateDetailComponent.edit(item, false);
       this.oaTemplateDetailComponent.disabled = true;
     }
   }
 
-  delete(id: string) {
-    this.tableData = [];
+  deleteData(item: OASendTemplateEditInfoDTO) {
+    this.oASendTemplateService.deleteUsingDELETE(item.id).subscribe(() => {
+      this.msg.success('删除成功');
+      this.load();
+    });
+  }
+
+  load() {
+    this.oASendTemplateService.findAllUsingGET().subscribe(data => {
+      if (data) {
+        this.tableData = data;
+      }
+    });
   }
 }

@@ -83,8 +83,9 @@ export class OaTemplateViewComponent implements OnInit {
   }
   nzSearch($event) {}
 
-  create() {
-    this.oaTemplateDetailComponent.edit();
+  create(item: any) {
+    this.currentItem = this.initDTO(item);
+    this.oaTemplateDetailComponent.edit(item, true);
   }
 
   nzClick(event: any) {
@@ -146,6 +147,7 @@ export class OaTemplateViewComponent implements OnInit {
     return {
       id: item ? item.id : null,
       name: item ? item.name : null,
+      content: item ? item.content : null,
       parentId: item ? item.parentId : null,
       parent: item ? item.parent : null,
       remark: item ? item.remark : null,
