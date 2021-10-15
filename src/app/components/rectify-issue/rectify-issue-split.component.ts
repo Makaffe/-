@@ -208,7 +208,7 @@ export class RectifyIssueSplitComponent implements OnInit {
     }
     this.loading = true;
     this.rectifyProblemService.rectifyProblemSplit(this.problemItem.id, this.childrenProblemList).subscribe(
-      data => {
+      () => {
         this.msg.success('问题拆分成功！');
         this.notification.emit();
         this.handleCancel();
@@ -262,7 +262,7 @@ export class RectifyIssueSplitComponent implements OnInit {
    */
   initProblemDTO(item: RectifyProblemDTO): RectifyProblemDTO {
     return {
-      id: null,
+      id: item ? item.id : null,
       uuid: UUID.generate(),
       name: item ? item.name : null,
       type: item ? item.type : null,

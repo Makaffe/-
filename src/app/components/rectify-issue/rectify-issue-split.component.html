@@ -185,7 +185,7 @@
   </form>
   <ng-template #footer>
     <button nz-button nzType="default" (click)="handleCancel()">取消</button>
-    <button nz-button nzType="primary" (click)="addChildrenProblem()">新增</button>
+    <button nz-button nzType="primary" (click)="addChildrenProblem()" [disabled]="toggleEdit">新增</button>
     <button nz-button nzType="primary" [nzLoading]="loading" (click)="save()">
       确定
     </button>
