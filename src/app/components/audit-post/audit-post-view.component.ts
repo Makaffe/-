@@ -62,7 +62,11 @@ export class AuditPostViewComponent implements OnInit {
 
   ngOnInit() {}
   push() {
-    this.router.navigate(['/audit-rectify/audit-post-detail']);
+    this.router.navigate(['/audit-rectify/audit-post-detail'], {
+      queryParams: {
+        postTypeId: this.selectedPostType.id,
+      },
+    });
   }
 
   search(): void {

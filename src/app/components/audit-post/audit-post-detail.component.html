@@ -1,74 +1,131 @@
 <as-split direction="vertical" unit="pixel" gutterSize="0" style="background-color: white;">
-  <as-split-area class="flex-fixed" [size]="40">
-    <div class="app-toor-bar">
-      <div nz-row nzType="flex" nzJustify="space-around" nzAlign="middle">
-        <div nz-col nzSpan="24">
-          <button nz-button><i nz-icon nzType="rollback" nzTheme="outline"></i>返回</button>
-          <button nz-button nzType="primary"><i nz-icon nzType="save" nzTheme="outline"></i>保存</button>
+  <form nz-form #auditPostForm="ngForm">
+    <as-split-area class="flex-fixed" [size]="40">
+      <div class="app-toor-bar">
+        <div nz-row nzType="flex" nzJustify="space-around" nzAlign="middle">
+          <div nz-col nzSpan="24">
+            <button nz-button><i nz-icon nzType="rollback" nzTheme="outline"></i>返回</button>
+            <!-- <button nz-button nzType="primary"><i nz-icon nzType="save" nzTheme="outline"></i>保存</button> -->
+          </div>
         </div>
       </div>
-    </div>
-  </as-split-area>
-  <as-split-area [size]="'*'">
-    <div style="height:100%;margin-left:10px;margin-top:10px;overflow:scroll;">
-      <form nz-form>
+    </as-split-area>
+    <as-split-area [size]="'*'" style="height:100%;">
+      <div style="height:100%;margin-left:10px;margin-top:10px;overflow:scroll;">
         <nz-steps [nzCurrent]="current" nzDirection="vertical">
           <nz-step nzTitle="报告基本信息" [nzDescription]="step1"></nz-step>
-          <nz-step nzTitle="报告生成" [nzDescription]="step2"></nz-step>
+          <nz-step nzTitle="问题清单" [nzDescription]="step2"></nz-step>
         </nz-steps>
         <ng-template #step1>
           <nz-form-item>
             <nz-form-label nzSpan="4">上传审计报告</nz-form-label>
-            <nz-form-control nzSpan="20">
+
+            <nz-form-control nzSpan="18">
               <nz-upload
-                nzAction="https://jsonplaceholder.typicode.com/posts/"
+                nzAction=""
+                [nzCustomRequest]="customReq"
                 [nzFileList]="fileList"
                 nzMultiple
+                [nzShowUploadList]="true"
                 [nzLimit]="2"
                 [nzFilter]="filters"
                 (nzChange)="handleChange($event)"
                 [nzDisabled]="readFlag1"
+                [nzRemove]="removeFile"
               >
-                <button nz-button nzShape="round" [disabled]="readFlag1">
-                  <i nz-icon nzType="upload"></i><span>上传文件</span>
-                </button>
               </nz-upload>
             </nz-form-control>
           </nz-form-item>
           <nz-form-item>
             <nz-form-label nzSpan="4">报告内容提取</nz-form-label>
             <nz-form-control nzSpan="18">
-              <button nz-button nzShape="round" [disabled]="readFlag1">
+              <button [disabled]="!currentItem.systemFile || readFlag1" nz-button nzShape="round">
+                <i nz-icon nzType="download" nzTheme="outline"></i>下载报告
+              </button>
+              <button [disabled]="!currentItem.systemFile || readFlag1" nz-button nzShape="round">
                 <i nz-icon nzType="zoom-in" nzTheme="outline"></i>查看报告
               </button>
-              <button nz-button nzShape="round" [disabled]="readFlag1">
+              <button [disabled]="!currentItem.systemFile || readFlag1" nz-button nzShape="round">
                 <i nz-icon nzType="file-search" nzTheme="outline"></i>开始读取
               </button>
             </nz-form-control>
           </nz-form-item>
+
+          <!--基本信息-->
+
           <nz-form-item>
             <nz-form-label nzSpan="4" nzRequired>审计报告名称</nz-form-label>
-            <nz-form-control nzSpan="18">
-              <input nz-input [disabled]="readFlag1" />
+            <nz-form-control
+              nzSpan="18"
+              [nzValidateStatus]="name.invalid && (name.dirty || name.touched) ? 'error' : ''"
+            >
+              <input
+                nz-input
+                required
+                [disabled]="readFlag1"
+                #name="ngModel"
+                name="name"
+                [(ngModel)]="currentItem.name"
+              />
+              <nz-form-explain *ngIf="name.invalid && (name.dirty || name.touched)">
+                请填写审计报告名称
+              </nz-form-explain>
             </nz-form-control>
           </nz-form-item>
           <nz-form-item>
             <nz-form-label nzSpan="4" nzRequired>审计单位名称</nz-form-label>
-            <nz-form-control nzSpan="18">
-              <input nz-input [disabled]="readFlag1" />
+            <nz-form-control
+              nzSpan="18"
+              [nzValidateStatus]="
+                auditUnitName.invalid && (auditUnitName.dirty || auditUnitName.touched) ? 'error' : ''
+              "
+            >
+              <input
+                nz-input
+                required
+                [disabled]="readFlag1"
+                #auditUnitName="ngModel"
+                name="auditUnitName"
+                [(ngModel)]="currentItem.auditUnitName"
+              />
+
+              <nz-form-explain *ngIf="auditUnitName.invalid && (auditUnitName.dirty || auditUnitName.touched)">
+                请填写审计单位名称
+              </nz-form-explain>
             </nz-form-control>
           </nz-form-item>
           <nz-form-item>
             <nz-form-label nzSpan="4" nzRequired>审计时间</nz-form-label>
-            <nz-form-control nzSpan="7">
-              <nz-range-picker [nzDisabled]="readFlag1"></nz-range-picker>
+            <nz-form-control
+              nzSpan="7"
+              [nzValidateStatus]="
+                auditDateRange.invalid && (auditDateRange.dirty || auditDateRange.touched) ? 'error' : ''
+              "
+            >
+              <nz-range-picker
+                required
+                [nzDisabled]="readFlag1"
+                #auditDateRange="ngModel"
+                name="auditDateRange"
+                [(ngModel)]="currentItem.auditDateRange"
+              ></nz-range-picker>
+              <nz-form-explain *ngIf="auditDateRange.invalid && (auditDateRange.dirty || auditDateRange.touched)">
+                请选择审计时间
+              </nz-form-explain>
             </nz-form-control>
             <nz-form-label nzSpan="4">报告来源</nz-form-label>
             <nz-form-control nzSpan="7">
-              <input nz-input [disabled]="readFlag1" />
+              <input
+                nz-input
+                [disabled]="readFlag1"
+                name="reportSource"
+                #reportSource="ngModel"
+                [(ngModel)]="currentItem.reportSource"
+              />
             </nz-form-control>
           </nz-form-item>
         </ng-template>
+
         <ng-template #step2>
           <nz-form-item *ngIf="visabled">
             <nz-form-label nzSpan="4">整改问题清单</nz-form-label>
@@ -87,7 +144,7 @@
                     <th nzWidth="100px" nzAlign="center">问题描述</th>
                     <th nzWidth="100px" nzAlign="center">问题类型</th>
                     <th nzWidth="100px" nzAlign="center">整改部门</th>
-                    <th nzWidth="100px" nzAlign="center">整改负责人</th>
+                    <th nzWidth="100px" nzAlign="center">整改责任人</th>
                     <th nzWidth="100px" nzAlign="center">审计建议</th>
                     <th nzRight="100px" nzAlign="center" nzWidth="100px">问题来源</th>
                     <th nzWidth="150px" nzAlign="center" nzRight="0px">操作</th>
@@ -104,65 +161,167 @@
                     </td>
 
                     <td nzLeft="50px">
-                      <nz-form-control [nzValidateStatus]="name.invalid && (name.dirty || name.touched) ? 'error' : ''">
-                        <input
-                          #name="ngModel"
-                          required
-                          [disabled]="!data.editable"
-                          nz-input
-                          [name]="'name' + i"
-                          [(ngModel)]="data.name"
-                        />
+                      <nz-form-item>
+                        <nz-form-control
+                          [nzValidateStatus]="name.invalid && (name.dirty || name.touched) ? 'error' : ''"
+                        >
+                          <input
+                            #name="ngModel"
+                            required
+                            [disabled]="!data.editable"
+                            nz-input
+                            [name]="'name' + i"
+                            [(ngModel)]="data.name"
+                          />
 
-                        <nz-form-explain *ngIf="name.invalid && (name.dirty || name.touched)">
-                          请填写问题名称
-                        </nz-form-explain>
-                      </nz-form-control>
+                          <nz-form-explain *ngIf="name.invalid && (name.dirty || name.touched)">
+                            请填写问题名称
+                          </nz-form-explain>
+                        </nz-form-control>
+                      </nz-form-item>
                     </td>
                     <td>
-                      <textarea
-                        [disabled]="!data.editable"
-                        rows="1"
-                        nz-input
-                        [name]="'remark' + i"
-                        [(ngModel)]="data.remark"
-                      ></textarea>
+                      <nz-form-item>
+                        <nz-form-control
+                          [nzValidateStatus]="remark.invalid && (remark.dirty || remark.touched) ? 'error' : ''"
+                        >
+                          <textarea
+                            required
+                            [disabled]="!data.editable"
+                            rows="1"
+                            #remark="ngModel"
+                            nz-input
+                            [name]="'remark' + i"
+                            [(ngModel)]="data.remark"
+                          ></textarea>
+                          <nz-form-explain *ngIf="remark.invalid && (remark.dirty || remark.touched)">
+                            请填写问题描述
+                          </nz-form-explain>
+                        </nz-form-control>
+                      </nz-form-item>
                     </td>
                     <td>
-                      <nz-select [nzDisabled]="!data.editable" [name]="'type' + i " [(ngModel)]="data.type">
-                        <nz-option nzValue="类型一" nzLabel="类型一"></nz-option>
-                        <nz-option nzValue="类型二" nzLabel="类型二"></nz-option>
-                      </nz-select>
+                      <nz-form-item>
+                        <nz-form-control
+                          [nzValidateStatus]="type.invalid && (type.dirty || type.touched) ? 'error' : ''"
+                        >
+                          <nz-select
+                            required
+                            #type="ngModel"
+                            [nzDisabled]="!data.editable"
+                            [name]="'type' + i"
+                            [(ngModel)]="data.type"
+                            nzAllowClear
+                          >
+                            <nz-option nzValue="类型一" nzLabel="类型一"></nz-option>
+                            <nz-option nzValue="类型二" nzLabel="类型二"></nz-option>
+                          </nz-select>
+                          <nz-form-explain *ngIf="type.invalid && (type.dirty || type.touched)">
+                            请选择问题类型
+                          </nz-form-explain>
+                        </nz-form-control>
+                      </nz-form-item>
                     </td>
                     <td>
-                      <mt-organization-select
-                        [disabled]="!data.editable"
-                        placeHolder="请选择部门"
-                        organizationType="UNIT"
-                        [name]="'rectifyDepartmentId' +   i"
-                        [(ngModel)]="data.rectifyDepartmentId"
-                      >
-                      </mt-organization-select>
+                      <nz-form-item>
+                        <nz-form-control
+                          [nzValidateStatus]="
+                            selectedRectifyDepartment.invalid &&
+                            (selectedRectifyDepartment.dirty || selectedRectifyDepartment.touched)
+                              ? 'error'
+                              : ''
+                          "
+                        >
+                          <mt-organization-select
+                            [disabled]="!data.editable"
+                            required
+                            #selectedRectifyDepartment="ngModel"
+                            placeHolder="请选择整改部门"
+                            organizationType="UNIT"
+                            [name]="'selectedRectifyDepartment' + i"
+                            [(ngModel)]="data.selectedRectifyDepartment"
+                            (ngModelChange)="selectDepartment($event, data)"
+                          >
+                          </mt-organization-select>
+                          <nz-form-explain
+                            *ngIf="
+                              selectedRectifyDepartment.invalid &&
+                              (selectedRectifyDepartment.dirty || selectedRectifyDepartment.touched)
+                            "
+                          >
+                            请选择整改部门
+                          </nz-form-explain>
+                        </nz-form-control>
+                      </nz-form-item>
                     </td>
                     <td>
-                      <mt-user-select
-                        [isMultiSelect]="false"
-                        [name]="'rectifyPeopleId'+ i "
-                        [(ngModel)]="data.rectifyPeopleId"
-                        [disabled]="!data.editable"
-                      ></mt-user-select>
+                      <nz-form-item>
+                        <nz-form-control
+                          [nzValidateStatus]="
+                            selectedRectifyPeople.invalid &&
+                            (selectedRectifyPeople.dirty || selectedRectifyPeople.touched)
+                              ? 'error'
+                              : ''
+                          "
+                        >
+                          <mt-user-select
+                            required
+                            [isMultiSelect]="false"
+                            #selectedRectifyPeople="ngModel"
+                            [name]="'selectedRectifyPeople' + i"
+                            [(ngModel)]="data.selectedRectifyPeople"
+                            [disabled]="!data.editable"
+                            (ngModelChange)="selectUser($event, data)"
+                          ></mt-user-select>
+                          <nz-form-explain
+                            *ngIf="
+                              selectedRectifyPeople.invalid &&
+                              (selectedRectifyPeople.dirty || selectedRectifyPeople.touched)
+                            "
+                          >
+                            请选择整改负责人
+                          </nz-form-explain>
+                        </nz-form-control>
+                      </nz-form-item>
                     </td>
                     <td>
-                      <textarea
-                        [disabled]="!data.editable"
-                        rows="1"
-                        nz-input
-                        [name]="'advice' + i"
-                        [(ngModel)]="data.advice"
-                      ></textarea>
+                      <nz-form-item>
+                        <nz-form-control
+                          [nzValidateStatus]="advice.invalid && (advice.dirty || advice.touched) ? 'error' : ''"
+                        >
+                          <textarea
+                            [disabled]="!data.editable"
+                            rows="1"
+                            #advice="ngModel"
+                            required
+                            nz-input
+                            [name]="'advice' + i"
+                            [(ngModel)]="data.advice"
+                          ></textarea>
+                          <nz-form-explain *ngIf="advice.invalid && (advice.dirty || advice.touched)">
+                            请填写整改建议
+                          </nz-form-explain>
+                        </nz-form-control>
+                      </nz-form-item>
                     </td>
                     <td nzRight="100px">
-                      <input [disabled]="!data.editable" nz-input [name]="'source' +  i" [(ngModel)]="data.source" />
+                      <nz-form-item>
+                        <nz-form-control
+                          [nzValidateStatus]="source.invalid && (source.dirty || source.touched) ? 'error' : ''"
+                        >
+                          <input
+                            required
+                            #source="ngModel"
+                            [disabled]="!data.editable"
+                            nz-input
+                            [name]="'source' + i"
+                            [(ngModel)]="data.source"
+                          />
+                          <nz-form-explain *ngIf="source.invalid && (source.dirty || source.touched)">
+                            请填写问题来源
+                          </nz-form-explain>
+                        </nz-form-control>
+                      </nz-form-item>
                     </td>
 
                     <td nzAlign="center" nzRight="0px">
@@ -183,27 +342,44 @@
                   </tr>
                 </tbody>
                 <ng-template #tableFooter>
-                  <button (click)="addProblem()" nz-button nzType="primary" nzSize="small">
+                  <button
+                    [disabled]="!allProblemSaved() || current !== 1"
+                    (click)="addProblem()"
+                    nz-button
+                    nzType="primary"
+                    nzSize="small"
+                  >
                     <i nz-icon nzType="plus" nzTheme="outline"></i>添加问题
                   </button>
-                  <button nz-button nzType="danger" nzSize="small">
+                  <!-- <button nz-button nzType="danger" nzSize="small">
                     <i nz-icon nzType="delete" nzTheme="outline"></i>批量删除
-                  </button>
+                  </button> -->
                 </ng-template>
               </nz-table>
             </nz-form-control>
           </nz-form-item>
-          <div style="position: absolute; top: 400px;">
-            <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">上一步</button>
-            <button nz-button style="margin-left: 50px;" nzType="default" (click)="next()" *ngIf="current < 1">
-              下一步
-            </button>
-            <button nz-button style="margin-left: 50px;" nzType="primary" (click)="done()" *ngIf="current === 1">
-              完成
-            </button>
-          </div>
         </ng-template>
-      </form>
-    </div>
-  </as-split-area>
+        <div style="position: absolute; bottom: 10px;">
+          <button [disabled]="!allProblemSaved()" nz-button nzType="default" (click)="pre()" *ngIf="current > 0">
+            <i nz-icon nzType="backward" nzTheme="outline"></i>上一步
+          </button>
+          <button nz-button style="margin-left: 50px;" nzType="default" (click)="next()" *ngIf="current < 1">
+            <i nz-icon nzType="forward" nzTheme="outline"></i>下一步
+          </button>
+
+          <button
+            nz-button
+            nzType="primary"
+            nz-button
+            style="margin-left: 50px;"
+            nzType="primary"
+            (click)="done()"
+            *ngIf="current === 1"
+          >
+            <i nz-icon nzType="save" nzTheme="outline"></i>保存
+          </button>
+        </div>
+      </div>
+    </as-split-area>
+  </form>
 </as-split>

@@ -1,22 +1,35 @@
-import { Component, OnInit } from '@angular/core';
-import { NzMessageService, UploadFile, UploadFilter } from 'ng-zorro-antd';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { NzMessageService, UploadFile, UploadFilter, UploadXHRArgs } from 'ng-zorro-antd';
 import { Observable, Observer } from 'rxjs';
 import { RectifyProblemDTO } from '../rectify-issue/model/rectify-problem-dto';
 import UUID from 'uuidjs';
+import { NgForm } from '@angular/forms';
+import { FormUtil } from '@mt-framework-ng/util';
+import { AuditPostDTO } from './model/AuditPostDTO';
+import { SystemFileService } from '@ng-mt-framework/api';
+import { ActivatedRoute } from '@angular/router';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'audit-post-detail',
   templateUrl: './audit-post-detail.component.html',
   styleUrls: ['./audit-post-detail.component.less'],
 })
 export class AuditPostDetailComponent implements OnInit {
+  @ViewChild('auditPostForm', { static: true })
+  auditPostForm: NgForm;
   listOfData: RectifyProblemDTO[] = [];
   filters: UploadFilter[] = [
     {
       name: 'type',
       fn: (fileList: UploadFile[]) => {
-        const filterFiles = fileList.filter(w => ~['image/png'].indexOf(w.type));
+        const filterFiles = fileList.filter(
+          w =>
+            ~['application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/msword'].indexOf(
+              w.type,
+            ),
+        );
         if (filterFiles.length !== fileList.length) {
-          this.msg.error(`包含文件格式不正确，只支持 png 格式`);
+          this.msg.error(`包含文件格式不正确，只支持 doc 、docx 格式`);
           return filterFiles;
         }
         return fileList;
@@ -34,13 +47,15 @@ export class AuditPostDetailComponent implements OnInit {
     },
   ];
 
-  fileList = [
-    {
-      uid: -1,
-      name: '《2021-10-01年度中期审计报告》.docx',
-      status: 'done',
-    },
-  ];
+  fileList = [];
+
+  currentItem: AuditPostDTO = new AuditPostDTO();
+
+  /**
+   * 报告类型
+   */
+  @Input()
+  postType: any = null;
 
   /**
    * 步骤条进度
@@ -68,9 +83,21 @@ export class AuditPostDetailComponent implements OnInit {
       return true;
     });
   }
-  constructor(private msg: NzMessageService) {}
+  constructor(
+    private msg: NzMessageService,
+    private systemFileService: SystemFileService,
+    private activatedRoute: ActivatedRoute,
+    private datePipe: DatePipe,
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.activatedRoute.queryParams.subscribe(data => {
+      console.log('=============ROUTE PARAMS=========');
+      console.log(data);
+      this.currentItem = new AuditPostDTO();
+      this.currentItem.auditPostTypeId = data.postTypeId;
+    });
+  }
 
   pre(): void {
     this.current -= 1;
@@ -78,12 +105,29 @@ export class AuditPostDetailComponent implements OnInit {
   }
 
   next(): void {
+    console.log('==============FORM OBJECT==============');
+    console.dir(this.auditPostForm);
+
+    console.dir(this.auditPostForm.form);
+    if (!FormUtil.validateForm(this.auditPostForm.form)) {
+      this.msg.warning(`请补全报告基本信息`);
+      return;
+    }
     this.current += 1;
     this.visabled = true;
     this.changeContent();
   }
 
   done(): void {
+    if (!this.allProblemSaved()) {
+      this.msg.warning(`请保存所有问题`);
+      return;
+    }
+    this.currentItem.auditStartTime = this.datePipe.transform(this.currentItem.auditDateRange[0], 'yyyy-MM-dd');
+    this.currentItem.auditEndTime = this.datePipe.transform(this.currentItem.auditDateRange[1], 'yyyy-MM-dd');
+    this.currentItem.rectifyProblems = this.listOfData;
+    console.log('=============================POST DATA=================');
+    console.dir(this.currentItem);
     console.log('done');
   }
 
@@ -128,9 +172,11 @@ export class AuditPostDetailComponent implements OnInit {
       type: null,
       remark: null,
       rectifyDepartmentId: null,
-      rectifyPeopleId: null,
+      dutyUserId: null,
       advice: null,
       source: null,
+      selectedRectifyDepartment: null,
+      selectedRectifyPeople: null,
       uuid: UUID.generate(),
       editable: true,
     };
@@ -140,11 +186,12 @@ export class AuditPostDetailComponent implements OnInit {
     console.log('============SAVE= PROBLEM===========');
     console.log(data);
     if (
+      !FormUtil.validateForm(this.auditPostForm.form) ||
       !data.name ||
       !data.type ||
       !data.remark ||
       !data.rectifyDepartmentId ||
-      !data.rectifyPeopleId ||
+      !data.dutyUserId ||
       !data.advice ||
       !data.source
     ) {
@@ -158,5 +205,63 @@ export class AuditPostDetailComponent implements OnInit {
     this.listOfData.filter(item => item.uuid === data.uuid)[0].editable = true;
   }
 
- 
+  selectDepartment($event, data): void {
+    console.log('============SELECT DEPARTMENT============');
+    console.log($event);
+    console.log(data);
+    if ($event && $event.length > 0) {
+      this.listOfData.filter(item => item.uuid === data.uuid)[0].rectifyDepartmentId = $event[0].id;
+    } else {
+      this.listOfData.filter(item => item.uuid === data.uuid)[0].rectifyDepartmentId = null;
+    }
+  }
+
+  selectUser($event, data): void {
+    console.log('============SELECT USER============');
+    console.log($event);
+    console.log(data);
+    if ($event && $event.length > 0) {
+      this.listOfData.filter(item => item.uuid === data.uuid)[0].dutyUserId = $event[0].id;
+    } else {
+      this.listOfData.filter(item => item.uuid === data.uuid)[0].dutyUserId = null;
+    }
+  }
+
+  allProblemSaved(): boolean {
+    return this.listOfData.filter(item => item.editable).length === 0;
+  }
+
+  customReq = (item: UploadXHRArgs) => {
+    // Create a FormData here to store files and other parameters.
+    const formData = new FormData();
+    // tslint:disable-next-line:no-any
+    formData.append('file', item.file as any);
+    this.systemFileService.singleFile('COMMON_FILE', formData).subscribe({
+      next: data => {
+        (data as any).uuid = data.id;
+        item.onSuccess(data, data as any, null);
+        data.name = data.originalName;
+        this.fileList = [data as any];
+        this.currentItem.systemFile = data;
+      },
+      error: () => {
+        item.onError(null, item.file);
+        this.msg.error(`上传失败`);
+        this.fileList = [];
+      },
+      complete: () => {},
+    });
+  };
+
+  removeFile = (file: UploadFile): boolean | Observable<boolean> => {
+    this.systemFileService.deleteFileById(file.id).subscribe({
+      next: () => {
+        this.msg.success(`删除成功`);
+        this.currentItem.systemFile = null;
+      },
+      error: () => {},
+      complete: () => {},
+    });
+    return true;
+  };
 }
