@@ -1,5 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { TreeUtil } from '@mt-framework-ng/util';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { FormUtil, TreeUtil } from '@mt-framework-ng/util';
 import { OrganizationService, UserService } from '@ng-mt-framework/api';
 import { ObjectUtil } from '@ng-mt-framework/util';
 import { NzMessageService } from 'ng-zorro-antd';
@@ -27,6 +28,12 @@ export class RectifyIssueSplitComponent implements OnInit {
   notification = new EventEmitter();
 
   /**
+   * 表单组件
+   */
+  @ViewChild('form', { static: false })
+  form: NgForm;
+
+  /**
    * 模态框是否可见
    */
   isVisible = false;
@@ -52,9 +59,19 @@ export class RectifyIssueSplitComponent implements OnInit {
   organizationTree = [];
 
   /**
+   * 整改部门map
+   */
+  organizationMap: Map<string, string> = new Map<string, string>();
+
+  /**
    * 整改负责人列表
    */
   dutyUserList = [];
+
+  /**
+   * 整改负责人map
+   */
+  dutyUserMap: Map<string, string> = new Map<string, string>();
 
   /**
    * 问题类型列表
@@ -71,6 +88,11 @@ export class RectifyIssueSplitComponent implements OnInit {
   ];
 
   /**
+   * 行内编辑开关
+   */
+  toggleEdit = false;
+
+  /**
    * 行内编辑缓存
    */
   editCache: { [key: string]: { edit: boolean; data: any } } = {};
@@ -81,6 +103,7 @@ export class RectifyIssueSplitComponent implements OnInit {
    */
   startEdit(uuid: string): void {
     this.editCache[uuid].edit = true;
+    this.toggleEdit = true;
   }
 
   /**
@@ -93,6 +116,7 @@ export class RectifyIssueSplitComponent implements OnInit {
       data: { ...this.childrenProblemList[index] },
       edit: false,
     };
+    this.toggleEdit = false;
   }
 
   /**
@@ -100,9 +124,23 @@ export class RectifyIssueSplitComponent implements OnInit {
    * @param uuid 数据uuid
    */
   saveEdit(uuid: string): void {
+    if (!this.validate()) {
+      this.msg.warning('请补全信息！');
+      return;
+    }
     const index = this.childrenProblemList.findIndex(item => item.uuid === uuid);
     Object.assign(this.childrenProblemList[index], this.editCache[uuid].data);
     this.editCache[uuid].edit = false;
+    this.toggleEdit = false;
+  }
+
+  /**
+   * 删除子问题
+   * @param uuid 数据uuid
+   */
+  onDelete(uuid: string): void {
+    this.childrenProblemList = this.childrenProblemList.filter(item => item.uuid !== uuid);
+    this.childrenProblemList = [...this.childrenProblemList];
   }
 
   /**
@@ -120,9 +158,28 @@ export class RectifyIssueSplitComponent implements OnInit {
   ngOnInit(): void {
     this.organizationService.getOrganizationTreeOfEmployeeOrUser().subscribe(data => {
       this.organizationTree = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
+      this.recursionOrganizationTree(data);
     });
     this.userService.findAll().subscribe(data => {
-      this.dutyUserList = data;
+      if (data) {
+        this.dutyUserList = data;
+        this.dutyUserList.forEach(user => {
+          this.dutyUserMap.set(user.id, user.name);
+        });
+      }
+    });
+  }
+
+  /**
+   * 递归organizationTree设置organizationMap用于方便回显
+   * @param organizationTree 组织树
+   */
+  recursionOrganizationTree(organizationTree: Array<any>) {
+    organizationTree.forEach(organization => {
+      this.organizationMap.set(organization.id, organization.name);
+      if (organization.children && organization.children.length > 0) {
+        this.recursionOrganizationTree(organization.children);
+      }
     });
   }
 
@@ -135,19 +192,30 @@ export class RectifyIssueSplitComponent implements OnInit {
   }
 
   /**
+   * 验证表单
+   */
+  private validate() {
+    return FormUtil.validateForm(this.form.form);
+  }
+
+  /**
    * 保存
    */
   save() {
+    if (!this.validate()) {
+      this.msg.warning('请补全标星号信息！');
+      return;
+    }
     this.loading = true;
     this.rectifyProblemService.rectifyProblemSplit(this.problemItem.id, this.childrenProblemList).subscribe(
       data => {
         this.msg.success('问题拆分成功！');
         this.notification.emit();
+        this.handleCancel();
       },
       () => {},
       () => {
         this.loading = false;
-        this.handleCancel();
       },
     );
   }
@@ -172,50 +240,20 @@ export class RectifyIssueSplitComponent implements OnInit {
    * 新增子问题
    */
   addChildrenProblem() {
-    if (this.childrenProblemList.length === 0) {
-      this.childrenProblemList = [
-        ...this.childrenProblemList,
-        {
-          key: this.problemItem.key * 10 + 1,
-          id: this.problemItem.id + '1',
-          proName: '子问题一',
-          status: '未下发',
-          situation: '未移交',
-          admitName: '',
-          proCome: '子问题一来源',
-          oaSend: '',
-          proDes: '描述一',
-          proType: '类型一',
-          department: '部门一',
-          person: '张三',
-          suggest: '子问题审计建议xxx',
-          children: null,
-          checked: false,
-        },
-      ];
-    } else {
-      this.childrenProblemList = [
-        ...this.childrenProblemList,
-        {
-          key: this.childrenProblemList[this.childrenProblemList.length - 1].key + 1,
-          id: (+this.childrenProblemList[this.childrenProblemList.length - 1].key + 1).toLocaleString(),
-          proName: this.childrenProblemList[this.childrenProblemList.length - 1].proName,
-          status: '未下发',
-          situation: '未移交',
-          admitName: this.childrenProblemList[this.childrenProblemList.length - 1].admitName,
-          proCome: this.childrenProblemList[this.childrenProblemList.length - 1].proCome,
-          oaSend: this.childrenProblemList[this.childrenProblemList.length - 1].oaSend,
-          proDes: this.childrenProblemList[this.childrenProblemList.length - 1].proDes,
-          proType: this.childrenProblemList[this.childrenProblemList.length - 1].proType,
-          department: this.childrenProblemList[this.childrenProblemList.length - 1].department,
-          person: this.childrenProblemList[this.childrenProblemList.length - 1].person,
-          suggest: this.childrenProblemList[this.childrenProblemList.length - 1].suggest,
-          children: null,
-          checked: false,
-        },
-      ];
+    if (this.toggleEdit === true) {
+      this.msg.error('存在未保存的数据!');
+      return;
     }
+    const newline = this.initProblemDTO(null);
+    newline.auditPostId = this.problemItem.auditPost.id;
+    newline.parentId = this.problemItem.id;
+    newline.sendStatus = 'NOT_ISSUED';
+    newline.transferStatus = 'NOT_HANDED_OVER';
+    newline.source = this.problemItem.source;
+    this.childrenProblemList.push(newline);
+    this.childrenProblemList = [...this.childrenProblemList];
     this.updateEditCache();
+    this.editCache[newline.uuid].edit = true;
   }
 
   /**
@@ -249,19 +287,41 @@ export class RectifyIssueSplitComponent implements OnInit {
       rectifyBackFeedHzUnit: item ? item.rectifyBackFeedHzUnit : null,
       rectifyProgress: item ? item.rectifyProgress : null,
       memo: item ? item.memo : null,
-      showOrder: item ? item.showOrder : null,
       parentId: item ? item.parent.id : null,
       children: [],
     };
   }
 
   /**
-   * 问题类型反显
-   * @param value 问题类型
+   * 问题类型label反显
+   * @param value 问题类型value
+   * @returns 问题类型label
    */
   convertProblemType(value: string) {
     if (value) {
       return this.problemTypeList.find(problem => problem.value === value).label;
+    }
+  }
+
+  /**
+   * 整改负责人name回显
+   * @param id 整改负责人id
+   * @returns 整改负责人name
+   */
+  convertdutyUser(id: string) {
+    if (id) {
+      return this.dutyUserMap.get(id);
+    }
+  }
+
+  /**
+   * 整改部门name回显
+   * @param id 整改部门id
+   * @returns 整改部门name
+   */
+  convertOrganization(id: string) {
+    if (id) {
+      return this.organizationMap.get(id);
     }
   }
 }

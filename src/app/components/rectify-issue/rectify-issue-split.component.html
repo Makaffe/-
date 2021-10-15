@@ -5,7 +5,7 @@
     padding: '24px 24px 0 24px'
   }">
 
-  <form nz-form>
+  <form nz-form #form="ngForm">
     <nz-form-item>
       <nz-form-label nzSpan="2">问题名称</nz-form-label>
       <nz-form-control nzSpan="10">
@@ -26,7 +26,7 @@
       <nz-form-label nzSpan="2">子问题</nz-form-label>
       <nz-form-control nzSpan="22">
         <nz-table #editRowTable nzBordered [nzData]="childrenProblemList" [nzScroll]="{ x: '1800px', y: '100%' }"
-          [nzShowPagination]="false">
+          [nzShowPagination]="false" style="height: 300px;">
           <thead>
             <tr>
               <th nzWidth="50px" nzLeft="0px">序号</th>
@@ -47,7 +47,17 @@
                   {{ data.name }}
                 </ng-container>
                 <ng-template #nameInputTpl>
-                  <input name="name" type="text" nz-input [(ngModel)]="editCache[data.uuid].data.name" />
+                  <nz-form-control [nzSpan]="24" [nzValidateStatus]="
+                  name.invalid && (name.dirty || name.touched)
+                  ? 'error'
+                  : ''
+              ">
+                    <input name="name" type="text" nz-input [(ngModel)]="editCache[data.uuid].data.name" #name="ngModel"
+                      maxlength="225" required />
+                    <nz-form-explain *ngIf="name.invalid && (name.dirty || name.touched)">
+                      请输入子问题名称
+                    </nz-form-explain>
+                  </nz-form-control>
                 </ng-template>
               </td>
               <td>
@@ -55,8 +65,17 @@
                   {{ data.remark }}
                 </ng-container>
                 <ng-template #remarkInputTpl>
-                  <textarea name="remark" type="text" nz-input
-                    [(ngModel)]="editCache[data.uuid].data.remark"></textarea>
+                  <nz-form-control [nzSpan]="24" [nzValidateStatus]="
+                  remark.invalid && (remark.dirty || remark.touched)
+                  ? 'error'
+                  : ''
+              ">
+                    <textarea name="remark" type="text" nz-input [(ngModel)]="editCache[data.uuid].data.remark"
+                      #remark="ngModel" required></textarea>
+                    <nz-form-explain *ngIf="remark.invalid && (remark.dirty || remark.touched)">
+                      请输入子问题描述
+                    </nz-form-explain>
+                  </nz-form-control>
                 </ng-template>
               </td>
               <td>
@@ -64,8 +83,17 @@
                   {{ data.advice }}
                 </ng-container>
                 <ng-template #adviceInputTpl>
-                  <textarea name="advice" type="text" nz-input
-                    [(ngModel)]="editCache[data.uuid].data.advice"></textarea>
+                  <nz-form-control [nzSpan]="24" [nzValidateStatus]="
+                  advice.invalid && (advice.dirty || advice.touched)
+                  ? 'error'
+                  : ''
+              ">
+                    <textarea name="advice" type="text" nz-input [(ngModel)]="editCache[data.uuid].data.advice"
+                      #advice="ngModel" required></textarea>
+                    <nz-form-explain *ngIf="advice.invalid && (advice.dirty || advice.touched)">
+                      请输入子问题审计建议
+                    </nz-form-explain>
+                  </nz-form-control>
                 </ng-template>
               </td>
               <td>
@@ -73,40 +101,74 @@
                   {{ this.convertProblemType(data.type) }}
                 </ng-container>
                 <ng-template #typeInputTpl>
-                  <nz-select name="type" [(ngModel)]="editCache[data.uuid].data.type" style="width: 100%;"
-                    nzAllowClear="true" nzShowSearch="true">
-                    <nz-option *ngFor="let option of problemTypeList" [nzLabel]="option.label" [nzValue]="option.value">
-                    </nz-option>
-                  </nz-select>
+                  <nz-form-control [nzSpan]="24" [nzValidateStatus]="
+                  type.invalid && (type.dirty || type.touched)
+                  ? 'error'
+                  : ''
+              ">
+                    <nz-select name="type" [(ngModel)]="editCache[data.uuid].data.type" style="width: 100%;"
+                      nzShowSearch="true" #type="ngModel" required nzAllowClear="true">
+                      <nz-option *ngFor="let option of problemTypeList" [nzLabel]="option.label"
+                        [nzValue]="option.value">
+                      </nz-option>
+                    </nz-select>
+                    <nz-form-explain *ngIf="type.invalid && (type.dirty || type.touched)">
+                      请选择子问题类型
+                    </nz-form-explain>
+                  </nz-form-control>
                 </ng-template>
               </td>
               <td>
                 <ng-container *ngIf="!editCache[data.uuid].edit; else rectifyDepartmentInputTpl">
-                  {{ data?.rectifyDepartment?.name }}
+                  {{convertOrganization(data?.rectifyDepartmentId)}}
                 </ng-container>
                 <ng-template #rectifyDepartmentInputTpl>
-                  <nz-tree-select [nzNodes]="organizationTree" [nzAllowClear]="true" nzDefaultExpandAll nzShowSearch
-                    name="rectifyDepartmentId" [(ngModel)]="editCache[data.uuid].data.rectifyDepartmentId"
-                    [nzDropdownStyle]="{ maxHeight: '280px' }">
-                  </nz-tree-select>
+                  <nz-form-control [nzSpan]="24" [nzValidateStatus]="
+                  rectifyDepartmentId.invalid && (rectifyDepartmentId.dirty || rectifyDepartmentId.touched)
+                  ? 'error'
+                  : ''
+              ">
+                    <nz-tree-select [nzNodes]="organizationTree" nzDefaultExpandAll nzShowSearch nzAllowClear="true"
+                      name="rectifyDepartmentId" [(ngModel)]="editCache[data.uuid].data.rectifyDepartmentId"
+                      [nzDropdownStyle]="{ maxHeight: '280px' }" #rectifyDepartmentId="ngModel" required>
+                    </nz-tree-select>
+                    <nz-form-explain
+                      *ngIf="rectifyDepartmentId.invalid && (rectifyDepartmentId.dirty || rectifyDepartmentId.touched)">
+                      请选择子问题整改部门
+                    </nz-form-explain>
+                  </nz-form-control>
                 </ng-template>
               </td>
               <td>
                 <ng-container *ngIf="!editCache[data.uuid].edit; else dutyUserInputTpl">
-                  {{ data?.dutyUser?.name }}
+                  {{convertdutyUser(data?.dutyUserId)}}
                 </ng-container>
                 <ng-template #dutyUserInputTpl>
-                  <nz-select name="dutyUser" [(ngModel)]="editCache[data.uuid].data.dutyUserId" style="width: 100%;"
-                    nzAllowClear="true" nzShowSearch="true">
-                    <nz-option *ngFor="let option of dutyUserList" [nzLabel]="option.name" [nzValue]="option.id">
-                    </nz-option>
-                  </nz-select>
+                  <nz-form-control [nzSpan]="24" [nzValidateStatus]="
+                  dutyUserId.invalid && (dutyUserId.dirty || dutyUserId.touched)
+                  ? 'error'
+                  : ''
+              ">
+                    <nz-select name="dutyUser" [(ngModel)]="editCache[data.uuid].data.dutyUserId" style="width: 100%;"
+                      nzShowSearch="true" nzAllowClear="true" #dutyUserId="ngModel" required>
+                      <nz-option *ngFor="let option of dutyUserList" [nzLabel]="option.name" [nzValue]="option.id">
+                      </nz-option>
+                    </nz-select>
+                    <nz-form-explain *ngIf="dutyUserId.invalid && (dutyUserId.dirty || dutyUserId.touched)">
+                      请选择子问题整改负责人
+                    </nz-form-explain>
+                  </nz-form-control>
                 </ng-template>
               </td>
               <td nzRight="0px" nzAlign="center">
                 <div class="editable-row-operations">
                   <ng-container *ngIf="!editCache[data.uuid].edit; else saveTpl">
                     <a (click)="startEdit(data.uuid)">编辑</a>
+                    <nz-divider nzType="vertical"></nz-divider>
+                    <nz-popconfirm [nzTitle]="confirmtittle" (nzOnConfirm)="onDelete(data.uuid)">
+                      <ng-template #confirmtittle>确定删除该数据？</ng-template>
+                      <a nz-popconfirm>删除</a>
+                    </nz-popconfirm>
                   </ng-container>
                   <ng-template #saveTpl>
                     <a (click)="saveEdit(data.uuid)">保存</a>
