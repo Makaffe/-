@@ -13,7 +13,7 @@
     class="app-audit-tree app-audit-tree-left"
     style="background-color: white;"
   >
-    <audit-post-type-tree [(selectedNode)]="selectedPostType"></audit-post-type-tree>
+    <audit-post-type-tree [(selectedNode)]="selectedPostType" (selectedNodeChange)="postTypeChange($event)"></audit-post-type-tree>
   </as-split-area>
   <!--右侧编辑区-->
   <as-split-area [size]="'*'">
