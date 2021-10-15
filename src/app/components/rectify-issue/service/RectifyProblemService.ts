@@ -58,6 +58,24 @@ export class RectifyProblemService {
   }
 
   /**
+   * 问题下发
+   * @param ids 整改问题ids
+   *
+   */
+  rectifyProblemSend(ids: Array<string>): Observable<Array<RectifyProblemDTO>> {
+    return this.http.put<Array<RectifyProblemDTO>>(`${RectifyProblemService.URL}/send`, ids);
+  }
+
+  /**
+   * 移交纪检
+   * @param ids 整改问题ids
+   *
+   */
+  rectifyProblemTransfer(ids: Array<string>): Observable<Array<RectifyProblemDTO>> {
+    return this.http.put<Array<RectifyProblemDTO>>(`${RectifyProblemService.URL}/transfer`, ids);
+  }
+
+  /**
    * 根据整改问题id查询备忘录
    * @param id 整改问题id
    *

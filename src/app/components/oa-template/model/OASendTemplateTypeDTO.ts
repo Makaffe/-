@@ -18,6 +18,11 @@ export interface OASendTemplateTypeDTO {
   name: string;
 
   /**
+   * 内容
+   */
+  content: string;
+
+  /**
    * 备注
    */
   remark: string;
