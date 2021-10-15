@@ -27,13 +27,13 @@
                 [nzFileList]="fileList"
                 nzMultiple
                 [nzShowUploadList]="true"
-                [nzLimit]="2"
+                [nzLimit]="1"
                 [nzFilter]="filters"
                 (nzChange)="handleChange($event)"
                 [nzDisabled]="readFlag1"
                 [nzRemove]="removeFile"
               >
-                <button nz-button nzShape="round" [disabled]="readFlag1">
+                <button nz-button nzShape="round" [disabled]="readFlag1 || isWatch || currentItem.auditReportStatus == 'GENERATED'">
                   <i nz-icon nzType="upload"></i><span>上传文件</span>
                 </button>
               </nz-upload>
@@ -42,13 +42,23 @@
           <nz-form-item>
             <nz-form-label nzSpan="4">报告内容提取</nz-form-label>
             <nz-form-control nzSpan="18">
-              <button [disabled]="!currentItem.systemFile || readFlag1" nz-button nzShape="round">
+              <button (click)="downLoadPostFile()" [disabled]="!currentItem.systemFile || readFlag1" nz-button nzShape="round">
                 <i nz-icon nzType="download" nzTheme="outline"></i>下载报告
               </button>
-              <button [disabled]="!currentItem.systemFile || readFlag1" nz-button nzShape="round">
+              <button
+                (click)="previewPostFile()"
+                [disabled]="!currentItem.systemFile || readFlag1"
+                nz-button
+                nzShape="round"
+              >
                 <i nz-icon nzType="zoom-in" nzTheme="outline"></i>查看报告
               </button>
-              <button [disabled]="!currentItem.systemFile || readFlag1" nz-button nzShape="round">
+              <button
+                *ngIf="!isWatch"
+                [disabled]="!currentItem.systemFile || readFlag1 || isWatch || currentItem.auditReportStatus == 'GENERATED'"
+                nz-button
+                nzShape="round"
+              >
                 <i nz-icon nzType="file-search" nzTheme="outline"></i>开始读取
               </button>
             </nz-form-control>
@@ -65,7 +75,7 @@
               <input
                 nz-input
                 required
-                [disabled]="readFlag1"
+                [disabled]="readFlag1 || isWatch || currentItem.auditReportStatus == 'GENERATED'"
                 #name="ngModel"
                 name="name"
                 [(ngModel)]="currentItem.name"
@@ -84,7 +94,7 @@
               <input
                 nz-input
                 required
-                [disabled]="readFlag1"
+                [disabled]="readFlag1 || isWatch || currentItem.auditReportStatus == 'GENERATED'"
                 #auditName="ngModel"
                 name="auditName"
                 [(ngModel)]="currentItem.auditName"
@@ -105,7 +115,7 @@
             >
               <nz-range-picker
                 required
-                [nzDisabled]="readFlag1"
+                [nzDisabled]="readFlag1 || isWatch || currentItem.auditReportStatus == 'GENERATED'"
                 #auditDateRange="ngModel"
                 name="auditDateRange"
                 [(ngModel)]="currentItem.auditDateRange"
@@ -118,7 +128,7 @@
             <nz-form-control nzSpan="7">
               <input
                 nz-input
-                [disabled]="readFlag1"
+                [disabled]="readFlag1 || isWatch || currentItem.auditReportStatus == 'GENERATED'"
                 name="reportSource"
                 #reportSource="ngModel"
                 [(ngModel)]="currentItem.reportSource"
@@ -326,24 +336,31 @@
                     </td>
 
                     <td nzAlign="center" nzRight="0px">
-                      <a *ngIf="readFlag2" style="pointer-events: none;color: #666666; opacity: 0.5">编辑</a>
-                      <a (click)="editProblem(data)" *ngIf="!readFlag2 && !data.editable">编辑</a>
+                      <a *ngIf="readFlag2 || isWatch || currentItem.auditReportStatus == 'GENERATED'" style="pointer-events: none;color: #666666; opacity: 0.5">编辑</a>
+                      <a (click)="editProblem(data)" *ngIf="!readFlag2 && !data.editable && !isWatch && currentItem.auditReportStatus != 'GENERATED'">编辑</a>
                       <nz-divider nzType="vertical"></nz-divider>
                       <nz-popconfirm [nzTitle]="confirmtittle" (nzOnConfirm)="deleteProblem(data)">
                         <ng-template #confirmtittle>是否要删除该条数据</ng-template>
-                        <a *ngIf="readFlag2" style="pointer-events: none;color: #666666; opacity: 0.5">删除</a>
-                        <a *ngIf="!readFlag2" nz-popconfirm>删除</a>
+                        <a *ngIf="readFlag2 || isWatch || currentItem.auditReportStatus == 'GENERATED'" style="pointer-events: none;color: #666666; opacity: 0.5"
+                          >删除</a
+                        >
+                        <a *ngIf="!readFlag2 && !isWatch && currentItem.auditReportStatus != 'GENERATED'" nz-popconfirm>删除</a>
                       </nz-popconfirm>
                       <nz-divider nzType="vertical"></nz-divider>
-                      <a *ngIf="readFlag2 && data.editable" style="pointer-events: none;color: #666666; opacity: 0.5"
+                      <a
+                        *ngIf="(readFlag2 && data.editable) || isWatch || currentItem.auditReportStatus == 'GENERATED'"
+                        style="pointer-events: none;color: #666666; opacity: 0.5"
                         >保存</a
                       >
-                      <a (click)="saveProblem(data)" *ngIf="!readFlag2 && data.editable" nz-popconfirm>保存</a>
+                      <a (click)="saveProblem(data)" *ngIf="!readFlag2 && data.editable && !isWatch && currentItem.auditReportStatus != 'GENERATED'" nz-popconfirm
+                        >保存</a
+                      >
                     </td>
                   </tr>
                 </tbody>
                 <ng-template #tableFooter>
                   <button
+                    *ngIf="!isWatch && currentItem.auditReportStatus != 'GENERATED'"
                     [disabled]="!allProblemSaved() || current !== 1"
                     (click)="addProblem()"
                     nz-button
@@ -375,9 +392,21 @@
             style="margin-left: 50px;"
             nzType="primary"
             (click)="done()"
-            *ngIf="current === 1"
+            *ngIf="current === 1 && !isWatch && currentItem.auditReportStatus != 'GENERATED'"
           >
             <i nz-icon nzType="save" nzTheme="outline"></i>保存
+          </button>
+
+          <button
+            (click)="generatePost()"
+            nz-button
+            nzType="primary"
+            nz-button
+            style="margin-left: 50px;"
+            nzType="primary"
+            *ngIf="current === 1 && !isWatch && currentItem.id && currentItem.auditReportStatus != 'GENERATED'"
+          >
+            <i nz-icon nzType="file-text" nzTheme="outline"></i>生成报告
           </button>
         </div>
       </div>

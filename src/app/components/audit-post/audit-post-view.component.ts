@@ -67,6 +67,10 @@ export class AuditPostViewComponent implements OnInit {
     this.router.navigate(['/audit-rectify/audit-post-detail'], {
       queryParams: {
         postTypeId: this.selectedPostType.id,
+        isWatch: false,
+        isEdit: true,
+        isNew: true,
+        postId: null,
       },
     });
   }
@@ -81,7 +85,7 @@ export class AuditPostViewComponent implements OnInit {
   postTypeChange($event) {
     console.log('=============TYPE CHANGE================');
     console.log($event);
-    this.filterParams.typeId = $event.id;
+    this.filterParams.typeId = $event ? $event.id : null;
     this.auditPostList.load();
   }
 }

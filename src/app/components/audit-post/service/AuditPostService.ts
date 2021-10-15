@@ -111,7 +111,7 @@ export class AuditPostService {
    * @param auditPostEditInfoDTO 审计报告DTO
    *
    */
-  update(id: string, auditPostEditInfoDTO?: AuditPostEditInfoDTO): Observable<AuditPostDTO> {
+  update(id: string, auditPostEditInfoDTO?: AuditPostDTO): Observable<AuditPostDTO> {
     return this.http.put<AuditPostDTO>(`${AuditPostService.URL}/${id}`, auditPostEditInfoDTO);
   }
 }
