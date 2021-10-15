@@ -52,6 +52,8 @@ export class AuditPostTypeTreeComponent implements OnInit {
    */
   loading = false;
 
+
+
   /**
    * 右键存放节点
    */
@@ -165,6 +167,7 @@ export class AuditPostTypeTreeComponent implements OnInit {
       // this.nodes = nodes;
       if (data) {
         this.nodes = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
+
       }
     });
   }

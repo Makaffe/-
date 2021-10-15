@@ -45,7 +45,7 @@
     <ng-template #suffixIcon>
       <i nz-icon nzType="search"></i>
     </ng-template>
-    <nz-tree [nzData]="nodes" nzShowLine [nzSearchValue]="searchValue" (nzClick)="nzClick($event)"></nz-tree>
+    <nz-tree [nzData]="nodes" nzShowLine [nzSearchValue]="searchValue"  [nzSelectedKeys]="selectedKeys" (nzClick)="nzClick($event)"></nz-tree>
   </as-split-area>
 </as-split>
 <audit-post-tree-edit (notification)="getNode()" [knowledgeType]="knowledgeType" #knowledgeTypeTreeEditComponent>

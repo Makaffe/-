@@ -30,21 +30,21 @@ export class AuditPostListComponent implements OnInit {
     },
     {
       title: '审计报告名称',
-      index: 'postName',
+      index: 'name',
       width: '40px',
       sort: this.tableParameter.sortDef,
       className: 'text-center',
     },
     {
       title: '审计单位名称',
-      index: 'unitName',
+      index: 'auditName',
       width: '40px',
       sort: this.tableParameter.sortDef,
       className: 'text-left',
     },
     {
       title: '审计时间',
-      index: 'time',
+      index: 'auditStartTime',
       width: '40px',
       sort: this.tableParameter.sortDef,
       className: 'text-left',
@@ -74,11 +74,18 @@ export class AuditPostListComponent implements OnInit {
    */
 
   @Input()
-  filterParams: { name: string; auditBeginTime: string; auditEndTime: string; auditUnitName: string } = {
+  filterParams: {
+    name: string;
+    auditBeginTime: string;
+    auditEndTime: string;
+    auditUnitName: string;
+    typeId: string;
+  } = {
     name: null,
     auditBeginTime: null,
     auditEndTime: null,
     auditUnitName: null,
+    typeId: null,
   };
 
   constructor(private router: Router, private auditPostService: AuditPostService) {}
@@ -94,6 +101,7 @@ export class AuditPostListComponent implements OnInit {
         this.queryOptions.page,
         this.queryOptions.size,
         this.queryOptions.sort,
+        this.filterParams.typeId,
         this.filterParams.name,
         this.filterParams.auditBeginTime,
         this.filterParams.auditEndTime,

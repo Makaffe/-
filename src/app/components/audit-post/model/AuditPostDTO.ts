@@ -10,7 +10,7 @@ import { AuditPostTypeDTO } from './AuditPostTypeDTO';
 export class AuditPostDTO {
   constructor(item?: AuditPostDTO) {
     this.id = item && item.id ? item.id : null;
-    this.auditUnitName = item && item.auditUnitName ? item.auditUnitName : null;
+    this.auditName = item && item.auditName ? item.auditName : null;
     this.name = item && item.name ? item.name : null;
     this.auditStartTime = item && item.auditStartTime ? item.auditStartTime : null;
     this.auditEndTime = item && item.auditEndTime ? item.auditEndTime : null;
@@ -28,7 +28,7 @@ export class AuditPostDTO {
   /**
    * 审计单位名称
    */
-  auditUnitName?: string;
+   auditName?: string;
 
   /**
    * 报告名称
