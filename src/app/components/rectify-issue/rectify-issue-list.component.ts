@@ -44,7 +44,7 @@ export class RectifyIssueListComponent implements OnInit {
   private queryOptions: QueryOptions = {
     page: 0,
     size: 20,
-    sort: 'type,desc',
+    sort: 'sendStatus,asc,id,desc',
   };
 
   /**
