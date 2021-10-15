@@ -33,6 +33,9 @@
                 [nzDisabled]="readFlag1"
                 [nzRemove]="removeFile"
               >
+                <button nz-button nzShape="round" [disabled]="readFlag1">
+                  <i nz-icon nzType="upload"></i><span>上传文件</span>
+                </button>
               </nz-upload>
             </nz-form-control>
           </nz-form-item>
@@ -76,20 +79,18 @@
             <nz-form-label nzSpan="4" nzRequired>审计单位名称</nz-form-label>
             <nz-form-control
               nzSpan="18"
-              [nzValidateStatus]="
-                auditUnitName.invalid && (auditUnitName.dirty || auditUnitName.touched) ? 'error' : ''
-              "
+              [nzValidateStatus]="auditName.invalid && (auditName.dirty || auditName.touched) ? 'error' : ''"
             >
               <input
                 nz-input
                 required
                 [disabled]="readFlag1"
-                #auditUnitName="ngModel"
-                name="auditUnitName"
-                [(ngModel)]="currentItem.auditUnitName"
+                #auditName="ngModel"
+                name="auditName"
+                [(ngModel)]="currentItem.auditName"
               />
 
-              <nz-form-explain *ngIf="auditUnitName.invalid && (auditUnitName.dirty || auditUnitName.touched)">
+              <nz-form-explain *ngIf="auditName.invalid && (auditName.dirty || auditName.touched)">
                 请填写审计单位名称
               </nz-form-explain>
             </nz-form-control>
@@ -213,8 +214,8 @@
                             [(ngModel)]="data.type"
                             nzAllowClear
                           >
-                            <nz-option nzValue="类型一" nzLabel="类型一"></nz-option>
-                            <nz-option nzValue="类型二" nzLabel="类型二"></nz-option>
+                            <nz-option [nzValue]="'PROBLEM_ONE'" [nzLabel]="'类型一'"></nz-option>
+                            <nz-option [nzValue]="'PROBLEM_TWO'" [nzLabel]="'类型二'"></nz-option>
                           </nz-select>
                           <nz-form-explain *ngIf="type.invalid && (type.dirty || type.touched)">
                             请选择问题类型

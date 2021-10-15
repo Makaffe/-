@@ -9,6 +9,7 @@ import { AuditPostDTO } from './model/AuditPostDTO';
 import { SystemFileService } from '@ng-mt-framework/api';
 import { ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { AuditPostService } from './service/AuditPostService';
 @Component({
   selector: 'audit-post-detail',
   templateUrl: './audit-post-detail.component.html',
@@ -88,6 +89,7 @@ export class AuditPostDetailComponent implements OnInit {
     private systemFileService: SystemFileService,
     private activatedRoute: ActivatedRoute,
     private datePipe: DatePipe,
+    private auditPostsService: AuditPostService,
   ) {}
 
   ngOnInit() {
@@ -129,6 +131,14 @@ export class AuditPostDetailComponent implements OnInit {
     console.log('=============================POST DATA=================');
     console.dir(this.currentItem);
     console.log('done');
+    if (!this.currentItem.id) {
+      this.currentItem.auditReportStatus = 'NO_GENERATED';
+    }
+    this.auditPostsService.add(this.currentItem).subscribe({
+      next: data => {},
+      error: () => {},
+      complete: () => {},
+    });
   }
 
   changeContent(): void {
@@ -179,6 +189,8 @@ export class AuditPostDetailComponent implements OnInit {
       selectedRectifyPeople: null,
       uuid: UUID.generate(),
       editable: true,
+      sendStatus: 'NOT_ISSUED',
+      transferStatus: 'NOT_HANDED_OVER',
     };
   }
 
