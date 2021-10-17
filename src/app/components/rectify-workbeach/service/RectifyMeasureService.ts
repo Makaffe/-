@@ -103,4 +103,13 @@ export class RectifyMeasureService {
   update(id: string, rectifyMeasureEditInfoDTO?: RectifyMeasureEditInfoDTO): Observable<RectifyMeasureDTO> {
     return this.http.put<RectifyMeasureDTO>(`${RectifyMeasureService.URL}/${id}`, rectifyMeasureEditInfoDTO);
   }
+
+  /**
+   * 更新整改措施数id更新整改回复阅读状态
+   * @param id 整改措施ID
+   *
+   */
+  changeReadStatus(rectifyMeasuredId: string): Observable<RectifyMeasureDTO> {
+    return this.http.put<RectifyMeasureDTO>(`${RectifyMeasureService.URL}/change/read/status/${rectifyMeasuredId}`);
+  }
 }

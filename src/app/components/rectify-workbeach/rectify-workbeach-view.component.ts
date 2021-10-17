@@ -2,12 +2,15 @@ import { DatePipe, formatDate } from '@angular/common';
 import { Component, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QueryOptions } from '@mt-framework-ng/core';
+import { SystemFileService } from '@ng-mt-framework/api';
 import { TABLE_PARAMETER } from '@ng-mt-framework/comp';
 import { ObjectUtil } from '@ng-mt-framework/util';
 import { NzMessageService } from 'ng-zorro-antd';
 import { ChangeMsOrRp } from './model/ChangeMsOrRp';
+import { RectifyMeasureDTO } from './model/RectifyMeasureDTO';
 import { RectifyMeasureEditInfoDTO } from './model/RectifyMeasureEditInfoDTO';
 import { RectifyDiaryComponent } from './rectify-diary.component';
+import { RectifyMeasureReplyComponent } from './rectify-measure-reply.component';
 import { RectifyMeasureComponent } from './rectify-measure.component';
 import { RectifyMeasureService } from './service/RectifyMeasureService';
 
@@ -18,19 +21,33 @@ import { RectifyMeasureService } from './service/RectifyMeasureService';
   styles: [],
 })
 export class RectifyWorkbeachViewComponent implements OnInit {
+  // 工作备忘录
   @ViewChild('rectifyDiaryComponent', { static: false })
   rectifyDiaryComponent: RectifyDiaryComponent;
 
+  // 整改措施
   @ViewChild('rectifyMeasureComponent', { static: false })
   rectifyMeasureComponent: RectifyMeasureComponent;
 
+  @ViewChild('rectifyMeasureReplyComponent', { static: false })
+  rectifyMeasureReplyComponent: RectifyMeasureReplyComponent;
+
+  // 分页参数
   private options: QueryOptions = {
     page: 0,
     size: 20,
     sort: 'id,asc',
   };
 
-  TABLE_PARAMETER = ObjectUtil.deepClone(TABLE_PARAMETER);
+  /**
+   * 表格分页参数
+   */
+  pageInfo = {
+    pageNo: 1,
+    pageSize: 20,
+    totalPages: 1,
+    totalRecords: 20,
+  };
 
   // 查询参数
   searchParam = this.searchParams();
@@ -50,6 +67,11 @@ export class RectifyWorkbeachViewComponent implements OnInit {
 
   demoValue = 20;
 
+  /**
+   * 请求标识
+   */
+  loading = false;
+
   mapOfExpandData: { [key: string]: boolean } = {};
   listOfData = [];
 
@@ -64,6 +86,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private rectifyMeasureService: RectifyMeasureService,
     private msg: NzMessageService,
+    private systemFileService: SystemFileService,
     @Inject(LOCALE_ID) private locale: string,
   ) {}
 
@@ -73,8 +96,10 @@ export class RectifyWorkbeachViewComponent implements OnInit {
     this.loadTimeOption();
   }
 
+  // 获取数据
   loadData() {
     this.rectifyProblemId = '123456';
+    this.loading = true;
     this.rectifyMeasureService
       .findOnePage(
         this.options,
@@ -87,8 +112,11 @@ export class RectifyWorkbeachViewComponent implements OnInit {
         data => {
           if (data) {
             this.listOfData = data.data;
-            this.TABLE_PARAMETER.pi = data.pageNo + 1;
-            this.TABLE_PARAMETER.page.total = data.totalRecords;
+            this.pageInfo.pageNo = data.pageNo + 1;
+            this.pageInfo.pageSize = data.pageSize;
+            this.pageInfo.totalPages = data.totalPages;
+            this.pageInfo.totalRecords = Number(data.totalRecords);
+            this.loading = false;
           }
         },
         () => {},
@@ -108,6 +136,22 @@ export class RectifyWorkbeachViewComponent implements OnInit {
         this.isRectify = false;
       }
     });
+  }
+
+  /**
+   * 每页条数改变的回调
+   */
+  pageSizeChange(pageSize: number) {
+    this.options.size = pageSize;
+    this.loadData();
+  }
+
+  /**
+   * 	页码改变的回调
+   */
+  pageIndexChange(pageIndex: number) {
+    this.options.page = pageIndex - 1;
+    this.loadData();
   }
 
   /** 执行周期下拉数据 */
@@ -199,8 +243,11 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   }
 
   // 删除
-  delete(id: string) {
-    this.rectifyMeasureService.delete(id).subscribe(data => {
+  delete(rectifyMeasureDTO: RectifyMeasureDTO) {
+    rectifyMeasureDTO.systemFiles.forEach(systemFile => {
+      this.systemFileService.deleteFileById(systemFile.id).subscribe();
+    });
+    this.rectifyMeasureService.delete(rectifyMeasureDTO.id).subscribe(data => {
       this.msg.success('删除整改措施数据成功！');
       this.loadData();
     });
@@ -225,5 +272,23 @@ export class RectifyWorkbeachViewComponent implements OnInit {
     this.rectifyMeasureComponent.isWatch = true;
     this.rectifyMeasureComponent.isFile = false;
     this.rectifyMeasureComponent.edit(item);
+  }
+
+  // 整改措施回复
+  rectifyMeasureReplyClick(rectifyMeasureId: string) {
+    this.rectifyMeasureReplyComponent.isVisible = true;
+    this.rectifyMeasureReplyComponent.rectifyMeasureReply.rectifyMeasureId = rectifyMeasureId;
+  }
+
+  // 修改阅读状态
+  changeReadStates(data: any) {
+    if (data.notReadNum !== 0) {
+      this.rectifyMeasureService.changeReadStatus(data.id).subscribe(
+        () => {},
+        () => {},
+        () => {},
+      );
+      data.notReadNum = 0;
+    }
   }
 }

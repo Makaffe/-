@@ -13,11 +13,6 @@ export interface RectifyMeasureReplyDTO {
   id?: string;
 
   /**
-   * 创建数据的用户ID，系统根据token自动填写
-   */
-  createUser: UserBaseDTO;
-
-  /**
    * 整改措施内容
    */
   measureContent: string;
@@ -48,22 +43,7 @@ export interface RectifyMeasureReplyDTO {
   filterPath: string;
 
   /**
-   * 整改措施回复
-   */
-  rectifyMeasureReplys: Array<RectifyMeasureReplyDTO>;
-
-  /**
    * 回复内容
    */
   replyContent: string;
-
-  /**
-   * 所属的角色
-   */
-  roles: Array<RoleDTO>;
-
-  /**
-   * 关联的用户
-   */
-  users: Array<UserDTO>;
 }

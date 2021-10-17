@@ -1,6 +1,6 @@
 ﻿import { Injectable } from '@angular/core';
 import { _HttpClient } from '@delon/theme';
-import { ApiPagedData, QueryOptions } from '@mt-framework-ng/core';
+import { ApiPagedData, ApiSimpleData, QueryOptions } from '@mt-framework-ng/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { RectifyProblemDTO } from '../model/rectify-problem-dto';
 @Injectable({
@@ -62,8 +62,8 @@ export class RectifyProblemService {
    * @param id 整改问题id
    *
    */
-  findMome(id?: string): Observable<string> {
-    return this.http.get<string>(`${RectifyProblemService.URL}/memo/${id}`);
+  findMome(id?: string): Observable<ApiSimpleData<string>> {
+    return this.http.get<ApiSimpleData<string>>(`${RectifyProblemService.URL}/memo/${id}`);
   }
 
   /**
@@ -72,7 +72,7 @@ export class RectifyProblemService {
    * @param remark 备忘录文本
    *
    */
-  sevaMome(id: string, remark: string): Observable<string> {
-    return this.http.put<string>(`${RectifyProblemService.URL}/memo/${id}`, remark);
+  sevaMome(id: string, remark: string): Observable<ApiSimpleData<string>> {
+    return this.http.put<ApiSimpleData<string>>(`${RectifyProblemService.URL}/memo/${id}`, remark);
   }
 }
