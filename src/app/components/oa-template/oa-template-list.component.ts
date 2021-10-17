@@ -1,7 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { TABLE_PARAMETER } from '@mt-framework-ng/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { QueryOptions, TABLE_PARAMETER } from '@mt-framework-ng/core';
 import { ObjectUtil } from '@ng-mt-framework/util';
+import { NzMessageService } from 'ng-zorro-antd';
+import { __spread } from 'tslib';
+import { OASendTemplateDTO } from './model/OASendTemplateDTO';
+import { OASendTemplateEditInfoDTO } from './model/OASendTemplateEditInfoDTO';
 import { OaTemplateDetailComponent } from './oa-template-detail.component';
+import { OASendTemplateService } from './service/OASendTemplateService';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -14,14 +19,34 @@ export class OaTemplateListComponent implements OnInit {
   oaTemplateDetailComponent: OaTemplateDetailComponent;
 
   /**
+   * 数据请求标志
+   */
+  loading = false;
+
+  /**
+   * 记录类型id
+   */
+
+  typeId: string;
+  /**
+   * 列表参数
+   */
+  TABLE_PARAMETER = ObjectUtil.deepClone(TABLE_PARAMETER);
+
+  /**
    * 列表数据
    */
-  tableData: Array<any> = [
-    {
-      state: '待处理',
-      postName: '2021-09审计报告',
-    },
-  ];
+  tableData: Array<OASendTemplateDTO> = [];
+
+  /**
+   * 分页参数
+   */
+  private options: QueryOptions = {
+    page: 0,
+    size: 20,
+    sort: 'id,desc',
+  };
+
   /**
    * 列表参数
    */
@@ -29,33 +54,62 @@ export class OaTemplateListComponent implements OnInit {
   columns = [
     { title: '序号', render: 'number', width: '100px', className: 'text-center', type: 'radio' },
     {
-      title: '用途',
-      index: 'state',
+      title: 'OA模板名称',
+      index: 'name',
       width: '400px',
       sort: this.tableParameter.sortDef,
     },
     {
-      title: '发文内容',
-      index: 'postName',
+      title: 'OA模板内容',
+      index: 'content',
       sort: this.tableParameter.sortDef,
     },
     { title: '操作', render: 'operations', width: '150px', className: 'text-center', fixed: 'right' },
   ];
-  constructor() {}
+  constructor(private oASendTemplateService: OASendTemplateService, private msg: NzMessageService) {}
 
-  ngOnInit() {}
-
-  showModel(id: string, edit: boolean) {
+  ngOnInit() {
+    this.loadAll();
+  }
+  // 更新编辑
+  showModel(item: OASendTemplateEditInfoDTO, edit: boolean) {
     if (edit) {
-      this.oaTemplateDetailComponent.isVisible = true;
+      this.oaTemplateDetailComponent.edit(item, false);
       this.oaTemplateDetailComponent.disabled = false;
     } else {
-      this.oaTemplateDetailComponent.isVisible = true;
+      this.oaTemplateDetailComponent.edit(item, false);
       this.oaTemplateDetailComponent.disabled = true;
     }
   }
 
-  delete(id: string) {
-    this.tableData = [];
+  deleteData(item: OASendTemplateEditInfoDTO) {
+    this.oASendTemplateService.deleteUsingDELETE(item.id).subscribe(() => {
+      this.msg.success('删除成功');
+      this.load(this.typeId);
+    });
+  }
+
+  load(typeId: string, templateName?: string, templateContent?: string) {
+    this.oASendTemplateService.findOnePageUsingGET(this.options, typeId, templateName, templateContent).subscribe(
+      data => {
+        if (data) {
+          this.tableData = data.data;
+          this.tableData = __spread(this.tableData);
+          this.TABLE_PARAMETER.page.total = data.totalRecords;
+          this.TABLE_PARAMETER.pi = data.pageNo + 1;
+          this.typeId = typeId;
+        }
+      },
+      null,
+      () => (this.loading = false),
+    );
+  }
+
+  loadAll(templateName?: string, templateContent?: string) {
+    this.oASendTemplateService.findAllUsingGET(templateContent, templateName).subscribe(data => {
+      if (data) {
+        this.tableData = data;
+      }
+    });
   }
 }

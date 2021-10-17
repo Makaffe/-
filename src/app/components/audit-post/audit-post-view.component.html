@@ -13,7 +13,7 @@
     class="app-audit-tree app-audit-tree-left"
     style="background-color: white;"
   >
-    <audit-post-type-tree [(selectedNode)]="selectedPostType"></audit-post-type-tree>
+    <audit-post-type-tree [(selectedNode)]="selectedPostType" (selectedNodeChange)="postTypeChange($event)"></audit-post-type-tree>
   </as-split-area>
   <!--右侧编辑区-->
   <as-split-area [size]="'*'">
@@ -25,7 +25,7 @@
               <button [disabled]="!selectedPostType" nz-button nzType="primary" (click)="push()">
                 <i nz-icon type="plus" theme="outline"></i>新增
               </button>
-              <button nz-button><i nz-icon type="reload" theme="outline"></i>刷新</button>
+              <button nz-button (click)="search()"><i nz-icon type="reload" theme="outline"></i>刷新</button>
             </div>
           </div>
           <!-- 搜索栏 -->

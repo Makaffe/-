@@ -9,28 +9,31 @@
     <nz-form-item>
       <nz-form-label nzSpan="4">发送对象</nz-form-label>
       <nz-form-control nzSpan="20">
-        <nz-table #basicTable [nzData]="listOfData" [nzShowPagination]="false" nzBordered="true">
+        <nz-table #basicTable [nzData]="listOfData" [nzShowPagination]="false" nzBordered="true"
+          [nzScroll]="{y:'100%'}">
           <thead>
             <tr>
-              <th>序号</th>
-              <th>整改部门</th>
-              <th>整改负责人</th>
+              <th nzWidth="50px">序号</th>
+              <th nzWidth="50%">整改部门</th>
+              <th nzWidth="50%">整改负责人</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let data of basicTable.data; let number = index">
               <td>{{ number + 1 }}</td>
-              <td>{{ data.department }}</td>
-              <td>{{ data.person }}</td>
+              <td>{{ data?.rectifyDepartment?.name }}</td>
+              <td>{{ data?.dutyUser?.name }}</td>
             </tr>
           </tbody>
         </nz-table>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label nzSpan="4">OA发文模板</nz-form-label>
+      <nz-form-label nzSpan="4">OA发文模板类型</nz-form-label>
       <nz-form-control nzSpan="20">
-        <nz-select> </nz-select>
+        <nz-tree-select [nzNodes]="oASendTemplateTypeTree" nzDefaultExpandAll nzShowSearch nzAllowClear="true"
+          name="oASendTemplateType" [(ngModel)]="selectOaSendTemplateType" [nzDropdownStyle]="{ maxHeight: '280px' }">
+        </nz-tree-select>
         <textarea rows="6" nz-input></textarea>
       </nz-form-control>
     </nz-form-item>

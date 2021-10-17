@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { STColumnTag } from '@delon/abc';
 import { QueryOptions } from '@mt-framework-ng/core';
 import { RectifyProblemDTO } from './model/rectify-problem-dto';
 import { RectifyIssueOrderComponent } from './rectify-issue-order.component';
@@ -20,9 +19,10 @@ export class RectifyIssueListComponent implements OnInit {
   rectifyIssueTransferComponent: RectifyIssueTransferComponent;
   @ViewChild('rectifyIssueOrderComponent', { static: false })
   rectifyIssueOrderComponent: RectifyIssueOrderComponent;
-  isAllDisplayDataChecked = false;
-  isIndeterminate = false;
-  listOfAllData: any[] = [];
+
+  /**
+   * 树表格相关参数
+   */
   mapOfCheckedId: { [id: string]: boolean } = {};
   listOfMapData = [];
   mapOfExpandedData: { [id: string]: any[] } = {};
@@ -44,7 +44,7 @@ export class RectifyIssueListComponent implements OnInit {
   private queryOptions: QueryOptions = {
     page: 0,
     size: 20,
-    sort: 'id,desc',
+    sort: 'sendStatus,asc,id,desc',
   };
 
   /**
@@ -69,9 +69,9 @@ export class RectifyIssueListComponent implements OnInit {
   };
 
   /**
-   * checkbox选中的id
+   * checkbox选中的数据
    */
-  checkboxIds = [];
+  checkboxDatas = [];
 
   /**
    * 问题类型列表
@@ -119,6 +119,9 @@ export class RectifyIssueListComponent implements OnInit {
         },
         () => {},
         () => {
+          this.mapOfCheckedId = {};
+          this.checkboxDatas = [];
+          this.checkboxChange.emit([]);
           this.loading = false;
         },
       );
@@ -130,27 +133,12 @@ export class RectifyIssueListComponent implements OnInit {
    * @param isCheck 是否选中
    */
   checked(item: RectifyProblemDTO, isCheck: boolean) {
-    if (item.children.length > 0) {
-      if (isCheck) {
-        this.checkboxChange.emit(item.children);
-      } else {
-        this.checkboxChange.emit([]);
-      }
-      item.children.forEach(child => {
-        this.mapOfCheckedId[child.id] = isCheck;
-      });
-    } else {
-      if (isCheck) {
-        this.checkboxChange.emit([item]);
-      } else {
-        this.checkboxChange.emit([]);
-      }
-    }
     if (isCheck) {
-      this.checkboxIds.push(item.id);
+      this.checkboxDatas.push(item);
     } else {
-      this.checkboxIds = this.checkboxIds.filter(id => id !== item.id);
+      this.checkboxDatas = this.checkboxDatas.filter(problem => problem.id !== item.id);
     }
+    this.checkboxChange.emit(this.checkboxDatas);
   }
 
   /**
@@ -186,11 +174,21 @@ export class RectifyIssueListComponent implements OnInit {
   splitIssue(item: RectifyProblemDTO) {
     this.rectifyIssueSplitComponent.edit(item);
   }
-  transfer(row) {
-    this.rectifyIssueTransferComponent.edit();
+
+  /**
+   * 移交
+   * @param problems 整改问题数据
+   */
+  transfer(problems: Array<RectifyProblemDTO>) {
+    this.rectifyIssueTransferComponent.edit(problems);
   }
-  order(row) {
-    this.rectifyIssueOrderComponent.edit(row);
+
+  /**
+   * 下发
+   * @param problems 整改问题数据
+   */
+  order(problems: Array<RectifyProblemDTO>) {
+    this.rectifyIssueOrderComponent.edit(problems);
   }
 
   collapse(array: any[], data: any, $event: boolean): void {

@@ -25,7 +25,7 @@ export class AuditPostService {
    * @param auditPostEditInfoDTO 审计报告DTO
    *
    */
-  add(auditPostEditInfoDTO?: AuditPostEditInfoDTO): Observable<AuditPostDTO> {
+  add(auditPostEditInfoDTO?: AuditPostDTO): Observable<AuditPostDTO> {
     return this.http.post<AuditPostDTO>(`${AuditPostService.URL}/add`, auditPostEditInfoDTO);
   }
 
@@ -38,17 +38,18 @@ export class AuditPostService {
    *
    */
   findAll(
+    typeId?: string,
     name?: string,
     auditBeginTime?: string,
     auditEndTime?: string,
     auditUnitName?: string,
   ): Observable<Array<AuditPostDTO>> {
     const params = {};
+    Object.assign(params, typeId ? { typeId } : {});
     Object.assign(params, name ? { name } : {});
     Object.assign(params, auditBeginTime ? { auditBeginTime } : {});
     Object.assign(params, auditEndTime ? { auditEndTime } : {});
     Object.assign(params, auditUnitName ? { auditUnitName } : {});
-
     return this.http.get<Array<AuditPostDTO>>(`${AuditPostService.URL}/all`, params);
   }
 
@@ -76,6 +77,7 @@ export class AuditPostService {
     page?: number,
     size?: number,
     sort?: string,
+    typeId?: string,
     name?: string,
     auditBeginTime?: string,
     auditEndTime?: string,
@@ -86,6 +88,7 @@ export class AuditPostService {
     Object.assign(params, size ? { size } : {});
     Object.assign(params, sort ? { sort } : {});
     Object.assign(params, name ? { name } : {});
+    Object.assign(params, typeId ? { typeId } : {});
     Object.assign(params, auditBeginTime ? { auditBeginTime } : {});
     Object.assign(params, auditEndTime ? { auditEndTime } : {});
     Object.assign(params, auditUnitName ? { auditUnitName } : {});
@@ -108,7 +111,7 @@ export class AuditPostService {
    * @param auditPostEditInfoDTO 审计报告DTO
    *
    */
-  update(id: string, auditPostEditInfoDTO?: AuditPostEditInfoDTO): Observable<AuditPostDTO> {
+  update(id: string, auditPostEditInfoDTO?: AuditPostDTO): Observable<AuditPostDTO> {
     return this.http.put<AuditPostDTO>(`${AuditPostService.URL}/${id}`, auditPostEditInfoDTO);
   }
 }

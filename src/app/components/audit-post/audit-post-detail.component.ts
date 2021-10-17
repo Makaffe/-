@@ -6,9 +6,10 @@ import UUID from 'uuidjs';
 import { NgForm } from '@angular/forms';
 import { FormUtil } from '@mt-framework-ng/util';
 import { AuditPostDTO } from './model/AuditPostDTO';
-import { SystemFileService } from '@ng-mt-framework/api';
+import { SystemFileService, UserDTO } from '@ng-mt-framework/api';
 import { ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { AuditPostService } from './service/AuditPostService';
 @Component({
   selector: 'audit-post-detail',
   templateUrl: './audit-post-detail.component.html',
@@ -67,6 +68,7 @@ export class AuditPostDetailComponent implements OnInit {
   readFlag1: boolean;
   readFlag2: boolean;
   visabled = false;
+  isWatch = false;
   // tslint:disable-next-line:no-any
   handleChange(info: any): void {
     const fileList = info.fileList;
@@ -88,14 +90,27 @@ export class AuditPostDetailComponent implements OnInit {
     private systemFileService: SystemFileService,
     private activatedRoute: ActivatedRoute,
     private datePipe: DatePipe,
+    private auditPostsService: AuditPostService,
   ) {}
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe(data => {
+      this.isWatch = data.isWatch === 'true';
       console.log('=============ROUTE PARAMS=========');
       console.log(data);
-      this.currentItem = new AuditPostDTO();
-      this.currentItem.auditPostTypeId = data.postTypeId;
+      if (data.isNew === 'true') {
+        this.currentItem = new AuditPostDTO();
+        this.currentItem.auditPostTypeId = data.postTypeId;
+      } else {
+        // 查询数据
+        this.auditPostsService.findById(data.postId).subscribe({
+          next: (auditPostDTO: AuditPostDTO) => {
+            this.updateCurrentItem(auditPostDTO);
+          },
+          error: () => {},
+          complete: () => {},
+        });
+      }
     });
   }
 
@@ -129,6 +144,28 @@ export class AuditPostDetailComponent implements OnInit {
     console.log('=============================POST DATA=================');
     console.dir(this.currentItem);
     console.log('done');
+    if (!this.currentItem.id) {
+      this.currentItem.auditReportStatus = 'NO_GENERATED';
+    }
+    if (!this.currentItem.id) {
+      this.auditPostsService.add(this.currentItem).subscribe({
+        next: data => {
+          this.updateCurrentItem(data);
+          this.msg.success(`保存成功`);
+        },
+        error: () => {},
+        complete: () => {},
+      });
+    } else {
+      this.auditPostsService.update(this.currentItem.id, this.currentItem).subscribe({
+        next: data => {
+          this.updateCurrentItem(data);
+          this.msg.success(`保存成功`);
+        },
+        error: () => {},
+        complete: () => {},
+      });
+    }
   }
 
   changeContent(): void {
@@ -174,11 +211,13 @@ export class AuditPostDetailComponent implements OnInit {
       rectifyDepartmentId: null,
       dutyUserId: null,
       advice: null,
-      source: null,
+      source: this.currentItem.name,
       selectedRectifyDepartment: null,
       selectedRectifyPeople: null,
       uuid: UUID.generate(),
       editable: true,
+      sendStatus: 'NOT_ISSUED',
+      transferStatus: 'NOT_HANDED_OVER',
     };
   }
 
@@ -254,14 +293,159 @@ export class AuditPostDetailComponent implements OnInit {
   };
 
   removeFile = (file: UploadFile): boolean | Observable<boolean> => {
-    this.systemFileService.deleteFileById(file.id).subscribe({
-      next: () => {
-        this.msg.success(`删除成功`);
-        this.currentItem.systemFile = null;
+    if (this.isWatch) {
+      return false;
+    }
+    if (this.currentItem.id) {
+      this.msg.warning(`已关联审计报告，不支持删除`);
+      return false;
+    } else {
+      this.systemFileService.deleteFileById(file.id).subscribe({
+        next: () => {
+          this.msg.success(`删除成功`);
+          this.fileList = [];
+          this.currentItem.systemFile = null;
+        },
+        error: () => {},
+        complete: () => {},
+      });
+      return false;
+    }
+  };
+
+  previewPostFile(): void {
+    this.preview(this.currentItem.systemFile.id, this.currentItem.systemFile.name);
+  }
+
+  /**
+   * 预览
+   */
+  preview(id: string, fileName?: string) {
+    let name = fileName;
+    if (fileName && fileName.lastIndexOf('.') !== -1) {
+      name = fileName.substring(0, fileName.lastIndexOf('.'));
+    }
+
+    const fileType = 'png,jpg,jpeg,xml';
+    const suffix = fileName.slice(fileName.lastIndexOf('.') + 1);
+    if (suffix === 'txt') {
+      this.msg.warning('.txt文件格式暂不支持预览，请下载文件！');
+      return;
+    }
+
+    if (fileType.includes(suffix)) {
+      // 预览图片
+      this.systemFileService.getFileContentById(id).subscribe(
+        blob => {
+          const binaryData = [];
+          binaryData.push(blob.body);
+          const objectUrl = window.URL.createObjectURL(new Blob(binaryData, { type: blob.body.type }));
+          const win = window.open(objectUrl);
+          setTimeout(() => {
+            win.document.title = name;
+          }, 100);
+        },
+        () => {},
+        null,
+      );
+    } else {
+      this.systemFileService.previewFileById(id).subscribe(
+        blob => {
+          const uA = window.navigator.userAgent; // 判断浏览器内核
+          const isIE =
+            /msie\s|trident\/|edge\//i.test(uA) &&
+            !!(
+              'uniqueID' in document ||
+              'documentMode' in document ||
+              'ActiveXObject' in window ||
+              'MSInputMethodContext' in window
+            );
+          const binaryData = [];
+          binaryData.push(blob.body);
+          const objectUrl = window.URL.createObjectURL(new Blob(binaryData, { type: blob.body.type }));
+          const win = window.open(objectUrl);
+          setTimeout(() => {
+            win.document.title = name;
+          }, 100);
+        },
+        () => {},
+        null,
+      );
+    }
+  }
+
+  /**
+   * 下载
+   */
+  downCertificate(id: string, fileName?: string, item?: any) {
+    this.systemFileService.downloadFileContentById(id).subscribe(blob => {
+      const uA = window.navigator.userAgent; // 判断浏览器内核
+      const isIE =
+        /msie\s|trident\/|edge\//i.test(uA) &&
+        !!(
+          'uniqueID' in document ||
+          'documentMode' in document ||
+          'ActiveXObject' in window ||
+          'MSInputMethodContext' in window
+        );
+      const binaryData = [];
+      binaryData.push(blob.body);
+      const objectUrl = window.URL.createObjectURL(new Blob(binaryData, { type: blob.body.type }));
+      const a = document.createElement('a');
+      document.body.appendChild(a);
+      a.href = objectUrl;
+      a.download = fileName ? fileName : '';
+      if (isIE) {
+        // 兼容IE11无法触发下载的问题
+        (navigator as any).msSaveBlob(new Blob(binaryData), a.download);
+      } else {
+        a.click();
+      }
+      a.remove();
+    });
+  }
+
+  generatePost(): void {
+    if (!this.allProblemSaved()) {
+      this.msg.warning(`请保存所有问题`);
+      return;
+    }
+    this.currentItem.auditStartTime = this.datePipe.transform(this.currentItem.auditDateRange[0], 'yyyy-MM-dd');
+    this.currentItem.auditEndTime = this.datePipe.transform(this.currentItem.auditDateRange[1], 'yyyy-MM-dd');
+    this.currentItem.rectifyProblems = this.listOfData;
+    console.log('=============================POST DATA=================');
+    console.dir(this.currentItem);
+    console.log('done');
+    // 改变状态
+    this.currentItem.auditReportStatus = 'GENERATED';
+    this.auditPostsService.update(this.currentItem.id, this.currentItem).subscribe({
+      next: data => {
+        this.updateCurrentItem(data);
+        this.msg.success(`报告已生成`);
       },
       error: () => {},
       complete: () => {},
     });
-    return true;
-  };
+  }
+
+  downLoadPostFile(): void {
+    this.downCertificate(this.currentItem.systemFile.id, this.currentItem.systemFile.name);
+  }
+
+  updateCurrentItem(item: AuditPostDTO): void {
+    item.auditDateRange = [new Date(item.auditStartTime), new Date(item.auditEndTime)];
+    item.rectifyProblems.forEach(problem => {
+      problem.selectedRectifyDepartment = [problem.rectifyDepartment];
+      problem.selectedRectifyPeople = [problem.dutyUser as UserDTO];
+      problem.rectifyDepartmentId = problem.rectifyDepartment.id;
+      problem.dutyUserId = problem.dutyUser.id;
+      problem.uuid = problem.id;
+    });
+    if (item.systemFile) {
+      item.systemFile.name = item.systemFile.originalName;
+      this.fileList = [item.systemFile];
+    }
+    this.listOfData = item.rectifyProblems;
+    this.currentItem = item;
+  }
 }
