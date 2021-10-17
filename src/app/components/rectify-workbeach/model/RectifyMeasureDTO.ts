@@ -46,4 +46,9 @@ export interface RectifyMeasureDTO {
    * 关联文件
    */
   systemFiles?: Array<SystemFileDTO>;
+
+  /**
+   * 未阅读信息数
+   */
+  notReadNum: number;
 }
