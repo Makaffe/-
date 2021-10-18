@@ -1,10 +1,15 @@
-<as-split direction="horizontal" unit="pixel" [useTransition]="true" gutterSize="2"
-  (gutterClick)="leftSize = leftSize == 0 ? LEFT_WIDTH : 0">
+<as-split
+  direction="horizontal"
+  unit="pixel"
+  [useTransition]="true"
+  gutterSize="2"
+  (gutterClick)="leftSize = leftSize == 0 ? LEFT_WIDTH : 0"
+>
   <!-- 左侧树 -->
   <as-split-area [size]="leftSize" minSize="120" maxSize="180" class="bg-white" style="padding:10px 0 0 10px">
     <div nz-row>
       <div nz-col [nzSpan]="12" class="tree-top-title">
-        <span><strong style="font-size: 20px;">模板类型</strong></span>
+        <span><strong style="font-size: 20px;">发文类型</strong></span>
       </div>
       <div nz-col [nzSpan]="12" class="tree-top-btn">
         <button nz-button (click)="showTypeModal(false)">
@@ -87,12 +92,20 @@
 
 <advice-template-detail #adviceTemplateDetailComponent (refresh)="search()"></advice-template-detail>
 
-<nz-modal [(nzVisible)]="isVisible" [nzMaskClosable]="false" (nzOnCancel)="this.isVisible = false;"
-  [nzFooter]="editorFooter" nzWidth="800" [nzTitle]="'模板类型详情'" [nzStyle]="{ top: '65px' }" [nzBodyStyle]="{
+<nz-modal
+  [(nzVisible)]="isVisible"
+  [nzMaskClosable]="false"
+  (nzOnCancel)="this.isVisible = false"
+  [nzFooter]="editorFooter"
+  nzWidth="1200"
+  [nzTitle]="'建议模板详情'"
+  [nzStyle]="{ top: '65px' }"
+  [nzBodyStyle]="{
     'overflow-y': 'auto',
     'overflow-x': 'hidden',
     padding: '24px 24px 0 24px'
-  }">
+  }"
+>
   <form nz-form #form="ngForm">
     <nz-form-item>
       <nz-form-label nzSpan="4">模板类型</nz-form-label>

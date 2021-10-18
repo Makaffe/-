@@ -55,6 +55,10 @@ export class AdviceTemplateViewComponent implements OnInit {
   LEFT_WIDTH = 300;
 
   /**
+   * 判断是否为增加或修改
+   */
+  created: boolean;
+  /**
    * 左侧树宽度
    */
   leftSize = this.LEFT_WIDTH;
