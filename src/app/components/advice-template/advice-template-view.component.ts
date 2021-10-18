@@ -1,9 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { TreeUtil } from '@ng-mt-framework/comp';
-import { FormUtil } from '@ng-mt-framework/util';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { TreeUtil } from '@mt-framework-ng/util';
 import { NzMessageService } from 'ng-zorro-antd';
 import { AdviceTemplateDetailComponent } from './advice-template-detail.component';
+import { AdviceTemplateListComponent } from './advice-template-list.component';
 import { ProposalTemplateTypeDTO } from './model/ProposalTemplateTypeDTO';
 import { ProposalTemplateTypeService } from './service/ProposalTemplateTypeService';
 
@@ -14,27 +13,38 @@ import { ProposalTemplateTypeService } from './service/ProposalTemplateTypeServi
   styles: [],
 })
 export class AdviceTemplateViewComponent implements OnInit {
+  /**
+   * 建议模板弹窗
+   */
   @ViewChild('adviceTemplateDetailComponent', { static: false })
   adviceTemplateDetailComponent: AdviceTemplateDetailComponent;
-  @ViewChild('form', { static: false })
-  form: NgForm;
+  /**
+   * 建议模板列表
+   */
+  @ViewChild('adviceTemplateListComponent', { static: false })
+  adviceTemplateListComponent: AdviceTemplateListComponent;
 
   /**
-   * 选中节点事件
-   * @param 节点点击事件 发送审计知识类型节点Id
+   * 搜索条件
    */
-  @Output()
-  selectNodeEvent = new EventEmitter<any>();
+  filter = {
+    auditProposal: null,
+    problemType: null,
+    proposalTemplateType: null
+  };
   /**
-   * 树节点选中事件
+   * 建议模板类型弹窗确定按钮加载状态
    */
-  @Output()
-  selectedNodeChange = new EventEmitter<any>();
+  loading = false;
   /**
-   * 当前选中审计知识类型节点Id
+   * 树区域加载状态
    */
-  @Input()
-  selectedNode: any = null;
+  treeLoading = false;
+  /**
+   * 当前点击的树节点
+   */
+  currentProposalTypeNode = new ProposalTemplateTypeDTO();
+
   searchValue: string;
 
   isVisible = false;
@@ -54,161 +64,99 @@ export class AdviceTemplateViewComponent implements OnInit {
   leftSize = this.LEFT_WIDTH;
 
   /**
-   * 初始化参数
+   * 当前编辑建议模板类型dto
    */
-  currentItem: ProposalTemplateTypeDTO = this.initDTO();
+  proposalTemplateTypeDTO: ProposalTemplateTypeDTO = new ProposalTemplateTypeDTO();
 
   /**
-   * 树节点
+   * 上级节点名称
    */
-  nodes = [];
+  parentName = null;
+  nodes: any;
 
-  /**
-   * 父节点名称
-   *
-   */
-  parentName = '';
-
-  /**
-   * 父节点id
-   *
-   */
-  parentId = '';
-
-  constructor(private proposalTemplateTypeService: ProposalTemplateTypeService, private msg: NzMessageService) {}
+  constructor(private proposalTemplateTypeService: ProposalTemplateTypeService, private msg: NzMessageService) { }
 
   ngOnInit() {
     this.load();
   }
-
-  create(item: any) {}
-
-  save() {
-    if (!this.validate() || !this.currentItem.name) {
-      this.msg.warning('请补全星号的必填信息项');
-      return;
-    }
-    if (this.currentItem.id) {
-      this.proposalTemplateTypeService
-        .updateUsingPUT(this.currentItem.id, this.currentItem)
-        .subscribe(() => this.afterCompleted(), null);
-    } else {
-      this.proposalTemplateTypeService.addUsingPOST(this.currentItem).subscribe(() => this.afterCompleted(), null);
-    }
-  }
   /**
-   * 验证表单
+   * 初始化数据
    */
-  private validate() {
-    return FormUtil.validateForm(this.form.form);
-  }
-
-  /**
-   *
-   * 保存后执行
-   */
-  afterCompleted() {
-    this.cancel();
-    this.msg.success('操作成功！');
-    this.load();
-  }
-
-  /**
-   *
-   * 取消执行
-   */
-
-  cancel() {
-    this.currentItem = this.initDTO();
-    this.parentName = '';
-    this.isVisible = false;
-  }
-
-  showModel(value: any) {
-    if (value.edit) {
-      this.adviceTemplateDetailComponent.edit();
-      this.adviceTemplateDetailComponent.disabled = false;
-    } else {
-      this.adviceTemplateDetailComponent.disabled = false;
-    }
-  }
-  /* 设置读取树节点 */
   load() {
-    this.nodes = [];
-    this.proposalTemplateTypeService.findAllUsingGET().subscribe(data => {
-      if (data) {
-        this.nodes = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
-      }
-    });
-  }
-
-  /* 设置 */
-  nzClick(event: any) {
-    if (event.keys && event.keys.length > 0) {
-      this.selectedNode = event.node.origin;
-      this.selectNodeEvent.emit(this.selectedNode);
-      this.selectedNode = event.node.origin;
-      this.selectedNodeChange.emit(this.selectedNode);
-      // this.typeId = this.selectedNode.id;
-      // this.loadList(this.typeId);
-    } else {
-      this.selectedNode = null;
-      this.selectNodeEvent.emit(this.selectedNode);
-      this.selectedNodeChange.emit(this.selectedNode);
-      // this.loadAll();
-    }
+    this.treeLoading = true;
+    this.proposalTemplateTypeService.findAll().subscribe(data => {
+      this.nodes = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
+      this.currentProposalTypeNode = new ProposalTemplateTypeDTO();
+      this.parentName = null;
+      this.filter.proposalTemplateType = null;
+    }, () => { }, () => { this.treeLoading = false; });
   }
   /**
-   *
-   * @param created 判断是否为增加
-   * @param item 树节点值
+   * 新增建议模板类型
    */
-  editNode(created: boolean, item?: any) {
-    if (created) {
-      if (item) {
-        const parentId = item.id;
-        this.parentName = item.name;
-        this.currentItem.parentId = parentId;
-      } else {
-        this.parentName = '';
-      }
+  add() {
+    this.loading = true;
+    if (this.proposalTemplateTypeDTO.id) {
+      this.proposalTemplateTypeDTO.parentId = this.proposalTemplateTypeDTO.parent ? this.proposalTemplateTypeDTO.parent.id : null;
+      this.proposalTemplateTypeService.update(this.proposalTemplateTypeDTO.id, this.proposalTemplateTypeDTO).subscribe(data => {
+        this.msg.success('修改成功');
+        this.load();
+      }, () => { }, () => { this.isVisible = false; this.loading = false; });
     } else {
-      this.currentItem = this.initDTO(item);
-      if (!this.currentItem.parent) {
-        this.parentName = '';
-      } else {
-        this.proposalTemplateTypeService.findByIdUsingGET(item.parent.id).subscribe(data => {
-          this.parentName = data.name;
-        });
-      }
+      this.proposalTemplateTypeDTO.parentId = this.currentProposalTypeNode.id ? this.currentProposalTypeNode.id : null;
+      this.proposalTemplateTypeService.create(this.proposalTemplateTypeDTO).subscribe(() => {
+        this.msg.success('新增成功');
+        this.load();
+      }, () => { }, () => { this.isVisible = false; this.loading = false; });
     }
+  }
+  create() {
+    this.adviceTemplateDetailComponent.edit(this.currentProposalTypeNode, null);
+  }
+  /**
+   * 显示建议模板类型编辑弹窗
+   */
+  showTypeModal(isEdit: boolean) {
+    this.proposalTemplateTypeDTO = isEdit ? this.currentProposalTypeNode : new ProposalTemplateTypeDTO();
+    this.parentName = !isEdit ? this.currentProposalTypeNode.name : this.parentName;
     this.isVisible = true;
   }
-
-  /**
-   *
-   * 删除节点
-   */
-  deleteNode(item) {
-    this.proposalTemplateTypeService.deleteUsingDELETE(item.id).subscribe(() => {
-      this.msg.success('删除成功!');
-      this.selectedNode = null;
-      this.load();
-    });
-  }
-  /**
-   * 初始化
-   */
-  initDTO(item?: any): any {
-    return {
-      id: item ? item.id : null,
-      name: item ? item.name : null,
-      content: item ? item.content : null,
-      parentId: item ? item.parentId : null,
-      parent: item ? item.parent : null,
-      remark: item ? item.remark : null,
-    };
+  showModel(value: any) {
+    this.adviceTemplateDetailComponent.edit(null, value);
   }
 
-  delete() {}
+  edit() { }
+  /**
+   * 查找 刷新
+   */
+  search() {
+    this.adviceTemplateListComponent.load();
+  }
+  /**
+   * 删除树节点
+   */
+  delete() {
+    this.proposalTemplateTypeService.delete(this.currentProposalTypeNode.id).subscribe(() => {
+      this.msg.success('删除成功');
+    }, () => { }, () => { this.load(); });
+  }
+
+  /**
+   * 树节点点击事件
+   */
+  nodeClick($event) {
+    this.currentProposalTypeNode = $event.keys.length > 0 ? $event.node.origin : new ProposalTemplateTypeDTO();
+    this.filter.proposalTemplateType = this.currentProposalTypeNode;
+    this.parentName = this.currentProposalTypeNode.id && this.currentProposalTypeNode.parent
+      ? this.currentProposalTypeNode.parent.name : null;
+    this.adviceTemplateListComponent.load();
+  }
+
+  /**
+   * 重置搜索条件
+   */
+  clearCondition() {
+    this.filter.auditProposal = null;
+    this.filter.problemType = null;
+  }
 }
