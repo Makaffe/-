@@ -38,19 +38,28 @@ export class RectifyIssueOrderComponent implements OnInit {
    */
   loading = false;
 
-  // OA类型子表格数据
+  /**
+   * OA模板表格加载
+   */
   tableData = [];
 
-  // 分页参数
-
+  /**
+   * 分页参数
+   */
   private options: QueryOptions = {
     page: 0,
     size: 20,
     sort: 'id,desc',
   };
 
-  // 列表参数
+  /**
+   * 列表参数
+   */
   tableParameter = ObjectUtil.deepClone(TABLE_PARAMETER);
+
+  /**
+   * 列名称
+   */
   columns = [
     { title: '序号', render: 'number', width: '10%', className: 'text-center', type: 'radio' },
     {
@@ -134,7 +143,12 @@ export class RectifyIssueOrderComponent implements OnInit {
     this.isVisible = true;
   }
 
-  // 点击树节点后触发
+  /**
+   *
+   * @param $event
+   * 树节点
+   * 点击后触发
+   */
   onChange($event: string) {
     this.oaSendTemplateService.findOnePageUsingGET(this.options, $event).subscribe(
       data => {

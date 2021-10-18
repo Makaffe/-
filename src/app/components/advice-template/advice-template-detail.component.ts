@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ProposalTemplateTypeService } from './service/ProposalTemplateTypeService';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -11,14 +12,17 @@ export class AdviceTemplateDetailComponent implements OnInit {
 
   disabled = false;
 
-  constructor() {}
+  constructor(private proposalTemplateTypeService: ProposalTemplateTypeService) {}
 
   ngOnInit() {}
   handleCancel() {
     this.isVisible = false;
   }
 
-  edit() {
+  edit(id?: string) {
     this.isVisible = true;
+  }
+  save() {
+    this.handleCancel();
   }
 }
