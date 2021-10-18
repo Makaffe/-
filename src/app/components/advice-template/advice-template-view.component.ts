@@ -118,6 +118,7 @@ export class AdviceTemplateViewComponent implements OnInit {
    */
   showTypeModal(isEdit: boolean) {
     this.proposalTemplateTypeDTO = isEdit ? this.currentProposalTypeNode : new ProposalTemplateTypeDTO();
+    this.parentName = !isEdit ? this.currentProposalTypeNode.name : this.parentName;
     this.isVisible = true;
   }
   showModel(value: any) {
