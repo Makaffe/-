@@ -52,6 +52,8 @@ export class AuditPostTypeTreeComponent implements OnInit {
    */
   loading = false;
 
+  // [nzSelectedKeys]="selectedKeys"
+
   /**
    * 右键存放节点
    */

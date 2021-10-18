@@ -1,10 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { STColumnTag } from '@delon/abc';
 import { ApiPagedData, QueryOptions, TABLE_PARAMETER } from '@mt-framework-ng/core';
 import { ObjectUtil } from '@ng-mt-framework/util';
+import { NzMessageService } from 'ng-zorro-antd';
 import { AuditPostDTO } from './model/AuditPostDTO';
 import { AuditPostService } from './service/AuditPostService';
 
+const TAG: STColumnTag = {
+  GENERATED: { text: '已生成', color: 'red' },
+  NO_GENERATED: { text: '未生成', color: 'green' },
+};
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'audit-post-list',
@@ -25,33 +31,46 @@ export class AuditPostListComponent implements OnInit {
     { title: '序号', render: 'number', width: '10px', className: 'text-center', type: 'radio' },
     {
       title: '状态',
-      render: 'state',
+      index: 'auditReportStatus',
       width: '15px',
+      className: 'text-center',
+      type: 'tag',
+      tag: TAG,
+      fixed: 'left',
     },
     {
       title: '审计报告名称',
-      index: 'postName',
+      index: 'name',
       width: '40px',
       sort: this.tableParameter.sortDef,
       className: 'text-center',
     },
     {
       title: '审计单位名称',
-      index: 'unitName',
+      index: 'auditName',
       width: '40px',
       sort: this.tableParameter.sortDef,
       className: 'text-left',
     },
     {
-      title: '审计时间',
-      index: 'time',
+      title: '审计开始时间',
+      index: 'auditStartTime',
+      render: 'auditStartTime',
+      width: '40px',
+      sort: this.tableParameter.sortDef,
+      className: 'text-left',
+    },
+    {
+      title: '审计结束时间',
+      index: 'auditEndTime',
+      render: 'auditEndTime',
       width: '40px',
       sort: this.tableParameter.sortDef,
       className: 'text-left',
     },
     {
       title: '审计问题数',
-      index: 'issueAmount',
+      render: 'probkemAmount',
       width: '40px',
       sort: this.tableParameter.sortDef,
       className: 'text-left',
@@ -74,14 +93,21 @@ export class AuditPostListComponent implements OnInit {
    */
 
   @Input()
-  filterParams: { name: string; auditBeginTime: string; auditEndTime: string; auditUnitName: string } = {
+  filterParams: {
+    name: string;
+    auditBeginTime: string;
+    auditEndTime: string;
+    auditUnitName: string;
+    typeId: string;
+  } = {
     name: null,
     auditBeginTime: null,
     auditEndTime: null,
     auditUnitName: null,
+    typeId: null,
   };
 
-  constructor(private router: Router, private auditPostService: AuditPostService) {}
+  constructor(private router: Router, private auditPostService: AuditPostService, private msg: NzMessageService) {}
 
   ngOnInit() {
     this.load();
@@ -94,6 +120,7 @@ export class AuditPostListComponent implements OnInit {
         this.queryOptions.page,
         this.queryOptions.size,
         this.queryOptions.sort,
+        this.filterParams.typeId,
         this.filterParams.name,
         this.filterParams.auditBeginTime,
         this.filterParams.auditEndTime,
@@ -112,9 +139,36 @@ export class AuditPostListComponent implements OnInit {
   }
 
   edit(row): void {
-    this.router.navigate(['/audit-rectify/audit-post-detail']);
+    this.router.navigate(['/audit-rectify/audit-post-detail'], {
+      queryParams: {
+        postTypeId: null,
+        isWatch: false,
+        isEdit: true,
+        isNew: false,
+        postId: row.id,
+      },
+    });
   }
   check(row): void {
-    this.router.navigate(['/audit-rectify/audit-post-detail']);
+    this.router.navigate(['/audit-rectify/audit-post-detail'], {
+      queryParams: {
+        postTypeId: null,
+        isWatch: true,
+        isEdit: false,
+        isNew: false,
+        postId: row.id,
+      },
+    });
+  }
+
+  delete(row): void {
+    this.auditPostService.delete(row.id).subscribe({
+      next: () => {
+        this.msg.success(`删除成功`);
+        this.load();
+      },
+      error: () => {},
+      complete: () => {},
+    });
   }
 }

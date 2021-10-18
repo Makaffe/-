@@ -37,11 +37,11 @@ export class RectifyDiaryComponent implements OnInit {
     this.rectifyProblemService.findMome(this.rectifyProblemId).subscribe(
       data => {
         this.remark = data;
+        this.isVisible = true;
       },
       () => {},
       () => {},
     );
-    this.isVisible = true;
   }
 
   // 保存备忘录
@@ -50,10 +50,10 @@ export class RectifyDiaryComponent implements OnInit {
       data => {
         this.remark = data;
         this.msg.success('保存成功！');
+        this.handleCancel();
       },
       () => {},
       () => {},
     );
-    this.handleCancel();
   }
 }

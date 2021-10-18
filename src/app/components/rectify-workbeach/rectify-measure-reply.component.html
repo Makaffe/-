@@ -1,0 +1,28 @@
+<nz-modal [(nzVisible)]="isVisible" [nzMaskClosable]="false" (nzOnCancel)="handleCancel()" [nzFooter]="editorFooter"
+  nzWidth="1050" [nzTitle]="'整改措施回复详情'" [nzStyle]="{ top: '65px' }" [nzBodyStyle]="{
+    'max-height': '455px',
+    'min-height': '250px',
+    'overflow-y': 'auto',
+    'overflow-x': 'hidden',
+    padding: '24px 24px 0 24px'
+  }">
+  <nz-form-item>
+    <nz-form-label [nzSpan]="4" nzRequired>整改措施回复内容</nz-form-label>
+    <nz-form-control [nzSpan]="20"
+      [nzValidateStatus]="replyContent.invalid && (replyContent.dirty || replyContent.touched) ? 'error' : ''">
+      <textarea rows="6" nz-input name="replyContent" [(ngModel)]="rectifyMeasureReply.replyContent"
+        #replyContent="ngModel" required></textarea>
+      <nz-form-explain *ngIf="replyContent.invalid && (replyContent.dirty || replyContent.touched)">
+        整改措施回复内容
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+  <ng-template #editorFooter>
+    <div class="steps-action">
+      <button nz-button nzType="default" (click)="handleCancel()">取消</button>
+      <button nz-button nzType="primary" (click)="save()">
+        <span>完成</span>
+      </button>
+    </div>
+  </ng-template>
+</nz-modal>
