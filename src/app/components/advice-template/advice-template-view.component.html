@@ -46,40 +46,40 @@
           <form #searchForm="ngForm" nz-form class="matech-search-form">
             <div nz-row [nzGutter]="24" nzType="flex" nzJustify="space-between" nzAlign="middle" class="search-row">
               <!-- 搜索框 -->
-              <div nz-col [nzSpan]="18">
-                <div nz-col [nzSpan]="2"></div>
-                <div nz-col [nzSpan]="7">
-                  <nz-form-item style="justify-content: start;">
-                    <nz-form-label [nzSpan]="7">审计建议</nz-form-label>
-                    <nz-form-control [nzSpan]="19">
-                      <input nz-input type="text" name="name" placeholder="请输入搜索发文内容" />
-                    </nz-form-control>
-                  </nz-form-item>
-                </div>
-                <div nz-col [nzSpan]="7">
-                  <div nz-col [nzSpan]="2"></div>
-                  <nz-form-item style="justify-content: start;">
-                    <nz-form-label [nzSpan]="7">问题类型</nz-form-label>
-                    <nz-form-control [nzSpan]="19">
-                      <nz-select nzAllowClear>
-                        <nz-option nzValue="jack" nzLabel="类型一"></nz-option>
-                        <nz-option nzValue="lucy" nzLabel="类型二"></nz-option>
-                      </nz-select>
-                    </nz-form-control>
-                  </nz-form-item>
-                </div>
+              <div nz-col [nzSpan]="9">
+                <nz-form-item style="justify-content: start;">
+                  <nz-form-label [nzSpan]="7">审计建议</nz-form-label>
+                  <nz-form-control [nzSpan]="19">
+                    <input nz-input type="text" name="name" [(ngModel)]="filter.auditProposal" placeholder="请输入搜索条件" />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col [nzSpan]="9">
+                <nz-form-item style="justify-content: start;">
+                  <nz-form-label [nzSpan]="7">问题类型</nz-form-label>
+                  <nz-form-control [nzSpan]="19">
+                    <nz-select nzAllowClear name="problemTypeSelect" [(ngModel)]="filter.problemType"
+                      nzPlaceHolder="请输入搜索条件">
+                      <nz-option nzValue="PROBLEM_ONE" nzLabel="类型一"></nz-option>
+                      <nz-option nzValue="PROBLEM_TWO" nzLabel="类型二"></nz-option>
+                    </nz-select>
+                  </nz-form-control>
+                </nz-form-item>
               </div>
               <!-- 查找按钮 -->
-              <div nz-col [nzSpan]="4">
-                <button nz-button nzType="default"><i nz-icon nzType="rest" nzTheme="outline"></i>重置</button>
-                <button nz-button nzType="primary" (click)="search()"><i nz-icon nzType="search" nzTheme="outline"></i>查找</button>
+              <div nz-col [nzSpan]="6">
+                <button nz-button nzType="default" (click)="clearCondition()"><i nz-icon nzType="rest"
+                    nzTheme="outline"></i>重置</button>
+                <button nz-button nzType="primary" (click)="search()"><i nz-icon nzType="search"
+                    nzTheme="outline"></i>查找</button>
               </div>
             </div>
           </form>
         </div>
       </as-split-area>
       <as-split-area [size]="'*'">
-        <advice-template-list #adviceTemplateListComponent (tableOperations)="showModel($event)"></advice-template-list>
+        <advice-template-list #adviceTemplateListComponent [filter]="filter" (tableOperations)="showModel($event)">
+        </advice-template-list>
       </as-split-area>
     </as-split>
   </as-split-area>

@@ -70,7 +70,7 @@ export class ProposalTemplateService {
     sort?: string,
     auditProposal?: string,
     problemType?: string,
-
+    proposalTemplateTypeId?: string
   ): Observable<ApiPagedData<ProposalTemplateDTO>> {
     const params = {};
     Object.assign(params, { page });
@@ -78,6 +78,7 @@ export class ProposalTemplateService {
     Object.assign(params, sort ? { sort } : {});
     Object.assign(params, auditProposal ? { auditProposal } : {});
     Object.assign(params, problemType ? { problemType } : {});
+    Object.assign(params, proposalTemplateTypeId ? { proposalTemplateTypeId } : {});
     return this.http.get<ApiPagedData<ProposalTemplateDTO>>(`${ProposalTemplateService.URL}/findOngPage`, params);
   }
 

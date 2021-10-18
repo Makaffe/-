@@ -23,6 +23,15 @@ export class AdviceTemplateViewComponent implements OnInit {
    */
   @ViewChild('adviceTemplateListComponent', { static: false })
   adviceTemplateListComponent: AdviceTemplateListComponent;
+
+  /**
+   * 搜索条件
+   */
+  filter = {
+    auditProposal: null,
+    problemType: null,
+    proposalTemplateType: null
+  };
   /**
    * 建议模板类型弹窗确定按钮加载状态
    */
@@ -73,6 +82,9 @@ export class AdviceTemplateViewComponent implements OnInit {
     this.treeLoading = true;
     this.proposalTemplateTypeService.findAll().subscribe(data => {
       this.nodes = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
+      this.currentProposalTypeNode = new ProposalTemplateTypeDTO();
+      this.parentName = null;
+      this.filter.proposalTemplateType = null;
     }, () => { }, () => { this.treeLoading = false; });
   }
   /**
@@ -95,7 +107,7 @@ export class AdviceTemplateViewComponent implements OnInit {
     }
   }
   create() {
-    this.adviceTemplateDetailComponent.edit(this.currentProposalTypeNode);
+    this.adviceTemplateDetailComponent.edit(this.currentProposalTypeNode, null);
   }
   /**
    * 显示建议模板类型编辑弹窗
@@ -105,12 +117,7 @@ export class AdviceTemplateViewComponent implements OnInit {
     this.isVisible = true;
   }
   showModel(value: any) {
-    if (value.edit) {
-      this.adviceTemplateDetailComponent.edit();
-      this.adviceTemplateDetailComponent.isWatch = false;
-    } else {
-      this.adviceTemplateDetailComponent.isWatch = false;
-    }
+    this.adviceTemplateDetailComponent.edit(null, value);
   }
 
   edit() { }
@@ -134,7 +141,17 @@ export class AdviceTemplateViewComponent implements OnInit {
    */
   nodeClick($event) {
     this.currentProposalTypeNode = $event.keys.length > 0 ? $event.node.origin : new ProposalTemplateTypeDTO();
-    this.parentName = this.currentProposalTypeNode.id ? this.currentProposalTypeNode.name : null;
-    console.log(this.currentProposalTypeNode);
+    this.filter.proposalTemplateType = this.currentProposalTypeNode;
+    this.parentName = this.currentProposalTypeNode.id && this.currentProposalTypeNode.parent
+      ? this.currentProposalTypeNode.parent.name : null;
+    this.adviceTemplateListComponent.load();
+  }
+
+  /**
+   * 重置搜索条件
+   */
+  clearCondition() {
+    this.filter.auditProposal = null;
+    this.filter.problemType = null;
   }
 }
