@@ -2,7 +2,7 @@
 import { _HttpClient } from '@delon/theme';
 import { ApiPagedData } from '@mt-framework-ng/core';
 import { Observable } from 'rxjs/internal/Observable';
-import { ProposalTemplateDTO } from '../model/proposalTemplateDTO';
+import { ProposalTemplateDTO } from '../model/ProposalTemplateDTO';
 @Injectable({
   providedIn: 'root',
 })
