@@ -36,7 +36,7 @@ export class RectifyDiaryComponent implements OnInit {
   loadData() {
     this.rectifyProblemService.findMome(this.rectifyProblemId).subscribe(
       data => {
-        this.remark = data;
+        this.remark = data.data;
         this.isVisible = true;
       },
       () => {},
