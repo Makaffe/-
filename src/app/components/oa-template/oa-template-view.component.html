@@ -49,15 +49,24 @@
               <button nz-button [disabled]="!selectedNode" (click)="create(selectedNode)">
                 <i nz-icon type="plus" theme="outline"></i>新增
               </button>
-              <button nz-button><i nz-icon type="reload" theme="outline"></i>刷新</button>
+              <button nz-button (click)="loadAll()"><i nz-icon type="reload" theme="outline"></i>刷新</button>
             </div>
           </div>
           <!-- 搜索栏 -->
           <form #searchForm="ngForm" nz-form class="matech-search-form">
             <div nz-row [nzGutter]="24" nzType="flex" nzAlign="middle" class="search-row">
               <!-- 搜索框 -->
-              <div nz-col [nzSpan]="18">
+              <div nz-col [nzSpan]="20">
                 <div nz-col [nzSpan]="3"></div>
+
+                <div nz-col [nzSpan]="7">
+                  <nz-form-item>
+                    <nz-form-label [nzSpan]="7">模板名称</nz-form-label>
+                    <nz-form-control [nzSpan]="19">
+                      <input nz-input type="text" name="name" placeholder="请输入搜索名称" [(ngModel)]="templateName" />
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
                 <div nz-col [nzSpan]="7">
                   <nz-form-item>
                     <nz-form-label [nzSpan]="7">模板内容</nz-form-label>
@@ -73,14 +82,6 @@
                   </nz-form-item>
                 </div>
                 <div nz-col [nzSpan]="3"></div>
-                <div nz-col [nzSpan]="7">
-                  <nz-form-item>
-                    <nz-form-label [nzSpan]="7">模板名称</nz-form-label>
-                    <nz-form-control [nzSpan]="19">
-                      <input nz-input type="text" name="name" placeholder="请输入搜索名称" [(ngModel)]="templateName" />
-                    </nz-form-control>
-                  </nz-form-item>
-                </div>
               </div>
               <!-- 查找按钮 -->
               <div nz-col [nzSpan]="4">
