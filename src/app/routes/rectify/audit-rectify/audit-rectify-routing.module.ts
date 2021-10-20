@@ -58,7 +58,7 @@ const routes: Routes = [
     data: { title: '整改报告', reuse: true },
   },
   {
-    path: 'rectify-post-detail',
+    path: 'rectify-post-detail/:rectificationReportTypeId/:rectificationReportId',
     component: RectifyPostDetailComponent,
     data: { title: '整改报告详情', reuse: true },
   },

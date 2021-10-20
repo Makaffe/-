@@ -27,13 +27,13 @@
             <nz-form-item>
               <nz-form-label nzSpan="4"> 整改报告名称</nz-form-label>
               <nz-form-control nzSpan="16">
-                <input nz-input [readOnly]="readFlag1" />
+                <input nz-input [readOnly]="readFlag1" name="name" [(ngModel)]="currentItem.name" />
               </nz-form-control>
             </nz-form-item>
             <nz-form-item>
               <nz-form-label nzSpan="4">整改统计时间</nz-form-label>
               <nz-form-control nzSpan="8">
-                <nz-range-picker [nzDisabled]="readFlag1"></nz-range-picker>
+                <nz-range-picker [nzDisabled]="readFlag1" name="auditTime" [(ngModel)]="auditTime"></nz-range-picker>
               </nz-form-control>
             </nz-form-item>
             <nz-form-item>
@@ -49,7 +49,7 @@
             <nz-form-item>
               <nz-form-label nzSpan="4">操作</nz-form-label>
               <nz-form-control nzSpan="16">
-                <button nz-button nzType="primary" style="margin-left:10px;" [disabled]="readFlag2">
+                <button nz-button nzType="primary" (click)="referenceTempl()" style="margin-left:10px;" [disabled]="readFlag2">
                   <i nz-icon nzType="link" nzTheme="outline"></i>引用模板
                 </button>
                 <button nz-button nzType="primary" [disabled]="readFlag2">
@@ -73,7 +73,7 @@
                   </thead>
                   <tbody>
                     <tr *ngFor="let data of basicTable.data">
-                      <td>{{ data.quote }}</td>
+                      <td>{{ data.name }}</td>
                       <td>{{ data.reportName }}</td>
                       <td>
                         <a *ngIf="readFlag2" style="pointer-events: none;color: #666666; opacity: 0.5">编辑</a>
@@ -108,3 +108,5 @@
     </div>
   </as-split-area>
 </as-split>
+<app-tempalte-select #tempalteSelectComponent (selectedTemplateFileChange)="selectTmpl($event)"
+  [(selectedtemplateFile)]="currentItem.templateFiles"></app-tempalte-select>

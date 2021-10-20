@@ -1,11 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { RectificationReportDTO } from './model/RectificationReportDTO';
+import { TempalteSelectComponent } from './tempalte-select.component';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'rectify-post-detail',
   templateUrl: './rectify-post-detail.component.html',
   styleUrls: ['./rectify-post-detail.component.less'],
 })
 export class RectifyPostDetailComponent implements OnInit {
+  /**
+   * 引用模板弹窗
+   */
+  @ViewChild('tempalteSelectComponent', { static: false })
+  tempalteSelectComponent: TempalteSelectComponent;
+
   /**
    * 左侧宽度常量
    */
@@ -25,6 +34,20 @@ export class RectifyPostDetailComponent implements OnInit {
   topSize = this.TOP_HIGHT;
 
   /**
+   * 当前编辑对象
+   */
+  currentItem: RectificationReportDTO = new RectificationReportDTO();
+
+  /**
+   * 当前选中的模板
+   */
+  template = null;
+  /**
+   * 整改统计时间
+   */
+  auditTime = null;
+
+  /**
    * 步骤条进度
    */
   current = 0;
@@ -34,26 +57,10 @@ export class RectifyPostDetailComponent implements OnInit {
   readFlag1: boolean;
   readFlag2: boolean;
   visabled = false;
-  listOfData = [
-    {
-      id: '1',
-      quote: '模板1',
-      reportName: 'xxxx整改报告',
-    },
-    {
-      id: '2',
-      quote: '模板2',
-      reportName: 'xxxx整改报告',
-    },
-    {
-      id: '3',
-      quote: '模板2',
-      reportName: 'xxxx整改报告',
-    },
-  ];
-  constructor() {}
+  listOfData = [];
+  constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() { }
   pre(): void {
     this.current -= 1;
     this.changeContent();
@@ -86,5 +93,16 @@ export class RectifyPostDetailComponent implements OnInit {
         this.readFlag1 = false;
       }
     }
+  }
+  /**
+   * 引用模板
+   */
+  referenceTempl(): void {
+    this.tempalteSelectComponent.show();
+  }
+  selectTmpl($event) {
+    console.log('模板', $event);
+    this.template = $event;
+    this.listOfData = [{ name: $event.name, reportName: this.currentItem.name }];
   }
 }

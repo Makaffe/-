@@ -9,13 +9,17 @@ import { RectifyPostTypeTreeEditComponent } from './rectify-post-type-tree-edit.
 import { RectifyPostTypeTreeComponent } from './rectify-post-type-tree.component';
 
 import { RectifyPostViewComponent } from './rectify-post-view.component';
+import { TempalteSelectComponent } from './tempalte-select.component';
+import { TemplateListComponent } from './template-list.component';
 
 const COMPONENTS = [
     RectifyPostViewComponent,
     RectifyPostListComponent,
     RectifyPostTypeTreeComponent,
     RectifyPostTypeTreeEditComponent,
-    RectifyPostDetailComponent
+    RectifyPostDetailComponent,
+    TemplateListComponent,
+    TempalteSelectComponent
 ];
 @NgModule({
   imports: [CommonModule, SharedModule],

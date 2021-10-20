@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { FormUtil } from '@mt-framework-ng/util';
 import { NzMessageService, UploadFile } from 'ng-zorro-antd';
+import { RectificationReportTypeDTO } from './model/RectificationReportTypeDTO';
+import { RectificationReportTypeService } from './service/RectificationReportTypeService';
 
 @Component({
   selector: 'rectify-post-type-tree-edit',
@@ -10,16 +13,13 @@ import { NzMessageService, UploadFile } from 'ng-zorro-antd';
 })
 export class RectifyPostTypeTreeEditComponent implements OnInit {
 
-  constructor(private msg: NzMessageService, private http: HttpClient) {}
   uploading = false;
   fileList: UploadFile[] = [];
   @ViewChild('form', { static: false })
-  knowledgeTypeForm: NgForm;
+  form: NgForm;
 
   @Input()
-  knowledgeType = null;
-
-  currentItem = {};
+  selectNode = null;
 
   /**
    * 禁止全部输入空格正则匹配
@@ -31,17 +31,14 @@ export class RectifyPostTypeTreeEditComponent implements OnInit {
    */
   isVisible = false;
 
-  item = {
-    id: null,
-    title: '',
-    categories: '公司制度',
-    unitName: '',
-    unitNumber: '',
-    version: '',
-    date: '',
-    content: '',
-  };
-
+  /**
+   * 当前编辑对象
+   */
+  currentItem: RectificationReportTypeDTO = new RectificationReportTypeDTO();
+  /**
+   * 父级名称
+   */
+  parentName = null;
   @Output()
   dataChange = new EventEmitter();
   /**
@@ -50,17 +47,30 @@ export class RectifyPostTypeTreeEditComponent implements OnInit {
   isWatch = false;
 
   /**
-   * 数据请求标志
+   * 保存按钮请求标志
    */
   loading = false;
 
+  constructor(
+    private msg: NzMessageService,
+    private http: HttpClient,
+    private rectificationReportTypeService: RectificationReportTypeService) { }
+
+  ngOnInit() { }
   /**
    * 创建或修改数据
    *
    * @param item 需要编辑的数据，item为null表示创建新数据
    * @param isWatch 是否处于预览状态
    */
-  edit() {
+  edit(isEdit) {
+    if (isEdit) {
+      this.currentItem = this.selectNode;
+      this.parentName = this.currentItem.parent ? this.currentItem.parent.name : null;
+    } else {
+      this.currentItem = new RectificationReportTypeDTO();
+      this.parentName = this.selectNode ? this.selectNode.name : null;
+    }
     this.isVisible = true;
   }
 
@@ -68,45 +78,30 @@ export class RectifyPostTypeTreeEditComponent implements OnInit {
     this.isVisible = false;
   }
 
-  /**
-   * 创建或修改数据树
-   *
-   * @param item 需要编辑的数据，item为null表示创建新数据
-   * @param isWatch 是否处于预览状态
-   */
-  editTree(node?: any, isWatch: boolean = false) {
-    this.loading = false;
-    this.isWatch = isWatch;
-
-    this.isVisible = true;
-  }
-
-  genderChange($event): void {}
 
   /**
-   * 初始化
+   * 保存
    */
-  initDTO(item?: any): any {
-    return {
-      id: item ? item.id : null,
-      titleName: item ? item.titleName : null,
-      unitDate: item ? item.unitDate : null,
-      subtitleName: item ? item.subtitleName : null,
-    };
+  save() {
+    if (!FormUtil.validateForm(this.form.form)) {
+      this.msg.warning('请补全标星号信息！');
+      return;
+    }
+    this.loading = true;
+    if (this.currentItem.id) {
+      this.currentItem.parentId = this.currentItem.parent ? this.currentItem.parent.id : null;
+      this.rectificationReportTypeService.update(this.currentItem.id, this.currentItem).subscribe(() => {
+        this.msg.success('修改成功!');
+        this.dataChange.emit();
+        this.handleCancel();
+      }, null, () => { this.loading = false; });
+    } else {
+      this.currentItem.parentId = this.selectNode ? this.selectNode.id : null;
+      this.rectificationReportTypeService.create(this.currentItem).subscribe(() => {
+        this.msg.success('新增成功!');
+        this.dataChange.emit();
+        this.handleCancel();
+      }, null, () => { this.loading = false; });
+    }
   }
-
-  /**
-   * 初始化树
-   */
-  initDTOTree(node?: any): any {
-    return {
-      author: node ? node.author : null,
-      children: node ? node.children : null,
-      key: node ? node.key : null,
-      title: node ? node.title : null,
-    };
-  }
-
-  ngOnInit() {}
-
 }

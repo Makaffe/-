@@ -16,6 +16,7 @@
   [rowClickTime]="500"
   [page]="tableParameter.page"
   [noResult]="null"
+  [loading]="loading"
 >
   <ng-template st-row="number" let-row let-index="index">
     {{ ((st.pi ? st.pi : 1) - 1) * (st.ps ? st.ps : 0) + (index + 1) }}

@@ -1,0 +1,69 @@
+<nz-modal
+  [(nzVisible)]="isVisible"
+  [nzMaskClosable]="false"
+  (nzOnCancel)="handleCancel()"
+  [nzFooter]="noticeEditorFooter"
+  nzWidth="1000"
+  [nzTitle]="'选择引用模板'"
+  [nzBodyStyle]="{
+    'max-height': '420px',
+    'min-height': '300px',
+    'overflow-y': 'auto',
+    'overflow-x': 'hidden',
+    padding: '24px'
+  }"
+>
+  <as-split direction="vertical" unit="pixel" gutterSize="0">
+    <as-split-area class="flex-fixed" [size]="40">
+      <div class="app-toor-bar">
+        <div nz-row nzType="flex" nzJustify="space-around" nzAlign="middle">
+          <div nz-col nzSpan="24"></div>
+        </div>
+        <form #searchForm="ngForm" nz-form class="matech-search-form">
+          <div nz-row [nzGutter]="24" nzType="flex" nzJustify="space-around" nzAlign="middle" class="search-row">
+            <div nz-col [nzSpan]="19">
+              <div nz-col [nzSpan]="7">
+                <nz-form-item nzFlex>
+                  <nz-form-label [nzSm]="10" [nzXs]="24">模板目录</nz-form-label>
+                  <nz-form-control [nzSm]="16" [nzXs]="24">
+                    <nz-tree-select
+                      style="width: 250px"
+                      name="value"
+                      [nzNodes]="nodes"
+                      nzShowSearch
+                      nzPlaceHolder="请选择目录"
+                      [(ngModel)]="value"
+                      (ngModelChange)="onChange($event)"
+                    >
+                    </nz-tree-select>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col [nzSpan]="7"></div>
+              <div nz-col [nzSpan]="4"></div>
+            </div>
+            <div nz-col [nzSpan]="2">
+              <button nz-button (click)="search()"><i nz-icon type="reload" theme="outline"></i>刷新</button>
+            </div>
+            <div nz-col [nzSpan]="3">
+              <button nz-button nzType="primary" (click)="search()">
+                <i nz-icon type="search" theme="outline"></i>查找
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </as-split-area>
+    <as-split-area style="height:250px" [size]="'*'">
+      <app-template-list
+        [(templateFile)]="selectedtemplateFile"
+        (templateFileChange)="templateFileChange($event)"
+        [queryParams]="queryParams"
+        #templateListComponent
+      ></app-template-list>
+    </as-split-area>
+  </as-split>
+  <ng-template #noticeEditorFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">关闭</button>
+  </ng-template>
+</nz-modal>
