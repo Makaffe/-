@@ -1,37 +1,85 @@
-<st
-  #st
-  [header]="tableHeader"
-  [data]="tableData"
-  nzSize="middle"
-  [multiSort]="tableParameter.multiSort"
-  [req]="tableParameter.req"
-  [scroll]="{ y: '100%', x: '1100px' }"
-  [bordered]="true"
-  [res]="tableParameter.res"
-  [total]="tableParameter.page.total"
-  [size]="tableParameter.size"
-  [pi]="tableParameter.pi"
-  [ps]="tableParameter.ps"
-  [columns]="columns"
-  [rowClickTime]="500"
-  [page]="tableParameter.page"
-  [noResult]="null"
+<nz-table
+  #expandTable
+  [nzData]="listOfMapData"
+  [nzScroll]="{ x: '1150px', y: '100%' }"
+  [nzLoading]="loading"
+  [nzTotal]="pageInfo.totalRecords"
+  [nzPageSize]="pageInfo.pageSize"
+  [nzPageIndex]="pageInfo.pageNo"
+  [nzSize]="'small'"
+  nzShowSizeChanger
+  [nzShowTotal]="totalTemplate"
+  (nzPageSizeChange)="pageSizeChange($event)"
+  (nzPageIndexChange)="pageIndexChange($event)"
+  [nzShowQuickJumper]="true"
+  [nzFrontPagination]="false"
+  [nzPageSizeOptions]="[20, 35, 50, 100]"
+  nzBordered="true"
 >
-  <ng-template st-row="number" let-row let-index="index">
-    {{ ((st.pi ? st.pi : 1) - 1) * (st.ps ? st.ps : 0) + (index + 1) }}
-  </ng-template>
-  <ng-template st-row="releaseDate" let-row let-index="index">
-    {{ row.releaseDate | date: 'yyyy-MM-dd' }}
-  </ng-template>
-  <ng-template st-row="progressbar" let-row let-index="index">
-    <nz-progress [nzPercent]="50" nzStatus="active"></nz-progress>
-  </ng-template>
-  <ng-template st-row="operations" let-row let-index="index">
-    <a (click)="goWorkBeach()">进入工作台</a>
-  </ng-template>
-  <ng-template #tableHeader>
-    <button nz-button nzType="primary" (click)="checkTransferResult()">
-      <i nz-icon nzType="search" nzTheme="outline"></i>移交结果查看
-    </button>
-  </ng-template>
-</st>
+  <ng-template #totalTemplate let-total> 共 {{ pageInfo.totalRecords }} 条 </ng-template>
+  <thead>
+    <tr>
+      <th nzWidth="120px">序号</th>
+      <th nzWidth="100px" nzAlign="center">状态</th>
+      <th nzWidth="100px" nzAlign="center">移交状态</th>
+      <th nzWidth="150px">问题名称</th>
+      <th nzWidth="150px">整改部门</th>
+      <th nzWidth="150px">整改负责人</th>
+      <th nzWidth="150px">已完成整改措施数</th>
+      <th nzWidth="150px">整改截止时间</th>
+      <th nzWidth="150px">整改拟完成时间</th>
+      <th nzWidth="150px">最近一次反馈时间</th>
+      <th nzWidth="150px">下一次反馈时间</th>
+      <th nzWidth="200px">整改反馈进度</th>
+      <th nzWidth="150px">备注</th>
+      <th nzWidth="130px" nzAlign="center" nzRight="0px">操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let data of expandTable.data; let i = index">
+      <ng-container *ngFor="let item of mapOfExpandedData[data.id]; let ci = index">
+        <tr *ngIf="(item.parent && item.parent.expand) || !item.parent">
+          <td
+            [nzIndentSize]="item.level * 20"
+            [nzShowExpand]="!!(item.children && item.children.length > 0)"
+            [(nzExpand)]="item.expand"
+            (nzExpandChange)="collapse(mapOfExpandedData[data.id], item, $event)"
+            *ngIf="item.level === 0"
+          >
+            {{ item.level === 0 ? i + 1 : i + 1 + '-' + ci }}
+          </td>
+          <td [nzIndentSize]="item.level * 20" *ngIf="item.level === 1">
+            {{ item.level === 0 ? i + 1 : i + 1 + '-' + ci }}
+          </td>
+          <td nzAlign="center">
+            <nz-tag *ngIf="item.sendStatus === 'NOT_ISSUED'" [nzColor]="'#b30000'">未下发</nz-tag>
+            <nz-tag *ngIf="item.sendStatus === 'TO_BE_RECTIFIED'" [nzColor]="'#008CEC'">待整改</nz-tag>
+            <nz-tag *ngIf="item.sendStatus === 'RECTIFYING'" [nzColor]="'#e5e600'">整改中</nz-tag>
+            <nz-tag *ngIf="item.sendStatus === 'FEEDBACK_OVERDUE'" [nzColor]="'#F76A00'">反馈逾期</nz-tag>
+            <nz-tag *ngIf="item.sendStatus === 'RECTIFY_OVERDUE'" [nzColor]="'#F76A00'">整改逾期</nz-tag>
+            <nz-tag *ngIf="item.sendStatus === 'COMPLETE'" [nzColor]="'#00cc00'">已完成</nz-tag>
+          </td>
+          <td nzAlign="center">
+            <nz-tag *ngIf="item.transferStatus === 'NOT_HANDED_OVER'" [nzColor]="'#b30000'">未移交</nz-tag>
+            <nz-tag *ngIf="item.transferStatus === 'HANDED_OVER'" [nzColor]="'#00cc00'">已移交</nz-tag>
+          </td>
+          <td>{{ item.name }}</td>
+          <td>{{ item?.rectifyDepartment?.name }}</td>
+          <td>{{ item?.dutyUser?.name }}</td>
+          <td>{{ item.rectifyCount }}</td>
+          <td>{{ item.rectifyEndTime }}</td>
+          <td>{{ item.lastModifiedTime }}</td>
+          <td>{{ item.latelyFeedbackTime }}</td>
+          <td>{{ item.nextFeedbackTime }}</td>
+          <td>
+            <nz-progress [nzPercent]="item.rectifyPassPercent"></nz-progress>
+          </td>
+          <td>{{ item.remark }}</td>
+          <td nzAlign="center" nzRight="0px">
+            <button nz-button nzType="link" (click)="goWorkBeach(item)" style="padding: 0px;">进入工作台</button>
+          </td>
+        </tr>
+      </ng-container>
+    </ng-container>
+  </tbody>
+</nz-table>
