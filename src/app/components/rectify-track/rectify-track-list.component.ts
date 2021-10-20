@@ -1,11 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { TABLE_PARAMETER } from '@mt-framework-ng/core';
+import { queryParam } from '@mt-insight-ng/insight';
 import { RectifyProblemService } from '@mt-rectify-framework/comp/rectify-issue';
 import { QueryOptions } from '@ng-mt-framework/api/lib/model/common/query-options';
 import { ObjectUtil } from '@ng-mt-framework/util';
 import { NzMessageService } from 'ng-zorro-antd';
 import { RectifyTrackDTO } from './model/rectify-track-dto';
+import { RectifyTrackService } from './service/RectifyTrackService';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -17,7 +19,7 @@ export class RectifyTrackListComponent implements OnInit {
   constructor(
     private router: Router,
     private msg: NzMessageService,
-    private rectifyProblemService: RectifyProblemService,
+    private rectifyTrackService: RectifyTrackService,
   ) {}
 
   /**
@@ -46,10 +48,12 @@ export class RectifyTrackListComponent implements OnInit {
    */
   @Input()
   filter = {
-    problemName: null,
-    departName: null,
-    status: null,
-    searchTime: null,
+    rectifyProblemName: null,
+    rectifyDepartmentId: null,
+    sendStatus: null,
+    transferStatus: null,
+    startTime: null,
+    endTime: null,
   };
 
   /**
@@ -74,7 +78,7 @@ export class RectifyTrackListComponent implements OnInit {
   queryOptions: QueryOptions = {
     page: 0,
     size: 20,
-    sort: 'sendStatus,asc,id,desc',
+    sort: 'id,desc',
   };
 
   /**
@@ -93,18 +97,19 @@ export class RectifyTrackListComponent implements OnInit {
 
   /**
    * 加载列表
+   *
    */
   load() {
     this.loading = true;
-    this.rectifyProblemService
-      .findOnePage2Track(
-        this.queryOptions.page,
-        this.queryOptions.size,
-        this.queryOptions.sort,
-        this.filter.problemName,
-        this.filter.departName,
-        this.filter.status,
-        this.filter.searchTime,
+    this.rectifyTrackService
+      .findOnePageUsingGET(
+        this.queryOptions,
+        this.filter.rectifyProblemName,
+        this.filter.rectifyDepartmentId,
+        this.filter.sendStatus,
+        this.filter.transferStatus,
+        this.filter.startTime,
+        this.filter.endTime,
       )
       .subscribe(
         data => {
@@ -189,7 +194,7 @@ export class RectifyTrackListComponent implements OnInit {
   checkTransferResult() {
     this.router.navigate(['/audit-rectify/transfer-result']);
   }
-  goWorkBeach() {
+  goWorkBeach(item: any) {
     this.router.navigate(['/audit-rectify/rectify-workbeach']);
   }
 }

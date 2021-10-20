@@ -1,8 +1,21 @@
-<nz-table #expandTable [nzData]="listOfMapData" [nzScroll]="{ x: '1150px',y: '100%' }" [nzLoading]="loading"
-  [nzTotal]="pageInfo.totalRecords" [nzPageSize]="pageInfo.pageSize" [nzPageIndex]="pageInfo.pageNo" [nzSize]="'small'"
-  nzShowSizeChanger [nzShowTotal]="totalTemplate" (nzPageSizeChange)="pageSizeChange($event)"
-  (nzPageIndexChange)="pageIndexChange($event)" [nzShowQuickJumper]="true" [nzFrontPagination]="false"
-  [nzPageSizeOptions]="[20, 35, 50, 100]" nzBordered="true">
+<nz-table
+  #expandTable
+  [nzData]="listOfMapData"
+  [nzScroll]="{ x: '1150px', y: '100%' }"
+  [nzLoading]="loading"
+  [nzTotal]="pageInfo.totalRecords"
+  [nzPageSize]="pageInfo.pageSize"
+  [nzPageIndex]="pageInfo.pageNo"
+  [nzSize]="'small'"
+  nzShowSizeChanger
+  [nzShowTotal]="totalTemplate"
+  (nzPageSizeChange)="pageSizeChange($event)"
+  (nzPageIndexChange)="pageIndexChange($event)"
+  [nzShowQuickJumper]="true"
+  [nzFrontPagination]="false"
+  [nzPageSizeOptions]="[20, 35, 50, 100]"
+  nzBordered="true"
+>
   <ng-template #totalTemplate let-total> 共 {{ pageInfo.totalRecords }} 条 </ng-template>
   <thead>
     <tr>
@@ -17,22 +30,26 @@
       <th nzWidth="150px">整改拟完成时间</th>
       <th nzWidth="150px">最近一次反馈时间</th>
       <th nzWidth="150px">下一次反馈时间</th>
-      <th nzWidth="150px">整改反馈进度</th>
+      <th nzWidth="200px">整改反馈进度</th>
       <th nzWidth="150px">备注</th>
       <th nzWidth="130px" nzAlign="center" nzRight="0px">操作</th>
     </tr>
   </thead>
   <tbody>
-    <ng-container *ngFor="let data of expandTable.data; let i=index">
-      <ng-container *ngFor="let item of mapOfExpandedData[data.id]; let ci=index">
+    <ng-container *ngFor="let data of expandTable.data; let i = index">
+      <ng-container *ngFor="let item of mapOfExpandedData[data.id]; let ci = index">
         <tr *ngIf="(item.parent && item.parent.expand) || !item.parent">
-          <td [nzIndentSize]="item.level * 20" [nzShowExpand]="!!(item.children && item.children.length > 0)"
-            [(nzExpand)]="item.expand" (nzExpandChange)="collapse(mapOfExpandedData[data.id], item, $event)"
-            *ngIf="item.level === 0">
-            {{ item.level === 0?i+1:i+1 + '-' + ci }}
+          <td
+            [nzIndentSize]="item.level * 20"
+            [nzShowExpand]="!!(item.children && item.children.length > 0)"
+            [(nzExpand)]="item.expand"
+            (nzExpandChange)="collapse(mapOfExpandedData[data.id], item, $event)"
+            *ngIf="item.level === 0"
+          >
+            {{ item.level === 0 ? i + 1 : i + 1 + '-' + ci }}
           </td>
           <td [nzIndentSize]="item.level * 20" *ngIf="item.level === 1">
-            {{ item.level === 0?i+1:i+1 + '-' + ci }}
+            {{ item.level === 0 ? i + 1 : i + 1 + '-' + ci }}
           </td>
           <td nzAlign="center">
             <nz-tag *ngIf="item.sendStatus === 'NOT_ISSUED'" [nzColor]="'#b30000'">未下发</nz-tag>
@@ -49,15 +66,17 @@
           <td>{{ item.name }}</td>
           <td>{{ item?.rectifyDepartment?.name }}</td>
           <td>{{ item?.dutyUser?.name }}</td>
-          <td></td>
+          <td>{{ item.rectifyCount }}</td>
           <td>{{ item.rectifyEndTime }}</td>
-          <td>{{ item.rectifyCompleteTime }}</td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td>{{ item.lastModifiedTime }}</td>
+          <td>{{ item.latelyFeedbackTime }}</td>
+          <td>{{ item.nextFeedbackTime }}</td>
+          <td>
+            <nz-progress [nzPercent]="item.rectifyPassPercent"></nz-progress>
+          </td>
           <td>{{ item.remark }}</td>
           <td nzAlign="center" nzRight="0px">
-              <button nz-button nzType="link" (click)="goWorkBeach()" style="padding: 0px;">进入工作台</button>
+            <button nz-button nzType="link" (click)="goWorkBeach(item)" style="padding: 0px;">进入工作台</button>
           </td>
         </tr>
       </ng-container>
