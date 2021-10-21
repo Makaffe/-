@@ -195,6 +195,6 @@ export class RectifyTrackListComponent implements OnInit {
     this.router.navigate(['/audit-rectify/transfer-result']);
   }
   goWorkBeach(item: any) {
-    this.router.navigate(['/audit-rectify/rectify-workbeach']);
+    this.router.navigate(['/audit-rectify/rectify-workbeach'], { queryParams: { rectifyProblem: item } });
   }
 }

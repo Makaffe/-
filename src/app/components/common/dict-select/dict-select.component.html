@@ -1,0 +1,9 @@
+<nz-select #dictSelect style="width: 100%;" [nzShowSearch]="showSearch" [nzMode]="multiple" [disabled]="disabled"
+  [(ngModel)]="selectedValue" [nzPlaceHolder]="placeHolder" nzAllowClear nzShowSearch (ngModelChange)="clicked($event)">
+  <ng-container *ngFor="let o of dictValues">
+    <nz-option *ngIf="!isLoading" [nzValue]="o.key" [nzLabel]="o.value"></nz-option>
+  </ng-container>
+  <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+    <i nz-icon type="loading" class="loading-icon"></i> 数据加载中...
+  </nz-option>
+</nz-select>
