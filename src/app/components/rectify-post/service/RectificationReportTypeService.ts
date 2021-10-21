@@ -81,6 +81,6 @@ export class RectificationReportTypeService {
 
   ): Observable<RectificationReportTypeDTO> {
 
-    return this.http.get<RectificationReportTypeDTO>(`${RectificationReportTypeService.URL}`);
+    return this.http.get<RectificationReportTypeDTO>(`${RectificationReportTypeService.URL}/${id}`);
   }
 }

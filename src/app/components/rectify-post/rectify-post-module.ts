@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SharedModule } from '@mt-framework-ng/view';
+import { RectifyGenerateReportDetailComponent } from './rectify-generate-report-detail.component';
 
 import { RectifyPostDetailComponent } from './rectify-post-detail.component';
 
@@ -19,7 +20,8 @@ const COMPONENTS = [
     RectifyPostTypeTreeEditComponent,
     RectifyPostDetailComponent,
     TemplateListComponent,
-    TempalteSelectComponent
+    TempalteSelectComponent,
+    RectifyGenerateReportDetailComponent
 ];
 @NgModule({
   imports: [CommonModule, SharedModule],

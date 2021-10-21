@@ -115,6 +115,28 @@ export class RectificationReportService {
 
   ): Observable<RectificationReportDTO> {
 
-    return this.http.get<RectificationReportDTO>(`${RectificationReportService.URL} `);
+    return this.http.get<RectificationReportDTO>(`${RectificationReportService.URL}/${id}`);
+  }
+
+  /**
+   * 获取单一整改报告信息
+   * @param id 待查询整改报告编码
+   *
+   */
+  generateReport(
+    rectificationReportId?: string,
+    tmpId?: string,
+    reportCategoryId?: string,
+    reportName?: string,
+    isClearHistory?: boolean,
+
+  ): Observable<RectificationReportDTO> {
+    const params = {};
+    Object.assign(params, rectificationReportId ? { rectificationReportId } : {});
+    Object.assign(params, tmpId ? { tmpId } : {});
+    Object.assign(params, reportCategoryId ? { reportCategoryId } : {});
+    Object.assign(params, reportName ? { reportName } : {});
+    Object.assign(params, isClearHistory ? { isClearHistory } : {});
+    return this.http.get<RectificationReportDTO>(`${RectificationReportService.URL}/generateReport`, params);
   }
 }

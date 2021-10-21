@@ -7,6 +7,7 @@ import { RectificationReportTypeDTO } from './model/RectificationReportTypeDTO';
 import { RectificationReportTypeService } from './service/RectificationReportTypeService';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'rectify-post-type-tree-edit',
   templateUrl: './rectify-post-type-tree-edit.component.html',
   styles: []

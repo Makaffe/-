@@ -73,7 +73,7 @@ export class RectifyPostViewComponent implements OnInit {
    * 新增整改报告
    */
   create() {
-    this.router.navigate([`/audit-rectify/rectify-post-detail/${this.currentClickNode.id}/null`]);
+    this.router.navigate([`/audit-rectify/rectify-post-detail/false/${this.currentClickNode.id}/null`]);
   }
 
   /**
@@ -81,5 +81,10 @@ export class RectifyPostViewComponent implements OnInit {
    */
   selectNode($event) {
     this.currentClickNode = $event;
+    if ($event) {
+      setTimeout(() => {
+        this.rectifyPostListComponent.load();
+      }, 100);
+    }
   }
 }

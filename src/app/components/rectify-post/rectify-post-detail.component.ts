@@ -1,5 +1,11 @@
+import { DatePipe, formatDate } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ReuseTabService } from '@delon/abc';
+import { NzMessageService } from 'ng-zorro-antd';
 import { RectificationReportDTO } from './model/RectificationReportDTO';
+import { RectifyGenerateReportDetailComponent } from './rectify-generate-report-detail.component';
+import { RectificationReportService } from './service/RectificationReportService';
 import { TempalteSelectComponent } from './tempalte-select.component';
 
 @Component({
@@ -14,6 +20,12 @@ export class RectifyPostDetailComponent implements OnInit {
    */
   @ViewChild('tempalteSelectComponent', { static: false })
   tempalteSelectComponent: TempalteSelectComponent;
+
+  /**
+   * 生成报告弹窗
+   */
+  @ViewChild('rectifyGenerateReportDetailComponent', { static: false })
+  rectifyGenerateReportDetailComponent: RectifyGenerateReportDetailComponent;
 
   /**
    * 左侧宽度常量
@@ -57,8 +69,46 @@ export class RectifyPostDetailComponent implements OnInit {
   readFlag1: boolean;
   readFlag2: boolean;
   visabled = false;
+
+  /**
+   * 是否查看状态
+   */
+  isWatch = false;
+
+  /**
+   * 完成按钮加载状态
+   */
+  loading = false;
+
   listOfData = [];
-  constructor() { }
+
+  constructor(
+    private rectificationReportService: RectificationReportService,
+    private msg: NzMessageService,
+    private reuseService: ReuseTabService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {
+    // 处理路由
+    this.activatedRoute.params.subscribe(data => {
+      this.isWatch = data.isWatch;
+      this.currentItem.rectificationReportTypeId = data && data.rectificationReportTypeId ? data.rectificationReportTypeId : null;
+      if (data && data.rectificationReportId && data.rectificationReportId !== 'null') {
+        this.rectificationReportService.findById(data.rectificationReportId).subscribe(item => {
+          this.currentItem = new RectificationReportDTO(item);
+          this.auditTime = [
+            formatDate(this.currentItem.auditStartTime, 'yyyy-MM-dd', 'ZH'),
+            formatDate(this.currentItem.auditEndTime, 'yyyy-MM-dd', 'ZH')
+          ];
+          this.template = this.currentItem.templateFile;
+          this.listOfData = [{
+            name: this.currentItem.templateFile ? this.currentItem.templateFile.templateName : null,
+            reportName: this.currentItem.reportFile ? this.currentItem.reportFile.reportName : null
+          }];
+        });
+      }
+    });
+  }
 
   ngOnInit() { }
   pre(): void {
@@ -72,8 +122,44 @@ export class RectifyPostDetailComponent implements OnInit {
     this.changeContent();
   }
 
+  /**
+   * 完成
+   */
   done(): void {
-    console.log('done');
+    this.loading = true;
+    this.currentItem.auditStartTime = formatDate(this.auditTime[0], 'yyyy-MM-dd', 'ZH');
+    this.currentItem.auditEndTime = formatDate(this.auditTime[1], 'yyyy-MM-dd', 'ZH');
+    this.currentItem.templateFileId = this.template ? this.template.id : null;
+    this.currentItem.rectificationReportTypeId = this.currentItem.rectificationReportType
+      ? this.currentItem.rectificationReportType.id : this.currentItem.rectificationReportTypeId;
+
+    // 修改
+    if (this.currentItem && this.currentItem.id) {
+      this.rectificationReportService.update(this.currentItem.id, this.currentItem).subscribe(() => {
+        this.msg.success('修改成功!');
+        this.closeTab(
+          `/audit-rectify/rectify-post-detail/${this.isWatch}/${this.currentItem.rectificationReportTypeId}/${this.currentItem.id}`,
+          `http://localhost:4200/#/audit-rectify/rectify-post`,
+          this.reuseService,
+          this.router
+        );
+      }, null, () => { this.loading = false; });
+      // 新增
+    } else {
+      this.currentItem.auditReportStatus = 'NO_CREATE';
+      this.rectificationReportService.create(this.currentItem).subscribe(() => {
+        this.msg.success('新增成功!');
+        this.closeTab(
+          `/audit-rectify/rectify-post-detail/${this.currentItem.rectificationReportTypeId}/${this.currentItem.id}`,
+          `http://localhost:4200/#/audit-rectify/rectify-post`,
+          this.reuseService,
+          this.router
+        );
+      }, null, () => { this.loading = false; });
+    }
+
+
+
   }
 
   changeContent(): void {
@@ -94,15 +180,63 @@ export class RectifyPostDetailComponent implements OnInit {
       }
     }
   }
+
   /**
    * 引用模板
    */
   referenceTempl(): void {
     this.tempalteSelectComponent.show();
   }
+
+  /**
+   * 生成报告
+   */
+  generate() {
+    this.rectifyGenerateReportDetailComponent.isVisible = true;
+  }
+
+  /**
+   * 生成报告成功事件
+   */
+  generateReportEvent($event: RectificationReportDTO) {
+    this.currentItem = $event;
+    console.log('item', this.currentItem);
+    this.auditTime = [
+      formatDate(this.currentItem.auditStartTime, 'yyyy-MM-dd', 'ZH'),
+      formatDate(this.currentItem.auditEndTime, 'yyyy-MM-dd', 'ZH')
+    ];
+    this.listOfData = [{ name: $event.templateFile.templateName, reportName: $event.reportFile.reportName }];
+  }
+
+  /**
+   * 模板选中事件
+   */
   selectTmpl($event) {
-    console.log('模板', $event);
+    this.currentItem.templateFile = $event;
     this.template = $event;
-    this.listOfData = [{ name: $event.name, reportName: this.currentItem.name }];
+    this.listOfData = [{ name: $event.name, reportName: null }];
+
+    this.currentItem.auditStartTime = formatDate(this.auditTime[0], 'yyyy-MM-dd', 'ZH');
+    this.currentItem.auditEndTime = formatDate(this.auditTime[1], 'yyyy-MM-dd', 'ZH');
+    this.currentItem.templateFileId = this.template ? this.template.id : null;
+    this.currentItem.rectificationReportTypeId = this.currentItem.rectificationReportType
+      ? this.currentItem.rectificationReportType.id : this.currentItem.rectificationReportTypeId;
+
+  }
+
+  /**
+   * 关闭tab路由标签
+   * @param closeLink 待关闭的路由路径
+   * @param openLink 无法关闭时，新打开的路由路径
+   * @param reuseService 路由复用service ReuseTabService
+   * @param route 路由跳转service Router
+   */
+  closeTab(closeLink: string, openLink: string, reuseService?: ReuseTabService, route?: Router) {
+    // reuse-tab不支持全部关闭，必须保留一个选项卡
+    if (reuseService.items.length > 0) {
+      reuseService.close(closeLink);
+    } else {
+      route.navigate([openLink]);
+    }
   }
 }

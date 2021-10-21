@@ -1,0 +1,36 @@
+<nz-modal [(nzVisible)]="isVisible" [nzMaskClosable]="false" (nzOnCancel)="handleCancel()"
+  [nzFooter]="noticeEditorFooter" nzWidth="800" [nzTitle]="'生成报告'" [nzBodyStyle]="{
+    'max-height': '420px',
+    'min-height': '200px',
+    'overflow-y': 'auto',
+    'overflow-x': 'hidden',
+    padding: '24px'
+  }">
+  <form #form="ngForm" nz-form>
+    <nz-form-item>
+      <nz-form-label nzSpan="4" nzRequired>报告名称</nz-form-label>
+      <nz-form-control nzSpan="20" [nzValidateStatus]="name.invalid && (name.dirty || name.touched) ? 'error' : ''">
+        <input nz-input placeholder="请填写报告名称" name="name" #name="ngModel" [(ngModel)]="reportName" required />
+        <nz-form-explain *ngIf="name.invalid && (name.dirty || name.touched)">
+          请填写报告名称
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="4" nzRequired>报告存储目录</nz-form-label>
+      <nz-form-control nzSpan="20"
+        [nzValidateStatus]="categoryId.invalid && (categoryId.dirty || categoryId.touched) ? 'error' : ''">
+        <nz-tree-select #categoryId="ngModel" name="categoryId" [nzNodes]="categoryFold" nzShowSearch
+          nzPlaceHolder="请选择报告存储目录" [(ngModel)]="value" required>
+        </nz-tree-select>
+        <nz-form-explain *ngIf="categoryId.invalid && (categoryId.dirty || categoryId.touched)">
+          请选择报告存储目录
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+  <ng-template #noticeEditorFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">取消</button>
+    <button nz-button nzType="primary" (click)="save()" [nzLoading]="loading">确定</button>
+  </ng-template>
+</nz-modal>

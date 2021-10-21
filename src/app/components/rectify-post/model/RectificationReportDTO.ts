@@ -1,4 +1,4 @@
-﻿import { TemplateFile } from '@mt-insight-ng/insight';
+﻿import { ReportFile, TemplateFile } from '@mt-insight-ng/insight';
 import { RectificationReportTypeDTO } from './RectificationReportTypeDTO';
 
 /**
@@ -13,8 +13,10 @@ export class RectificationReportDTO {
     this.auditStartTime = item && item.auditStartTime ? item.auditStartTime : null;
     this.auditEndTime = item && item.auditEndTime ? item.auditEndTime : null;
     this.auditReportStatus = item && item.auditReportStatus ? item.auditReportStatus : null;
-    this.templateFiles = item && item.templateFiles ? item.templateFiles : [];
-    this.templateFileIds = item && item.templateFileIds ? item.templateFileIds : null;
+    this.templateFile = item && item.templateFile ? item.templateFile : null;
+    this.templateFileId = item && item.templateFileId ? item.templateFileId : null;
+    this.reportFile = item && item.reportFile ? item.reportFile : null;
+    this.reportFileId = item && item.reportFileId ? item.reportFileId : null;
     this.rectificationReportType = item && item.rectificationReportType ? item.rectificationReportType : null;
     this.rectificationReportTypeId = item && item.rectificationReportTypeId ? item.rectificationReportTypeId : null;
   }
@@ -48,12 +50,22 @@ export class RectificationReportDTO {
   /**
    * 关联文书模板
    */
-  templateFiles: Array<TemplateFile>;
+  templateFile: TemplateFile;
 
   /**
-   * 关联文书模板ids,支持多个模板id-用逗号隔开
+   * 关联文书模板id
    */
-  templateFileIds: string;
+  templateFileId: string;
+
+  /**
+   * 关联文书报告
+   */
+  reportFile: ReportFile;
+
+  /**
+   * 关联文书报告id
+   */
+  reportFileId: ReportFile;
 
   /**
    * 整改报告类型
