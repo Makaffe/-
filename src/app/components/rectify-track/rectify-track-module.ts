@@ -13,9 +13,11 @@ const COMPONENTS = [
   RectifyTrackViewComponent,
   RectifyTrackListComponent,
 ];
+
 @NgModule({
   imports: [CommonModule, SharedModule],
   exports: [...COMPONENTS],
   declarations: [...COMPONENTS],
 })
+
 export class RectifyTrackModule {}

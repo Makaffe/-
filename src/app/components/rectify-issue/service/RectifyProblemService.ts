@@ -2,6 +2,7 @@
 import { _HttpClient } from '@delon/theme';
 import { ApiPagedData, ApiSimpleData, QueryOptions } from '@mt-framework-ng/core';
 import { Observable } from 'rxjs/internal/Observable';
+import { RectifyTrackDTO } from '../../rectify-track/model/rectify-track-dto';
 import { RectifyProblemDTO } from '../model/rectify-problem-dto';
 @Injectable({
   providedIn: 'root',
@@ -92,5 +93,25 @@ export class RectifyProblemService {
    */
   sevaMome(id: string, remark: string): Observable<ApiSimpleData<string>> {
     return this.http.put<ApiSimpleData<string>>(`${RectifyProblemService.URL}/memo/${id}`, remark);
+  }
+
+  findOnePage2Track(
+    page?: number,
+    size?: number,
+    sort?: string,
+    problemName?: string,
+    departName?: string,
+    status?: string,
+    searchTime?: [],
+  ): Observable<ApiPagedData<RectifyTrackDTO>> {
+    const params = {};
+    Object.assign(params, { page });
+    Object.assign(params, size ? { size } : {});
+    Object.assign(params, sort ? { sort } : {});
+    Object.assign(params, problemName ? { problemName } : {});
+    Object.assign(params, departName ? { departName } : {});
+    Object.assign(params, status ? { status } : {});
+
+    return this.http.get<ApiPagedData<RectifyTrackDTO>>(`${RectifyProblemService.URL}`, params);
   }
 }
