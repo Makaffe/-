@@ -90,6 +90,7 @@ export class OaTemplateListComponent implements OnInit {
   }
 
   load(typeId: string, templateName?: string, templateContent?: string) {
+    this.loading = true;
     this.oASendTemplateService.findOnePageUsingGET(this.options, typeId, templateName, templateContent).subscribe(
       data => {
         if (data) {
@@ -106,10 +107,17 @@ export class OaTemplateListComponent implements OnInit {
   }
 
   loadAll(templateName?: string, templateContent?: string) {
-    this.oASendTemplateService.findAllUsingGET(templateContent, templateName).subscribe(data => {
-      if (data) {
-        this.tableData = data;
-      }
-    });
+    this.loading = true;
+    this.oASendTemplateService.findAllUsingGET(templateContent, templateName).subscribe(
+      data => {
+        if (data) {
+          this.tableData = data;
+        }
+      },
+      null,
+      () => {
+        this.loading = false;
+      },
+    );
   }
 }
