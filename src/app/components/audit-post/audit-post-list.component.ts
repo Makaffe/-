@@ -84,7 +84,7 @@ export class AuditPostListComponent implements OnInit {
   @Input()
   queryOptions: QueryOptions = {
     page: 0,
-    size: 10,
+    size: 20,
     sort: 'id,desc',
   };
 
@@ -145,6 +145,7 @@ export class AuditPostListComponent implements OnInit {
         isWatch: false,
         isEdit: true,
         isNew: false,
+        allshow: false,
         postId: row.id,
       },
     });
@@ -156,6 +157,7 @@ export class AuditPostListComponent implements OnInit {
         isWatch: true,
         isEdit: false,
         isNew: false,
+        allshow: true,
         postId: row.id,
       },
     });

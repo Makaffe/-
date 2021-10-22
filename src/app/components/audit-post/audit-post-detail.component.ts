@@ -7,9 +7,11 @@ import { NgForm } from '@angular/forms';
 import { FormUtil } from '@mt-framework-ng/util';
 import { AuditPostDTO } from './model/AuditPostDTO';
 import { SystemFileService, UserDTO } from '@ng-mt-framework/api';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { AuditPostService } from './service/AuditPostService';
+import { ReuseTabService } from '@delon/abc';
+import { Broadcaster } from 'src/app/matech/service/broadcaster';
 @Component({
   selector: 'audit-post-detail',
   templateUrl: './audit-post-detail.component.html',
@@ -25,6 +27,7 @@ export class AuditPostDetailComponent implements OnInit {
       fn: (fileList: UploadFile[]) => {
         const filterFiles = fileList.filter(
           w =>
+            // tslint:disable-next-line:no-bitwise
             ~['application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/msword'].indexOf(
               w.type,
             ),
@@ -57,6 +60,19 @@ export class AuditPostDetailComponent implements OnInit {
    */
   @Input()
   postType: any = null;
+  /**
+   * 禁止全部输入空格正则匹配
+   */
+  PATTERN = '^(?!(\\s+)).*$';
+
+  /**
+   * 问题详情模态框
+   */
+  isVisabled: boolean;
+  /**
+   * 初始化问题表格
+   */
+  paramsItem: RectifyProblemDTO = this.initProblem();
 
   /**
    * 步骤条进度
@@ -86,15 +102,19 @@ export class AuditPostDetailComponent implements OnInit {
     });
   }
   constructor(
+    private broadcaster: Broadcaster,
     private msg: NzMessageService,
     private systemFileService: SystemFileService,
     private activatedRoute: ActivatedRoute,
     private datePipe: DatePipe,
     private auditPostsService: AuditPostService,
+    private reuseTabService: ReuseTabService,
+    private router: Router,
   ) {}
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe(data => {
+      this.visabled = data.allshow === 'true';
       this.isWatch = data.isWatch === 'true';
       console.log('=============ROUTE PARAMS=========');
       console.log(data);
@@ -186,12 +206,23 @@ export class AuditPostDetailComponent implements OnInit {
       }
     }
   }
+  /**
+   * 返回
+   */
+  onReturn() {
+    const url = this.router.url;
+    // if (url.indexOf('?') !== -1) {
+    //   url = url.slice(0, url.indexOf('?'));
+    // }
+    this.reuseTabService.close(url);
+  }
 
   /**
    *  添加问题
    */
   addProblem(): void {
-    this.listOfData.push(this.initProblem());
+    this.paramsItem = this.initProblem();
+    this.isVisabled = true;
     this.listOfData = [...this.listOfData];
   }
 
@@ -203,18 +234,18 @@ export class AuditPostDetailComponent implements OnInit {
    *  初始化整改问题数据
    * @returns RectifyProblemDTO
    */
-  initProblem(): RectifyProblemDTO {
+  initProblem(item?: RectifyProblemDTO): RectifyProblemDTO {
     return {
-      name: null,
-      type: null,
-      remark: null,
-      rectifyDepartmentId: null,
-      dutyUserId: null,
-      advice: null,
-      source: this.currentItem.name,
-      selectedRectifyDepartment: null,
-      selectedRectifyPeople: null,
-      uuid: UUID.generate(),
+      name: item ? item.name : null,
+      type: item ? item.type : null,
+      remark: item ? item.remark : null,
+      rectifyDepartmentId: item ? item.rectifyDepartmentId : null,
+      dutyUserId: item ? item.dutyUserId : null,
+      advice: item ? item.advice : null,
+      source: item ? item.source : this.currentItem.name,
+      selectedRectifyDepartment: item ? item.selectedRectifyDepartment : null,
+      selectedRectifyPeople: item ? item.selectedRectifyPeople : null,
+      uuid: item ? item.uuid : UUID.generate(),
       editable: true,
       sendStatus: 'NOT_ISSUED',
       transferStatus: 'NOT_HANDED_OVER',
@@ -242,6 +273,8 @@ export class AuditPostDetailComponent implements OnInit {
 
   editProblem(data: RectifyProblemDTO): void {
     this.listOfData.filter(item => item.uuid === data.uuid)[0].editable = true;
+    this.paramsItem = this.initProblem(data);
+    this.isVisabled = true;
   }
 
   selectDepartment($event, data): void {
@@ -249,9 +282,11 @@ export class AuditPostDetailComponent implements OnInit {
     console.log($event);
     console.log(data);
     if ($event && $event.length > 0) {
-      this.listOfData.filter(item => item.uuid === data.uuid)[0].rectifyDepartmentId = $event[0].id;
+      this.paramsItem.rectifyDepartmentId = $event[0].id;
+      // this.listOfData.filter(item => item.uuid === data.uuid)[0].rectifyDepartmentId = $event[0].id;
     } else {
-      this.listOfData.filter(item => item.uuid === data.uuid)[0].rectifyDepartmentId = null;
+      this.paramsItem.rectifyDepartmentId = null;
+      // this.listOfData.filter(item => item.uuid === data.uuid)[0].rectifyDepartmentId = null;
     }
   }
 
@@ -260,9 +295,11 @@ export class AuditPostDetailComponent implements OnInit {
     console.log($event);
     console.log(data);
     if ($event && $event.length > 0) {
-      this.listOfData.filter(item => item.uuid === data.uuid)[0].dutyUserId = $event[0].id;
+      this.paramsItem.dutyUserId = $event[0].id;
+      // this.listOfData.filter(item => item.uuid === data.uuid)[0].dutyUserId = $event[0].id;
     } else {
-      this.listOfData.filter(item => item.uuid === data.uuid)[0].dutyUserId = null;
+      this.paramsItem.dutyUserId = null;
+      // this.listOfData.filter(item => item.uuid === data.uuid)[0].dutyUserId = null;
     }
   }
 
@@ -290,6 +327,7 @@ export class AuditPostDetailComponent implements OnInit {
       },
       complete: () => {},
     });
+    // tslint:disable-next-line:semicolon
   };
 
   removeFile = (file: UploadFile): boolean | Observable<boolean> => {
@@ -311,6 +349,7 @@ export class AuditPostDetailComponent implements OnInit {
       });
       return false;
     }
+    // tslint:disable-next-line:semicolon
   };
 
   previewPostFile(): void {
@@ -422,10 +461,19 @@ export class AuditPostDetailComponent implements OnInit {
       next: data => {
         this.updateCurrentItem(data);
         this.msg.success(`报告已生成`);
+        this.afterChange();
       },
       error: () => {},
       complete: () => {},
     });
+  }
+
+  /**
+   * 生成报告后的操作
+   */
+  afterChange() {
+    this.broadcaster.broadcast('writ:change');
+    this.onReturn();
   }
 
   downLoadPostFile(): void {
@@ -447,5 +495,42 @@ export class AuditPostDetailComponent implements OnInit {
     }
     this.listOfData = item.rectifyProblems;
     this.currentItem = item;
+  }
+
+  /**
+   *
+   * 问题详情框
+   */
+
+  handleOk() {
+    if (
+      !FormUtil.validateForm(this.auditPostForm.form) ||
+      !this.paramsItem.name ||
+      !this.paramsItem.type ||
+      !this.paramsItem.remark ||
+      !this.paramsItem.rectifyDepartmentId ||
+      !this.paramsItem.dutyUserId ||
+      !this.paramsItem.advice ||
+      !this.paramsItem.source
+    ) {
+      this.msg.warning(`请确认问题信息填写完整`);
+      return;
+    }
+
+    if (this.listOfData.filter(item => item.uuid === this.paramsItem.uuid).length > 0) {
+      const findIndex = this.listOfData.findIndex(item => item.uuid === this.paramsItem.uuid);
+      this.listOfData.splice(findIndex, 1, this.paramsItem);
+    } else {
+      this.listOfData.push(this.paramsItem);
+    }
+    this.listOfData = [...this.listOfData];
+    this.handleCancel();
+  }
+  handleCancel() {
+    for (const item of this.listOfData) {
+      item.editable = false;
+    }
+    this.paramsItem = this.initProblem();
+    this.isVisabled = false;
   }
 }
