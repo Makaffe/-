@@ -1,7 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { TreeUtil } from '@mt-framework-ng/util';
+import { NzMessageService } from 'ng-zorro-antd';
 import { RectifyPostTypeTreeEditComponent } from './rectify-post-type-tree-edit.component';
+import { RectificationReportTypeService } from './service/RectificationReportTypeService';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'rectify-post-type-tree',
   templateUrl: './rectify-post-type-tree.component.html',
   styleUrls: ['./rectify-post-type-tree.component.less'],
@@ -34,8 +38,6 @@ export class RectifyPostTypeTreeComponent implements OnInit {
    */
   @Input()
   selectedNode: any = null;
-  @Output()
-  selectedNodeChange = new EventEmitter<any>();
   /**
    * 当前选中审计知识类型所属分类
    */
@@ -47,43 +49,48 @@ export class RectifyPostTypeTreeComponent implements OnInit {
    */
   searchValue = '';
 
-  constructor() {}
+  /**
+   * 树区域加载状态
+   */
+  spinning = false;
 
   // 左侧树节点数据
   nodes = [];
 
+  constructor(private rectificationReportTypeService: RectificationReportTypeService, private msg: NzMessageService) { }
+
+  ngOnInit(): void {
+    this.loadTree();
+  }
+
   /**
    * 新增树的类型
    */
-  openTree() {
-    this.knowledgeTypeTreeEditComponent.edit();
-  }
-  editTree() {
-    this.knowledgeTypeTreeEditComponent.edit();
+  editTree(isEdit?: boolean) {
+    this.knowledgeTypeTreeEditComponent.edit(isEdit);
   }
 
   nzClick(event: any) {
     if (event.keys && event.keys.length > 0) {
       this.selectedNode = event.node.origin;
       this.selectNodeEvent.emit(this.selectedNode);
-      this.selectedNode = event.node.origin;
-      this.selectedNodeChange.emit(this.selectedNode);
     } else {
       this.selectedNode = null;
       this.selectNodeEvent.emit(this.selectedNode);
-      this.selectedNodeChange.emit(this.selectedNode);
     }
   }
 
-  ngOnInit(): void {
-    this.loadTree();
-  }
+
 
   loadTree(): void {
-    // tslint:disable-next-line: deprecation
+    this.spinning = true;
+    this.rectificationReportTypeService.findAll().subscribe(data => {
+      this.nodes = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
+      this.selectedNode = null;
+    }, null, () => { this.spinning = false; });
   }
 
-  nzSearch($event) {}
+  nzSearch($event) { }
 
   tramsform(data: any[], level: number): void {
     let counter = 0;
@@ -98,6 +105,9 @@ export class RectifyPostTypeTreeComponent implements OnInit {
   }
 
   deleteNode(): void {
-    // tslint:disable-next-line: deprecation
+    this.rectificationReportTypeService.delete(this.selectedNode.id).subscribe(() => {
+      this.msg.success('删除成功!');
+      this.loadTree();
+    });
   }
 }

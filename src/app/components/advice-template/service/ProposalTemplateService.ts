@@ -106,6 +106,6 @@ export class ProposalTemplateService {
     id: string,
 
   ): Observable<ProposalTemplateDTO> {
-    return this.http.get<ProposalTemplateDTO>(`${ProposalTemplateService.URL} `);
+    return this.http.get<ProposalTemplateDTO>(`${ProposalTemplateService.URL}/${id}`);
   }
 }

@@ -1,15 +1,10 @@
-<as-split
-  direction="horizontal"
-  unit="pixel"
-  [useTransition]="true"
-  gutterSize="2"
-  (gutterClick)="leftSize = leftSize == 0 ? LEFT_WIDTH : 0"
->
+<as-split direction="horizontal" unit="pixel" [useTransition]="true" gutterSize="2"
+  (gutterClick)="leftSize = leftSize == 0 ? LEFT_WIDTH : 0">
   <!-- 左侧树 -->
   <as-split-area [size]="leftSize" minSize="120" maxSize="180" class="bg-white" style="padding:10px 0 0 10px">
     <div nz-row>
       <div nz-col [nzSpan]="12" class="tree-top-title">
-        <span><strong style="font-size: 20px;">发文类型</strong></span>
+        <span><strong style="font-size: 20px;">建议模板类型</strong></span>
       </div>
       <div nz-col [nzSpan]="12" class="tree-top-btn">
         <button nz-button (click)="showTypeModal(false)">
@@ -63,11 +58,8 @@
                 <nz-form-item style="justify-content: start;">
                   <nz-form-label [nzSpan]="7">问题类型</nz-form-label>
                   <nz-form-control [nzSpan]="19">
-                    <nz-select nzAllowClear name="problemTypeSelect" [(ngModel)]="filter.problemType"
-                      nzPlaceHolder="请输入搜索条件">
-                      <nz-option nzValue="PROBLEM_ONE" nzLabel="类型一"></nz-option>
-                      <nz-option nzValue="PROBLEM_TWO" nzLabel="类型二"></nz-option>
-                    </nz-select>
+                    <app-dict-select dictCode="PROBLEM_TYPE" name="problemTypeSelect" [placeHolder]="'请选择搜索条件'"
+                      [(ngModel)]="filter.problemType" #problemTypeSelect="ngModel"></app-dict-select>
                   </nz-form-control>
                 </nz-form-item>
               </div>
@@ -92,20 +84,12 @@
 
 <advice-template-detail #adviceTemplateDetailComponent (refresh)="search()"></advice-template-detail>
 
-<nz-modal
-  [(nzVisible)]="isVisible"
-  [nzMaskClosable]="false"
-  (nzOnCancel)="this.isVisible = false"
-  [nzFooter]="editorFooter"
-  nzWidth="1200"
-  [nzTitle]="'建议模板详情'"
-  [nzStyle]="{ top: '65px' }"
-  [nzBodyStyle]="{
+<nz-modal [(nzVisible)]="isVisible" [nzMaskClosable]="false" (nzOnCancel)="this.isVisible = false"
+  [nzFooter]="editorFooter" nzWidth="1200" [nzTitle]="'建议模板详情'" [nzStyle]="{ top: '65px' }" [nzBodyStyle]="{
     'overflow-y': 'auto',
     'overflow-x': 'hidden',
     padding: '24px 24px 0 24px'
-  }"
->
+  }">
   <form nz-form #form="ngForm">
     <nz-form-item>
       <nz-form-label nzSpan="4">模板类型</nz-form-label>
