@@ -3,7 +3,7 @@
     <div class="app-toor-bar">
       <div nz-row nzType="flex" nzJustify="space-around" nzAlign="middle">
         <div nz-col nzSpan="24">
-          <button nz-button>
+          <button nz-button (click)="onReturn()">
             <i nz-icon nzType="rollback" nzTheme="outline"></i>返回
           </button>
           <button nz-button nzType="primary">
@@ -22,24 +22,26 @@
               <form nz-form>
                 <nz-form-item>
                   <nz-form-label nzSpan="2">整改部门</nz-form-label>
-                  <nz-form-control nzSpan="3"><input nz-input /> </nz-form-control>
+                  <nz-form-control nzSpan="3"><input nz-input readonly /> </nz-form-control>
                   <nz-form-label nzSpan="2">整改负责人</nz-form-label>
-                  <nz-form-control nzSpan="3"><input nz-input /> </nz-form-control>
+                  <nz-form-control nzSpan="3"><input nz-input readonly /> </nz-form-control>
                   <nz-form-label nzSpan="2">问题类型</nz-form-label>
-                  <nz-form-control nzSpan="3"><input nz-input /> </nz-form-control>
+                  <nz-form-control nzSpan="3"><input nz-input readonly /> </nz-form-control>
                   <nz-form-label nzSpan="2">整改截止日期</nz-form-label>
                   <nz-form-control nzSpan="3">
-                    <nz-date-picker [(ngModel)]="date"></nz-date-picker>
+                    <nz-date-picker [(ngModel)]="date" name="rectifyEndTime" disabled></nz-date-picker>
                   </nz-form-control>
                 </nz-form-item>
 
                 <nz-form-item>
                   <nz-form-label nzSpan="2">问题来源</nz-form-label>
-                  <nz-form-control nzSpan="18"><textarea rows="3" nz-input></textarea> </nz-form-control>
+                  <nz-form-control nzSpan="18"><textarea rows="3" nz-input readonly [(ngModel)]="rectifyTrack.source"
+                      name="source"></textarea> </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
                   <nz-form-label nzSpan="2">问题描述</nz-form-label>
-                  <nz-form-control nzSpan="18"><textarea rows="3" nz-input></textarea> </nz-form-control>
+                  <nz-form-control nzSpan="18"><textarea rows="3" nz-input readonly [(ngModel)]="rectifyTrack.remark"
+                      name="remark"></textarea> </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
                   <nz-form-label nzSpan="2">整改详情</nz-form-label>
@@ -56,8 +58,8 @@
                       <tbody>
                         <tr *ngFor="let data of basicTable.data">
                           <td nzWidth="80px">{{ data.key }}</td>
-                          <td nzWidth="300px">{{ data.name }}</td>
-                          <td>{{ data.age }}</td>
+                          <td nzWidth="300px">{{ data.measureType }}</td>
+                          <td>{{ data.measureContent }}</td>
                         </tr>
                       </tbody>
                     </nz-table>

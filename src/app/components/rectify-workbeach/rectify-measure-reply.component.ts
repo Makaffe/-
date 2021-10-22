@@ -16,6 +16,9 @@ export class RectifyMeasureReplyComponent implements OnInit {
   // 措施回复信息
   rectifyMeasureReply = this.initParams();
 
+  // 整改问题id
+  rectifyProblemId: string;
+
   @Output()
   saveRectifyMeasureReply = new EventEmitter();
 

@@ -6,8 +6,7 @@ import { RectifyProblemService } from '@mt-rectify-framework/comp/rectify-issue'
 import { QueryOptions } from '@ng-mt-framework/api/lib/model/common/query-options';
 import { ObjectUtil } from '@ng-mt-framework/util';
 import { NzMessageService } from 'ng-zorro-antd';
-import { RectifyTrackDTO } from './model/rectify-track-dto';
-import { RectifyTrackService } from './service/RectifyTrackService';
+import { RectifyTrackDTO } from './model/RectifyTrackDTO';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -19,7 +18,7 @@ export class RectifyTrackListComponent implements OnInit {
   constructor(
     private router: Router,
     private msg: NzMessageService,
-    private rectifyTrackService: RectifyTrackService,
+    private rectifyProblemService: RectifyProblemService,
   ) {}
 
   /**
@@ -101,12 +100,12 @@ export class RectifyTrackListComponent implements OnInit {
    */
   load() {
     this.loading = true;
-    this.rectifyTrackService
+    this.rectifyProblemService
       .findOnePageUsingGET(
         this.queryOptions,
         this.filter.rectifyProblemName,
         this.filter.rectifyDepartmentId,
-        this.filter.sendStatus,
+        this.filter.sendStatus ? this.filter.sendStatus : 'ISSUED',
         this.filter.transferStatus,
         this.filter.startTime,
         this.filter.endTime,
@@ -194,7 +193,8 @@ export class RectifyTrackListComponent implements OnInit {
   checkTransferResult() {
     this.router.navigate(['/audit-rectify/transfer-result']);
   }
-  goWorkBeach(item: any) {
-    this.router.navigate(['/audit-rectify/rectify-workbeach'], { queryParams: { rectifyProblem: item } });
+  // 跳转工作台
+  goWorkBeach(id: string) {
+    this.router.navigate(['/audit-rectify/rectify-workbeach'], { queryParams: { rectifyProblemId: id } });
   }
 }

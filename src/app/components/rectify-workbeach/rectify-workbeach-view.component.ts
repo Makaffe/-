@@ -3,9 +3,9 @@ import { Component, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QueryOptions } from '@mt-framework-ng/core';
 import { SystemFileService } from '@ng-mt-framework/api';
-import { TABLE_PARAMETER } from '@ng-mt-framework/comp';
-import { ObjectUtil } from '@ng-mt-framework/util';
 import { NzMessageService } from 'ng-zorro-antd';
+import { RectifyProblemService } from '../rectify-issue/service/RectifyProblemService';
+import { RectifyTrackDTO } from '../rectify-track/model/RectifyTrackDTO';
 import { ChangeMsOrRp } from './model/ChangeMsOrRp';
 import { RectifyMeasureDTO } from './model/RectifyMeasureDTO';
 import { RectifyMeasureEditInfoDTO } from './model/RectifyMeasureEditInfoDTO';
@@ -39,6 +39,8 @@ export class RectifyWorkbeachViewComponent implements OnInit {
     sort: 'id,asc',
   };
 
+  date: Date;
+
   /**
    * 表格分页参数
    */
@@ -56,8 +58,8 @@ export class RectifyWorkbeachViewComponent implements OnInit {
 
   changeMsOrRp: ChangeMsOrRp;
 
-  // 整改问题id
-  rectifyProblemId: string;
+  // 整改跟踪dto
+  rectifyTrack = this.initRtParams();
 
   // 判断是否为整改部门
   isRectify = false;
@@ -87,6 +89,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
     private rectifyMeasureService: RectifyMeasureService,
     private msg: NzMessageService,
     private systemFileService: SystemFileService,
+    private rectifyProblemService: RectifyProblemService,
     @Inject(LOCALE_ID) private locale: string,
   ) {}
 
@@ -98,12 +101,11 @@ export class RectifyWorkbeachViewComponent implements OnInit {
 
   // 获取数据
   loadData() {
-    this.rectifyProblemId = '123456';
     this.loading = true;
     this.rectifyMeasureService
       .findOnePage(
         this.options,
-        this.rectifyProblemId,
+        this.rectifyTrack.id,
         this.searchParam.rectifyBackFeedHz,
         this.searchParam.rectifyBackFeedHzUnit,
         this.searchParam.rectifyEndTime,
@@ -132,9 +134,15 @@ export class RectifyWorkbeachViewComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe(queryParams => {
       if (queryParams.isRectify === 'true') {
         this.isRectify = true;
+        this.rectifyTrack.id = '404664016171044864';
       } else {
         this.isRectify = false;
+        this.rectifyTrack.id = queryParams.rectifyProblemId;
       }
+      this.rectifyProblemService.rectifyTrackById(this.rectifyTrack.id).subscribe(data => {
+        this.rectifyTrack = data;
+        this.date = this.formatDate(data.rectifyEndTime);
+      });
     });
   }
 
@@ -172,8 +180,11 @@ export class RectifyWorkbeachViewComponent implements OnInit {
 
   formatterPercent = (value: number) => `${value} %`;
 
+  // 跳转整改措施界面
   goRectifyEffect() {
-    this.router.navigate(['/audit-rectify/rectify-effect']);
+    this.router.navigate(['/audit-rectify/rectify-effect'], {
+      queryParams: { rectifyProblemId: this.rectifyTrack.id },
+    });
   }
 
   clickFold() {
@@ -181,7 +192,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   }
 
   openRectifyDiaryComponent() {
-    this.rectifyDiaryComponent.rectifyProblemId = '123456';
+    this.rectifyDiaryComponent.rectifyProblemId = this.rectifyTrack.id;
     this.rectifyDiaryComponent.loadData();
   }
 
@@ -290,5 +301,16 @@ export class RectifyWorkbeachViewComponent implements OnInit {
       );
       data.notReadNum = 0;
     }
+  }
+
+  // 初始化整改跟踪
+  initRtParams(item?: RectifyTrackDTO): RectifyTrackDTO {
+    return {
+      id: item ? item.id : null,
+      rectifyEndTime: item ? item.rectifyEndTime : null,
+      source: item ? item.source : null,
+      remark: item ? item.remark : null,
+      advice: item ? item.advice : null,
+    };
   }
 }

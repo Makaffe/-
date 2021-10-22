@@ -2,7 +2,7 @@
 import { _HttpClient } from '@delon/theme';
 import { ApiPagedData, ApiSimpleData, QueryOptions } from '@mt-framework-ng/core';
 import { Observable } from 'rxjs/internal/Observable';
-import { RectifyTrackDTO } from '../../rectify-track/model/rectify-track-dto';
+import { RectifyTrackDTO } from '../../rectify-track/model/RectifyTrackDTO';
 import { RectifyProblemDTO } from '../model/rectify-problem-dto';
 @Injectable({
   providedIn: 'root',
@@ -113,5 +113,47 @@ export class RectifyProblemService {
     Object.assign(params, status ? { status } : {});
 
     return this.http.get<ApiPagedData<RectifyTrackDTO>>(`${RectifyProblemService.URL}`, params);
+  }
+
+  /**
+   * 分页查询整改问题跟踪
+   * @param sort 排序字段, 例如：字段1,asc,字段2,desc
+   * @param page 页号，从0开始
+   * @param size 每页纪录条数
+   * @param rectifyProblemName 整改问题名称,支持模糊查询
+   * @param rectifyDepartmentId 整改部门id
+   * @param sendStatus 问题状态
+   * @param transferStatus 移交状态
+   * @param startTime 开始时间
+   * @param endTime 截止时间
+   */
+  findOnePageUsingGET(
+    options: QueryOptions,
+    rectifyProblemName?: string,
+    rectifyDepartmentId?: string,
+    sendStatus?: string,
+    transferStatus?: string,
+    startTime?: string,
+    endTime?: string,
+  ): Observable<ApiPagedData<RectifyTrackDTO>> {
+    const params = {};
+    Object.assign(params, options);
+    Object.assign(params, rectifyProblemName ? { rectifyProblemName } : {});
+    Object.assign(params, rectifyDepartmentId ? { rectifyDepartmentId } : {});
+    Object.assign(params, sendStatus ? { sendStatus } : {});
+    Object.assign(params, transferStatus ? { transferStatus } : {});
+    Object.assign(params, startTime ? { startTime } : {});
+    Object.assign(params, endTime ? { endTime } : {});
+
+    return this.http.get<ApiPagedData<RectifyTrackDTO>>(`${RectifyProblemService.URL}/findOnePage2Track`, params);
+  }
+
+  /**
+   * 根据id查询整改跟踪问题
+   * @param id 整改问题id
+   *
+   */
+  rectifyTrackById(id: string): Observable<RectifyTrackDTO> {
+    return this.http.get<RectifyTrackDTO>(`${RectifyProblemService.URL}/rectify/track/${id}`);
   }
 }
