@@ -85,6 +85,7 @@ export class AuditPostDetailComponent implements OnInit {
   readFlag2: boolean;
   visabled = false;
   isWatch = false;
+  lookup = false;
   // tslint:disable-next-line:no-any
   handleChange(info: any): void {
     const fileList = info.fileList;
@@ -271,9 +272,10 @@ export class AuditPostDetailComponent implements OnInit {
     this.listOfData.filter(item => item.uuid === data.uuid)[0].editable = false;
   }
 
-  editProblem(data: RectifyProblemDTO): void {
+  editProblem(data: RectifyProblemDTO, lookup: boolean): void {
     this.listOfData.filter(item => item.uuid === data.uuid)[0].editable = true;
     this.paramsItem = this.initProblem(data);
+    this.lookup = lookup;
     this.isVisabled = true;
   }
 
