@@ -81,6 +81,10 @@ export class AuditPostDetailComponent implements OnInit {
   /**
    * 判断是否只读
    */
+  /**
+   * 步骤条 操作显示
+   */
+  currentshow: boolean;
   readFlag1: boolean;
   readFlag2: boolean;
   visabled = false;
@@ -115,6 +119,7 @@ export class AuditPostDetailComponent implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe(data => {
+      this.currentshow = data.allshow === 'true';
       this.visabled = data.allshow === 'true';
       this.isWatch = data.isWatch === 'true';
       console.log('=============ROUTE PARAMS=========');

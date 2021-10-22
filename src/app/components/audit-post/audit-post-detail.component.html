@@ -411,7 +411,7 @@
             </nz-form-control>
           </nz-form-item>
         </ng-template>
-        <div style="position: absolute; bottom: 10px;">
+        <div style="position: absolute; bottom: 10px;" *ngIf="!currentshow">
           <button [disabled]="!allProblemSaved()" nz-button nzType="default" (click)="pre()" *ngIf="current > 0">
             <i nz-icon nzType="backward" nzTheme="outline"></i>上一步
           </button>
