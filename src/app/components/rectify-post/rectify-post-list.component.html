@@ -9,11 +9,10 @@
     {{ row.releaseDate | date: 'yyyy-MM-dd' }}
   </ng-template>
   <ng-template st-row="operations" let-row let-index="index">
-    <a (click)="edit(row,true)">查看</a>
-    <nz-divider nzType="vertical"></nz-divider>
     <a (click)="edit(row,false)">编辑</a>
     <nz-divider nzType="vertical"></nz-divider>
-    <a nz-popconfirm nzPopconfirmTitle="是否要删除该条数据?" nzPopconfirmPlacement="bottom"
-      (nzOnConfirm)="delete(row)">删除</a>
+    <a (click)="edit(row,true)">查看</a>
+    <nz-divider nzType="vertical"></nz-divider>
+    <a nz-popconfirm nzPopconfirmTitle="是否要删除该条数据?" nzPopconfirmPlacement="bottom" (nzOnConfirm)="delete(row)">删除</a>
   </ng-template>
 </st>

@@ -89,6 +89,7 @@ export class RectifyPostTypeTreeEditComponent implements OnInit {
       return;
     }
     this.loading = true;
+    this.currentItem.showOrder = this.currentItem.showOrder ? this.currentItem.showOrder : 0;
     if (this.currentItem.id) {
       this.currentItem.parentId = this.currentItem.parent ? this.currentItem.parent.id : null;
       this.rectificationReportTypeService.update(this.currentItem.id, this.currentItem).subscribe(() => {

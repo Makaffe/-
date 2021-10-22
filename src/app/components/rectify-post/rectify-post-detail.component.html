@@ -15,13 +15,13 @@
         <ng-template #step1>
           <div style="margin:30px 0px 20px -100px">
             <nz-form-item>
-              <nz-form-label nzSpan="4"> 整改报告名称</nz-form-label>
+              <nz-form-label nzSpan="4" nzRequired> 整改报告名称</nz-form-label>
               <nz-form-control nzSpan="16">
                 <input nz-input [readOnly]="readFlag1 || isWatch" name="name" [(ngModel)]="currentItem.name" />
               </nz-form-control>
             </nz-form-item>
             <nz-form-item>
-              <nz-form-label nzSpan="4">整改统计时间</nz-form-label>
+              <nz-form-label nzSpan="4" nzRequired>整改统计时间</nz-form-label>
               <nz-form-control nzSpan="8">
                 <nz-range-picker [nzDisabled]="readFlag1 || isWatch" name="auditTime" [(ngModel)]="auditTime">
                 </nz-range-picker>
@@ -41,13 +41,10 @@
               <nz-form-label nzSpan="4">操作</nz-form-label>
               <nz-form-control nzSpan="16">
                 <button nz-button nzType="primary" (click)="referenceTempl()" style="margin-left:10px;"
-                  [disabled]="readFlag2">
+                  [disabled]="readFlag2||isWatch">
                   <i nz-icon nzType="link" nzTheme="outline"></i>引用模板
                 </button>
-                <button nz-button nzType="primary" [disabled]="readFlag2">
-                  <i nz-icon nzType="sync" nzTheme="outline"></i>提交审核
-                </button>
-                <button nz-button nzType="primary" [disabled]="readFlag2" (click)="generate()">
+                <button nz-button nzType="primary" [disabled]="readFlag2||isWatch" (click)="generate()">
                   <i nz-icon nzType="file-word" nzTheme="outline"></i>生成报告
                 </button>
               </nz-form-control>
@@ -59,7 +56,7 @@
                   <thead>
                     <tr>
                       <th>引用模板</th>
-                      <th>整改报告名称</th>
+                      <th>报告名称</th>
                       <th>操作</th>
                     </tr>
                   </thead>
@@ -68,17 +65,15 @@
                       <td>{{ data.name }}</td>
                       <td>{{ data.reportName }}</td>
                       <td>
-                        <a *ngIf="readFlag2" style="pointer-events: none;color: #666666; opacity: 0.5">编辑</a>
-                        <a *ngIf="!readFlag2">编辑</a>
+                        <a *ngIf="readFlag2 || isWatch" style="pointer-events: none;color: #666666; opacity: 0.5">编辑</a>
+                        <a *ngIf="!readFlag2 && !isWatch" (click)=editGenerateDoc()>编辑</a>
                         <nz-divider nzType="vertical"></nz-divider>
-                        <a *ngIf="readFlag2" style="pointer-events: none;color: #666666; opacity: 0.5">查看</a>
-                        <a *ngIf="!readFlag2">查看</a>
+                        <a *ngIf="readFlag2 " style="pointer-events: none;color: #666666; opacity: 0.5">查看</a>
+                        <a *ngIf="!readFlag2" (click)=viewGenerateDoc()>预览</a>
                         <nz-divider nzType="vertical"></nz-divider>
-                        <a *ngIf="readFlag2" style="pointer-events: none;color: #666666; opacity: 0.5">保存</a>
-                        <a *ngIf="!readFlag2">保存</a>
-                        <nz-divider nzType="vertical"></nz-divider>
-                        <a *ngIf="readFlag2" style="pointer-events: none;color: #666666; opacity: 0.5">删除</a>
-                        <a *ngIf="!readFlag2">删除</a>
+                        <a *ngIf="readFlag2||isWatch" style="pointer-events: none;color: #666666; opacity: 0.5">删除</a>
+                        <a *ngIf="!readFlag2 &&!isWatch" nz-popconfirm nzPopconfirmTitle="是否要删除生成的报告?"
+                          nzPopconfirmPlacement="bottom" (nzOnConfirm)="deleteGenerateDoc()">删除</a>
                       </td>
                     </tr>
                   </tbody>
@@ -86,7 +81,7 @@
               </nz-form-control>
             </nz-form-item>
           </div>
-          <div style="position: absolute; top: 400px;">
+          <div style="position: absolute; top: 300px;">
             <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">上一步</button>
             <button nz-button style="margin-left: 50px;" nzType="default" (click)="next()" *ngIf="current < 1">
               下一步
@@ -105,5 +100,5 @@
 <app-tempalte-select #tempalteSelectComponent (selectedTemplateFileChange)="selectTmpl($event)"
   [(selectedtemplateFile)]="template"></app-tempalte-select>
 <!--生成报告弹窗-->
-<rectify-generate-report-detail #rectifyGenerateReportDetailComponent (generateReportEvent)="generateReportEvent($event)"
-  [rectifyReport]="currentItem"></rectify-generate-report-detail>
+<rectify-generate-report-detail #rectifyGenerateReportDetailComponent
+  (generateReportEvent)="generateReportEvent($event)" [rectifyReport]="currentItem"></rectify-generate-report-detail>

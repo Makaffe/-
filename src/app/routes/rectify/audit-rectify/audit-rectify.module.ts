@@ -29,7 +29,6 @@ const COMMPONENTS = [
   AuditorDashboardComponent,
   RectifyDashboardComponent,
   SuperviseDashboardComponent,
-  DictPipe,
   IssueAssignFormComponent,
   IssueAssignTableComponent,
   SuperviseProcessFormComponent,

@@ -6,14 +6,13 @@
     {{ ((st.pi ? st.pi : 1) - 1) * (st.ps ? st.ps : 0) + (index + 1) }}
   </ng-template>
   <ng-template st-row="problemTypeconversion" let-row let-index="index">
-    {{row.problemType === 'PROBLEM_ONE' ? '类型一' : '类型二'}}
+    {{row.problemType |dictTransform :'PROBLEM_TYPE'|async}}
   </ng-template>
   <ng-template st-row="operations" let-row let-index="index">
     <a (click)="showModel(row,false)">编辑</a>
     <nz-divider nzType="vertical"></nz-divider>
     <a (click)="showModel(row,true)">查看</a>
     <nz-divider nzType="vertical"></nz-divider>
-    <a nz-popconfirm nzPopconfirmTitle="是否要删除该条数据" nzPopconfirmPlacement="bottom"
-      (nzOnConfirm)="delete(row.id)">删除</a>
+    <a nz-popconfirm nzPopconfirmTitle="是否要删除该条数据" nzPopconfirmPlacement="bottom" (nzOnConfirm)="delete(row.id)">删除</a>
   </ng-template>
 </st>
