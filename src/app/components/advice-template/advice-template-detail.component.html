@@ -16,11 +16,9 @@
     <nz-form-item>
       <nz-form-label nzSpan="4" nzRequired>问题类型</nz-form-label>
       <nz-form-control nzSpan="20">
-        <nz-select nzAllowClear [nzDisabled]="isWatch" name="problemType" required
-          [(ngModel)]="currentProposalTemplate.problemType">
-          <nz-option nzValue="PROBLEM_ONE" nzLabel="类型一"></nz-option>
-          <nz-option nzValue="PROBLEM_TWO" nzLabel="类型二"></nz-option>
-        </nz-select>
+        <app-dict-select dictCode="PROBLEM_TYPE"  name="problemType" [disabled]="isWatch"
+        [placeHolder]="'请选择问题类型'" [(ngModel)]="currentProposalTemplate.problemType" #problemType="ngModel"
+        required ></app-dict-select>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>

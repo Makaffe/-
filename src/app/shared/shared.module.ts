@@ -19,9 +19,11 @@ import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
 // #region your componets & directives
 import { UEditorModule } from 'ngx-ueditor';
 import { UeditorComponent } from '../components/common/ueditor/ueditor.component';
+import { DictSelectComponent } from '../components/common/dict-select/dict-select.component';
+import { DictPipe } from '../matech/pipe/dict-pipe.pipe';
 const THIRDMODULES = [NgZorroAntdModule, CountdownModule, AngularSplitModule, NgxEchartsModule, PdfJsViewerModule];
 
-const COMPONENTS = [UeditorComponent];
+const COMPONENTS = [UeditorComponent, DictSelectComponent, DictPipe];
 
 const DIRECTIVES = [];
 // #endregion

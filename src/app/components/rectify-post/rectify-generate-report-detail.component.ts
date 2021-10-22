@@ -129,9 +129,14 @@ export class RectifyGenerateReportDetailComponent implements OnInit {
         this.reportName,
         true
       ).subscribe(data => {
-        this.msg.success('生成成功!');
-        this.generateReportEvent.emit(data);
-        this.handleCancel();
+        data.rectificationReportTypeId = data.rectificationReportType ? data.rectificationReportType.id : null;
+        data.templateFileId = data.templateFile ? data.templateFile.id : null;
+        data.auditReportStatus = 'CREATED';
+        this.rectificationReportService.update(data.id, data).subscribe((report) => {
+          this.msg.success('生成成功!');
+          this.generateReportEvent.emit(report);
+          this.handleCancel();
+        });
       }, null, () => { this.loading = false; });
     } else {
       this.modalService.confirm({
@@ -150,12 +155,14 @@ export class RectifyGenerateReportDetailComponent implements OnInit {
               this.msg.success('生成成功!');
               this.generateReportEvent.emit(row);
               this.handleCancel();
-            }, null, () => { this.loading = false; });
-          });
-        }
+            });
+          }, null, () => { this.loading = false; });
+        },
+        nzOnCancel: () => { this.loading = false; }
       });
     }
   }
+
   /**
    * 关闭弹窗
    */
@@ -164,4 +171,11 @@ export class RectifyGenerateReportDetailComponent implements OnInit {
     this.isVisible = false;
   }
 
+  /**
+   * 打开弹窗
+   */
+  openModal() {
+    this.reportName = this.rectifyReport.name;
+    this.isVisible = true;
+  }
 }

@@ -7,7 +7,7 @@ import { NzMessageService, NzTreeNode } from 'ng-zorro-antd';
 import { __spread } from 'tslib';
 import { OASendTemplateService } from '../oa-template/service/OASendTemplateService';
 import { OASendTemplateTypeService } from '../oa-template/service/OASendTemplateTypeService';
-import { RectifyProblemDTO } from './public_api';
+import { RectifyProblemDTO } from './model/rectify-problem-dto';
 import { RectifyProblemService } from './service/RectifyProblemService';
 @Component({
   selector: 'app-rectify-issue-order',
