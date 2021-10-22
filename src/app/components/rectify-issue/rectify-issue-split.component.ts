@@ -6,6 +6,7 @@ import { ObjectUtil } from '@ng-mt-framework/util';
 import { NzMessageService } from 'ng-zorro-antd';
 import UUID from 'uuidjs';
 import { RectifyProblemDTO } from './model/rectify-problem-dto';
+import { RectifyChildIssueDetailComponent } from './rectify-child-issue-detail.component';
 import { RectifyProblemService } from './service/RectifyProblemService';
 
 @Component({
@@ -34,6 +35,12 @@ export class RectifyIssueSplitComponent implements OnInit {
   form: NgForm;
 
   /**
+   * 子问题详情组件
+   */
+  @ViewChild('rectifyChildIssueDetailComponent', { static: false })
+  rectifyChildIssueDetailComponent: RectifyChildIssueDetailComponent;
+
+  /**
    * 模态框是否可见
    */
   isVisible = false;
@@ -49,7 +56,7 @@ export class RectifyIssueSplitComponent implements OnInit {
   childrenProblemList = [];
 
   /**
-   * 当前整改问题对象
+   * 当前整改问题对象(父问题)
    */
   problemItem: RectifyProblemDTO = null;
 
@@ -74,85 +81,12 @@ export class RectifyIssueSplitComponent implements OnInit {
   dutyUserMap: Map<string, string> = new Map<string, string>();
 
   /**
-   * 问题类型列表
-   */
-  problemTypeList = [
-    {
-      label: '问题类型1',
-      value: 'PROBLEM_ONE',
-    },
-    {
-      label: '问题类型2',
-      value: 'PROBLEM_TWO',
-    },
-  ];
-
-  /**
-   * 行内编辑开关
-   */
-  toggleEdit = false;
-
-  /**
-   * 行内编辑缓存
-   */
-  editCache: { [key: string]: { edit: boolean; data: any } } = {};
-
-  /**
-   * 开始行内编辑
-   * @param uuid 数据uuid
-   */
-  startEdit(uuid: string): void {
-    this.editCache[uuid].edit = true;
-    this.toggleEdit = true;
-  }
-
-  /**
-   * 取消行内编辑
-   * @param uuid 数据uuid
-   */
-  cancelEdit(uuid: string): void {
-    const index = this.childrenProblemList.findIndex(item => item.uuid === uuid);
-    this.editCache[uuid] = {
-      data: { ...this.childrenProblemList[index] },
-      edit: false,
-    };
-    this.toggleEdit = false;
-  }
-
-  /**
-   * 保存行内编辑
-   * @param uuid 数据uuid
-   */
-  saveEdit(uuid: string): void {
-    if (!this.validate()) {
-      this.msg.warning('请补全信息！');
-      return;
-    }
-    const index = this.childrenProblemList.findIndex(item => item.uuid === uuid);
-    Object.assign(this.childrenProblemList[index], this.editCache[uuid].data);
-    this.editCache[uuid].edit = false;
-    this.toggleEdit = false;
-  }
-
-  /**
    * 删除子问题
    * @param uuid 数据uuid
    */
   onDelete(uuid: string): void {
     this.childrenProblemList = this.childrenProblemList.filter(item => item.uuid !== uuid);
     this.childrenProblemList = [...this.childrenProblemList];
-  }
-
-  /**
-   * 更新行内编辑缓存数据
-   */
-  updateEditCache(): void {
-    this.childrenProblemList.forEach(item => {
-      this.editCache[item.uuid] = {
-        edit: false,
-        data: { ...item },
-      };
-    });
   }
 
   ngOnInit(): void {
@@ -231,7 +165,6 @@ export class RectifyIssueSplitComponent implements OnInit {
         this.childrenProblemList.push(this.initProblemDTO(problem));
         this.childrenProblemList = [...this.childrenProblemList];
       });
-      this.updateEditCache();
     }
     this.isVisible = true;
   }
@@ -240,30 +173,25 @@ export class RectifyIssueSplitComponent implements OnInit {
    * 新增子问题
    */
   addChildrenProblem() {
-    if (this.toggleEdit === true) {
-      this.msg.error('存在未保存的数据!');
-      return;
-    }
-    const newline = this.initProblemDTO(null);
-    newline.auditPostId = this.problemItem.auditPost.id;
-    newline.parentId = this.problemItem.id;
-    newline.sendStatus = 'NOT_ISSUED';
-    newline.transferStatus = 'NOT_HANDED_OVER';
-    newline.source = this.problemItem.source;
-    this.childrenProblemList.push(newline);
-    this.childrenProblemList = [...this.childrenProblemList];
-    this.updateEditCache();
-    this.editCache[newline.uuid].edit = true;
+    this.rectifyChildIssueDetailComponent.edit();
+  }
+
+  /**
+   * 编辑子问题
+   * @param item 子问题
+   */
+  startEdit(item: RectifyProblemDTO) {
+    this.rectifyChildIssueDetailComponent.edit(item);
   }
 
   /**
    * 初始化dto
    * @param item 数据源dto
    */
-  initProblemDTO(item: RectifyProblemDTO): RectifyProblemDTO {
+  initProblemDTO(item?: RectifyProblemDTO): RectifyProblemDTO {
     return {
       id: item ? item.id : null,
-      uuid: UUID.generate(),
+      uuid: item ? (item.uuid ? item.uuid : UUID.generate()) : UUID.generate(),
       name: item ? item.name : null,
       type: item ? item.type : null,
       remark: item ? item.remark : null,
@@ -271,13 +199,19 @@ export class RectifyIssueSplitComponent implements OnInit {
       source: item ? item.source : null,
       sendStatus: item ? item.sendStatus : null,
       trackStatus: item ? item.trackStatus : null,
-      auditPostId: item ? item.auditPost.id : null,
+      auditPostId: item ? (item.auditPost ? item.auditPost.id : null) : null,
       transferStatus: item ? item.transferStatus : null,
       oaSendCase: item ? item.oaSendCase : false,
       rectifyDepartment: item ? item.rectifyDepartment : null,
-      rectifyDepartmentId: item ? item.rectifyDepartment.id : null,
+      rectifyDepartmentId: item
+        ? item.rectifyDepartmentId
+          ? item.rectifyDepartmentId
+          : item.rectifyDepartment
+          ? item.rectifyDepartment.id
+          : null
+        : null,
       dutyUser: item ? item.dutyUser : null,
-      dutyUserId: item ? item.dutyUser.id : null,
+      dutyUserId: item ? (item.dutyUserId ? item.dutyUserId : item.dutyUser ? item.dutyUser.id : null) : null,
       oaSendTime: item ? item.oaSendTime : null,
       transferTime: item ? item.transferTime : null,
       transferCase: item ? item.transferCase : false,
@@ -287,20 +221,9 @@ export class RectifyIssueSplitComponent implements OnInit {
       rectifyBackFeedHzUnit: item ? item.rectifyBackFeedHzUnit : null,
       rectifyProgress: item ? item.rectifyProgress : null,
       memo: item ? item.memo : null,
-      parentId: item ? item.parent.id : null,
+      parentId: item ? (item.parent ? item.parent.id : null) : null,
       children: [],
     };
-  }
-
-  /**
-   * 问题类型label反显
-   * @param value 问题类型value
-   * @returns 问题类型label
-   */
-  convertProblemType(value: string) {
-    if (value) {
-      return this.problemTypeList.find(problem => problem.value === value).label;
-    }
   }
 
   /**
@@ -323,5 +246,19 @@ export class RectifyIssueSplitComponent implements OnInit {
     if (id) {
       return this.organizationMap.get(id);
     }
+  }
+
+  /**
+   * 获取子问题
+   * @param childrenProblem 子问题
+   */
+  getChildrenProblem(childrenProblem: RectifyProblemDTO) {
+    const index = this.childrenProblemList.findIndex(data => data.uuid === childrenProblem.uuid);
+    if (index > -1) {
+      this.childrenProblemList[index] = childrenProblem;
+    } else {
+      this.childrenProblemList.push(childrenProblem);
+    }
+    this.childrenProblemList = [...this.childrenProblemList];
   }
 }

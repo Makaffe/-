@@ -67,4 +67,4 @@ const DIRECTIVES = [];
 
   providers: [DatePipe],
 })
-export class SharedModule { }
+export class SharedModule {}

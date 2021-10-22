@@ -1,4 +1,4 @@
-import { RectifyProblemDTO } from '@mt-rectify-framework/comp/rectify-issue';
+import { RectifyProblemDTO } from '../../rectify-issue/model/rectify-problem-dto';
 
 /**
  * RectifyTrackDTO

@@ -42,24 +42,8 @@ export class RectifyIssueViewComponent implements OnInit {
       value: 'NOT_ISSUED',
     },
     {
-      label: '待整改',
-      value: 'TO_BE_RECTIFIED',
-    },
-    {
-      label: '整改中',
-      value: 'RECTIFYING',
-    },
-    {
-      label: '反馈逾期',
-      value: 'FEEDBACK_OVERDUE',
-    },
-    {
-      label: '整改逾期',
-      value: 'RECTIFY_OVERDUE',
-    },
-    {
-      label: '已完成',
-      value: 'COMPLETE',
+      label: '已下发',
+      value: 'ISSUED',
     },
   ];
 
@@ -146,12 +130,12 @@ export class RectifyIssueViewComponent implements OnInit {
       this.checkboxData.forEach((data: RectifyProblemDTO) => {
         switch (index) {
           case 0:
-            if (data.sendStatus !== 'NOT_ISSUED') {
+            if (data.sendStatus !== '未下发') {
               flag = true;
             }
             break;
           case 1:
-            if (data.transferStatus !== 'NOT_HANDED_OVER') {
+            if (data.transferStatus !== '未移交') {
               flag = true;
             }
             break;

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SharedModule } from '@mt-framework-ng/view';
-
+import { SharedModule } from '@shared';
+import { RectifyChildIssueDetailComponent } from './rectify-child-issue-detail.component';
 import { RectifyIssueListComponent } from './rectify-issue-list.component';
 import { RectifyIssueOrderComponent } from './rectify-issue-order.component';
 import { RectifyIssueSplitComponent } from './rectify-issue-split.component';
@@ -14,6 +14,7 @@ const COMPONENTS = [
   RectifyIssueSplitComponent,
   RectifyIssueTransferComponent,
   RectifyIssueOrderComponent,
+  RectifyChildIssueDetailComponent,
 ];
 @NgModule({
   imports: [CommonModule, SharedModule],

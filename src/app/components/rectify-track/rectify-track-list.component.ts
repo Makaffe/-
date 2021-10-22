@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { TABLE_PARAMETER } from '@mt-framework-ng/core';
 import { queryParam } from '@mt-insight-ng/insight';
-import { RectifyProblemService } from '@mt-rectify-framework/comp/rectify-issue';
 import { QueryOptions } from '@ng-mt-framework/api/lib/model/common/query-options';
 import { ObjectUtil } from '@ng-mt-framework/util';
 import { NzMessageService } from 'ng-zorro-antd';
