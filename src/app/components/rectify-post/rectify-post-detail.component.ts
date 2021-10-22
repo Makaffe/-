@@ -2,7 +2,9 @@ import { DatePipe, formatDate } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReuseTabService } from '@delon/abc';
-import { NzMessageService } from 'ng-zorro-antd';
+import { _HttpClient } from '@delon/theme';
+import { NzMessageService, NzModalService } from 'ng-zorro-antd';
+import { Broadcaster } from 'src/app/matech/service/broadcaster';
 import { RectificationReportDTO } from './model/RectificationReportDTO';
 import { RectifyGenerateReportDetailComponent } from './rectify-generate-report-detail.component';
 import { RectificationReportService } from './service/RectificationReportService';
@@ -87,11 +89,14 @@ export class RectifyPostDetailComponent implements OnInit {
     private msg: NzMessageService,
     private reuseService: ReuseTabService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private modalService: NzModalService,
+    private http: _HttpClient,
+    private broadcaster: Broadcaster,
   ) {
     // 处理路由
     this.activatedRoute.params.subscribe(data => {
-      this.isWatch = data.isWatch;
+      this.isWatch = data.isWatch && data.isWatch === 'true' ? true : false;
       this.currentItem.rectificationReportTypeId = data && data.rectificationReportTypeId ? data.rectificationReportTypeId : null;
       if (data && data.rectificationReportId && data.rectificationReportId !== 'null') {
         this.rectificationReportService.findById(data.rectificationReportId).subscribe(item => {
@@ -105,7 +110,10 @@ export class RectifyPostDetailComponent implements OnInit {
             name: this.currentItem.templateFile ? this.currentItem.templateFile.templateName : null,
             reportName: this.currentItem.reportFile ? this.currentItem.reportFile.reportName : null
           }];
+          this.reuseService.title = this.isWatch ? '查看整改报告详情' : '编辑整改报告';
         });
+      } else {
+        this.reuseService.title = '新增整改报告';
       }
     });
   }
@@ -117,6 +125,14 @@ export class RectifyPostDetailComponent implements OnInit {
   }
 
   next(): void {
+    if (!this.currentItem.name) {
+      this.msg.warning('请先填写整改报告名称!');
+      return;
+    }
+    if (!this.auditTime || this.auditTime.length <= 0) {
+      this.msg.warning('请先选择整改统计时间!');
+      return;
+    }
     this.current += 1;
     this.visabled = true;
     this.changeContent();
@@ -137,9 +153,10 @@ export class RectifyPostDetailComponent implements OnInit {
     if (this.currentItem && this.currentItem.id) {
       this.rectificationReportService.update(this.currentItem.id, this.currentItem).subscribe(() => {
         this.msg.success('修改成功!');
+        this.broadcaster.broadcast('rectify-report-list:change');
         this.closeTab(
           `/audit-rectify/rectify-post-detail/${this.isWatch}/${this.currentItem.rectificationReportTypeId}/${this.currentItem.id}`,
-          `http://localhost:4200/#/audit-rectify/rectify-post`,
+          `/audit-rectify/rectify-post`,
           this.reuseService,
           this.router
         );
@@ -149,9 +166,10 @@ export class RectifyPostDetailComponent implements OnInit {
       this.currentItem.auditReportStatus = 'NO_CREATE';
       this.rectificationReportService.create(this.currentItem).subscribe(() => {
         this.msg.success('新增成功!');
+        this.broadcaster.broadcast('rectify-report-list:change');
         this.closeTab(
-          `/audit-rectify/rectify-post-detail/${this.currentItem.rectificationReportTypeId}/${this.currentItem.id}`,
-          `http://localhost:4200/#/audit-rectify/rectify-post`,
+          `/audit-rectify/rectify-post-detail/${this.isWatch}/${this.currentItem.rectificationReportTypeId}/${this.currentItem.id}`,
+          `/audit-rectify/rectify-post`,
           this.reuseService,
           this.router
         );
@@ -192,7 +210,14 @@ export class RectifyPostDetailComponent implements OnInit {
    * 生成报告
    */
   generate() {
-    this.rectifyGenerateReportDetailComponent.isVisible = true;
+    if (this.currentItem && this.currentItem.reportFile) {
+      this.modalService.confirm({
+        nzTitle: '当前已生成报告，是否重新生成，旧报告将会被删除！',
+        nzOnOk: () => { this.rectifyGenerateReportDetailComponent.openModal(); }
+      });
+    } else {
+      this.rectifyGenerateReportDetailComponent.openModal();
+    }
   }
 
   /**
@@ -206,6 +231,49 @@ export class RectifyPostDetailComponent implements OnInit {
       formatDate(this.currentItem.auditEndTime, 'yyyy-MM-dd', 'ZH')
     ];
     this.listOfData = [{ name: $event.templateFile.templateName, reportName: $event.reportFile.reportName }];
+  }
+
+  /**
+   * 查看生成文档
+   */
+  viewGenerateDoc() {
+    if (!this.currentItem.reportFile || !this.currentItem.reportFile.id) {
+      this.msg.warning('当前没有生成报告！');
+      return;
+    }
+    this.router.navigate([
+      // tslint:disable-next-line:max-line-length
+      `/insight/special-report/report-view/${this.currentItem.reportFile.id}?templateName=${this.currentItem.reportFile.reportName}&reportName=文件`,
+    ]);
+  }
+
+  /**
+   * 编辑生成文档
+   */
+  editGenerateDoc() {
+    if (!this.currentItem.reportFile || !this.currentItem.reportFile.id) {
+      this.msg.warning('当前没有生成报告！');
+      return;
+    }
+    this.router.navigate([
+      // tslint:disable-next-line:max-line-length
+      `/insight/special-report/report-edit/${this.currentItem.reportFile.id}/manager?templateName=${this.currentItem.reportFile.reportName}&reportName=文件`,
+    ]);
+  }
+
+  /**
+   * 删除生成报告
+   */
+  deleteGenerateDoc() {
+    if (!this.currentItem.reportFile || !this.currentItem.reportFile.id) {
+      this.msg.warning('当前没有生成报告！');
+      return;
+    }
+    this.http.delete<any>(`/api/tools/reportFile/${this.currentItem.reportFile.id}`).subscribe(() => {
+      this.msg.success('删除成功！');
+      this.listOfData = [];
+      this.currentItem.reportFile = null;
+    });
   }
 
   /**

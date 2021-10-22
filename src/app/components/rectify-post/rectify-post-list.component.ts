@@ -5,6 +5,8 @@ import { STChange, STColumnTag } from '@delon/abc';
 import { QueryOptions, TABLE_PARAMETER } from '@mt-framework-ng/core';
 import { ObjectUtil } from '@ng-mt-framework/util';
 import { NzMessageService } from 'ng-zorro-antd';
+import { Subscription } from 'rxjs';
+import { Broadcaster } from 'src/app/matech/service/broadcaster';
 import { RectificationReportDTO } from './model/RectificationReportDTO';
 import { RectificationReportTypeDTO } from './model/RectificationReportTypeDTO';
 import { RectificationReportService } from './service/RectificationReportService';
@@ -29,6 +31,11 @@ export class RectifyPostListComponent implements OnInit {
     name: null,
     auditTime: null,
   };
+
+  /**
+   * 编辑或修改整改报告数据变更事件
+   */
+  dataChangeSubscription: Subscription = null;
 
   /**
    * 当前左侧树点击的节点
@@ -90,8 +97,13 @@ export class RectifyPostListComponent implements OnInit {
   constructor(
     private router: Router,
     private rectificationReportService: RectificationReportService,
-    private msg: NzMessageService
-  ) { }
+    private msg: NzMessageService,
+    private broadcaster: Broadcaster,
+  ) {
+    this.dataChangeSubscription = this.broadcaster.on<any>('rectify-report-list:change').subscribe(() => {
+      this.load();
+    });
+  }
 
   ngOnInit() {
     this.load();
