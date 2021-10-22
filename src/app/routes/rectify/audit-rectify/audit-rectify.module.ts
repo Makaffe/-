@@ -4,17 +4,9 @@ import { AuditRectifyRoutingModule } from './audit-rectify-routing.module';
 import { AuditorDashboardComponent } from '../../dashboard/auditor/auditor.dashboard.component';
 import { RectifyDashboardComponent } from '../../dashboard/rectify/rectify.dashboard.component';
 import { SuperviseDashboardComponent } from '../../dashboard/supervise/supervise.dashboard.component';
-import { AuditPostModule } from '@mt-rectify-framework/comp/audit-post';
-import { RectifyIssueModule } from '@mt-rectify-framework/comp/rectify-issue';
-import { RectifyTrackModule } from '@mt-rectify-framework/comp/rectify-track';
-import { RectifyPostModule } from '@mt-rectify-framework/comp/rectify-post';
-import { OATemplateModule } from '@mt-rectify-framework/comp/oa-template';
-import { AdviceTemplateModule } from '@mt-rectify-framework/comp/advice-template';
+
 import { SharedModule } from '@shared';
-import { DepartmentDrawModule } from '@mt-rectify-framework/comp/department-draw';
-import { RectifyWorkBeachModule } from '@mt-rectify-framework/comp/rectify-workbeach';
-import { StatisticsAnalysisModule } from '@mt-rectify-framework/comp/statistics-analysis';
-import { DictPipe } from 'src/app/matech/pipe/dict-pipe.pipe';
+
 import { DataSourceModule } from '../../insight/data-source/data-source.module';
 import { AvaitorFunctionModule, InsightChartModule, ViewSpecialReportModule } from '@mt-insight-ng/insight';
 import { DataInsightModule } from '../../insight/data-insight/data-insight.module';
@@ -24,12 +16,20 @@ import { IssueAssignFormComponent } from '../../dashboard/rectify/issue-assign-f
 import { SuperviseProcessFormComponent } from '../../dashboard/supervise/supervise-process-form/supervise-process-form.component';
 import { AttachListModule } from 'src/app/components/common/attach/attach-list.module';
 import { IssueAssignTableComponent } from '../../dashboard/rectify/issue-assign-form/issue-assign-table.component';
+import { RectifyIssueModule } from 'src/app/components/rectify-issue/rectify-issue-module';
+import { AuditPostModule } from 'src/app/components/audit-post/audit-post-module';
+import { RectifyTrackModule } from 'src/app/components/rectify-track/rectify-track-module';
+import { OATemplateModule } from 'src/app/components/oa-template/oa-template-module';
+import { DepartmentDrawModule } from 'src/app/components/department-draw/department-draw-module';
+import { RectifyPostModule } from 'src/app/components/rectify-post/rectify-post-module';
+import { AdviceTemplateModule } from 'src/app/components/advice-template/advice-template-module';
+import { RectifyWorkBeachModule } from 'src/app/components/rectify-workbeach/rectify-workbeach-module';
+import { StatisticsAnalysisModule } from 'src/app/components/statistics-analysis/statistics-analysis-module';
 
 const COMMPONENTS = [
   AuditorDashboardComponent,
   RectifyDashboardComponent,
   SuperviseDashboardComponent,
-  DictPipe,
   IssueAssignFormComponent,
   IssueAssignTableComponent,
   SuperviseProcessFormComponent,

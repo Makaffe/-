@@ -1,18 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AdviceTemplateViewComponent } from '@mt-rectify-framework/comp/advice-template';
-import { AuditPostDetailComponent, AuditPostViewComponent } from '@mt-rectify-framework/comp/audit-post';
-import { OaTemplateViewComponent } from '@mt-rectify-framework/comp/oa-template';
-import { RectifyIssueViewComponent } from '@mt-rectify-framework/comp/rectify-issue';
-import { RectifyPostDetailComponent, RectifyPostViewComponent } from '@mt-rectify-framework/comp/rectify-post';
-import { RectifyTrackViewComponent, TransferResultViewComponent } from '@mt-rectify-framework/comp/rectify-track';
-import { RectifyEffectComponent, RectifyWorkbeachViewComponent } from '@mt-rectify-framework/comp/rectify-workbeach';
+
 // tslint:disable-next-line:max-line-length
-import {
-  StatisticsAnalysisAuditIssueViewComponent,
-  StatisticsAnalysisAuditRectifyResultComponent,
-} from '@mt-rectify-framework/comp/statistics-analysis';
-import { DepartmentDrawViewComponent } from '@mt-rectify-framework/comp/department-draw';
 
 import { AuditorDashboardComponent } from '../../dashboard/auditor/auditor.dashboard.component';
 import { RectifyDashboardComponent } from '../../dashboard/rectify/rectify.dashboard.component';
@@ -25,6 +14,22 @@ import {
   TemplateEditComponent,
   TemplateInfoComponent,
 } from '@mt-insight-ng/insight';
+import { RectifyIssueViewComponent } from 'src/app/components/rectify-issue/rectify-issue-view.component';
+import { DepartmentDrawViewComponent } from 'src/app/components/department-draw/department-draw-view.component';
+import { RectifyTrackViewComponent } from 'src/app/components/rectify-track/rectify-track-view.component';
+import { TransferResultViewComponent } from 'src/app/components/rectify-track/transfer-result-view.component';
+import { RectifyPostViewComponent } from 'src/app/components/rectify-post/rectify-post-view.component';
+import { RectifyPostDetailComponent } from 'src/app/components/rectify-post/rectify-post-detail.component';
+import { AdviceTemplateViewComponent } from 'src/app/components/advice-template/advice-template-view.component';
+import { RectifyWorkbeachViewComponent } from 'src/app/components/rectify-workbeach/rectify-workbeach-view.component';
+import { RectifyEffectComponent } from 'src/app/components/rectify-workbeach/rectify-effect.component';
+import { AuditPostViewComponent } from 'src/app/components/audit-post/audit-post-view.component';
+import { AuditPostDetailComponent } from 'src/app/components/audit-post/audit-post-detail.component';
+import { OaTemplateViewComponent } from 'src/app/components/oa-template/oa-template-view.component';
+// tslint:disable-next-line:max-line-length
+import { StatisticsAnalysisAuditIssueViewComponent } from 'src/app/components/statistics-analysis/statistics-analysis-audit-issue-view.component';
+// tslint:disable-next-line:max-line-length
+import { StatisticsAnalysisAuditRectifyResultComponent } from 'src/app/components/statistics-analysis/statistics-analysis-audit-rectify-result.component';
 
 const routes: Routes = [
   {

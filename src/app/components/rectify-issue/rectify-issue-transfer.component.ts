@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd';
-import { RectifyProblemDTO } from './public_api';
+import { RectifyProblemDTO } from './model/rectify-problem-dto';
 import { RectifyProblemService } from './service/RectifyProblemService';
 
 @Component({
