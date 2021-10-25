@@ -1,138 +1,56 @@
-<as-split direction="vertical" unit="pixel" gutterSize="0" style="background-color: white;">
-  <as-split-area class="flex-fixed" [size]="40">
-    <div class="app-toor-bar">
-      <div nz-row nzType="flex" nzJustify="space-around" nzAlign="middle">
-        <div nz-col nzSpan="24">
-          <button nz-button>
-            <i nz-icon nzType="rollback" nzTheme="outline"></i>返回
-          </button>
-          <button nz-button nzType="primary">
-            <i nz-icon nzType="save" nzTheme="outline"></i>保存</button>
-        </div>
-      </div>
-    </div>
-  </as-split-area>
-  <as-split-area [size]="'*'">
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="'整改成效详情'" [nzMaskClosable]="false" (nzOnCancel)="handleCancel()"
+  [nzFooter]="formFooter" [nzStyle]="{ top: '65px' }" nzWidth="1050" [nzBodyStyle]="{
+    'overflow-y': 'auto',
+    'overflow-x': 'hidden',
+    padding: '24px'
+  }">
+  <form nz-form #form="ngForm">
+    <nz-form-item>
+      <nz-form-label nzSpan="5">审计挽回金额（元）</nz-form-label>
+      <nz-form-control nzSpan="6">
+        <nz-input-number></nz-input-number>
+      </nz-form-control>
+      <nz-form-label nzSpan="5">上缴资金（元）</nz-form-label>
+      <nz-form-control nzSpan="6">
+        <nz-input-number></nz-input-number>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="5">财务处理资金（元）</nz-form-label>
+      <nz-form-control nzSpan="6">
+        <nz-input-number></nz-input-number>
+      </nz-form-control>
+      <nz-form-label nzSpan="5">促进节约资金（元）</nz-form-label>
+      <nz-form-control nzSpan="6">
+        <nz-input-number></nz-input-number>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="5">违纪违规金额（元）</nz-form-label>
+      <nz-form-control nzSpan="6">
+        <nz-input-number></nz-input-number>
+      </nz-form-control>
+      <nz-form-label nzSpan="5">整改提出管理建议（条）</nz-form-label>
+      <nz-form-control nzSpan="6">
+        <input nz-input />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="5">整改效益提升（元）</nz-form-label>
+      <nz-form-control nzSpan="6">
+        <nz-input-number></nz-input-number>
+      </nz-form-control>
+      <nz-form-label nzSpan="5">整改后完善的制度（条）</nz-form-label>
+      <nz-form-control nzSpan="6">
+        <input nz-input />
+      </nz-form-control>
+    </nz-form-item>
+  </form>
 
-    <div style="height:100%;margin-left:10px;margin-top:10px;overflow:scroll;">
-      <div nz-col>
-        <div nz-row>
-          <div nz-col>
-            <div nz-row>
-              <form nz-form>
-                <nz-form-item>
-                  <nz-form-label nzSpan="2">整改部门</nz-form-label>
-                  <nz-form-control nzSpan="3"><input nz-input /> </nz-form-control>
-                  <nz-form-label nzSpan="2">整改负责人</nz-form-label>
-                  <nz-form-control nzSpan="3"><input nz-input /> </nz-form-control>
-                  <nz-form-label nzSpan="2">问题类型</nz-form-label>
-                  <nz-form-control nzSpan="3"><input nz-input /> </nz-form-control>
-                  <nz-form-label nzSpan="2">整改截止日期</nz-form-label>
-                  <nz-form-control nzSpan="3">
-                    <nz-date-picker [(ngModel)]="date"></nz-date-picker>
-                  </nz-form-control>
-                </nz-form-item>
-
-                <nz-form-item>
-                  <nz-form-label nzSpan="2">问题来源</nz-form-label>
-                  <nz-form-control nzSpan="18"><textarea rows="3" nz-input></textarea> </nz-form-control>
-                </nz-form-item>
-                <nz-form-item>
-                  <nz-form-label nzSpan="2">问题描述</nz-form-label>
-                  <nz-form-control nzSpan="18"><textarea rows="3" nz-input></textarea> </nz-form-control>
-                </nz-form-item>
-                <nz-form-item>
-                  <nz-form-label nzSpan="2">整改详情</nz-form-label>
-                  <nz-form-control nzSpan="18">
-                    <nz-table #basicTable [nzData]="listOfData" nzBordered="true" [nzScroll]="{y: '240px' }"
-                      [nzShowPagination]="false">
-                      <thead>
-                        <tr>
-                          <th nzWidth="80px">序号</th>
-                          <th nzWidth="300px">措施类型</th>
-                          <th>整改措施</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let data of basicTable.data">
-                          <td nzWidth="80px">{{ data.key }}</td>
-                          <td nzWidth="300px">{{ data.name }}</td>
-                          <td>{{ data.age }}</td>
-                        </tr>
-                      </tbody>
-                    </nz-table>
-                  </nz-form-control>
-                </nz-form-item>
-                <div style="margin-top: -20px;">
-                  <div>
-                    <div nz-row>
-                      <div nz-col nzSpan="14"></div>
-                      <div nz-col nzSpan="6" style="text-align:right; padding-right: 10px;">
-                        措施统计：措施类型一 2 ，措施类型二4 ，措施类型三 5
-                      </div>
-                      <div nz-col nzSpan="4"></div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div nz-row>
-                      <div nz-col nzSpan="1"></div>
-                      <div nz-col nzSpan="19">
-                        <nz-divider></nz-divider>
-                      </div>
-                      <div nz-col nzSpan="4"></div>
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-        <div nz-row>
-          <form nz-form>
-            <nz-form-item>
-              <nz-form-label nzSpan="4">审计挽回金额（元）</nz-form-label>
-              <nz-form-control nzSpan="6">
-                <nz-input-number></nz-input-number>
-              </nz-form-control>
-              <nz-form-label nzSpan="4">上缴资金（元）</nz-form-label>
-              <nz-form-control nzSpan="6">
-                <nz-input-number></nz-input-number>
-              </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-              <nz-form-label nzSpan="4">财务处理资金（元）</nz-form-label>
-              <nz-form-control nzSpan="6">
-                <nz-input-number></nz-input-number>
-              </nz-form-control>
-              <nz-form-label nzSpan="4">促进节约资金（元）</nz-form-label>
-              <nz-form-control nzSpan="6">
-                <nz-input-number></nz-input-number>
-              </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-              <nz-form-label nzSpan="4">整改提出管理建议（条）</nz-form-label>
-              <nz-form-control nzSpan="6">
-                <input nz-input />
-              </nz-form-control>
-              <nz-form-label nzSpan="4">违纪违规金额（元）</nz-form-label>
-              <nz-form-control nzSpan="6">
-                <nz-input-number></nz-input-number>
-              </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-              <nz-form-label nzSpan="4">整改后完善的制度（条）</nz-form-label>
-              <nz-form-control nzSpan="6">
-                <input nz-input />
-              </nz-form-control>
-              <nz-form-label nzSpan="4">整改效益提升（元）</nz-form-label>
-              <nz-form-control nzSpan="6">
-                <nz-input-number></nz-input-number>
-              </nz-form-control>
-            </nz-form-item>
-          </form>
-        </div>
-      </div>
-    </div>
-  </as-split-area>
-</as-split>
+  <ng-template #formFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">取消</button>
+    <button nz-button nzType="primary" (click)="saveData()">
+      确定
+    </button>
+  </ng-template>
+</nz-modal>

@@ -20,9 +20,6 @@ export class RectifyMeasureComponent implements OnInit {
 
   isWatch = true;
 
-  // 整改问题id
-  rectifyProblemId: string;
-
   rectifyMeasure = this.initItem();
 
   date: Date;
@@ -56,7 +53,7 @@ export class RectifyMeasureComponent implements OnInit {
       this.rectifyMeasure.measureStatus = 'NOT_SUBMITTED';
       this.rectifyMeasure.rectifyProgress = 0;
     }
-    this.rectifyMeasure.rectifyProblemId = '123456';
+    this.rectifyMeasure.rectifyProblemId = '404664016171044864';
     this.isVisible = true;
   }
 

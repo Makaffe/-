@@ -36,15 +36,14 @@
         </nz-form-explain>
       </nz-form-control>
 
-      <nz-form-label [nzSpan]="4" nzRequired>整改拟完成时间</nz-form-label>
+      <nz-form-label [nzSpan]="4" nzRequired>拟整改时间</nz-form-label>
       <nz-form-control [nzSpan]="8"
         [nzValidateStatus]="rectifyCompleteTime.invalid && (rectifyCompleteTime.dirty || rectifyCompleteTime.touched) ? 'error' : ''">
-        <nz-date-picker name="rectifyCompleteTime" [(ngModel)]="date" (ngModelChange)="onChangeRectifyEndTime($event)"
-          #rectifyCompleteTime="ngModel" [nzDisabled]="isWatch" required>
-        </nz-date-picker>
+        <nz-range-picker name="rectifyCompleteTime" [(ngModel)]="date" (ngModelChange)="onChangeRectifyEndTime($event)"
+          #rectifyCompleteTime="ngModel" [nzDisabled]="isWatch" required></nz-range-picker>
         <nz-form-explain
           *ngIf="rectifyCompleteTime.invalid && (rectifyCompleteTime.dirty || rectifyCompleteTime.touched)">
-          请选择措施类型
+          请选择拟整改时间
         </nz-form-explain>
       </nz-form-control>
     </nz-form-item>
