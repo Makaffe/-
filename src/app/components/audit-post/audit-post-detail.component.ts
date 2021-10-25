@@ -4,9 +4,9 @@ import { Observable, Observer } from 'rxjs';
 import { RectifyProblemDTO } from '../rectify-issue/model/rectify-problem-dto';
 import UUID from 'uuidjs';
 import { NgForm } from '@angular/forms';
-import { FormUtil } from '@mt-framework-ng/util';
+import { FormUtil, TreeUtil } from '@mt-framework-ng/util';
 import { AuditPostDTO } from './model/AuditPostDTO';
-import { SystemFileService, UserDTO } from '@ng-mt-framework/api';
+import { OrganizationService, SystemFileService, UserDTO, UserService } from '@ng-mt-framework/api';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { AuditPostService } from './service/AuditPostService';
@@ -29,9 +29,13 @@ export class AuditPostDetailComponent implements OnInit {
     private auditPostsService: AuditPostService,
     private reuseTabService: ReuseTabService,
     private router: Router,
+    private organizationService: OrganizationService,
+    private userService: UserService,
   ) {}
   @ViewChild('auditPostForm', { static: true })
   auditPostForm: NgForm;
+  @ViewChild('problemform', { static: true })
+  problemform: NgForm;
   @ViewChild('attachListComponent', { static: false })
   attachListComponent: AttachListComponent;
 
@@ -97,6 +101,20 @@ export class AuditPostDetailComponent implements OnInit {
   lookup = false;
 
   /**
+   * 整改部门树
+   */
+  organizationTree = [];
+  /**
+   * 整改负责人列表
+   */
+  dutyUserList = [];
+
+  /**
+   * 是否已保存
+   */
+  haveSave = false;
+
+  /**
    * 初始化问题类型
    */
   problemItem: RectifyProblemDTO = null;
@@ -118,6 +136,14 @@ export class AuditPostDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.organizationService.getOrganizationTreeOfEmployeeOrUser().subscribe(data => {
+      this.organizationTree = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
+    });
+    this.userService.findAll().subscribe(data => {
+      if (data) {
+        this.dutyUserList = data;
+      }
+    });
     this.activatedRoute.queryParams.subscribe(data => {
       this.visabled = data.allshow === 'true';
       this.isWatch = data.isWatch === 'true';
@@ -137,19 +163,6 @@ export class AuditPostDetailComponent implements OnInit {
         });
       }
     });
-  }
-
-  next(): void {
-    console.log('==============FORM OBJECT==============');
-    console.dir(this.auditPostForm);
-
-    console.dir(this.auditPostForm.form);
-    if (!FormUtil.validateForm(this.auditPostForm.form)) {
-      this.msg.warning(`请补全报告基本信息`);
-      return;
-    }
-
-    this.visabled = true;
   }
 
   done(): void {
@@ -228,8 +241,16 @@ export class AuditPostDetailComponent implements OnInit {
       type: item ? item.type : null,
       money: item ? item.money : null,
       remark: item ? item.remark : null,
-      rectifyDepartmentId: item ? item.rectifyDepartmentId : null,
-      dutyUserId: item ? item.dutyUserId : null,
+      rectifyDepartment: item ? item.rectifyDepartment : null,
+      rectifyDepartmentId: item
+        ? item.rectifyDepartmentId
+          ? item.rectifyDepartmentId
+          : item.rectifyDepartment
+          ? item.rectifyDepartment.id
+          : null
+        : null,
+      dutyUser: item ? item.dutyUser : null,
+      dutyUserId: item ? (item.dutyUserId ? item.dutyUserId : item.dutyUser ? item.dutyUser.id : null) : null,
       advice: item ? item.advice : null,
       source: item ? item.source : this.currentItem.name,
       selectedRectifyDepartment: item ? item.selectedRectifyDepartment : null,
@@ -493,16 +514,7 @@ export class AuditPostDetailComponent implements OnInit {
    */
 
   handleOk() {
-    if (
-      !FormUtil.validateForm(this.auditPostForm.form) ||
-      !this.paramsItem.name ||
-      !this.paramsItem.type ||
-      !this.paramsItem.remark ||
-      !this.paramsItem.rectifyDepartmentId ||
-      !this.paramsItem.dutyUserId ||
-      !this.paramsItem.advice ||
-      !this.paramsItem.source
-    ) {
+    if (!FormUtil.validateForm(this.problemform.form)) {
       this.msg.warning(`请确认问题信息填写完整`);
       return;
     }
@@ -521,6 +533,7 @@ export class AuditPostDetailComponent implements OnInit {
       item.editable = false;
     }
     this.paramsItem = this.initProblem();
+    FormUtil.resetForm(this.problemform.form);
     this.isVisabled = false;
   }
 }
