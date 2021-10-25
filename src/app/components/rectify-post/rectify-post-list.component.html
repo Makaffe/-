@@ -2,6 +2,7 @@
   [req]="tableParameter.req" [scroll]="{ y: '100%' }" [bordered]="true" [res]="tableParameter.res"
   [total]="tableParameter.page.total" [size]="tableParameter.size" [pi]="tableParameter.pi" [ps]="tableParameter.ps"
   [columns]="columns" [rowClickTime]="500" [page]="tableParameter.page" [noResult]="null" [loading]="loading">
+  (change)="change($event)"
   <ng-template st-row="number" let-row let-index="index">
     {{ ((st.pi ? st.pi : 1) - 1) * (st.ps ? st.ps : 0) + (index + 1) }}
   </ng-template>
@@ -16,3 +17,5 @@
     <a nz-popconfirm nzPopconfirmTitle="是否要删除该条数据?" nzPopconfirmPlacement="bottom" (nzOnConfirm)="delete(row)">删除</a>
   </ng-template>
 </st>
+<!-- 整改报告详情-->
+<rectify-post-detail #rectifyPostDetailComponent (dataChange)="load()"></rectify-post-detail>

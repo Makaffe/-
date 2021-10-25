@@ -49,7 +49,7 @@ export const APP_DATA = {
               // acl: [],
             },
             {
-              text: '整改报告',
+              text: '整改汇报',
               link: '/audit-rectify/rectify-post',
               i18n: '',
               // acl: [],
