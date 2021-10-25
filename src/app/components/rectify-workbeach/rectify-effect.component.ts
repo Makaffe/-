@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReuseTabService } from '@delon/abc/reuse-tab';
 import { QueryOptions } from '@mt-framework-ng/core';
+import { FormUtil } from '@mt-framework-ng/util';
 import { RectifyProblemService } from '@mt-rectify-framework/comp/rectify-issue';
+import { NzMessageService } from 'ng-zorro-antd';
 import { RectifyTrackDTO } from '../rectify-track/model/RectifyTrackDTO';
 import { RectifyMeasureService } from './service/RectifyMeasureService';
 
@@ -19,6 +22,12 @@ import { RectifyMeasureService } from './service/RectifyMeasureService';
   ],
 })
 export class RectifyEffectComponent implements OnInit {
+  /**
+   * 表单组件
+   */
+  @ViewChild('form', { static: false })
+  form: NgForm;
+
   date: Date;
   // 分页参数
   private options: QueryOptions = {
@@ -26,6 +35,11 @@ export class RectifyEffectComponent implements OnInit {
     size: 100,
     sort: 'id,asc',
   };
+
+  /**
+   * 弹窗可见性
+   */
+  isVisible = false;
 
   // 整改问题id
   rectifyProblemId: string;
@@ -36,6 +50,7 @@ export class RectifyEffectComponent implements OnInit {
   listOfData = [];
   constructor(
     private router: Router,
+    private msg: NzMessageService,
     private reuseTabService: ReuseTabService,
     private activatedRoute: ActivatedRoute,
     private rectifyProblemService: RectifyProblemService,
@@ -96,5 +111,32 @@ export class RectifyEffectComponent implements OnInit {
     } else {
       return null;
     }
+  }
+
+  /**
+   * 取消
+   */
+  handleCancel() {
+    this.isVisible = false;
+    FormUtil.resetForm(this.form.form);
+  }
+
+  /**
+   * 保存
+   */
+  saveData() {
+    if (!this.validate()) {
+      this.msg.warning('请补全标星号的必填信息项！');
+      return;
+    }
+    this.msg.success('操作成功！');
+    this.handleCancel();
+  }
+
+  /**
+   * 验证表单
+   */
+  private validate() {
+    return FormUtil.validateForm(this.form.form);
   }
 }

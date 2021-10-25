@@ -91,8 +91,8 @@ export class RectifyProblemService {
    * @param remark 备忘录文本
    *
    */
-  sevaMome(id: string, remark: string): Observable<ApiSimpleData<string>> {
-    return this.http.put<ApiSimpleData<string>>(`${RectifyProblemService.URL}/memo/${id}`, remark);
+  sevaMome(id: string, memo: string): Observable<ApiSimpleData<string>> {
+    return this.http.put<ApiSimpleData<string>>(`${RectifyProblemService.URL}/memo/${id}`, memo);
   }
 
   findOnePage2Track(

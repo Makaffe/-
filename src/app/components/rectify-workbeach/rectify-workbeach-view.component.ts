@@ -2,16 +2,21 @@ import { DatePipe, formatDate } from '@angular/common';
 import { Component, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QueryOptions } from '@mt-framework-ng/core';
-import { SystemFileService } from '@ng-mt-framework/api';
+import { OrganizationService, SystemFileService } from '@ng-mt-framework/api';
+import { TreeUtil } from '@ng-mt-framework/comp';
 import { NzMessageService } from 'ng-zorro-antd';
+import { RectifyIssueListComponent } from '../rectify-issue/rectify-issue-list.component';
+import { RectifyIssueTransferComponent } from '../rectify-issue/rectify-issue-transfer.component';
 import { RectifyProblemService } from '../rectify-issue/service/RectifyProblemService';
 import { RectifyTrackDTO } from '../rectify-track/model/RectifyTrackDTO';
 import { ChangeMsOrRp } from './model/ChangeMsOrRp';
 import { RectifyMeasureDTO } from './model/RectifyMeasureDTO';
 import { RectifyMeasureEditInfoDTO } from './model/RectifyMeasureEditInfoDTO';
 import { RectifyDiaryComponent } from './rectify-diary.component';
+import { RectifyEffectComponent } from './rectify-effect.component';
 import { RectifyMeasureReplyComponent } from './rectify-measure-reply.component';
 import { RectifyMeasureComponent } from './rectify-measure.component';
+import { RectifyProblemSwitchComponent } from './rectify-problem-switch.component';
 import { RectifyMeasureService } from './service/RectifyMeasureService';
 
 @Component({
@@ -31,6 +36,15 @@ export class RectifyWorkbeachViewComponent implements OnInit {
 
   @ViewChild('rectifyMeasureReplyComponent', { static: false })
   rectifyMeasureReplyComponent: RectifyMeasureReplyComponent;
+
+  @ViewChild('rectifyIssueTransferComponent', { static: false })
+  rectifyIssueTransferComponent: RectifyIssueTransferComponent;
+
+  @ViewChild('rectifyEffectComponent', { static: false })
+  rectifyEffectComponent: RectifyEffectComponent;
+
+  @ViewChild('rectifyProblemSwitchComponent', { static: false })
+  rectifyProblemSwitchComponent: RectifyProblemSwitchComponent;
 
   // 分页参数
   private options: QueryOptions = {
@@ -65,14 +79,39 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   isRectify = false;
 
   // 折叠与展开
-  isFold = false;
+  isFold = true;
 
   demoValue = 20;
+
+  // 是否无法整改
+  radioValue = false;
 
   /**
    * 请求标识
    */
   loading = false;
+
+  LEFT_WIDTH = 0;
+
+  /**
+   * 左侧树宽度
+   */
+  leftSize = this.LEFT_WIDTH;
+
+  RIGHT_WIDTH = 100;
+
+  /**
+   * 右侧树冠宽
+   */
+  rightSize = this.RIGHT_WIDTH;
+
+  // 时间轴按钮样式
+  timeLineButtonType = 'right';
+
+  /**
+   * 整改部门树
+   */
+  organizationTree = [];
 
   mapOfExpandData: { [key: string]: boolean } = {};
   listOfData = [];
@@ -90,11 +129,15 @@ export class RectifyWorkbeachViewComponent implements OnInit {
     private msg: NzMessageService,
     private systemFileService: SystemFileService,
     private rectifyProblemService: RectifyProblemService,
+    private organizationService: OrganizationService,
     @Inject(LOCALE_ID) private locale: string,
   ) {}
 
   ngOnInit() {
     this.resolveQueryParam();
+    this.organizationService.getOrganizationTreeOfEmployeeOrUser().subscribe(data => {
+      this.organizationTree = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
+    });
     this.loadData();
     this.loadTimeOption();
   }
@@ -182,9 +225,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
 
   // 跳转整改措施界面
   goRectifyEffect() {
-    this.router.navigate(['/audit-rectify/rectify-effect'], {
-      queryParams: { rectifyProblemId: this.rectifyTrack.id },
-    });
+    this.rectifyEffectComponent.isVisible = true;
   }
 
   clickFold() {
@@ -311,6 +352,62 @@ export class RectifyWorkbeachViewComponent implements OnInit {
       source: item ? item.source : null,
       remark: item ? item.remark : null,
       advice: item ? item.advice : null,
+      rectifyDepartment: item ? item.rectifyDepartment : this.rd(),
+      dutyUser: item ? item.dutyUser : this.du(),
     };
   }
+
+  rd(): any {
+    return {
+      id: null,
+      name: null,
+    };
+  }
+  du(): any {
+    return {
+      id: null,
+      name: null,
+    };
+  }
+
+  /**
+   * 移交纪检
+   */
+  transfer() {
+    const arr = [];
+    arr.push(this.rectifyTrack);
+    this.rectifyIssueTransferComponent.edit(arr);
+  }
+
+  // 修改整改问题整改频率与截至时间
+  saveProblem() {}
+
+  // 隐藏或展示时间轴
+  hideTimeLine() {
+    if (this.timeLineButtonType === 'right') {
+      this.timeLineButtonType = 'left';
+      this.leftSize = 15;
+      this.rightSize = 85;
+    } else {
+      this.timeLineButtonType = 'right';
+      this.leftSize = 0;
+      this.rightSize = 100;
+    }
+  }
+
+  // 切换问题
+  rectifySwitch() {
+    this.rectifyProblemSwitchComponent.mapOfCheckedId[this.rectifyTrack.id] = true;
+    this.rectifyProblemSwitchComponent.checkboxData = this.rectifyTrack;
+    this.rectifyProblemSwitchComponent.isVisible = true;
+  }
+
+  chageRectify(rs: RectifyTrackDTO) {
+    if (rs) {
+      this.rectifyTrack = rs;
+      this.loadData();
+    }
+  }
+
+  onChangeStates(id: string): void {}
 }

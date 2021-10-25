@@ -7,7 +7,7 @@
   <thead>
     <tr>
       <th nzWidth="120px">序号</th>
-      <th nzWidth="100px" nzAlign="center">状态</th>
+      <th nzWidth="100px" nzAlign="center">下发状态</th>
       <th nzWidth="100px" nzAlign="center">移交状态</th>
       <th nzWidth="150px">问题名称</th>
       <th nzWidth="150px">整改部门</th>
@@ -35,12 +35,14 @@
             {{ item.level === 0 ? i + 1 : i + 1 + '-' + ci }}
           </td>
           <td nzAlign="center">
-            <nz-tag *ngIf="item.sendStatus === '未下发'" [nzColor]="'#b30000'">未下发</nz-tag>
-            <nz-tag *ngIf="item.sendStatus === '已下发'" [nzColor]="'#008CEC'">已下发</nz-tag>
+            <nz-tag *ngIf="item.sendStatus === '未下发'" [nzColor]="'#A4A4A4'">未下发</nz-tag>
+            <nz-tag *ngIf="item.sendStatus === '下发中'" [nzColor]="'#FFBF00'">下发中</nz-tag>
+            <nz-tag *ngIf="item.sendStatus === '已下发'" [nzColor]="'#04B404'">已下发</nz-tag>
           </td>
           <td nzAlign="center">
-            <nz-tag *ngIf="item.transferStatus === '未移交'" [nzColor]="'#b30000'">未移交</nz-tag>
-            <nz-tag *ngIf="item.transferStatus === '已移交'" [nzColor]="'#00cc00'">已移交</nz-tag>
+            <nz-tag *ngIf="item.transferStatus === '未移交'" [nzColor]="'#A4A4A4'">未移交</nz-tag>
+            <nz-tag *ngIf="item.transferStatus === '移交中'" [nzColor]="'#FFBF00'">移交中</nz-tag>
+            <nz-tag *ngIf="item.transferStatus === '已移交'" [nzColor]="'#04B404'">已移交</nz-tag>
           </td>
           <td>{{ item.name }}</td>
           <td>{{ item?.rectifyDepartment?.name }}</td>

@@ -26,47 +26,24 @@ export class RectifyTrackViewComponent implements OnInit {
    *
    * 查询参数
    */
-  params = {
-    rectifyProblemName: null,
-    rectifyDepartmentId: null,
-    sendStatus: null,
-    transferStatus: null,
-    startTime: null,
-    endTime: null,
-  };
+  params = this.initParams();
+
   /**
    * 整改部门树
    */
   organizationTree = [];
 
   /**
-   * 状态参数
+   * 下发状态
    */
-
   sendStatusList = [
     {
-      label: '未下发',
-      value: 'NOT_ISSUED',
+      label: '下发中',
+      value: 'ISSUING',
     },
     {
-      label: '待整改',
-      value: 'TO_BE_RECTIFIED',
-    },
-    {
-      label: '整改中',
-      value: 'RECTIFYING',
-    },
-    {
-      label: '反馈逾期',
-      value: 'FEEDBACK_OVERDUE',
-    },
-    {
-      label: '整改逾期',
-      value: 'RECTIFY_OVERDUE',
-    },
-    {
-      label: '已完成',
-      value: 'COMPLETE',
+      label: '已下发',
+      value: 'ISSUED',
     },
   ];
 
@@ -80,6 +57,17 @@ export class RectifyTrackViewComponent implements OnInit {
     this.organizationService.getOrganizationTreeOfEmployeeOrUser().subscribe(data => {
       this.organizationTree = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
     });
+  }
+
+  initParams() {
+    return {
+      rectifyProblemName: null,
+      rectifyDepartmentId: null,
+      sendStatus: null,
+      transferStatus: null,
+      startTime: null,
+      endTime: null,
+    };
   }
 
   onChangeRectifyEndTime(date: any) {
@@ -114,5 +102,12 @@ export class RectifyTrackViewComponent implements OnInit {
 
   search(): void {
     this.rectifyTrackList.load();
+  }
+
+  /**
+   * 清空查询条件
+   */
+  clear() {
+    this.params = this.initParams();
   }
 }
