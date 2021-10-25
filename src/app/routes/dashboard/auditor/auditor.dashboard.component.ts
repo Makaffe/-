@@ -7,11 +7,12 @@ import { delay } from 'rxjs/operators';
 const TAG: STColumnTag = {
   'name 1': { text: '未开始', color: 'grey' },
   'name 2': { text: '整改中', color: '#008CEC' },
-  'name 3': { text: '已逾期', color: '#F76A00' },
+  'name 3': { text: '整改完成', color: '#F76A00' },
+  'name 4': { text: '无法整改', color: '#A4A4A4' },
 };
 const situationTAG: STColumnTag = {
-  21: { text: '未移交', color: '#D9001B' },
-  27: { text: '已移交', color: 'green' },
+  'name 1': { text: '未移交', color: '#D9001B' },
+  'name 2': { text: '已移交', color: 'green' },
 };
 @Component({
   selector: 'app-auditor-dashboard',
@@ -91,7 +92,12 @@ export class AuditorDashboardComponent implements OnInit {
     {
       title: '排名',
       index: 'id',
-      width: '100px',
+      width: '50px',
+    },
+    {
+      title: '审计报告',
+      index: 'name',
+      width: '10%',
     },
     {
       title: '整改部门',
@@ -99,7 +105,12 @@ export class AuditorDashboardComponent implements OnInit {
       width: '10%',
     },
     {
-      title: '整改问题',
+      title: '整改单位',
+      index: 'name',
+      width: '10%',
+    },
+    {
+      title: '整改问题名称',
       index: 'age',
       width: '20%',
     },
@@ -107,17 +118,17 @@ export class AuditorDashboardComponent implements OnInit {
       title: '整改反馈进度',
       index: 'age',
       render: 'process',
-      width: '40%',
+      width: '20%',
     },
     {
       title: '整改截止时间',
       index: 'age',
-      width: '15%',
+      width: '10%',
     },
     {
       title: '剩余整改天数',
       index: 'age',
-      width: '15%',
+      width: '10%',
     },
   ];
   rectifyProcesscolumns: STColumn[] = [
@@ -129,7 +140,7 @@ export class AuditorDashboardComponent implements OnInit {
     {
       title: '状态',
       index: 'name',
-      width: '100px',
+      width: '80px',
       render: 'status',
       className: 'text-center',
       type: 'tag',
@@ -137,12 +148,22 @@ export class AuditorDashboardComponent implements OnInit {
     },
     {
       title: '移交情况',
-      index: 'age',
-      width: '100px',
+      index: 'name',
+      width: '80px',
       render: 'situation',
       className: 'text-center',
       type: 'tag',
       tag: situationTAG,
+    },
+    {
+      title: '是否逾期',
+      index: 'age',
+      width: '80px',
+    },
+    {
+      title: '是否延期',
+      index: 'age',
+      width: '80px',
     },
     {
       title: '问题名称',
@@ -172,7 +193,7 @@ export class AuditorDashboardComponent implements OnInit {
     {
       title: '操作',
       render: 'operations',
-      width: '150px',
+      width: '100px',
     },
   ];
 
