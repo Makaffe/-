@@ -61,23 +61,18 @@ export class RectifyTrackViewComponent implements OnInit {
 
   initParams() {
     return {
+      auditPostName: null, // 报告名称
+      improtAuditPostStartTime: null, // 导入报告开始时间
+      improtAuditPostEndTime: null, // 导入报告开始时间
+      problemType: null, // 问题类型
+      problemName: null, // 问题名称
+      isDistribute: null, // 是否已分配
+      isSend: null, // 是否已下发
       rectifyProblemName: null,
       rectifyDepartmentId: null,
       sendStatus: null,
       transferStatus: null,
-      startTime: null,
-      endTime: null,
     };
-  }
-
-  onChangeRectifyEndTime(date: any) {
-    if (date instanceof Date) {
-      this.formatDateFun(date);
-      this.params.startTime = date[0];
-      this.params.endTime = date[1];
-    } else {
-      this.date = null;
-    }
   }
 
   formatDateFun(date: Date) {
@@ -86,18 +81,6 @@ export class RectifyTrackViewComponent implements OnInit {
     } else {
       return '';
     }
-  }
-
-  /**
-   * 时间格式化
-   */
-  //  this.params.startTime = this.datePipe.transform(event[0], 'yyyy-MM-dd');
-  //   this.params.endTime = this.datePipe.transform(event[1], 'yyyy-MM-dd');
-  selectDateRange($event) {
-    console.log('=========SELECT-DATERANGE==========');
-    console.dir($event);
-    this.params.startTime = this.datePipe.transform($event[0], 'yyyy-MM-dd');
-    this.params.endTime = this.datePipe.transform($event[1], 'yyyy-MM-dd');
   }
 
   search(): void {
@@ -110,4 +93,26 @@ export class RectifyTrackViewComponent implements OnInit {
   clear() {
     this.params = this.initParams();
   }
+
+  /**
+   * 禁用开始时间
+   */
+  disabledStartDate = (startValue: Date): boolean => {
+    if (!startValue || !this.params.improtAuditPostEndTime) {
+      return false;
+    }
+    return startValue.getTime() > new Date(this.params.improtAuditPostEndTime).getTime();
+    // tslint:disable-next-line:semicolon
+  };
+
+  /**
+   * 禁用结束时间
+   */
+  disabledEndDate = (endValue: Date): boolean => {
+    if (!endValue || !this.params.improtAuditPostStartTime) {
+      return false;
+    }
+    return endValue.getTime() <= new Date(this.params.improtAuditPostStartTime).getTime();
+    // tslint:disable-next-line:semicolon
+  };
 }
