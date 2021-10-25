@@ -1,7 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SharedModule } from '@mt-framework-ng/view';
 import { OrganizationComponentModule, SecurityComponentModule } from '@ng-mt-framework/comp';
+import { SharedModule } from '@shared';
+import { AttachListModule } from '../common/attach/attach-list.module';
+
+import { DictSelectComponent } from '../common/dict-select/dict-select.component';
 
 import { AuditPostDetailComponent } from './audit-post-detail.component';
 
@@ -20,7 +23,7 @@ const COMPONENTS = [
   AuditPostDetailComponent,
 ];
 @NgModule({
-  imports: [CommonModule, SharedModule, OrganizationComponentModule, SecurityComponentModule],
+  imports: [CommonModule, SharedModule, OrganizationComponentModule, SecurityComponentModule, AttachListModule],
   exports: [...COMPONENTS],
   declarations: [...COMPONENTS],
 })

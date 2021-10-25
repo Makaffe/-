@@ -12,14 +12,29 @@ import { DatePipe } from '@angular/common';
 import { AuditPostService } from './service/AuditPostService';
 import { ReuseTabService } from '@delon/abc';
 import { Broadcaster } from 'src/app/matech/service/broadcaster';
+import { AttachListComponent } from '../common/attach/attach-list.component';
+import { DictSelectComponent } from '../common/dict-select/dict-select.component';
 @Component({
-  selector: 'audit-post-detail',
+  selector: 'app-audit-post-detail',
   templateUrl: './audit-post-detail.component.html',
   styleUrls: ['./audit-post-detail.component.less'],
 })
 export class AuditPostDetailComponent implements OnInit {
+  constructor(
+    private broadcaster: Broadcaster,
+    private msg: NzMessageService,
+    private systemFileService: SystemFileService,
+    private activatedRoute: ActivatedRoute,
+    private datePipe: DatePipe,
+    private auditPostsService: AuditPostService,
+    private reuseTabService: ReuseTabService,
+    private router: Router,
+  ) {}
   @ViewChild('auditPostForm', { static: true })
   auditPostForm: NgForm;
+  @ViewChild('attachListComponent', { static: false })
+  attachListComponent: AttachListComponent;
+
   listOfData: RectifyProblemDTO[] = [];
   filters: UploadFilter[] = [
     {
@@ -75,21 +90,16 @@ export class AuditPostDetailComponent implements OnInit {
   paramsItem: RectifyProblemDTO = this.initProblem();
 
   /**
-   * 步骤条进度
-   */
-  current = 0;
-  /**
    * 判断是否只读
    */
-  /**
-   * 步骤条 操作显示
-   */
-  currentshow: boolean;
-  readFlag1: boolean;
-  readFlag2: boolean;
   visabled = false;
   isWatch = false;
   lookup = false;
+
+  /**
+   * 初始化问题类型
+   */
+  problemItem: RectifyProblemDTO = null;
   // tslint:disable-next-line:no-any
   handleChange(info: any): void {
     const fileList = info.fileList;
@@ -106,20 +116,9 @@ export class AuditPostDetailComponent implements OnInit {
       return true;
     });
   }
-  constructor(
-    private broadcaster: Broadcaster,
-    private msg: NzMessageService,
-    private systemFileService: SystemFileService,
-    private activatedRoute: ActivatedRoute,
-    private datePipe: DatePipe,
-    private auditPostsService: AuditPostService,
-    private reuseTabService: ReuseTabService,
-    private router: Router,
-  ) {}
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe(data => {
-      this.currentshow = data.allshow === 'true';
       this.visabled = data.allshow === 'true';
       this.isWatch = data.isWatch === 'true';
       console.log('=============ROUTE PARAMS=========');
@@ -140,11 +139,6 @@ export class AuditPostDetailComponent implements OnInit {
     });
   }
 
-  pre(): void {
-    this.current -= 1;
-    this.changeContent();
-  }
-
   next(): void {
     console.log('==============FORM OBJECT==============');
     console.dir(this.auditPostForm);
@@ -154,12 +148,18 @@ export class AuditPostDetailComponent implements OnInit {
       this.msg.warning(`请补全报告基本信息`);
       return;
     }
-    this.current += 1;
+
     this.visabled = true;
-    this.changeContent();
   }
 
   done(): void {
+    console.dir(this.auditPostForm);
+
+    console.dir(this.auditPostForm.form);
+    if (!FormUtil.validateForm(this.auditPostForm.form)) {
+      this.msg.warning(`请补全报告基本信息`);
+      return;
+    }
     if (!this.allProblemSaved()) {
       this.msg.warning(`请保存所有问题`);
       return;
@@ -194,24 +194,6 @@ export class AuditPostDetailComponent implements OnInit {
     }
   }
 
-  changeContent(): void {
-    switch (this.current) {
-      case 0: {
-        this.readFlag1 = false;
-        this.readFlag2 = true;
-        break;
-      }
-      case 1: {
-        this.readFlag1 = true;
-        this.readFlag2 = false;
-        break;
-      }
-      default: {
-        this.readFlag1 = true;
-        this.readFlag1 = false;
-      }
-    }
-  }
   /**
    * 返回
    */
@@ -244,6 +226,7 @@ export class AuditPostDetailComponent implements OnInit {
     return {
       name: item ? item.name : null,
       type: item ? item.type : null,
+      money: item ? item.money : null,
       remark: item ? item.remark : null,
       rectifyDepartmentId: item ? item.rectifyDepartmentId : null,
       dutyUserId: item ? item.dutyUserId : null,
