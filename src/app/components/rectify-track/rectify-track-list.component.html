@@ -1,4 +1,4 @@
-<nz-table #expandTable [nzData]="listOfMapData" [nzScroll]="{ x: '1150px', y: '100%' }" [nzLoading]="loading"
+<nz-table #expandTable [nzData]="listOfMapData" [nzScroll]="{x:'2000px', y: '100%' }" [nzLoading]="loading"
   [nzTotal]="pageInfo.totalRecords" [nzPageSize]="pageInfo.pageSize" [nzPageIndex]="pageInfo.pageNo" [nzSize]="'small'"
   nzShowSizeChanger [nzShowTotal]="totalTemplate" (nzPageSizeChange)="pageSizeChange($event)"
   (nzPageIndexChange)="pageIndexChange($event)" [nzShowQuickJumper]="true" [nzFrontPagination]="false"
@@ -6,19 +6,23 @@
   <ng-template #totalTemplate let-total> 共 {{ pageInfo.totalRecords }} 条 </ng-template>
   <thead>
     <tr>
-      <th nzWidth="120px">序号</th>
+      <th nzWidth="100px" nzLeft="0px">序号</th>
       <th nzWidth="100px" nzAlign="center">下发状态</th>
       <th nzWidth="100px" nzAlign="center">移交状态</th>
+      <th nzWidth="150px">审计报告名称</th>
       <th nzWidth="150px">问题名称</th>
+      <th nzWidth="150px">问题类型</th>
+      <th nzWidth="150px">涉及金额(万元)</th>
       <th nzWidth="150px">整改部门</th>
+      <th nzWidth="150px">整改单位</th>
       <th nzWidth="150px">整改负责人</th>
+      <th nzWidth="150px">审计负责人</th>
       <th nzWidth="150px">已完成整改措施数</th>
       <th nzWidth="150px">整改截止时间</th>
       <th nzWidth="150px">整改拟完成时间</th>
       <th nzWidth="150px">最近一次反馈时间</th>
       <th nzWidth="150px">下一次反馈时间</th>
       <th nzWidth="200px">整改反馈进度</th>
-      <th nzWidth="150px">备注</th>
       <th nzWidth="130px" nzAlign="center" nzRight="0px">操作</th>
     </tr>
   </thead>
@@ -28,10 +32,10 @@
         <tr *ngIf="(item.parent && item.parent.expand) || !item.parent">
           <td [nzIndentSize]="item.level * 20" [nzShowExpand]="!!(item.children && item.children.length > 0)"
             [(nzExpand)]="item.expand" (nzExpandChange)="collapse(mapOfExpandedData[data.id], item, $event)"
-            *ngIf="item.level === 0">
+            *ngIf="item.level === 0" nzLeft="0px">
             {{ item.level === 0 ? i + 1 : i + 1 + '-' + ci }}
           </td>
-          <td [nzIndentSize]="item.level * 20" *ngIf="item.level === 1">
+          <td [nzIndentSize]="item.level * 20" *ngIf="item.level === 1" nzLeft="0px">
             {{ item.level === 0 ? i + 1 : i + 1 + '-' + ci }}
           </td>
           <td nzAlign="center">
@@ -44,9 +48,14 @@
             <nz-tag *ngIf="item.transferStatus === '移交中'" [nzColor]="'#FFBF00'">移交中</nz-tag>
             <nz-tag *ngIf="item.transferStatus === '已移交'" [nzColor]="'#04B404'">已移交</nz-tag>
           </td>
+          <td>{{ item?.auditPost?.name }}</td>
           <td>{{ item.name }}</td>
+          <td>{{ item.type | dictTransform: 'PROBLEM_TYPE' | async }}</td>
+          <td>{{ 123 | currency: 'CNY':'symbol-narrow' }}</td>
           <td>{{ item?.rectifyDepartment?.name }}</td>
+          <td>整改单位</td>
           <td>{{ item?.dutyUser?.name }}</td>
+          <td>审计负责人</td>
           <td>{{ item.rectifyCount }}</td>
           <td>{{ item.rectifyEndTime }}</td>
           <td>{{ item.lastModifiedTime }}</td>
@@ -55,16 +64,9 @@
           <td>
             <nz-progress [nzPercent]="item.rectifyPassPercent"></nz-progress>
           </td>
-          <td>{{ item.remark }}</td>
           <td nzRight="0px">
-            <ng-container *ngIf="!!(item.children && item.children.length > 0)">
-              <button style="padding: 0px;" nz-button nzType="link" disabled>进入工作台</button>
-            </ng-container>
-            <ng-container *ngIf="!(item.children && item.children.length > 0)">
-              <button style="padding: 0px;" nz-button nzType="link" (click)="goWorkBeach(item.id)">进入工作台</button>
-            </ng-container>
+            <button style="padding: 0px;" nz-button nzType="link" (click)="goWorkBeach(item.id)">进入工作台</button>
           </td>
-
         </tr>
       </ng-container>
     </ng-container>
