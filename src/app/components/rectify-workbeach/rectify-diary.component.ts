@@ -15,7 +15,7 @@ export class RectifyDiaryComponent implements OnInit {
   ueComp: UeditorComponent;
 
   isVisible = false;
-  remark: any;
+  memo: any;
 
   // 整改问题id
   rectifyProblemId: string;
@@ -36,7 +36,7 @@ export class RectifyDiaryComponent implements OnInit {
   loadData() {
     this.rectifyProblemService.findMome(this.rectifyProblemId).subscribe(
       data => {
-        this.remark = data.data;
+        this.memo = data.data;
         this.isVisible = true;
       },
       () => {},
@@ -46,9 +46,9 @@ export class RectifyDiaryComponent implements OnInit {
 
   // 保存备忘录
   save() {
-    this.rectifyProblemService.sevaMome(this.rectifyProblemId, this.remark).subscribe(
+    this.rectifyProblemService.sevaMome(this.rectifyProblemId, this.memo).subscribe(
       data => {
-        this.remark = data;
+        this.memo = data;
         this.msg.success('保存成功！');
         this.handleCancel();
       },
