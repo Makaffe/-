@@ -42,6 +42,10 @@ export class RectifyIssueViewComponent implements OnInit {
       value: 'NOT_ISSUED',
     },
     {
+      label: '下发中',
+      value: 'ISSUING',
+    },
+    {
       label: '已下发',
       value: 'ISSUED',
     },
@@ -54,6 +58,10 @@ export class RectifyIssueViewComponent implements OnInit {
     {
       label: '未移交',
       value: 'NOT_HANDED_OVER',
+    },
+    {
+      label: '未移交中',
+      value: 'HANDING_OVER',
     },
     {
       label: '已移交',
