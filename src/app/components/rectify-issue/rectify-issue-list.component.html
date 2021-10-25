@@ -1,4 +1,4 @@
-<nz-table #expandTable [nzData]="listOfMapData" [nzScroll]="{ x: '2520px',y: '100%' }" [nzLoading]="loading"
+<nz-table #expandTable [nzData]="listOfMapData" [nzScroll]="{y: '100%' }" [nzLoading]="loading"
   [nzTotal]="pageInfo.totalRecords" [nzPageSize]="pageInfo.pageSize" [nzPageIndex]="pageInfo.pageNo" [nzSize]="'small'"
   nzShowSizeChanger [nzShowTotal]="totalTemplate" (nzPageSizeChange)="pageSizeChange($event)"
   (nzPageIndexChange)="pageIndexChange($event)" [nzShowQuickJumper]="true" [nzFrontPagination]="false"
@@ -6,20 +6,19 @@
   <ng-template #totalTemplate let-total> 共 {{ pageInfo.totalRecords }} 条 </ng-template>
   <thead>
     <tr>
-      <th nzWidth="50px" nzAlign="center" nzLeft="0px"></th>
-      <th nzWidth="120px" nzAlign="center" nzLeft="50px">序号</th>
-      <th nzWidth="100px" nzAlign="center">下发状态</th>
-      <th nzWidth="100px" nzAlign="center">移交状态</th>
-      <th nzWidth="300px">审计报告名称</th>
-      <th nzWidth="300px">问题名称</th>
-      <th nzWidth="300px">问题描述</th>
-      <th nzWidth="150px">问题类型</th>
-      <th nzWidth="150px">整改部门</th>
-      <th nzWidth="150px">整改负责人</th>
-      <th nzWidth="300px">审计建议</th>
-      <th nzWidth="200px">问题来源</th>
-      <th nzWidth="150px">OA发送情况</th>
-      <th nzWidth="150px" nzAlign="center" nzRight="0px">操作</th>
+      <th nzWidth="50px" nzAlign="center"></th>
+      <th nzWidth="100px" nzAlign="center">序号</th>
+      <th nzWidth="8%" nzAlign="center">下发状态</th>
+      <th nzWidth="8%" nzAlign="center">移交状态</th>
+      <th nzWidth="12%">审计报告名称</th>
+      <th nzWidth="12%">问题名称</th>
+      <th nzWidth="10%">问题类型</th>
+      <th nzWidth="10%">涉及金额(万元)</th>
+      <th nzWidth="10%">整改单位</th>
+      <th nzWidth="10%">整改部门</th>
+      <th nzWidth="10%">整改负责人</th>
+      <th nzWidth="10%">审计负责人</th>
+      <th nzWidth="150px" nzAlign="center">操作</th>
     </tr>
   </thead>
   <tbody>
@@ -27,13 +26,13 @@
       <ng-container *ngFor="let item of mapOfExpandedData[data.id]; let ci=index">
         <tr *ngIf="(item.parent && item.parent.expand) || !item.parent">
           <td [nzShowCheckbox]="!item.children.length" [(nzChecked)]="mapOfCheckedId[item.id]"
-            (nzCheckedChange)="checked(item,mapOfCheckedId[item.id])" nzLeft="0px"></td>
+            (nzCheckedChange)="checked(item,mapOfCheckedId[item.id])"></td>
           <td [nzIndentSize]="item.level * 20" [nzShowExpand]="!!(item.children && item.children.length > 0)"
             [(nzExpand)]="item.expand" (nzExpandChange)="collapse(mapOfExpandedData[data.id], item, $event)"
-            *ngIf="item.level === 0" nzLeft="50px">
+            *ngIf="item.level === 0">
             {{ item.level === 0?i+1:i+1 + '-' + ci }}
           </td>
-          <td [nzIndentSize]="item.level * 20" *ngIf="item.level === 1" nzLeft="50px">
+          <td [nzIndentSize]="item.level * 20" *ngIf="item.level === 1">
             {{ item.level === 0?i+1:i+1 + '-' + ci }}
           </td>
           <td nzAlign="center">
@@ -46,16 +45,15 @@
             <nz-tag *ngIf="item.transferStatus === '移交中'" [nzColor]="'#FFBF00'">移交中</nz-tag>
             <nz-tag *ngIf="item.transferStatus === '已移交'" [nzColor]="'#04B404'">已移交</nz-tag>
           </td>
-          <td>{{ item?.auditPost?.auditName }}</td>
+          <td>{{ item?.auditPost?.name }}</td>
           <td>{{ item.name }}</td>
-          <td>{{ item.remark }}</td>
           <td>{{ item.type | dictTransform: 'PROBLEM_TYPE' | async }}</td>
+          <td>{{ 123 | currency: 'CNY':'symbol-narrow' }}</td>
           <td>{{ item?.rectifyDepartment?.name }}</td>
+          <td>整改单位</td>
           <td>{{ item?.dutyUser?.name }}</td>
-          <td>{{ item.advice }}</td>
-          <td>{{ item.source }}</td>
-          <td>{{ item.oaSendCase?'已发送':'未发送' }}</td>
-          <td nzRight="0px">
+          <td>审计负责人</td>
+          <td>
             <ng-container *ngIf="item.level === 0">
               <button nz-button nzType="link" (click)="splitIssue(item)" style="padding: 0px;">拆分</button>
             </ng-container>
