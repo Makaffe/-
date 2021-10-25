@@ -12,6 +12,7 @@
               nz-button
               style="float:right;margin-top: 10px;"
               nzType="primary"
+              *ngIf="!isWatch && currentItem.auditReportStatus != 'GENERATED'"
             >
               <i nz-icon nzType="file-text" nzTheme="outline"></i>生成报告
             </button>
@@ -21,6 +22,7 @@
               nz-button
               style="float:right;margin-top: 10px;"
               nzType="primary"
+              *ngIf="!isWatch && currentItem.auditReportStatus != 'GENERATED'"
               (click)="done()"
             >
               <i nz-icon nzType="save" nzTheme="outline"></i>保存
@@ -331,7 +333,7 @@
         [nzValidateStatus]="dutyUserId.invalid && (dutyUserId.dirty || dutyUserId.touched) ? 'error' : ''"
       >
         <nz-select
-          name="paramsItem.dutyUserId"
+          name="dutyUserId"
           [(ngModel)]="paramsItem.dutyUserId"
           style="width: 100%;"
           nzShowSearch="true"
@@ -352,6 +354,19 @@
           [pattern]="PATTERN"
           required
           [(ngModel)]="paramsItem.source"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label [nzSpan]="4">涉及金额</nz-form-label>
+      <nz-form-control [nzSpan]="8">
+        <input
+          [readOnly]="lookup"
+          nz-input
+          name="paramsItem.money"
+          [pattern]="PATTERN"
+          required
+          [(ngModel)]="paramsItem.money"
         />
       </nz-form-control>
     </nz-form-item>
