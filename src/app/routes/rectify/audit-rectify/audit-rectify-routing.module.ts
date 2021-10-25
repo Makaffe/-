@@ -60,12 +60,7 @@ const routes: Routes = [
   {
     path: 'rectify-post',
     component: RectifyPostViewComponent,
-    data: { title: '整改报告', reuse: true },
-  },
-  {
-    path: 'rectify-post-detail/:isWatch/:rectificationReportTypeId/:rectificationReportId',
-    component: RectifyPostDetailComponent,
-    data: { title: '整改报告详情', reuse: true },
+    data: { title: '整改汇报', reuse: true },
   },
   {
     path: 'oa-template',

@@ -79,6 +79,7 @@ export class TempalteSelectComponent implements OnInit {
   }
 
   save(): void {
+    this.selectedTemplateFileChange.emit(this.selectedtemplateFile);
     this.handleCancel();
   }
 
@@ -101,8 +102,6 @@ export class TempalteSelectComponent implements OnInit {
       this.queryParams.categoryId = null;
     }
   }
-
-
 
   tramsform(data: Array<any>, level: number): void {
     let counter = 0;
@@ -131,7 +130,7 @@ export class TempalteSelectComponent implements OnInit {
   templateFileChange($event): void {
     if ($event) {
       this.selectedtemplateFile = $event;
-      this.selectedTemplateFileChange.emit($event);
+      // this.selectedTemplateFileChange.emit($event);
     }
   }
 }

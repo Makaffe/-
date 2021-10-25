@@ -19,6 +19,7 @@ export class RectificationReportDTO {
     this.reportFileId = item && item.reportFileId ? item.reportFileId : null;
     this.rectificationReportType = item && item.rectificationReportType ? item.rectificationReportType : null;
     this.rectificationReportTypeId = item && item.rectificationReportTypeId ? item.rectificationReportTypeId : null;
+    this.categoryId = item && item.categoryId ? item.categoryId : null;
   }
 
 
@@ -76,5 +77,10 @@ export class RectificationReportDTO {
    * 整改报告id
    */
   rectificationReportTypeId: string;
+
+  /**
+   * 报告存储目录id
+   */
+  categoryId: string;
 
 }

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SharedModule } from '@mt-framework-ng/view';
-import { RectifyGenerateReportDetailComponent } from './rectify-generate-report-detail.component';
+import { OrganizationComponentModule } from '@ng-mt-framework/comp';
 
 import { RectifyPostDetailComponent } from './rectify-post-detail.component';
 
@@ -14,18 +14,17 @@ import { TempalteSelectComponent } from './tempalte-select.component';
 import { TemplateListComponent } from './template-list.component';
 
 const COMPONENTS = [
-    RectifyPostViewComponent,
-    RectifyPostListComponent,
-    RectifyPostTypeTreeComponent,
-    RectifyPostTypeTreeEditComponent,
-    RectifyPostDetailComponent,
-    TemplateListComponent,
-    TempalteSelectComponent,
-    RectifyGenerateReportDetailComponent
+  RectifyPostViewComponent,
+  RectifyPostListComponent,
+  RectifyPostTypeTreeComponent,
+  RectifyPostTypeTreeEditComponent,
+  RectifyPostDetailComponent,
+  TemplateListComponent,
+  TempalteSelectComponent,
 ];
 @NgModule({
-  imports: [CommonModule, SharedModule],
+  imports: [CommonModule, SharedModule, OrganizationComponentModule],
   exports: [...COMPONENTS],
   declarations: [...COMPONENTS],
 })
-export class RectifyPostModule {}
+export class RectifyPostModule { }
