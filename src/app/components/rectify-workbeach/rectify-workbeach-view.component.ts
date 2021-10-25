@@ -65,6 +65,8 @@ export class RectifyWorkbeachViewComponent implements OnInit {
     totalRecords: 20,
   };
 
+  systemFiles = [];
+
   // 查询参数
   searchParam = this.searchParams();
 
