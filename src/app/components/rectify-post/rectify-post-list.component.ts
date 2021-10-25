@@ -1,5 +1,5 @@
 import { formatDate } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { STChange, STColumnTag } from '@delon/abc';
 import { QueryOptions, TABLE_PARAMETER } from '@mt-framework-ng/core';
@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs';
 import { Broadcaster } from 'src/app/matech/service/broadcaster';
 import { RectificationReportDTO } from './model/RectificationReportDTO';
 import { RectificationReportTypeDTO } from './model/RectificationReportTypeDTO';
+import { RectifyPostDetailComponent } from './rectify-post-detail.component';
 import { RectificationReportService } from './service/RectificationReportService';
 
 const TAG: STColumnTag = {
@@ -22,6 +23,12 @@ const TAG: STColumnTag = {
   styles: [],
 })
 export class RectifyPostListComponent implements OnInit {
+
+  /**
+   * 整改报告详情弹窗
+   */
+  @ViewChild('rectifyPostDetailComponent', { static: false })
+  rectifyPostDetailComponent: RectifyPostDetailComponent;
 
   /**
    * 搜索条件
@@ -49,6 +56,19 @@ export class RectifyPostListComponent implements OnInit {
   tableData: Array<RectificationReportDTO> = [];
 
   /**
+   * 当前单选框选中的数据
+   */
+  @Input()
+  selectedData = null;
+
+  /**
+   * 单选框选中事件
+   */
+  @Output()
+  selectedDataChange = new EventEmitter<RectificationReportDTO>();
+
+
+  /**
    * 列表加载状态
    */
   loading = false;
@@ -67,8 +87,8 @@ export class RectifyPostListComponent implements OnInit {
    */
   tableParameter = ObjectUtil.deepClone(TABLE_PARAMETER);
   columns = [
-    { title: '编号', index: 'id', type: 'checkbox', width: '10px', className: 'text-center' },
-    { title: '序号', render: 'number', width: '10px', className: 'text-center', type: 'radio' },
+    { index: 'id', type: 'radio', width: '5px', className: 'text-center' },
+    { title: '序号', render: 'number', width: '10px', className: 'text-center' },
     {
       title: '状态',
       index: 'auditReportStatus',
@@ -79,7 +99,7 @@ export class RectifyPostListComponent implements OnInit {
       sort: this.tableParameter.sortDef,
     },
     {
-      title: '整改报告名称',
+      title: '整改汇报名称',
       index: 'name',
       width: '40px',
       sort: this.tableParameter.sortDef,
@@ -99,11 +119,7 @@ export class RectifyPostListComponent implements OnInit {
     private rectificationReportService: RectificationReportService,
     private msg: NzMessageService,
     private broadcaster: Broadcaster,
-  ) {
-    this.dataChangeSubscription = this.broadcaster.on<any>('rectify-report-list:change').subscribe(() => {
-      this.load();
-    });
-  }
+  ) { }
 
   ngOnInit() {
     this.load();
@@ -143,9 +159,8 @@ export class RectifyPostListComponent implements OnInit {
   /**
    * 查看，编辑整改报告
    */
-  edit(row: RectificationReportDTO, isWatch: boolean): void {
-    row.rectificationReportTypeId = row.rectificationReportType ? row.rectificationReportType.id : row.rectificationReportTypeId;
-    this.router.navigate([`/audit-rectify/rectify-post-detail/${isWatch}/${row.rectificationReportTypeId}/${row.id}`]);
+  edit(row: RectificationReportDTO, isWatch: boolean, rectificationReportTypeId?: string): void {
+    this.rectifyPostDetailComponent.openModal(row, isWatch, rectificationReportTypeId);
   }
   /**
    * 删除
@@ -156,6 +171,36 @@ export class RectifyPostListComponent implements OnInit {
       this.load();
     });
   }
-  change(e: STChange): void {
+
+  /**
+   * 表格变化事件，用于双击、排序，翻页等操作
+   * @param e 事件
+   */
+  change(e: any): void {
+    // 双击事件
+    if (e.type === 'dblClick') {
+      this.edit(e.dblClick.item, true);
+    }
+
+    // 排序事件
+    if (e.type === 'sort') {
+      if (e.sort.map) {
+        this.queryOptions.sort = e.sort.map.sort;
+      }
+      this.load();
+    }
+    // 翻页设置
+    if (e.type === 'ps' || e.type === 'pi') {
+      this.queryOptions.page = e.pi - 1;
+      this.queryOptions.size = e.ps;
+      this.load();
+    }
+
+    // 单选事件
+    if (e.type === 'radio') {
+      this.selectedData = e.radio;
+      this.selectedDataChange.emit(e.radio);
+    }
   }
+
 }

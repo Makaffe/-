@@ -98,25 +98,28 @@
               </nz-form-control>
             </nz-form-item>
             <nz-form-item>
-              <nz-form-label>是否无法整改</nz-form-label>
-              <nz-form-control>
-                <nz-radio-group [(ngModel)]="radioValue">
-                  <label nz-radio [nzValue]="false">否</label>
-                  <label nz-radio [nzValue]="true">是</label>
-                </nz-radio-group>
-              </nz-form-control>
+              <nz-form-item>
+                <nz-form-label nzSpan="2">是否无法整改</nz-form-label>
+                <nz-form-control nzSpan="21">
+                  <nz-radio-group name="radioValue" [(ngModel)]="radioValue">
+                    <label nz-radio [nzValue]="false">否</label>
+                    <label nz-radio [nzValue]="true">是</label>
+                  </nz-radio-group>
+                </nz-form-control>
+              </nz-form-item>
             </nz-form-item>
             <div *ngIf="radioValue">
               <nz-form-item>
                 <nz-form-label nzSpan="2">无法整改原因</nz-form-label>
-                <nz-form-control nzSpan="21"> <textarea rows="3" nz-input readonly [(ngModel)]="rectifyTrack.advice"
-                    name="advice"></textarea></nz-form-control>
+                <nz-form-control nzSpan="21"> <textarea rows="3" nz-input name="advice"></textarea></nz-form-control>
               </nz-form-item>
               <nz-form-item>
-                <nz-form-label [nzSpan]="4">相关附件</nz-form-label>
-                <app-attach-list [show]="false" [(attachFiles)]="systemFiles" #attachListComponent
-                  [fileType]="'RECTIFY_MEASURE_FILE'">
-                </app-attach-list>
+                <nz-form-label nzSpan="2">相关附件</nz-form-label>
+                <nz-form-control nzSpan="21">
+                  <app-attach-list [show]="true" [(attachFiles)]="systemFiles" #attachListComponent
+                    [fileType]="'RECTIFY_MEASURE_FILE'">
+                  </app-attach-list>
+                </nz-form-control>
               </nz-form-item>
             </div>
           </form>
@@ -243,8 +246,8 @@
                     <th>整改措施</th>
                     <th nzWidth="200px">整改进度</th>
                     <th nzWidth="100px" [nzAlign]="'center'">附件</th>
-                    <th nzWidth="140px" [nzAlign]="'center'">拟整改时间</th>
-                    <th nzWidth="140px" [nzAlign]="'center'" *ngIf="!isRectify">整改截止时间</th>
+                    <th nzWidth="200px" [nzAlign]="'center'">拟整改时间</th>
+                    <!-- <th nzWidth="140px" [nzAlign]="'center'" *ngIf="!isRectify">整改截止时间</th> -->
                     <th nzWidth="80px" [nzAlign]="'center'">剩余天数</th>
                     <th nzWidth="180px" [nzAlign]="'center'" *ngIf="!isRectify">整改结果</th>
                     <th nzWidth="180px" [nzAlign]="'center'" *ngIf="isRectify">操作</th>
@@ -283,9 +286,10 @@
                           查看文件
                         </button>
                       </td>
-                      <td nzWidth="140px" [nzAlign]="'center'">{{ formatDateFun(data.rectifyCompleteTime) }}</td>
-                      <td nzWidth="140px" [nzAlign]="'center'" *ngIf="!isRectify">{{ formatDateFun(data.rectifyEndTime)
-                        }}</td>
+                      <td nzWidth="200px" [nzAlign]="'center'">{{ formatDateFun(data.rectifyCompleteTime) }} ~
+                        2021-12-12</td>
+                      <!-- <td nzWidth="140px" [nzAlign]="'center'" *ngIf="!isRectify">{{ formatDateFun(data.rectifyEndTime)
+                        }}</td> -->
                       <td nzWidth="50px" [nzAlign]="'center'">10</td>
 
                       <td nzWidth="180px" [nzAlign]="'center'">

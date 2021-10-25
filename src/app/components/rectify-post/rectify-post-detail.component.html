@@ -1,104 +1,92 @@
-<as-split direction="horizontal" unit="pixel" [useTransition]="true" gutterSize="3"
-  (gutterClick)="leftSize = leftSize == 0 ? LEFT_WIDTH : 0">
-  <!-- 左侧审计知识树 -->
-  <as-split-area [size]="300" minSize="180" maxSize="300" class="app-audit-tree app-audit-tree-left"
-    style="background-color: white;">
-    <rectify-post-type-tree></rectify-post-type-tree>
-  </as-split-area>
-  <as-split-area [size]="'*'" style="overflow:hidden;background-color: white">
-    <div style="height:100%;margin-top:50px;margin-left:50px;">
-      <form nz-form>
-        <nz-steps [nzCurrent]="current" nzDirection="vertical">
-          <nz-step nzTitle="报告基本信息" [nzDescription]="step1"></nz-step>
-          <nz-step nzTitle="报告生成" [nzDescription]="step2"></nz-step>
-        </nz-steps>
-        <ng-template #step1>
-          <div style="margin:30px 0px 20px -100px">
-            <nz-form-item>
-              <nz-form-label nzSpan="4" nzRequired> 整改报告名称</nz-form-label>
-              <nz-form-control nzSpan="16">
-                <input nz-input [readOnly]="readFlag1 || isWatch" name="name" [(ngModel)]="currentItem.name" />
-              </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-              <nz-form-label nzSpan="4" nzRequired>整改统计时间</nz-form-label>
-              <nz-form-control nzSpan="8">
-                <nz-range-picker [nzDisabled]="readFlag1 || isWatch" name="auditTime" [(ngModel)]="auditTime">
-                </nz-range-picker>
-              </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-              <nz-form-label nzSpan="4">统计</nz-form-label>
-              <nz-form-control nzSpan="8">
-                <span>问题总数：20 未开始：1 整改中：18 已逾期：8 已移交：2</span>
-              </nz-form-control>
-            </nz-form-item>
-          </div>
-        </ng-template>
-        <ng-template #step2>
-          <div style="margin:30px 0px 20px -100px" *ngIf="visabled">
-            <nz-form-item>
-              <nz-form-label nzSpan="4">操作</nz-form-label>
-              <nz-form-control nzSpan="16">
-                <button nz-button nzType="primary" (click)="referenceTempl()" style="margin-left:10px;"
-                  [disabled]="readFlag2||isWatch">
-                  <i nz-icon nzType="link" nzTheme="outline"></i>引用模板
-                </button>
-                <button nz-button nzType="primary" [disabled]="readFlag2||isWatch" (click)="generate()">
-                  <i nz-icon nzType="file-word" nzTheme="outline"></i>生成报告
-                </button>
-              </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-              <nz-form-label nzSpan="4">整改报告列表</nz-form-label>
-              <nz-form-control nzSpan="16">
-                <nz-table #basicTable [nzData]="listOfData" [nzShowPagination]="false">
-                  <thead>
-                    <tr>
-                      <th>引用模板</th>
-                      <th>报告名称</th>
-                      <th>操作</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let data of basicTable.data">
-                      <td>{{ data.name }}</td>
-                      <td>{{ data.reportName }}</td>
-                      <td>
-                        <a *ngIf="readFlag2 || isWatch" style="pointer-events: none;color: #666666; opacity: 0.5">编辑</a>
-                        <a *ngIf="!readFlag2 && !isWatch" (click)=editGenerateDoc()>编辑</a>
-                        <nz-divider nzType="vertical"></nz-divider>
-                        <a *ngIf="readFlag2 " style="pointer-events: none;color: #666666; opacity: 0.5">查看</a>
-                        <a *ngIf="!readFlag2" (click)=viewGenerateDoc()>预览</a>
-                        <nz-divider nzType="vertical"></nz-divider>
-                        <a *ngIf="readFlag2||isWatch" style="pointer-events: none;color: #666666; opacity: 0.5">删除</a>
-                        <a *ngIf="!readFlag2 &&!isWatch" nz-popconfirm nzPopconfirmTitle="是否要删除生成的报告?"
-                          nzPopconfirmPlacement="bottom" (nzOnConfirm)="deleteGenerateDoc()">删除</a>
-                      </td>
-                    </tr>
-                  </tbody>
-                </nz-table>
-              </nz-form-control>
-            </nz-form-item>
-          </div>
-          <div style="position: absolute; top: 300px;">
-            <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">上一步</button>
-            <button nz-button style="margin-left: 50px;" nzType="default" (click)="next()" *ngIf="current < 1">
-              下一步
-            </button>
-            <button nz-button style="margin-left: 50px;" [nzLoading]="loading" nzType="primary" (click)="done()"
-              *ngIf="current === 1 && !isWatch">
-              完成
-            </button>
-          </div>
-        </ng-template>
-      </form>
-    </div>
-  </as-split-area>
-</as-split>
+<nz-modal [(nzVisible)]="isVisible" [nzMaskClosable]="false" (nzOnCancel)="handleCancel()"
+  [nzFooter]="noticeEditorFooter" nzWidth="50%" [nzTitle]="!currentItem.id?'新增整改报告':isWatch?'查看整改报告':'修改整改报告'"
+  [nzBodyStyle]="{
+    'max-height': '600px',
+    'min-height': '200px',
+    'overflow-y': 'auto',
+    'overflow-x': 'hidden',
+    padding: '24px'
+  }">
+  <form nz-form #form=ngForm>
+    <nz-form-item>
+      <nz-form-label nzSpan="4" nzRequired> 整改汇报名称</nz-form-label>
+      <nz-form-control nzSpan="20"
+        [nzValidateStatus]="name.invalid && (name.dirty || name.touched) ? 'error' : ''">
+        <input nz-input [readOnly]=" isWatch" #name = "ngModel" name="name" placeHolder="请填写整改汇报名称" [(ngModel)]="currentItem.name" required />
+        <nz-form-explain *ngIf="name.invalid && (name.dirty || name.touched)">
+          请填写整改汇报名称
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="4" nzRequired>整改统计时间</nz-form-label>
+      <nz-form-control nzSpan="20"
+        [nzValidateStatus]="rectifyTime.invalid && (rectifyTime.dirty || rectifyTime.touched) ? 'error' : ''">
+        <nz-range-picker name="rectifyTime" #rectifyTime="ngModel" [nzDisabled]="isWatch" [(ngModel)]="auditTime"
+          required>
+        </nz-range-picker>
+        <nz-form-explain *ngIf="rectifyTime.invalid && (rectifyTime.dirty || rectifyTime.touched)">
+          请选择整改统计时间
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="4">审计报告</nz-form-label>
+      <nz-form-control nzSpan="20">
+        <nz-select [nzDisabled]="isWatch" nzPlaceHolder="请选择审计报告" >
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="4">整改单位</nz-form-label>
+      <nz-form-control nzSpan="20">
+        <mt-organization-select required [disabled]="isWatch" placeHolder="请选择整改单位" organizationType="UNIT">
+        </mt-organization-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="4">整改部门</nz-form-label>
+      <nz-form-control nzSpan="20">
+        <mt-organization-select required [disabled]="isWatch" placeHolder="请选择整改部门" organizationType="DEPARTMENT">
+        </mt-organization-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item *ngIf="currentItem&&currentItem.templateFile">
+      <nz-form-label nzSpan="4" nzRequired>报告存储目录</nz-form-label>
+      <nz-form-control nzSpan="20"
+        [nzValidateStatus]="categoryId.invalid && (categoryId.dirty || categoryId.touched) ? 'error' : ''">
+        <nz-tree-select #categoryId="ngModel" [disabled]="isWatch" name="categoryId" [nzNodes]="categoryFold"
+          nzShowSearch nzPlaceHolder="选择模板后要选择报告的存储目录" [(ngModel)]="value" required>
+        </nz-tree-select>
+        <nz-form-explain *ngIf="categoryId.invalid && (categoryId.dirty || categoryId.touched)">
+          选择模板后要选择报告的存储目录
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="4">统计</nz-form-label>
+      <nz-form-control nzSpan="20">
+        <span>问题总数：20 未开始：1 整改中：18 已逾期：8 已移交：2</span>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="4">报告模板</nz-form-label>
+      <nz-form-control nzSpan="16">
+        <nz-tag [nzColor]="'geekblue'" nzMode="checkable" (nzCheckedChange)="tagClick()"
+          *ngIf="currentItem&&currentItem.templateFile">
+          {{currentItem.templateFile.templateName}}</nz-tag>
+        <nz-tag *ngIf="!currentItem||!currentItem.templateFile">无</nz-tag>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+  <ng-template #noticeEditorFooter>
+    <button nz-button nzType="default" (click)="referenceTempl()" *ngIf="!isWatch">
+      <i nz-icon nzType="link" nzTheme="outline"></i>引用模板
+    </button>
+    <button nz-button nzType="default" (click)="handleCancel()">取消</button>
+    <button nz-button nzType="primary" (click)="save()" *ngIf="!isWatch" [nzLoading]="loading">确定</button>
+  </ng-template>
+</nz-modal>
+
 <!-- 模板选择弹窗-->
-<app-tempalte-select #tempalteSelectComponent (selectedTemplateFileChange)="selectTmpl($event)"
-  [(selectedtemplateFile)]="template"></app-tempalte-select>
-<!--生成报告弹窗-->
-<rectify-generate-report-detail #rectifyGenerateReportDetailComponent
-  (generateReportEvent)="generateReportEvent($event)" [rectifyReport]="currentItem"></rectify-generate-report-detail>
+<app-tempalte-select #tempalteSelectComponent (selectedTemplateFileChange)="selectTmpl($event)"></app-tempalte-select>
