@@ -119,9 +119,7 @@ export class RectificationReportService {
   }
 
   /**
-   * 获取单一整改报告信息
-   * @param id 待查询整改报告编码
-   *
+   * 生成文档
    */
   generateReport(
     rectificationReportId?: string,
