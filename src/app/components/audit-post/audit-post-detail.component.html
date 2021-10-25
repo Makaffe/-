@@ -156,20 +156,16 @@
             nzSpan="9"
             [nzValidateStatus]="reportSource.invalid && (reportSource.dirty || reportSource.touched) ? 'error' : ''"
           >
-            <nz-select
+            <app-dict-select
               required
-              name="reportSource"
-              #reportSource="ngModel"
-              nzShowSearch
-              [nzDisabled]="isWatch || currentItem.auditReportStatus == 'GENERATED'"
+              [dictCode]="'MRF_REPORT_SOURCE'"
               nzAllowClear
-              nzPlaceHolder="请选择报告来源"
+              [placeHolder]="'请选择报告来源'"
+              #reportSource="ngModel"
+              name="reportSource"
               [(ngModel)]="currentItem.reportSource"
             >
-              <nz-option nzLabel="内部审计" nzValue="MRF_REPORT_SOURCE"></nz-option>
-              <nz-option nzLabel="迎审项目" nzValue="MRF_REPORT_SOURCE"></nz-option>
-              <nz-option nzLabel="外聘审计" nzValue="MRF_REPORT_SOURCE"></nz-option>
-            </nz-select>
+            </app-dict-select>
             <nz-form-explain *ngIf="reportSource.invalid && (reportSource.dirty || reportSource.touched)">
               请选择报告来源
             </nz-form-explain>
@@ -230,8 +226,8 @@
                     {{ data.name }}
                   </td>
                   <td>{{ data.type | dictTransform: 'PROBLEM_TYPE' | async }}</td>
-                  <td>{{ data?.rectifyDepartment?.name }}</td>
-                  <td>{{ data?.dutyUser?.name }}</td>
+                  <td>{{ convertOrganization(data?.rectifyDepartmentId) }}</td>
+                  <td>{{ convertdutyUser(data?.dutyUserId) }}</td>
                   <td>{{ data.money }}</td>
                   <td>{{ data.remark }}</td>
                   <td>{{ data.advice }}</td>
@@ -365,7 +361,6 @@
           nz-input
           name="paramsItem.money"
           [pattern]="PATTERN"
-          required
           [(ngModel)]="paramsItem.money"
         />
       </nz-form-control>

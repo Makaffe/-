@@ -1,4 +1,4 @@
-<div style="overflow:scroll;height: 100%" nz-col>
+<div style="overflow:scroll;height: 100%;padding: 10px;" nz-col>
   <div nz-row>
     <div nz-col>
       <div nz-row>
@@ -192,10 +192,10 @@
               >
                 <ng-template st-row="process">
                   <div nz-row nzJustify="space-between">
-                    <div nzSpan="2" nz-col>
+                    <div nzSpan="4" nz-col>
                       <p>89%</p>
                     </div>
-                    <div nzSpan="16" nz-col>
+                    <div nzSpan="20" nz-col>
                       <nz-progress [nzPercent]="89" [nzShowInfo]="false"></nz-progress>
                     </div>
                   </div>
@@ -210,7 +210,7 @@
                       <label style="float: right;margin-top: 3px;">整改截止时间:&nbsp;</label>
                     </div>
                     <div nz-col nzSpan="16">
-                      <nz-date-picker [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-date-picker>
+                      <nz-range-picker [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-range-picker>
                     </div>
                   </div>
                 </div>
@@ -279,7 +279,7 @@
       <div nz-row style="height:300px">
         <div nz-row nzJustify="space-between">
           <div nz-col nzSpan="17">
-            <nz-card>
+            <nz-card [nzTitle]="myHeader">
               <st
                 [scroll]="{ y: '240px' }"
                 style="height:300px"
@@ -293,15 +293,20 @@
                 </ng-template>
                 <ng-template st-row="process">
                   <div nz-row nzJustify="space-between">
-                    <div nzSpan="3" nz-col>
+                    <div nzSpan="4" nz-col>
                       <p style="margin-top: 12px;">89%</p>
                     </div>
-                    <div nzSpan="21" style="margin-top: 12px;" nz-col>
+                    <div nzSpan="20" style="margin-top: 12px;" nz-col>
                       <nz-progress [nzPercent]="89" [nzShowInfo]="false"></nz-progress>
                     </div>
                   </div>
                 </ng-template>
               </st>
+              <ng-template #myHeader>
+                <div nz-row>
+                  <h3 nz-col nzSpan="16">我处理的整改问题</h3>
+                </div>
+              </ng-template>
             </nz-card>
           </div>
           <div nz-col nzSpan="7">

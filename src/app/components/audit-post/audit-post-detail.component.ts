@@ -115,6 +115,16 @@ export class AuditPostDetailComponent implements OnInit {
   haveSave = false;
 
   /**
+   * 整改负责人map
+   */
+  dutyUserMap: Map<string, string> = new Map<string, string>();
+
+  /**
+   * 整改部门map
+   */
+  organizationMap: Map<string, string> = new Map<string, string>();
+
+  /**
    * 初始化问题类型
    */
   problemItem: RectifyProblemDTO = null;
@@ -138,10 +148,14 @@ export class AuditPostDetailComponent implements OnInit {
   ngOnInit() {
     this.organizationService.getOrganizationTreeOfEmployeeOrUser().subscribe(data => {
       this.organizationTree = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
+      this.recursionOrganizationTree(data);
     });
     this.userService.findAll().subscribe(data => {
       if (data) {
         this.dutyUserList = data;
+        this.dutyUserList.forEach(user => {
+          this.dutyUserMap.set(user.id, user.name);
+        });
       }
     });
     this.activatedRoute.queryParams.subscribe(data => {
@@ -161,6 +175,19 @@ export class AuditPostDetailComponent implements OnInit {
           error: () => {},
           complete: () => {},
         });
+      }
+    });
+  }
+
+  /**
+   * 递归organizationTree设置organizationMap用于方便回显
+   * @param organizationTree 组织树
+   */
+  recursionOrganizationTree(organizationTree: Array<any>) {
+    organizationTree.forEach(organization => {
+      this.organizationMap.set(organization.id, organization.name);
+      if (organization.children && organization.children.length > 0) {
+        this.recursionOrganizationTree(organization.children);
       }
     });
   }
@@ -294,9 +321,11 @@ export class AuditPostDetailComponent implements OnInit {
     console.log(data);
     if ($event && $event.length > 0) {
       this.paramsItem.rectifyDepartmentId = $event[0].id;
+
       // this.listOfData.filter(item => item.uuid === data.uuid)[0].rectifyDepartmentId = $event[0].id;
     } else {
       this.paramsItem.rectifyDepartmentId = null;
+
       // this.listOfData.filter(item => item.uuid === data.uuid)[0].rectifyDepartmentId = null;
     }
   }
@@ -307,10 +336,10 @@ export class AuditPostDetailComponent implements OnInit {
     console.log(data);
     if ($event && $event.length > 0) {
       this.paramsItem.dutyUserId = $event[0].id;
+
       // this.listOfData.filter(item => item.uuid === data.uuid)[0].dutyUserId = $event[0].id;
     } else {
       this.paramsItem.dutyUserId = null;
-      // this.listOfData.filter(item => item.uuid === data.uuid)[0].dutyUserId = null;
     }
   }
 
@@ -485,6 +514,23 @@ export class AuditPostDetailComponent implements OnInit {
   afterChange() {
     this.broadcaster.broadcast('writ:change');
     this.onReturn();
+  }
+
+  convertdutyUser(id: string) {
+    if (id) {
+      return this.dutyUserMap.get(id);
+    }
+  }
+
+  /**
+   * 整改部门name回显
+   * @param id 整改部门id
+   * @returns 整改部门name
+   */
+  convertOrganization(id: string) {
+    if (id) {
+      return this.organizationMap.get(id);
+    }
   }
 
   downLoadPostFile(): void {
