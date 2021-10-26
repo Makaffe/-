@@ -10,19 +10,35 @@ interface ItemData {
   // tslint:disable-next-line:component-selector
   selector: 'supervise-process-form',
   templateUrl: './supervise-process-form.component.html',
-  styles: [],
+  styleUrls: [],
 })
 export class SuperviseProcessFormComponent implements OnInit {
   @ViewChild('attachListComponent', { static: false })
   attachListComponent: AttachListComponent;
 
-  disabled = false;
+  /**
+   * 左侧宽度
+   */
+  leftSize = 40;
 
-  constructor() {}
+  /**
+   * 右侧宽度
+   */
+  rightSize = 60;
+  disabled = false;
+  currentItem = {
+    reportName: '经济责任报告',
+    problemName: '有关于财政支出问题',
+    rectifyChargeName: 'jack',
+    number: '42388',
+    problemType: 'jack',
+
+  };
+  constructor() { }
   isVisible = false;
   date = new Date();
-  radioLetterValue: any;
-  radioDisciplineValue: any;
+  radioLetterValue: any = 'A';
+  radioDisciplineValue: any = 'A';
   editCache: { [key: string]: { edit: boolean; data: ItemData } } = {};
   listOfData: ItemData[] = [];
 
@@ -35,13 +51,14 @@ export class SuperviseProcessFormComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   handleCancel() {
     this.isVisible = false;
   }
 
-  show() {
+  show(isWatch: boolean = false) {
+    this.disabled = isWatch;
     this.isVisible = true;
     if (this.disabled) {
       this.updateEditCache(false);
@@ -60,5 +77,18 @@ export class SuperviseProcessFormComponent implements OnInit {
 
   deletePunishment(id: any) {
     this.listOfData = this.listOfData.filter(data => data.id !== id);
+  }
+
+  /**
+   * 折叠或展开问题详情
+   */
+  fold() {
+    if (this.leftSize === 0) {
+      this.leftSize = 40;
+      this.rightSize = 60;
+    } else {
+      this.leftSize = 0;
+      this.rightSize = 100;
+    }
   }
 }

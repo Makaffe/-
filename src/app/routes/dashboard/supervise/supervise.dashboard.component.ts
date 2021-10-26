@@ -237,11 +237,10 @@ export class SuperviseDashboardComponent implements OnInit {
   }
 
   process() {
-    this.superviseProcessFormComponent.show();
+    this.superviseProcessFormComponent.show(false);
   }
 
   show() {
-    this.superviseProcessFormComponent.show();
-    this.superviseProcessFormComponent.disabled = true;
+    this.superviseProcessFormComponent.show(true);
   }
 }
