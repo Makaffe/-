@@ -8,22 +8,25 @@ import { RectifyProblemService } from '../rectify-issue/service/RectifyProblemSe
   templateUrl: './rectify-time-line.component.html',
   styles: [
     `
-      tr {
+      :host ::ng-deep tr {
         background-color: white !important;
         border: none !important;
         border-bottom: none !important;
       }
-      td {
+      :host ::ng-deep td {
         border: none !important;
         border-bottom: none !important;
       }
 
-      .ant-table-header tr:last-child th,
+      :host ::ng-deep .ant-table-header tr:last-child th,
       nz-table .ant-table-content .ant-table-body tr:last-child th,
       nz-table .ant-table-content .ant-table-header tr:last-child td,
       nz-table .ant-table-content .ant-table-body tr:last-child td,
       nz-table .ant-table-content .ant-table-body tr:last-child td {
-        border-bottom: 1px solid white !important;
+        border-bottom: none !important;
+      }
+      :host ::ng-deep nz-table .ant-table-content {
+        border-bottom: none !important;
       }
     `,
   ],
