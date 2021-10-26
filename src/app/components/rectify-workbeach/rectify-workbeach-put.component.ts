@@ -1,21 +1,26 @@
-
-
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'rectify-workbeach-put',
+  selector: 'app-rectify-workbeach-put',
   templateUrl: './rectify-workbeach-put.component.html',
   styles: [],
 })
 export class RectifyWorkbeachPutComponent implements OnInit {
+  constructor(private msg: NzMessageService) {}
 
-  constructor(private msg: NzMessageService) {
-
-  }
+  currentItem = {
+    closingDate: null,
+    applyReason: null,
+    replyComments: null,
+    systemFiles: [],
+  };
 
   systemFiles = [];
+
+  isWatchForTable = false;
+
+  create = false;
 
   /**
    * 字段初始化
@@ -29,11 +34,12 @@ export class RectifyWorkbeachPutComponent implements OnInit {
     replyComments: null,
     beforeRectifyEndTime: null,
     rectifyProblem: null,
-
   };
 
-  // 判断是否为整改部门
-
+  /**
+   * 判断是否为整改部门
+   */
+  @Input()
   isRectify = null;
 
   /**
@@ -41,22 +47,27 @@ export class RectifyWorkbeachPutComponent implements OnInit {
    */
   isVisible = false;
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   /**
    * 用来控制打开弹窗
    */
   open() {
-
+    if (!this.isRectify) {
+      this.currentItem = {
+        closingDate: new Date(),
+        applyReason:
+          '申请原因申请原因申请原因申请原因申请原因申请原因申请原因申请原因申请原因申请原因申请原因申请原因申请原因',
+        replyComments: null,
+        systemFiles: [],
+      };
+    }
     this.isVisible = true;
   }
   /**
    * 关闭弹窗
    */
   handleCancel() {
-    this.msg.info('关闭窗口');
     this.isVisible = false;
   }
 
@@ -64,9 +75,6 @@ export class RectifyWorkbeachPutComponent implements OnInit {
    * 点击完成保存
    */
   saveData() {
-    this.msg.info('申请延期成功');
     this.isVisible = false;
   }
-
-
 }

@@ -21,7 +21,6 @@
               <button nz-button nzType="primary" (click)="rectifySwitch()">切换问题</button>
               <button nz-button nzType="primary" (click)="applicationRecord()">延期申请记录</button>
             </div>
-
           </div>
           <div nzSpan="15" nz-col *ngIf="!isRectify">
             <div style="position: absolute;right: 0px;">
@@ -32,6 +31,8 @@
                 [disabled]="'已移交'===rectifyTrack.transferStatus">移交纪检</button>
               <button nz-button nzType="primary" (click)="rectifySwitch()">切换问题</button>
               <button nz-button nzType="primary" (click)="delayApprove()">延期审批记录</button>
+              <button nz-button nzType="primary" (click)="delayExtension()"><i nz-icon nzType="exclamation-circle"
+                  nzTheme="outline" style='color: red;'></i>延期审批</button>
               <nz-popconfirm [nzTitle]="confirmtittle" (nzOnConfirm)="onChangeStates(rectifyTrack.id)">
                 <ng-template #confirmtittle>
                   <font color='red'>结束整改如果有子问题，那么所有子问题都会结束整改</font>
@@ -40,9 +41,6 @@
                 </ng-template>
                 <button nz-button nzType="primary" nz-popconfirm>结束整改</button>
               </nz-popconfirm>
-
-              <button nz-button nzType="primary" (click)="delayExtension()"><i nz-icon nzType="exclamation-circle" nzTheme="outline"
-                  style='color: red;' ></i>延期审批</button>
             </div>
           </div>
         </div>
@@ -381,7 +379,7 @@
 
 <!-- 整改部门提交申请请求
   调用弹窗组件 -->
-  <rectify-workbeach-put #rectifyWorkbeachPutComponent></rectify-workbeach-put>
+<app-rectify-workbeach-put #rectifyWorkbeachPutComponent [isRectify]="isRectify"></app-rectify-workbeach-put>
 
 
 <rectify-workbeach-table #rectifyWorkbeachTableComponent></rectify-workbeach-table>

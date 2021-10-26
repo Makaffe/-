@@ -1,8 +1,16 @@
 import { Component, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
-import { STColumn } from '@delon/abc';
+import { STColumn, STColumnTag } from '@delon/abc';
 import { TABLE_PARAMETER } from '@ng-mt-framework/comp';
 import { ObjectUtil } from '@ng-mt-framework/util';
+import { RectifyWorkbeachPutComponent } from './rectify-workbeach-put.component';
 
+const TAG: STColumnTag = {
+  1: { text: '通过', color: 'green' },
+  2: { text: '错误', color: 'red' },
+  3: { text: '进行中', color: 'blue' },
+  4: { text: '草稿', color: '' },
+  5: { text: '警告', color: 'orange' },
+};
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'rectify-workbeach-table',
@@ -13,9 +21,16 @@ export class RectifyWorkbeachTableComponent implements OnInit {
   loading = false;
 
   /**
+   * 整改部门提交申请请求
+   * 调用弹窗组件
+   */
+  @ViewChild('rectifyWorkbeachPutComponent', { static: false })
+  rectifyWorkbeachPutComponent: RectifyWorkbeachPutComponent;
+
+  /**
    * 列表参数
    */
-   tableParameter = ObjectUtil.deepClone(TABLE_PARAMETER);
+  tableParameter = ObjectUtil.deepClone(TABLE_PARAMETER);
 
   isVisible = false;
 
@@ -24,56 +39,54 @@ export class RectifyWorkbeachTableComponent implements OnInit {
   constructor() {}
 
   columns: STColumn[] = [
-    { title: '序号', render: 'number', width: '30px', sort: this.tableParameter.sortDef, className: 'text-center' },
-    { title: '状态', index: 'status', width: '30px', sort: this.tableParameter.sortDef, className: 'text-center' },
-    { title: '申请原因', index: 'key', width: '30px', sort: this.tableParameter.sortDef, className: 'text-center' },
-    { title: '提交截止日期', index: 'time', width: '30px', sort: this.tableParameter.sortDef, className: 'text-center' },
-    { title: '批复人', index: 'name', width: '30px', sort: this.tableParameter.sortDef, className: 'text-center' },
-    { title: '批复日期', index: 'quesion', width: '30px', sort: this.tableParameter.sortDef, className: 'text-center' },
-    { title: '批复意见', index: 'startTime', width: '30px', sort: this.tableParameter.sortDef, className: 'text-center' },
-    { title: '申请问题原整改截止日期', index: 'endTime', width: '30px', sort: this.tableParameter.sortDef, className: 'text-center' },
-    { title: '操作', render: 'operations', width: '30px', sort: this.tableParameter.sortDef, className: 'text-center' },
+    { title: '序号', render: 'number', width: '80px', sort: this.tableParameter.sortDef, className: 'text-center' },
+    {
+      title: '状态',
+      index: 'status',
+      width: '20%',
+      sort: this.tableParameter.sortDef,
+      className: 'text-center',
+      type: 'tag',
+      tag: TAG,
+    },
+    {
+      title: '延期截止日期',
+      index: 'time',
+      width: '20%',
+      sort: this.tableParameter.sortDef,
+    },
+    { title: '批复人', index: 'name', width: '20%', sort: this.tableParameter.sortDef },
+    { title: '批复日期', index: 'time2', width: '20%', sort: this.tableParameter.sortDef },
+    {
+      title: '原整改截止日期',
+      index: 'endTime',
+      width: '20%',
+      sort: this.tableParameter.sortDef,
+    },
+    { title: '操作', render: 'operations', width: '80px', className: 'text-center' },
   ];
-
-
 
   /**
    * 对应的列表中表的数据
    */
   listOfData = [
     {
-      key: '1',
-      name: '一号部门',
-      time: '2022-09-8',
-      status: '黑了',
-      quesion: '没有任何问题',
-      endTime: '100-32-56',
-      startTime: '2568-102-25',
+      id: '1',
+      status: '4',
+      time: '2021-10-26',
+      name: '张伟',
+      time2: '2021-10-26',
+      endTime: '2021-10-26',
     },
     {
-      key: '11',
-      name: '一号部门',
-      time: '2019-09-586',
-      status: '按了',
-      quesion: '有很多问题',
-      endTime: '58-455-32-56',
-      startTime: '2568-102-25',
+      id: 'r1',
+      status: '1',
+      time: '2021-11-18',
+      name: '刘壮实',
+      time2: '2021-10-26',
+      endTime: '2021-11-18',
     },
-    {
-      key: 'r1',
-      name: '一号部门',
-      time: '2019-09-8',
-      status: '走人了',
-      quesion: '解决完所有问题',
-      endTime: '100214-3342-56',
-      startTime: '2568-133402-25',
-    }
   ];
-
-
-
-
-
 
   handleCancel() {
     this.isVisible = false;
@@ -83,10 +96,7 @@ export class RectifyWorkbeachTableComponent implements OnInit {
 
   stChange(e: any) {}
 
-
-  agree() {
-
-  }
+  agree() {}
   /**
    * 打开列表弹窗
    */
@@ -95,10 +105,16 @@ export class RectifyWorkbeachTableComponent implements OnInit {
   }
 
   saveData() {
-
     this.isVisible = false;
-
   }
 
-
+  /**
+   * 查看
+   */
+  watch() {
+    this.rectifyWorkbeachPutComponent.isWatchForTable = true;
+    this.rectifyWorkbeachPutComponent.create = true;
+    this.rectifyWorkbeachPutComponent.currentItem.closingDate = new Date();
+    this.rectifyWorkbeachPutComponent.isVisible = true;
+  }
 }
