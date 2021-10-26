@@ -397,8 +397,8 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   hideTimeLine() {
     if (this.timeLineButtonType === 'right') {
       this.timeLineButtonType = 'left';
-      this.leftSize = 15;
-      this.rightSize = 85;
+      this.leftSize = 18;
+      this.rightSize = 82;
     } else {
       this.timeLineButtonType = 'right';
       this.leftSize = 0;

@@ -1,4 +1,5 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { formatDate } from '@angular/common';
+import { Component, EventEmitter, Inject, LOCALE_ID, OnInit, Output, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { FormUtil, TreeUtil } from '@mt-framework-ng/util';
 import { OrganizationService, UserService } from '@ng-mt-framework/api';
@@ -20,7 +21,19 @@ export class RectifyIssueSplitComponent implements OnInit {
     private organizationService: OrganizationService,
     private msg: NzMessageService,
     private userService: UserService,
+    @Inject(LOCALE_ID) private locale: string,
   ) {}
+
+  /**
+   * 临时数据
+   */
+  currentItem = {
+    zgzzfzr: null,
+    zgdw: null,
+    rectifyDepartmentId: null,
+    dutyUserId: null,
+    zgjzsj: null,
+  };
 
   /**
    * 数据改变通知事件
@@ -49,6 +62,16 @@ export class RectifyIssueSplitComponent implements OnInit {
    * 后台请求标识
    */
   loading = false;
+
+  /**
+   * 左侧宽度
+   */
+  leftSize = 40;
+
+  /**
+   * 右侧宽度
+   */
+  rightSize = 60;
 
   /**
    * 子问题列表
@@ -260,5 +283,31 @@ export class RectifyIssueSplitComponent implements OnInit {
       this.childrenProblemList.push(childrenProblem);
     }
     this.childrenProblemList = [...this.childrenProblemList];
+  }
+
+  /**
+   * 折叠或展开问题详情
+   */
+  fold() {
+    if (this.leftSize === 0) {
+      this.leftSize = 40;
+      this.rightSize = 60;
+    } else {
+      this.leftSize = 0;
+      this.rightSize = 100;
+    }
+  }
+
+  /**
+   * 格式化date
+   * @param date 标准时间格式
+   * @returns string
+   */
+  formatDateFun(date: Date) {
+    if (date) {
+      return formatDate(date, 'yyyy-MM-dd', this.locale);
+    } else {
+      return '';
+    }
   }
 }

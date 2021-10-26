@@ -11,6 +11,7 @@ export class AuditPostDTO {
   constructor(item?: AuditPostDTO) {
     this.id = item && item.id ? item.id : null;
     this.auditName = item && item.auditName ? item.auditName : null;
+    this.reauditName = item && item.reauditName ? item.reauditName : null;
     this.name = item && item.name ? item.name : null;
     this.auditStartTime = item && item.auditStartTime ? item.auditStartTime : null;
     this.auditEndTime = item && item.auditEndTime ? item.auditEndTime : null;
@@ -19,6 +20,7 @@ export class AuditPostDTO {
     this.auditPostType = item && item.auditPostType ? item.auditPostType : null;
     this.auditPostTypeId = item && item.auditPostTypeId ? item.auditPostTypeId : null;
     this.systemFile = item && item.systemFile ? item.systemFile : null;
+    this.systemFiles = item && item.systemFiles ? item.systemFiles : null;
   }
   /**
    * 对象ID，新增时应当为null, 系统会自动生成
@@ -29,6 +31,11 @@ export class AuditPostDTO {
    * 审计单位名称
    */
   auditName?: string;
+
+  /**
+   * 被审计单位名称
+   */
+  reauditName?: string;
 
   /**
    * 报告名称
@@ -91,9 +98,14 @@ export class AuditPostDTO {
   auditPostType?: AuditPostTypeDTO;
 
   /**
-   * 关联的附件信息
+   * 上传的报告信息
    */
   systemFile?: SystemFileDTO;
+
+  /**
+   * 上传的附件信息
+   */
+  systemFiles?: SystemFileDTO;
 
   auditDateRange?: Date[];
 

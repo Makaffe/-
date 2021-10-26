@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SharedModule } from '@mt-framework-ng/view';
+import { SharedModule } from '@shared';
 
 import { RectifyTrackListComponent } from './rectify-track-list.component';
 import { RectifyTrackViewComponent } from './rectify-track-view.component';
@@ -19,5 +19,4 @@ const COMPONENTS = [
   exports: [...COMPONENTS],
   declarations: [...COMPONENTS],
 })
-
 export class RectifyTrackModule {}

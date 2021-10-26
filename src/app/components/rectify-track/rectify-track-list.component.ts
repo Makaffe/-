@@ -191,6 +191,21 @@ export class RectifyTrackListComponent implements OnInit {
     }
   }
 
+  collapse(array: any[], data: any, $event: boolean): void {
+    if ($event === false) {
+      if (data.children) {
+        data.children.forEach(d => {
+          // tslint:disable-next-line:no-non-null-assertion
+          const target = array.find(a => a.id === d.id)!;
+          target.expand = false;
+          this.collapse(array, target, false);
+        });
+      } else {
+        return;
+      }
+    }
+  }
+
   checkTransferResult() {
     this.router.navigate(['/audit-rectify/transfer-result']);
   }

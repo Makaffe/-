@@ -23,6 +23,11 @@ export class RectifyProblemDTO {
   type?: string;
 
   /**
+   * 涉及金额
+   */
+  money?: string;
+
+  /**
    * 创建数据的用户ID，系统根据token自动填写
    */
   createUser?: UserBaseDTO;
@@ -183,4 +188,8 @@ export class RectifyProblemDTO {
   selectedRectifyDepartment?: OrganizationDTO[];
 
   selectedRectifyPeople?: UserDTO[];
+
+  zgdw?: any;
+  sjje?: any;
+  zgjzsj?: any;
 }
