@@ -11,45 +11,47 @@
   <br />
 </div>
 <!-- <nz-progress *ngIf="percent > 0 && percent < 100" [nzPercent]="percent"></nz-progress> -->
-
-<nz-table nzBordered [nzShowPagination]="'false'" [nzData]="attachFiles" #auditProjectAttach [nzSize]="'middle'"
-  [nzTitle]="fileTitle" [nzScroll]="scroll" style=" padding-left: 0;" [ngStyle]="{ height: TBHeight }"
-  [nzNoResult]="null">
-  <thead>
-    <tr>
-      <!-- <th nzShowCheckbox [(nzChecked)]="isAllDisplayDataChecked" [nzIndeterminate]="isIndeterminate"
+<div [ngStyle]="{'margin':show?'0':'10px 0 5px 0'} ">
+  <nz-table nzBordered [nzShowPagination]="'false'" [nzData]="attachFiles" #auditProjectAttach [nzSize]="'middle'"
+    [nzTitle]="fileTitle" [nzScroll]="scroll" style=" padding-left: 0;" [ngStyle]="{ height: TBHeight }"
+    [nzNoResult]="null">
+    <thead>
+      <tr>
+        <!-- <th nzShowCheckbox [(nzChecked)]="isAllDisplayDataChecked" [nzIndeterminate]="isIndeterminate"
         (nzCheckedChange)="checkAll($event)"></th> -->
-      <th style="width: 40%;" [nzAlign]="'center'">{{ fileName }}</th>
-      <th style="width: 16%;" [nzAlign]="'center'">上传时间</th>
-      <th style="width: 16%;" [nzAlign]="'center'">文件大小</th>
-      <th style="width: 18%;" [nzAlign]="'center'">操作</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let data of attachFiles; odd as odd" [ngClass]="odd ? 'odd-tr-bg' : ''">
-      <!-- <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[data.id]" (nzCheckedChange)="refreshStatus()"></td> -->
-      <td title="{{ data.originalName }}" style="width: 40%;" [nzAlign]="'center'">
-        {{ data.originalName }}
-      </td>
-      <td style="width: 16%;" [nzAlign]="'center'">
-        {{ data.lastModifiedTime }}
-      </td>
-      <td style="width: 16%;" [nzAlign]="'center'">
-        {{ data.size }}
-      </td>
-      <td style="width: 18%;" [nzAlign]="'center'">
-        <div>
-          <a (click)="downCertificate(data.id, data.originalName, data)">下载</a>
-          <nz-divider nzType="vertical"></nz-divider>
-          <a *ngIf="!show" (click)="preview(data.id, data.originalName)">预览</a>
-          <nz-popconfirm nzTitle="是否要删除文件{{ data.originalName }}？" (nzOnConfirm)="deleteAttach(data)">
-            <a *ngIf="show" nz-popconfirm>删除</a>
-          </nz-popconfirm>
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</nz-table>
+        <th style="width: 40%;" [nzAlign]="'center'">{{ fileName }}</th>
+        <th style="width: 16%;" [nzAlign]="'center'">上传时间</th>
+        <th style="width: 16%;" [nzAlign]="'center'">文件大小</th>
+        <th style="width: 18%;" [nzAlign]="'center'">操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of attachFiles; odd as odd" [ngClass]="odd ? 'odd-tr-bg' : ''">
+        <!-- <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[data.id]" (nzCheckedChange)="refreshStatus()"></td> -->
+        <td title="{{ data.originalName }}" style="width: 40%;" [nzAlign]="'center'">
+          {{ data.originalName }}
+        </td>
+        <td style="width: 16%;" [nzAlign]="'center'">
+          {{ data.lastModifiedTime }}
+        </td>
+        <td style="width: 16%;" [nzAlign]="'center'">
+          {{ data.size }}
+        </td>
+        <td style="width: 18%;" [nzAlign]="'center'">
+          <div>
+            <a (click)="downCertificate(data.id, data.originalName, data)">下载</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a *ngIf="!show" (click)="preview(data.id, data.originalName)">预览</a>
+            <nz-popconfirm nzTitle="是否要删除文件{{ data.originalName }}？" (nzOnConfirm)="deleteAttach(data)">
+              <a *ngIf="show" nz-popconfirm>删除</a>
+            </nz-popconfirm>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>
+
 
 <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null"
   (nzOnCancel)="previewVisible = false">

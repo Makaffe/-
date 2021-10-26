@@ -75,7 +75,7 @@
                   <nz-date-picker [(ngModel)]="date" name="rectifyEndTime" disabled></nz-date-picker>
                 </nz-form-control>
                 <nz-form-control nzSpan="1"></nz-form-control>
-                <nz-form-label nzSpan="2">涉及金额</nz-form-label>
+                <nz-form-label nzSpan="2">涉及金额(元)</nz-form-label>
                 <nz-form-control nzSpan="5">
                   <input nz-input readonly name='issueMoney' readonly ngModel="100000" />
                 </nz-form-control>
@@ -325,12 +325,11 @@
                             <nz-divider nzType="vertical"></nz-divider>
                             <a (click)="chageRectifyProgress(data.id, null, 'RECTIFY_CENTRE')">提交</a>
                           </div>
-                          <div *ngIf="data.measureStatus !== 'NOT_SUBMITTED'">
-                            <a (click)="watch(data)">查看</a>
-                            <nz-divider nzType="vertical" *ngIf="data.measureStatus === 'RECTIFY_CENTRE'">
-                            </nz-divider>
-                          </div>
                           <div *ngIf="data.measureStatus === 'RECTIFY_CENTRE'">
+                            <a (click)="watch(data)" *ngIf="data.measureStatus !== 'NOT_SUBMITTED'">查看</a>
+                            <nz-divider nzType="vertical"
+                              *ngIf="data.measureStatus !== 'NOT_SUBMITTED'&&data.measureStatus === 'RECTIFY_CENTRE'">
+                            </nz-divider>
                             <a (click)="update(data, true, false)">上传</a>
                             <nz-divider nzType="vertical"></nz-divider>
                             <a (click)="chageRectifyProgress(data.id, null, 'INVALID')">失效</a>
