@@ -239,4 +239,19 @@ export class RectifyProblemSwitchComponent implements OnInit {
     this.handleCancel();
     this.rectifyProblem.emit(this.checkboxData);
   }
+
+  collapse(array: any[], data: any, $event: boolean): void {
+    if ($event === false) {
+      if (data.children) {
+        data.children.forEach(d => {
+          // tslint:disable-next-line:no-non-null-assertion
+          const target = array.find(a => a.id === d.id)!;
+          target.expand = false;
+          this.collapse(array, target, false);
+        });
+      } else {
+        return;
+      }
+    }
+  }
 }

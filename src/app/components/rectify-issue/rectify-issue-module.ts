@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SharedModule } from '@shared';
 import { AttachListModule } from '../common/attach/attach-list.module';
+import { AuditPostWatchComponent } from './audit-post-watch.component';
 import { RectifyChildIssueDetailComponent } from './rectify-child-issue-detail.component';
 import { RectifyIssueListComponent } from './rectify-issue-list.component';
 import { RectifyIssueOrderComponent } from './rectify-issue-order.component';
@@ -16,6 +17,7 @@ const COMPONENTS = [
   RectifyIssueTransferComponent,
   RectifyIssueOrderComponent,
   RectifyChildIssueDetailComponent,
+  AuditPostWatchComponent,
 ];
 @NgModule({
   imports: [CommonModule, SharedModule, AttachListModule],
