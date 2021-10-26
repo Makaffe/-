@@ -1,6 +1,6 @@
 <!--附件选择-->
-<div style=" margin: 15px 0 5px 0;display: flex;" *ngIf="show">
-  <ng-container>
+<div style=" margin: 15px 0 5px 0;display: flex;">
+  <ng-container *ngIf="show">
     <nz-upload #uploadComponent nzMultiple [(nzFileList)]="fileList" [nzAction]="action" [nzFilter]="filters"
       [nzData]="handleData" [nzShowUploadList]="showUploadList" [nzCustomRequest]="customReq"
       (nzChange)="upLoadFile($event)">
