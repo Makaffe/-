@@ -11,7 +11,7 @@ import { RectifyMeasureService } from './service/RectifyMeasureService';
 
 @Component({
   // tslint:disable-next-line:component-selector
-  selector: 'rectify-effect',
+  selector: 'app-rectify-effect',
   templateUrl: './rectify-effect.component.html',
   styles: [
     `

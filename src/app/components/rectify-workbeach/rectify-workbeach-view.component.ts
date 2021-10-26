@@ -17,6 +17,7 @@ import { RectifyEffectComponent } from './rectify-effect.component';
 import { RectifyMeasureReplyComponent } from './rectify-measure-reply.component';
 import { RectifyMeasureComponent } from './rectify-measure.component';
 import { RectifyProblemSwitchComponent } from './rectify-problem-switch.component';
+import { RectifyTimeLineComponent } from './rectify-time-line.component';
 import { RectifyMeasureService } from './service/RectifyMeasureService';
 
 @Component({
@@ -34,17 +35,25 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   @ViewChild('rectifyMeasureComponent', { static: false })
   rectifyMeasureComponent: RectifyMeasureComponent;
 
+  // 整改措施回复组件
   @ViewChild('rectifyMeasureReplyComponent', { static: false })
   rectifyMeasureReplyComponent: RectifyMeasureReplyComponent;
 
+  // 移交纪检组件
   @ViewChild('rectifyIssueTransferComponent', { static: false })
   rectifyIssueTransferComponent: RectifyIssueTransferComponent;
 
+  // 整改成效组件
   @ViewChild('rectifyEffectComponent', { static: false })
   rectifyEffectComponent: RectifyEffectComponent;
 
+  // 问题切换组件
   @ViewChild('rectifyProblemSwitchComponent', { static: false })
   rectifyProblemSwitchComponent: RectifyProblemSwitchComponent;
+
+  // 时间轴组件
+  @ViewChild('rectifyTimeLineComponent', { static: false })
+  rectifyTimeLineComponent: RectifyTimeLineComponent;
 
   // 分页参数
   private options: QueryOptions = {
@@ -116,7 +125,17 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   organizationTree = [];
 
   mapOfExpandData: { [key: string]: boolean } = {};
-  listOfData = [];
+  listOfData = [
+    {
+      notReadNum: 1,
+      measureStatus: 'RECTIFY_CENTRE',
+      measureType: '制度修改',
+      measureContent: '整改措施',
+      rectifyProgress: 10,
+      systemFiles: [],
+      rectifyCompleteTime: '2021-11-8',
+    },
+  ];
 
   // 反馈频率
   days = [];
@@ -140,7 +159,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
     this.organizationService.getOrganizationTreeOfEmployeeOrUser().subscribe(data => {
       this.organizationTree = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
     });
-    this.loadData();
+    //this.loadData();
     this.loadTimeOption();
   }
 
@@ -158,7 +177,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
       .subscribe(
         data => {
           if (data) {
-            this.listOfData = data.data;
+            // this.listOfData = data.data;
             this.pageInfo.pageNo = data.pageNo + 1;
             this.pageInfo.pageSize = data.pageSize;
             this.pageInfo.totalPages = data.totalPages;
@@ -388,8 +407,8 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   hideTimeLine() {
     if (this.timeLineButtonType === 'right') {
       this.timeLineButtonType = 'left';
-      this.leftSize = 15;
-      this.rightSize = 85;
+      this.leftSize = 18;
+      this.rightSize = 82;
     } else {
       this.timeLineButtonType = 'right';
       this.leftSize = 0;
