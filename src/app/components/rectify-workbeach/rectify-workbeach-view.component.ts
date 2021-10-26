@@ -143,7 +143,17 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   organizationTree = [];
 
   mapOfExpandData: { [key: string]: boolean } = {};
-  listOfData = [];
+  listOfData = [
+    {
+      notReadNum: 1,
+      measureStatus: 'RECTIFY_CENTRE',
+      measureType: '制度修改',
+      measureContent: '整改措施',
+      rectifyProgress: 10,
+      systemFiles: [],
+      rectifyCompleteTime: '2021-11-8',
+    },
+  ];
 
   // 反馈频率
   days = [];
@@ -191,7 +201,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
       .subscribe(
         data => {
           if (data) {
-            this.listOfData = data.data;
+            // this.listOfData = data.data;
             this.pageInfo.pageNo = data.pageNo + 1;
             this.pageInfo.pageSize = data.pageSize;
             this.pageInfo.totalPages = data.totalPages;
