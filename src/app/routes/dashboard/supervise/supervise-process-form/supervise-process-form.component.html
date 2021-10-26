@@ -1,123 +1,173 @@
 <nz-modal [(nzVisible)]="isVisible" [nzMaskClosable]="false" (nzOnCancel)="handleCancel()" [nzFooter]="editorFooter"
-  nzWidth="1050" [nzTitle]="'纪检处理'" [nzStyle]="{ top: '65px' }" [nzBodyStyle]="{
-    'max-height': '455px',
-    'min-height': '300px',
-    'overflow-y': 'auto',
-    'overflow-x': 'hidden',
-    padding: '24px 24px 0 24px'
+  nzWidth="80%" [nzStyle]="{ top: '24px' }" [nzBodyStyle]="{
+    'height': '700px',
+    padding: '20px 20px 20px 20px'
   }">
-  <form nz-form>
-    <nz-form-item>
-      <nz-form-label nzSpan="4">问题名称</nz-form-label>
-      <nz-form-control nzSpan="8">
-        <input nz-input disabled />
-      </nz-form-control>
-      <nz-form-label nzSpan="4">整改负责人</nz-form-label>
-      <nz-form-control nzSpan="8">
-        <nz-select nzAllowClear nzDisabled>
-          <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
-          <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
-        </nz-select>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzSpan="4">整改截止时间</nz-form-label>
-      <nz-form-control nzSpan="8">
-        <nz-date-picker [(ngModel)]="date" (ngModelChange)="''" [nzFormat]="'yyyy-MM-dd'" nzDisabled>
-        </nz-date-picker>
-      </nz-form-control>
-      <nz-form-label nzSpan="4">问题类型</nz-form-label>
-      <nz-form-control nzSpan="8">
-        <nz-select nzAllowClear nzDisabled>
-          <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
-          <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
-        </nz-select>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzSpan="4">问题来源</nz-form-label>
-      <nz-form-control nzSpan="20">
-        <textarea nz-input rows="3" disabled></textarea>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzSpan="4">问题描述</nz-form-label>
-      <nz-form-control nzSpan="20">
-        <textarea nz-input rows="3" disabled></textarea>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzSpan="4">移交原因</nz-form-label>
-      <nz-form-control nzSpan="20">
-        <textarea nz-input rows="3" disabled></textarea>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzSpan="4">是否发函</nz-form-label>
-      <nz-form-control nzSpan="8">
-        <nz-radio-group [(ngModel)]="radioLetterValue" [nzDisabled]="disabled">
-          <label nz-radio nzValue="A">已发函</label>
-          <label nz-radio nzValue="B">未发函</label>
-        </nz-radio-group>
-      </nz-form-control>
-      <nz-form-label nzSpan="4">是否处分</nz-form-label>
-      <nz-form-control nzSpan="8">
-        <nz-radio-group [(ngModel)]="radioDisciplineValue" [nzDisabled]="disabled">
-          <label nz-radio nzValue="A">已处分</label>
-          <label nz-radio nzValue="B">未处分</label>
-        </nz-radio-group>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzSpan="4">处分记录</nz-form-label>
-      <nz-form-control nzSpan="10">
-        <nz-table #editRowTable nzBordered [nzData]="listOfData" [nzShowPagination]="false" [nzNoResult]='null'>
-          <thead>
-            <tr>
-              <th nzWidth="25%">处分类型</th>
-              <th nzWidth="15%">处分人数</th>
-              <th nzWidth="10%"> <button nz-button nzType="link" (click)="addRow()" [disabled]="disabled"><i nz-icon
-                    nzType="plus" nzTheme="outline"></i>添加</button></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let data of editRowTable.data">
-              <td>
-                <ng-container>
-                  <nz-select name="punishment" nzAllowClear [(ngModel)]="data.id">
-                    <nz-option nzValue="0" nzLabel="党纪处分"></nz-option>
-                    <nz-option nzValue="1" nzLabel="政纪处分"></nz-option>
-                  </nz-select>
-                </ng-container>
-              </td>
-              <td>
-                <ng-container>
-                  <input name="age" type="text" nz-input [(ngModel)]="data.age" />
-                </ng-container>
-              </td>
-              <td>
-                <button nz-button nzType="link" (click)="deletePunishment(data.id)" [disabled]="disabled"><i nz-icon
-                    nzType="delete" nzTheme="outline"></i>删除</button>
-              </td>
-            </tr>
-          </tbody>
-        </nz-table>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzSpan="4">处理描述</nz-form-label>
-      <nz-form-control nzSpan="20">
-        <nz-date-picker [nzDisabled]="disabled"></nz-date-picker>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <app-attach-list #attachListComponent [show]="!disabled"></app-attach-list>
-    </nz-form-item>
-  </form>
+  <as-split direction="horizontal" unit="percent" [useTransition]="true"
+    (gutterClick)="leftSize = leftSize == 0 ? leftSize : 0">
+    <as-split-area [size]="leftSize" minSize="0" maxSize="50" style="background-color: white;" style="overflow: hidden">
+      <nz-card [nzTitle]="leftTitle" [nzBodyStyle]="{height:'100%',overflow:'auto'}"
+        style="height: 100%;">
+        <ng-template #leftTitle>
+          <div style="padding: 8px;">
+            问题详情
+          </div>
+        </ng-template>
+        <form>
+          <nz-form-item>
+            <nz-form-label nzSpan="5">所属报告</nz-form-label>
+            <nz-form-control nzSpan="19">
+              <input nz-input readonly name="report" [(ngModel)]="currentItem.reportName" />
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label nzSpan="5">问题名称</nz-form-label>
+            <nz-form-control nzSpan="19">
+              <input nz-input readonly name="problemName" [(ngModel)]="currentItem.problemName" />
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label nzSpan="5">整改负责人</nz-form-label>
+            <nz-form-control nzSpan="19">
+              <nz-select nzAllowClear name="rectifyCharge" [(ngModel)]="currentItem.rectifyChargeName"
+                [nzDisabled]="true">
+                <nz-option nzValue="jack" nzLabel="郭鑫"></nz-option>
+                <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label nzSpan="5">涉及金额(元)</nz-form-label>
+            <nz-form-control nzSpan="19">
+              <nz-input-number [nzDisabled]="true" name="number" [(ngModel)]="currentItem.number"></nz-input-number>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label nzSpan="5">整改截止时间</nz-form-label>
+            <nz-form-control nzSpan="19">
+              <nz-date-picker [(ngModel)]="date" name="date" (ngModelChange)="''" [nzFormat]="'yyyy-MM-dd'"
+                [disabled]="true">
+              </nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label nzSpan="5">问题类型</nz-form-label>
+            <nz-form-control nzSpan="19">
+              <nz-select nzAllowClear name="problemType" [(ngModel)]="currentItem.problemType" [nzDisabled]="true">
+                <nz-option nzValue="jack" nzLabel="财政收入"></nz-option>
+                <nz-option nzValue="lucy" nzLabel="财政支出"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label nzSpan="5">问题来源</nz-form-label>
+            <nz-form-control nzSpan="19">
+              <textarea nz-input rows="3" readonly></textarea>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label nzSpan="5">问题描述</nz-form-label>
+            <nz-form-control nzSpan="19">
+              <textarea nz-input rows="6" readonly></textarea>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label nzSpan="5">移交原因</nz-form-label>
+            <nz-form-control nzSpan="19">
+              <textarea nz-input rows="6" readonly></textarea>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label nzSpan="5">附件</nz-form-label>
+            <nz-form-control nzSpan="19">
+              <app-attach-list [show]="false"></app-attach-list>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+      </nz-card>
+    </as-split-area>
+    <!--右侧编辑区-->
+    <as-split-area [size]="rightSize" style="overflow: hidden">
+      <nz-card [nzTitle]="rightTitle" [nzBodyStyle]="{height:'100%',overflow:'auto',padding: '14px'}"
+        style="height: 100%">
+        <ng-template #rightTitle>
+          <button [nzTooltipTitle]="leftSize === 0 ? '显示问题详情' : '隐藏问题详情'" nzTooltipPlacement="bottom" nz-button
+            nz-tooltip nzType="link" nzSize="large" (click)="fold()">
+            <i nz-icon [nzType]="leftSize === 0 ? 'right-circle' : 'left-circle'" nzTheme="twotone"></i></button>纪检处理
+        </ng-template>
+        <form nz-form>
+          <nz-form-item>
+            <nz-form-label nzSpan="3">是否发函</nz-form-label>
+            <nz-form-control nzSpan="8">
+              <nz-radio-group [(ngModel)]="radioLetterValue" name="letter" [nzDisabled]="disabled">
+                <label nz-radio nzValue="A">已发函</label>
+                <label nz-radio nzValue="B">未发函</label>
+              </nz-radio-group>
+            </nz-form-control>
+            <nz-form-label nzSpan="4">是否处分</nz-form-label>
+            <nz-form-control nzSpan="8">
+              <nz-radio-group [(ngModel)]="radioDisciplineValue" name="discipline" [nzDisabled]="disabled">
+                <label nz-radio nzValue="A">已处分</label>
+                <label nz-radio nzValue="B">未处分</label>
+              </nz-radio-group>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label nzSpan="3">处分记录</nz-form-label>
+            <nz-form-control nzSpan="20">
+              <nz-table #editRowTable nzBordered [nzData]="listOfData" [nzShowPagination]="false" [nzNoResult]='null'>
+                <thead>
+                  <tr>
+                    <th nzWidth="25%">处分类型</th>
+                    <th nzWidth="15%">处分人数</th>
+                    <th nzWidth="10%"> <button nz-button nzType="link" (click)="addRow()" [disabled]="disabled"><i
+                          nz-icon nzType="plus" nzTheme="outline"></i>添加</button></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of editRowTable.data">
+                    <td>
+                      <ng-container>
+                        <nz-select name="punishment" nzAllowClear [(ngModel)]="data.id">
+                          <nz-option nzValue="0" nzLabel="党纪处分"></nz-option>
+                          <nz-option nzValue="1" nzLabel="政纪处分"></nz-option>
+                        </nz-select>
+                      </ng-container>
+                    </td>
+                    <td>
+                      <ng-container>
+                        <input name="age" type="text" nz-input [(ngModel)]="data.age" />
+                      </ng-container>
+                    </td>
+                    <td>
+                      <button nz-button nzType="link" (click)="deletePunishment(data.id)" [disabled]="disabled"><i
+                          nz-icon nzType="delete" nzTheme="outline"></i>删除</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </nz-table>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label nzSpan="3">处理描述</nz-form-label>
+            <nz-form-control nzSpan="20">
+              <textarea nz-input rows=6 [readOnly]="disabled"></textarea>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label nzSpan="3">附件</nz-form-label>
+            <nz-form-control nzSpan="20">
+              <app-attach-list #attachListComponent [show]="!disabled"></app-attach-list>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+      </nz-card>
+    </as-split-area>
+  </as-split>
   <ng-template #editorFooter>
     <div class="steps-action">
       <button nz-button nzType="default" (click)="handleCancel()">取消</button>
-      <button nz-button nzType="primary" [hidden]="disabled">
+      <button nz-button nzType="primary" *ngIf="!disabled">
         <span>完成</span>
       </button>
     </div>

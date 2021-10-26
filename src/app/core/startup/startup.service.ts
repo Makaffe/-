@@ -16,6 +16,7 @@ import { I18N_DATA } from './i18n-data';
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { ReuseTabService } from '@delon/abc';
 import { APP_DATA } from './app-data';
+import { deepCopy } from '@delon/util';
 
 /** 缓存的Key前缀 */
 export const CACHE_KEY_PREFIX = window.location.origin + window.location.pathname + '_';
@@ -26,8 +27,8 @@ export const CACHE_KEY_PREFIX = window.location.origin + window.location.pathnam
  */
 @Injectable()
 export class StartupService {
-  menuTree = APP_DATA;
-
+  menuTree = deepCopy(APP_DATA);
+  copyMenuTree = deepCopy(APP_DATA);
   constructor(
     // iconSrv: NzIconService,
     private menuService: MenuService,
@@ -165,6 +166,7 @@ export class StartupService {
 
     // 获取缓存中的权限
     const userDTO: UserDTO = this.cacheService.get('__user', { mode: 'none' });
+
     if (userDTO) {
       // 用户信息：包括姓名、头像、邮箱地址
       this.settingService.setUser({
@@ -190,6 +192,10 @@ export class StartupService {
   }
 
   load(userType = 'AUDIT_DEPARTMENT'): Promise<any> {
+    this.menuTree = deepCopy(APP_DATA);
+    if (this.cacheService.get('__user', { mode: 'none' })) {
+      userType = this.cacheService.get('__user', { mode: 'none' }).userType;
+    }
     switch (userType) {
       case 'AUDIT_DEPARTMENT':
         this.menuTree.menu[0].children[0] = {
@@ -200,20 +206,35 @@ export class StartupService {
         };
         break;
       case 'SUPERVISE_DEPARTMENT':
-        this.menuTree.menu[0].children[0] = {
-          text: '首页',
-          link: '/audit-rectify/supervise-dashboard',
-          i18n: 'menu.dashboard',
-          icon: 'anticon-dashboard',
-        };
+        this.menuTree.menu = [
+          {
+            text: '',
+            i18n: '',
+            group: true,
+            hideInBreadcrumb: true,
+            children: [{
+              text: '首页',
+              link: '/audit-rectify/supervise-dashboard',
+              i18n: 'menu.dashboard',
+              icon: 'anticon-dashboard',
+            }]
+          }];
         break;
       case 'RECTIFY_DEPARTMENT':
-        this.menuTree.menu[0].children[0] = {
-          text: '首页',
-          link: '/audit-rectify/rectify-dashboard',
-          i18n: 'menu.dashboard',
-          icon: 'anticon-dashboard',
-        };
+        this.menuTree.menu =
+          [
+            {
+              text: '',
+              i18n: '',
+              group: true,
+              hideInBreadcrumb: true,
+              children: [{
+                text: '首页',
+                link: '/audit-rectify/rectify-dashboard',
+                i18n: 'menu.dashboard',
+                icon: 'anticon-dashboard',
+              }]
+            }];
         break;
       default:
         break;
