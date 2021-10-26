@@ -13,12 +13,12 @@
       <th nzWidth="12%">审计报告名称</th>
       <th nzWidth="12%">问题名称</th>
       <th nzWidth="10%">问题类型</th>
-      <th nzWidth="10%">涉及金额(万元)</th>
+      <th nzWidth="10%">涉及金额(元)</th>
       <th nzWidth="10%">整改单位</th>
       <th nzWidth="10%">整改部门</th>
       <th nzWidth="10%">整改负责人</th>
       <th nzWidth="10%">审计负责人</th>
-      <th nzWidth="150px" nzAlign="center">操作</th>
+      <th nzWidth="200px" nzAlign="center">操作</th>
     </tr>
   </thead>
   <tbody>
@@ -48,7 +48,7 @@
           <td>{{ item?.auditPost?.name }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.type | dictTransform: 'PROBLEM_TYPE' | async }}</td>
-          <td>{{ 123 | currency: 'CNY':'symbol-narrow' }}</td>
+          <td nzAlign="right">{{ 123 | currency: 'CNY':'symbol-narrow' }}</td>
           <td>{{ item?.rectifyDepartment?.name }}</td>
           <td>整改单位</td>
           <td>{{ item?.dutyUser?.name }}</td>
@@ -65,6 +65,8 @@
               <button nz-button nzType="link" (click)="transfer([item])" [disabled]="item.transferStatus !== '未移交'"
                 style="padding: 0px;">移交</button>
             </ng-container>
+            <nz-divider nzType="vertical"></nz-divider>
+            <button nz-button nzType="link" (click)="watch(item)" style="padding: 0px;">查看</button>
           </td>
         </tr>
       </ng-container>

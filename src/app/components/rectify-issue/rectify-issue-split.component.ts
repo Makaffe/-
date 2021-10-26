@@ -33,6 +33,7 @@ export class RectifyIssueSplitComponent implements OnInit {
     rectifyDepartmentId: null,
     dutyUserId: null,
     zgjzsj: null,
+    sjje: 123,
   };
 
   /**
@@ -62,6 +63,11 @@ export class RectifyIssueSplitComponent implements OnInit {
    * 后台请求标识
    */
   loading = false;
+
+  /**
+   * 是否查看
+   */
+  isWatch = false;
 
   /**
    * 左侧宽度
@@ -146,6 +152,7 @@ export class RectifyIssueSplitComponent implements OnInit {
   handleCancel() {
     this.childrenProblemList = [];
     this.isVisible = false;
+    FormUtil.resetForm(this.form.form);
   }
 
   /**
@@ -180,8 +187,10 @@ export class RectifyIssueSplitComponent implements OnInit {
   /**
    * 初始化编辑页面
    * @param item 数据源
+   * @param isWatch 是否查看
    */
-  edit(item?: RectifyProblemDTO) {
+  edit(item: RectifyProblemDTO, isWatch: boolean) {
+    this.isWatch = isWatch;
     this.problemItem = ObjectUtil.deepClone(item);
     if (item.children && item.children.length > 0) {
       item.children.forEach(problem => {
@@ -196,7 +205,7 @@ export class RectifyIssueSplitComponent implements OnInit {
    * 新增子问题
    */
   addChildrenProblem() {
-    this.rectifyChildIssueDetailComponent.edit();
+    this.rectifyChildIssueDetailComponent.edit(null, false);
   }
 
   /**
@@ -204,7 +213,15 @@ export class RectifyIssueSplitComponent implements OnInit {
    * @param item 子问题
    */
   startEdit(item: RectifyProblemDTO) {
-    this.rectifyChildIssueDetailComponent.edit(item);
+    this.rectifyChildIssueDetailComponent.edit(item, false);
+  }
+
+  /**
+   * 查看子问题
+   * @param item 子问题
+   */
+  watchChildrenProblem(item: RectifyProblemDTO) {
+    this.rectifyChildIssueDetailComponent.edit(item, true);
   }
 
   /**
