@@ -138,12 +138,8 @@
           <nz-divider></nz-divider>
         </div>
         <div style="padding-left: 45px;">
-          <nz-timeline>
-            <nz-timeline-item>审计人员问题下发 2015-09-01</nz-timeline-item>
-            <nz-timeline-item nzColor="green">审计人员整改通知书发送到OA 2015-09-01</nz-timeline-item>
-            <nz-timeline-item nzColor="red">失效整改措施 2015-09-01</nz-timeline-item>
-            <nz-timeline-item nzColor="gray">回复审计人员 2015-09-01</nz-timeline-item>
-          </nz-timeline>
+          <!-- 整改时间轴 -->
+          <app-rectify-time-line #rectifyTimeLineComponent></app-rectify-time-line>
         </div>
       </as-split-area>
 
@@ -362,13 +358,17 @@
   </as-split-area>
 </as-split>
 
+<!-- 备忘录 -->
 <app-rectify-diary #rectifyDiaryComponent></app-rectify-diary>
+<!-- 整改措施 -->
 <app-rectify-measure #rectifyMeasureComponent (saveRectifyMeasure)="loadData()"></app-rectify-measure>
+<!-- 整改措施回复 -->
 <app-rectify-measure-reply #rectifyMeasureReplyComponent (saveRectifyMeasureReply)="loadData()">
 </app-rectify-measure-reply>
-<app-rectify-issue-transfer #rectifyIssueTransferComponent>
-</app-rectify-issue-transfer>
-
-<rectify-effect #rectifyEffectComponent></rectify-effect>
-
-<rectify-problem-switch #rectifyProblemSwitchComponent (rectifyProblem)="chageRectify($event)"></rectify-problem-switch>
+<!-- 移交纪检 -->
+<app-rectify-issue-transfer #rectifyIssueTransferComponent></app-rectify-issue-transfer>
+<!-- 整改成效 -->
+<app-rectify-effect #rectifyEffectComponent></app-rectify-effect>
+<!-- 整改问题切换 -->
+<app-rectify-problem-switch #rectifyProblemSwitchComponent (rectifyProblem)="chageRectify($event)">
+</app-rectify-problem-switch>

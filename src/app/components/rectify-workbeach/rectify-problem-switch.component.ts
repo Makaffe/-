@@ -11,7 +11,7 @@ import { RectifyTrackDTO } from '../rectify-track/model/RectifyTrackDTO';
 
 @Component({
   // tslint:disable-next-line:component-selector
-  selector: 'rectify-problem-switch',
+  selector: 'app-rectify-problem-switch',
   templateUrl: './rectify-problem-switch.component.html',
   styles: [],
 })
