@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SharedModule } from '@shared';
+import { AttachListModule } from '../common/attach/attach-list.module';
 import { RectifyChildIssueDetailComponent } from './rectify-child-issue-detail.component';
 import { RectifyIssueListComponent } from './rectify-issue-list.component';
 import { RectifyIssueOrderComponent } from './rectify-issue-order.component';
@@ -17,7 +18,7 @@ const COMPONENTS = [
   RectifyChildIssueDetailComponent,
 ];
 @NgModule({
-  imports: [CommonModule, SharedModule],
+  imports: [CommonModule, SharedModule, AttachListModule],
   exports: [...COMPONENTS],
   declarations: [...COMPONENTS],
 })

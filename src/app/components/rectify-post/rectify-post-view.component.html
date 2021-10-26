@@ -14,8 +14,16 @@
               <button nz-button (click)="create()" [disabled]="!currentClickNode||!currentClickNode.id"><i nz-icon
                   type="plus" theme="outline"></i>新增</button>
               <button nz-button (click)="search()"><i nz-icon type="reload" theme="outline"></i>刷新</button>
-              <button nz-button><i nz-icon nzType="vertical-align-bottom" nzTheme="outline"></i>批量导出</button>
-              <button nz-button><i nz-icon nzType="delete" nzTheme="outline"></i>批量删除</button>
+              <button nz-button (click)="templEdit()" [acl]="">
+                <i nz-icon nzType="radar-chart" nzTheme="outline"></i>文书模板
+              </button>
+              <button nz-button (click)="generate()" [acl]="">
+                <i nz-icon nzType="radar-chart" nzTheme="outline"></i>生成文档
+              </button>
+              <button nz-button (click)="viewGenerateDoc()" [acl]="">
+                <i nz-icon nzType="radar-chart" nzTheme="outline"></i>查看文档
+              </button>
+
             </div>
           </div>
           <!-- 搜索栏 -->
@@ -24,7 +32,7 @@
               <!-- 搜索框 -->
               <div nz-col [nzSpan]="9">
                 <nz-form-item style="justify-content: start;">
-                  <nz-form-label [nzSpan]="8">报告名称</nz-form-label>
+                  <nz-form-label [nzSpan]="8">整改汇报名称</nz-form-label>
                   <nz-form-control [nzSpan]="16">
                     <input nz-input type="text" name="name" [(ngModel)]="filter.name" placeholder="请输入搜索名称" />
                   </nz-form-control>
@@ -32,7 +40,7 @@
               </div>
               <div nz-col [nzSpan]="9">
                 <nz-form-item style="justify-content: start;">
-                  <nz-form-label [nzSpan]="8">时间</nz-form-label>
+                  <nz-form-label [nzSpan]="8">统计时间</nz-form-label>
                   <nz-form-control [nzSpan]="16">
                     <nz-range-picker name="time" [(ngModel)]="filter.auditTime"></nz-range-picker>
                   </nz-form-control>
@@ -50,7 +58,8 @@
         </div>
       </as-split-area>
       <as-split-area [size]="'*'">
-        <rectify-post-list [filter]="filter" [currentClickNode]="currentClickNode" #rectifyPostListComponent>
+        <rectify-post-list [filter]="filter" [(selectedData)]="selectedData" [currentClickNode]="currentClickNode"
+          #rectifyPostListComponent>
         </rectify-post-list>
       </as-split-area>
     </as-split>

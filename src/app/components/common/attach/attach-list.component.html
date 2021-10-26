@@ -12,12 +12,10 @@
       [nzCustomRequest]="customReq"
       (nzChange)="upLoadFile($event)"
     >
-      <button nz-button type="button" [disabled]="disabled">
-        <i nz-icon nzType="upload"></i>选择文件
-      </button> </nz-upload
+      <button nz-button type="button" [disabled]="disabled"><i nz-icon nzType="upload"></i>选择文件</button> </nz-upload
     >&nbsp;&nbsp;
   </ng-container>
-  <button nz-button type="button" (click)="download()"><i nz-icon nzType="download"></i>批量下载</button>
+  <!-- <button nz-button type="button" (click)="download()"><i nz-icon nzType="download" nzTheme="outline"></i>批量下载</button> -->
   <br />
 </div>
 <!-- <nz-progress *ngIf="percent > 0 && percent < 100" [nzPercent]="percent"></nz-progress> -->
@@ -36,12 +34,8 @@
 >
   <thead>
     <tr>
-      <th
-        nzShowCheckbox
-        [(nzChecked)]="isAllDisplayDataChecked"
-        [nzIndeterminate]="isIndeterminate"
-        (nzCheckedChange)="checkAll($event)"
-      ></th>
+      <!-- <th nzShowCheckbox [(nzChecked)]="isAllDisplayDataChecked" [nzIndeterminate]="isIndeterminate"
+        (nzCheckedChange)="checkAll($event)"></th> -->
       <th style="width: 40%;" [nzAlign]="'center'">{{ fileName }}</th>
       <th style="width: 16%;" [nzAlign]="'center'">上传时间</th>
       <th style="width: 16%;" [nzAlign]="'center'">文件大小</th>
@@ -50,7 +44,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let data of attachFiles; odd as odd" [ngClass]="odd ? 'odd-tr-bg' : ''">
-      <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[data.id]" (nzCheckedChange)="refreshStatus()"></td>
+      <!-- <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[data.id]" (nzCheckedChange)="refreshStatus()"></td> -->
       <td title="{{ data.originalName }}" style="width: 40%;" [nzAlign]="'center'">
         {{ data.originalName }}
       </td>

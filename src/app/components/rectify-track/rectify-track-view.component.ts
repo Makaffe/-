@@ -26,47 +26,24 @@ export class RectifyTrackViewComponent implements OnInit {
    *
    * 查询参数
    */
-  params = {
-    rectifyProblemName: null,
-    rectifyDepartmentId: null,
-    sendStatus: null,
-    transferStatus: null,
-    startTime: null,
-    endTime: null,
-  };
+  params = this.initParams();
+
   /**
    * 整改部门树
    */
   organizationTree = [];
 
   /**
-   * 状态参数
+   * 下发状态
    */
-
   sendStatusList = [
     {
-      label: '未下发',
-      value: 'NOT_ISSUED',
+      label: '下发中',
+      value: 'ISSUING',
     },
     {
-      label: '待整改',
-      value: 'TO_BE_RECTIFIED',
-    },
-    {
-      label: '整改中',
-      value: 'RECTIFYING',
-    },
-    {
-      label: '反馈逾期',
-      value: 'FEEDBACK_OVERDUE',
-    },
-    {
-      label: '整改逾期',
-      value: 'RECTIFY_OVERDUE',
-    },
-    {
-      label: '已完成',
-      value: 'COMPLETE',
+      label: '已下发',
+      value: 'ISSUED',
     },
   ];
 
@@ -82,14 +59,20 @@ export class RectifyTrackViewComponent implements OnInit {
     });
   }
 
-  onChangeRectifyEndTime(date: any) {
-    if (date instanceof Date) {
-      this.formatDateFun(date);
-      this.params.startTime = date[0];
-      this.params.endTime = date[1];
-    } else {
-      this.date = null;
-    }
+  initParams() {
+    return {
+      auditPostName: null, // 报告名称
+      improtAuditPostStartTime: null, // 导入报告开始时间
+      improtAuditPostEndTime: null, // 导入报告开始时间
+      problemType: null, // 问题类型
+      problemName: null, // 问题名称
+      isDistribute: null, // 是否已分配
+      isSend: null, // 是否已下发
+      rectifyProblemName: null,
+      rectifyDepartmentId: null,
+      sendStatus: null,
+      transferStatus: null,
+    };
   }
 
   formatDateFun(date: Date) {
@@ -100,19 +83,36 @@ export class RectifyTrackViewComponent implements OnInit {
     }
   }
 
-  /**
-   * 时间格式化
-   */
-  //  this.params.startTime = this.datePipe.transform(event[0], 'yyyy-MM-dd');
-  //   this.params.endTime = this.datePipe.transform(event[1], 'yyyy-MM-dd');
-  selectDateRange($event) {
-    console.log('=========SELECT-DATERANGE==========');
-    console.dir($event);
-    this.params.startTime = this.datePipe.transform($event[0], 'yyyy-MM-dd');
-    this.params.endTime = this.datePipe.transform($event[1], 'yyyy-MM-dd');
-  }
-
   search(): void {
     this.rectifyTrackList.load();
   }
+
+  /**
+   * 清空查询条件
+   */
+  clear() {
+    this.params = this.initParams();
+  }
+
+  /**
+   * 禁用开始时间
+   */
+  disabledStartDate = (startValue: Date): boolean => {
+    if (!startValue || !this.params.improtAuditPostEndTime) {
+      return false;
+    }
+    return startValue.getTime() > new Date(this.params.improtAuditPostEndTime).getTime();
+    // tslint:disable-next-line:semicolon
+  };
+
+  /**
+   * 禁用结束时间
+   */
+  disabledEndDate = (endValue: Date): boolean => {
+    if (!endValue || !this.params.improtAuditPostStartTime) {
+      return false;
+    }
+    return endValue.getTime() <= new Date(this.params.improtAuditPostStartTime).getTime();
+    // tslint:disable-next-line:semicolon
+  };
 }

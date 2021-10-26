@@ -46,6 +46,23 @@
         </nz-form-explain>
       </nz-form-control>
 
+      <nz-form-label [nzSpan]="4" nzFor="zgdw" nzRequired>整改单位</nz-form-label>
+      <nz-form-control [nzSpan]="8" [nzValidateStatus]="
+      zgdw.invalid &&
+          (zgdw.dirty || zgdw.touched)
+            ? 'error'
+            : ''
+        ">
+        <nz-tree-select [nzNodes]="organizationTree" nzDefaultExpandAll nzShowSearch nzAllowClear="true" name="zgdw"
+          [(ngModel)]="currentItem.zgdw" [nzDropdownStyle]="{ maxHeight: '280px' }" #zgdw="ngModel" required>
+        </nz-tree-select>
+        <nz-form-explain *ngIf="zgdw.invalid && (zgdw.dirty || zgdw.touched)">
+          请选择整改单位
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
       <nz-form-label [nzSpan]="4" nzFor="rectifyDepartmentId" nzRequired>整改部门</nz-form-label>
       <nz-form-control [nzSpan]="8" [nzValidateStatus]="
       rectifyDepartmentId.invalid &&
@@ -59,12 +76,10 @@
         </nz-tree-select>
         <nz-form-explain
           *ngIf="rectifyDepartmentId.invalid && (rectifyDepartmentId.dirty || rectifyDepartmentId.touched)">
-          请选择子问题整改部门
+          请选择整改部门
         </nz-form-explain>
       </nz-form-control>
-    </nz-form-item>
 
-    <nz-form-item>
       <nz-form-label [nzSpan]="4" nzFor="dutyUserId" nzRequired>整改负责人</nz-form-label>
       <nz-form-control [nzSpan]="8"
         [nzValidateStatus]="dutyUserId.invalid && (dutyUserId.dirty || dutyUserId.touched)? 'error': ''">
@@ -75,6 +90,28 @@
         </nz-select>
         <nz-form-explain *ngIf="dutyUserId.invalid && (dutyUserId.dirty || dutyUserId.touched)">
           请选择整改负责人
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="4" nzFor="sjje" nzRequired>涉及金额(万元)</nz-form-label>
+      <nz-form-control [nzSpan]="8" [nzValidateStatus]="sjje.invalid && (sjje.dirty || sjje.touched) ? 'error' : ''">
+        <nz-input-number class="input-number" name="sjje" [nzMin]="0" [nzPrecision]="2" [(ngModel)]="currentItem.sjje"
+          required #sjje="ngModel"></nz-input-number>
+        <nz-form-explain *ngIf="sjje.invalid && (sjje.dirty || sjje.touched)">
+          请填写涉及金额
+        </nz-form-explain>
+      </nz-form-control>
+
+      <nz-form-label [nzSpan]="4" nzFor="zgjzsj" nzRequired="true">整改截止时间</nz-form-label>
+      <nz-form-control [nzSpan]="8"
+        [nzValidateStatus]="zgjzsj.invalid && (zgjzsj.dirty || zgjzsj.touched) ? 'error' : ''">
+        <nz-date-picker [nzFormat]="'yyyy-MM-dd'" name="zgjzsj" [(ngModel)]="currentItem.zgjzsj" required
+          #zgjzsj="ngModel" nzPlaceHolder="请选择整改截止时间" [nzShowToday]="false">
+        </nz-date-picker>
+        <nz-form-explain *ngIf="zgjzsj.invalid && (zgjzsj.dirty || zgjzsj.touched)">
+          请选择整改截止时间
         </nz-form-explain>
       </nz-form-control>
     </nz-form-item>

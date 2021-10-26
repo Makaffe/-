@@ -188,4 +188,8 @@ export class RectifyProblemDTO {
   selectedRectifyDepartment?: OrganizationDTO[];
 
   selectedRectifyPeople?: UserDTO[];
+
+  zgdw?: any;
+  sjje?: any;
+  zgjzsj?: any;
 }

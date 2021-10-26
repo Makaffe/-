@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { TABLE_PARAMETER } from '@mt-framework-ng/core';
 import { OrganizationService } from '@ng-mt-framework/api';
@@ -6,22 +7,23 @@ import { QueryOptions } from '@ng-mt-framework/api/lib/model/common/query-option
 import { ObjectUtil } from '@ng-mt-framework/util';
 import { NzMessageService } from 'ng-zorro-antd';
 import { RectifyProblemService } from '../rectify-issue/service/RectifyProblemService';
-import { RectifyTrackDTO } from './model/RectifyTrackDTO';
+import { RectifyTrackDTO } from '../rectify-track/model/RectifyTrackDTO';
 
 @Component({
   // tslint:disable-next-line:component-selector
-  selector: 'rectify-track-list',
-  templateUrl: './rectify-track-list.component.html',
+  selector: 'rectify-problem-switch',
+  templateUrl: './rectify-problem-switch.component.html',
   styles: [],
 })
-export class RectifyTrackListComponent implements OnInit {
-  constructor(
-    private router: Router,
-    private msg: NzMessageService,
-    private rectifyProblemService: RectifyProblemService,
-    private organizationService: OrganizationService,
-  ) {}
+export class RectifyProblemSwitchComponent implements OnInit {
+  // 控制模态框展示
+  isVisible = false;
 
+  @Output()
+  rectifyProblem = new EventEmitter<any>();
+
+  // 日期
+  date: any;
   /**
    * 树表格相关参数
    */
@@ -30,31 +32,31 @@ export class RectifyTrackListComponent implements OnInit {
   mapOfExpandedData: { [id: string]: any[] } = {};
 
   /**
-   * checkbox的Output
-   */
-  @Output()
-  checkboxChange = new EventEmitter();
-
-  /**
    * checkbox选中的数据
    */
-  checkboxDatas = [];
+  checkboxData: RectifyTrackDTO;
 
-  @Output()
-  tableOperations = new EventEmitter<any>();
+  //
+  checkId: any;
 
   /**
    * 搜索条件
    */
-  @Input()
-  filter = {
-    rectifyProblemName: null,
-    rectifyDepartmentId: null,
-    sendStatus: null,
-    transferStatus: null,
-    startTime: null,
-    endTime: null,
-  };
+  params = this.initParams();
+
+  /**
+   * 下发状态
+   */
+  sendStatusList = [
+    {
+      label: '下发中',
+      value: 'ISSUING',
+    },
+    {
+      label: '已下发',
+      value: 'ISSUED',
+    },
+  ];
 
   /**
    * 列表加载状态
@@ -91,8 +93,29 @@ export class RectifyTrackListComponent implements OnInit {
     totalRecords: 20,
   };
 
+  constructor(
+    private router: Router,
+    private msg: NzMessageService,
+    private rectifyProblemService: RectifyProblemService,
+    private organizationService: OrganizationService,
+    private datePipe: DatePipe,
+  ) {}
+
   ngOnInit() {
     this.load();
+  }
+
+  initParams() {
+    return {
+      rectifyProblemName: null,
+      rectifyDepartmentId: null,
+      sendStatus: null,
+      transferStatus: null,
+      startTime: null,
+      endTime: null,
+      selectedValue: null,
+      problemType: null,
+    };
   }
 
   /**
@@ -104,12 +127,12 @@ export class RectifyTrackListComponent implements OnInit {
     this.rectifyProblemService
       .findOnePageUsingGET(
         this.queryOptions,
-        this.filter.rectifyProblemName,
-        this.filter.rectifyDepartmentId,
-        this.filter.sendStatus ? this.filter.sendStatus : 'ISSUED',
-        this.filter.transferStatus,
-        this.filter.startTime,
-        this.filter.endTime,
+        this.params.rectifyProblemName,
+        this.params.rectifyDepartmentId,
+        this.params.sendStatus ? this.params.sendStatus : 'ISSUED',
+        this.params.transferStatus,
+        this.params.startTime,
+        this.params.endTime,
       )
       .subscribe(
         data => {
@@ -126,9 +149,6 @@ export class RectifyTrackListComponent implements OnInit {
         },
         () => {},
         () => {
-          this.mapOfCheckedId = {};
-          this.checkboxDatas = [];
-          this.checkboxChange.emit([]);
           this.loading = false;
         },
       );
@@ -141,11 +161,13 @@ export class RectifyTrackListComponent implements OnInit {
    */
   checked(item: RectifyTrackDTO, isCheck: boolean) {
     if (isCheck) {
-      this.checkboxDatas.push(item);
+      if (this.checkboxData) {
+        this.mapOfCheckedId[this.checkboxData.id] = false;
+      }
+      this.checkboxData = item;
     } else {
-      this.checkboxDatas = this.checkboxDatas.filter(problem => problem.id !== item.id);
+      this.checkboxData = null;
     }
-    this.checkboxChange.emit(this.checkboxDatas);
   }
 
   /**
@@ -191,26 +213,30 @@ export class RectifyTrackListComponent implements OnInit {
     }
   }
 
-  collapse(array: any[], data: any, $event: boolean): void {
-    if ($event === false) {
-      if (data.children) {
-        data.children.forEach(d => {
-          // tslint:disable-next-line:no-non-null-assertion
-          const target = array.find(a => a.id === d.id)!;
-          target.expand = false;
-          this.collapse(array, target, false);
-        });
-      } else {
-        return;
-      }
-    }
+  selectDateRange($event) {
+    console.log('=========SELECT-DATERANGE==========');
+    console.dir($event);
+    this.params.startTime = this.datePipe.transform($event[0], 'yyyy-MM-dd');
+    this.params.endTime = this.datePipe.transform($event[1], 'yyyy-MM-dd');
   }
 
-  checkTransferResult() {
-    this.router.navigate(['/audit-rectify/transfer-result']);
+  search(): void {
+    this.load();
   }
-  // 跳转工作台
-  goWorkBeach(id: string) {
-    this.router.navigate(['/audit-rectify/rectify-workbeach'], { queryParams: { rectifyProblemId: id } });
+
+  handleCancel() {
+    this.isVisible = false;
+  }
+
+  /**
+   * 清空查询条件
+   */
+  clear() {
+    this.params = this.initParams();
+  }
+
+  save() {
+    this.handleCancel();
+    this.rectifyProblem.emit(this.checkboxData);
   }
 }

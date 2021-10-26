@@ -37,19 +37,19 @@ export const APP_DATA = {
           // acl: [],
           children: [
             {
-              text: '整改问题',
+              text: '整改问题清单',
               link: '/audit-rectify/rectify-issue',
               i18n: '',
               // acl: [],
             },
             {
-              text: '整改跟踪',
+              text: '整改跟踪台账',
               link: '/audit-rectify/rectify-track',
               i18n: '',
               // acl: [],
             },
             {
-              text: '整改报告',
+              text: '整改汇报',
               link: '/audit-rectify/rectify-post',
               i18n: '',
               // acl: [],
@@ -87,7 +87,7 @@ export const APP_DATA = {
                   link: '/audit-rectify/report-info',
                   // acl: [],
                 },
-              ]
+              ],
               // acl: [],
             },
             {

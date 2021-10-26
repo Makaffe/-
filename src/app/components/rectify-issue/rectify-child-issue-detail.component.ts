@@ -156,6 +156,9 @@ export class RectifyChildIssueDetailComponent implements OnInit {
       memo: item ? item.memo : null,
       parentId: item ? (item.parent ? item.parent.id : null) : null,
       children: [],
+      zgdw: item ? item.zgdw : null,
+      sjje: item ? item.sjje : null,
+      zgjzsj: item ? item.zgjzsj : null,
     };
   }
 }
