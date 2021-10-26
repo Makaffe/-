@@ -28,14 +28,20 @@ export class RectifyTrackListComponent implements OnInit {
   mapOfCheckedId: { [id: string]: boolean } = {};
   listOfMapData = [
     {
-      id: '123',
+      id: '1',
       sendStatus: '已下发',
-      transferStatus: '已移交',
-      auditPost: {
-        name: '审计报告名称',
-      },
-      name: '问题名称',
-      type: 'TYPE1',
+      transferStatus: '未移交',
+      auditPost: { name: '审计报告' },
+      name: '餐饮费用超过规定标准',
+      type: '',
+      rectifyDepartment: { name: '自然资源局' },
+      dutyUser: { name: '李名' },
+      rectifyCount: 1,
+      rectifyEndTime: '2021-12-13',
+      lastModifiedTime: '2021-12-10',
+      latelyFeedbackTime: '2021-11-10',
+      nextFeedbackTime: '2021-11-30',
+      rectifyPassPercent: '20',
     },
   ];
   mapOfExpandedData: { [id: string]: any[] } = {};
@@ -114,38 +120,38 @@ export class RectifyTrackListComponent implements OnInit {
    *
    */
   load() {
-    // this.loading = true;
-    // this.rectifyProblemService
-    //   .findOnePageUsingGET(
-    //     this.queryOptions,
-    //     this.filter.rectifyProblemName,
-    //     this.filter.rectifyDepartmentId,
-    //     this.filter.sendStatus ? this.filter.sendStatus : 'ISSUED',
-    //     this.filter.transferStatus,
-    //     this.filter.startTime,
-    //     this.filter.endTime,
-    //   )
-    //   .subscribe(
-    //     data => {
-    //       if (data) {
-    //         this.listOfMapData = data.data;
-    //         this.pageInfo.pageNo = data.pageNo + 1;
-    //         this.pageInfo.pageSize = data.pageSize;
-    //         this.pageInfo.totalPages = data.totalPages;
-    //         this.pageInfo.totalRecords = Number(data.totalRecords);
-    //         this.listOfMapData.forEach(item => {
-    //           this.mapOfExpandedData[item.id] = this.convertTreeToList(item);
-    //         });
-    //       }
-    //     },
-    //     () => {},
-    //     () => {
-    //       this.mapOfCheckedId = {};
-    //       this.checkboxDatas = [];
-    //       this.checkboxChange.emit([]);
-    //       this.loading = false;
-    //     },
-    //   );
+    this.loading = true;
+    this.rectifyProblemService
+      .findOnePageUsingGET(
+        this.queryOptions,
+        this.filter.rectifyProblemName,
+        this.filter.rectifyDepartmentId,
+        this.filter.sendStatus ? this.filter.sendStatus : 'ISSUED',
+        this.filter.transferStatus,
+        this.filter.startTime,
+        this.filter.endTime,
+      )
+      .subscribe(
+        data => {
+          if (data) {
+            // this.listOfMapData = data.data;
+            this.pageInfo.pageNo = data.pageNo + 1;
+            this.pageInfo.pageSize = data.pageSize;
+            this.pageInfo.totalPages = data.totalPages;
+            this.pageInfo.totalRecords = Number(data.totalRecords);
+            this.listOfMapData.forEach(item => {
+              this.mapOfExpandedData[item.id] = this.convertTreeToList(item);
+            });
+          }
+        },
+        () => {},
+        () => {
+          this.mapOfCheckedId = {};
+          this.checkboxDatas = [];
+          this.checkboxChange.emit([]);
+          this.loading = false;
+        },
+      );
   }
 
   /**

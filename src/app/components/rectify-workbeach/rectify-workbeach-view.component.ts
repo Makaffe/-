@@ -174,12 +174,12 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.resolveQueryParam();
-    this.organizationService.getOrganizationTreeOfEmployeeOrUser().subscribe(data => {
-      this.organizationTree = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
-    });
-    // this.loadData();
-    this.loadTimeOption();
+    // this.resolveQueryParam();
+    // this.organizationService.getOrganizationTreeOfEmployeeOrUser().subscribe(data => {
+    //   this.organizationTree = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
+    // });
+    // // this.loadData();
+    // this.loadTimeOption();
     if (this.cacheService.get('__user', { mode: 'none' }).userType === 'AUDIT_DEPARTMENT') {
       this.isRectify = false;
     } else {
@@ -431,8 +431,8 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   hideTimeLine() {
     if (this.timeLineButtonType === 'right') {
       this.timeLineButtonType = 'left';
-      this.leftSize = 18;
-      this.rightSize = 82;
+      this.leftSize = 25;
+      this.rightSize = 75;
     } else {
       this.timeLineButtonType = 'right';
       this.leftSize = 0;
