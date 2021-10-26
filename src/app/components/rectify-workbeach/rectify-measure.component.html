@@ -50,9 +50,12 @@
 
     <nz-form-item>
       <nz-form-label [nzSpan]="4">相关附件</nz-form-label>
-      <app-attach-list [show]="!isWatch" [(attachFiles)]="rectifyMeasure.systemFiles" #attachListComponent
-        [fileType]="'RECTIFY_MEASURE_FILE'">
-      </app-attach-list>
+      <nz-form-control [nzSpan]="20" style="margin: 0px 0 5px 0">
+        <app-attach-list [show]="!isWatch" [(attachFiles)]="rectifyMeasure.systemFiles" #attachListComponent
+          [fileType]="'RECTIFY_MEASURE_FILE'">
+        </app-attach-list>
+      </nz-form-control>
+
     </nz-form-item>
 
   </form>

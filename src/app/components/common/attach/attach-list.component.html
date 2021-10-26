@@ -1,37 +1,20 @@
 <!--附件选择-->
-<div style=" margin: 15px 0 5px 0;display: flex;">
-  <ng-container *ngIf="show">
-    <nz-upload
-      #uploadComponent
-      nzMultiple
-      [(nzFileList)]="fileList"
-      [nzAction]="action"
-      [nzFilter]="filters"
-      [nzData]="handleData"
-      [nzShowUploadList]="showUploadList"
-      [nzCustomRequest]="customReq"
-      (nzChange)="upLoadFile($event)"
-    >
-      <button nz-button type="button" [disabled]="disabled"><i nz-icon nzType="upload"></i>选择文件</button> </nz-upload
-    >&nbsp;&nbsp;
+<div style=" margin: 0 0 5px 0;display: flex;" *ngIf="show">
+  <ng-container>
+    <nz-upload #uploadComponent nzMultiple [(nzFileList)]="fileList" [nzAction]="action" [nzFilter]="filters"
+      [nzData]="handleData" [nzShowUploadList]="showUploadList" [nzCustomRequest]="customReq"
+      (nzChange)="upLoadFile($event)">
+      <button nz-button type="button" [disabled]="disabled"><i nz-icon nzType="upload"></i>选择文件</button>
+    </nz-upload>&nbsp;&nbsp;
   </ng-container>
   <!-- <button nz-button type="button" (click)="download()"><i nz-icon nzType="download" nzTheme="outline"></i>批量下载</button> -->
   <br />
 </div>
 <!-- <nz-progress *ngIf="percent > 0 && percent < 100" [nzPercent]="percent"></nz-progress> -->
 
-<nz-table
-  nzBordered
-  [nzShowPagination]="'false'"
-  [nzData]="attachFiles"
-  #auditProjectAttach
-  [nzSize]="'middle'"
-  [nzTitle]="fileTitle"
-  [nzScroll]="scroll"
-  style=" padding-left: 0;"
-  [ngStyle]="{ height: TBHeight }"
-  [nzNoResult]="null"
->
+<nz-table nzBordered [nzShowPagination]="'false'" [nzData]="attachFiles" #auditProjectAttach [nzSize]="'middle'"
+  [nzTitle]="fileTitle" [nzScroll]="scroll" style=" padding-left: 0;" [ngStyle]="{ height: TBHeight }"
+  [nzNoResult]="null">
   <thead>
     <tr>
       <!-- <th nzShowCheckbox [(nzChecked)]="isAllDisplayDataChecked" [nzIndeterminate]="isIndeterminate"
@@ -68,12 +51,8 @@
   </tbody>
 </nz-table>
 
-<nz-modal
-  [nzVisible]="previewVisible"
-  [nzContent]="modalContent"
-  [nzFooter]="null"
-  (nzOnCancel)="previewVisible = false"
->
+<nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null"
+  (nzOnCancel)="previewVisible = false">
   <ng-template #modalContent>
     <img [src]="previewImage" [ngStyle]="{ width: '100%' }" />
     {{ previewImage }}
