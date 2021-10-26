@@ -155,12 +155,12 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.resolveQueryParam();
-    this.organizationService.getOrganizationTreeOfEmployeeOrUser().subscribe(data => {
-      this.organizationTree = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
-    });
+    // this.resolveQueryParam();
+    // this.organizationService.getOrganizationTreeOfEmployeeOrUser().subscribe(data => {
+    //   this.organizationTree = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
+    // });
     //this.loadData();
-    this.loadTimeOption();
+    // this.loadTimeOption();
   }
 
   // 获取数据
@@ -407,8 +407,8 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   hideTimeLine() {
     if (this.timeLineButtonType === 'right') {
       this.timeLineButtonType = 'left';
-      this.leftSize = 18;
-      this.rightSize = 82;
+      this.leftSize = 25;
+      this.rightSize = 75;
     } else {
       this.timeLineButtonType = 'right';
       this.leftSize = 0;

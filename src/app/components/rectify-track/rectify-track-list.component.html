@@ -12,16 +12,16 @@
       <th nzWidth="150px">审计报告名称</th>
       <th nzWidth="150px">问题名称</th>
       <th nzWidth="150px">问题类型</th>
-      <th nzWidth="150px">涉及金额(元)</th>
+      <th nzWidth="150px" nzAlign="right">涉及金额(元)</th>
       <th nzWidth="150px">整改部门</th>
       <th nzWidth="150px">整改单位</th>
       <th nzWidth="150px">整改负责人</th>
       <th nzWidth="150px">审计负责人</th>
-      <th nzWidth="150px">已完成整改措施数</th>
-      <th nzWidth="150px">整改截止时间</th>
-      <th nzWidth="150px">整改拟完成时间</th>
-      <th nzWidth="150px">最近一次反馈时间</th>
-      <th nzWidth="150px">下一次反馈时间</th>
+      <th nzWidth="150px" nzAlign="right">已完成整改措施数</th>
+      <th nzWidth="120px" nzAlign="center">整改截止时间</th>
+      <th nzWidth="120px" nzAlign="center">整改拟完成时间</th>
+      <th nzWidth="120px" nzAlign="center">最近一次反馈时间</th>
+      <th nzWidth="120px" nzAlign="center">下一次反馈时间</th>
       <th nzWidth="200px">整改反馈进度</th>
       <th nzWidth="130px" nzAlign="center" nzRight="0px">操作</th>
     </tr>
@@ -56,11 +56,11 @@
           <td>整改单位</td>
           <td>{{ item?.dutyUser?.name }}</td>
           <td>审计负责人</td>
-          <td>{{ item.rectifyCount }}</td>
-          <td>{{ item.rectifyEndTime }}</td>
-          <td>{{ item.lastModifiedTime }}</td>
-          <td>{{ item.latelyFeedbackTime }}</td>
-          <td>{{ item.nextFeedbackTime }}</td>
+          <td nzAlign="right">{{ item.rectifyCount }}</td>
+          <td nzAlign="center">{{ item.rectifyEndTime }}</td>
+          <td nzAlign="center">{{ item.lastModifiedTime }}</td>
+          <td nzAlign="center">{{ item.latelyFeedbackTime }}</td>
+          <td nzAlign="center">{{ item.nextFeedbackTime }}</td>
           <td>
             <nz-progress [nzPercent]="item.rectifyPassPercent"></nz-progress>
           </td>
