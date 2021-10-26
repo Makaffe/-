@@ -38,12 +38,7 @@
           <!--status start-->
           <div class="order-status lt-flexbox vertical">
             <div class="box-item" style="margin-right: 20px;">
-              <nz-card
-                style="width:450px;padding:0px"
-                nzTitle="部门一历史整改情况"
-                [nzBordered]="true"
-                [nzExtra]="extraTemplate"
-              >
+              <nz-card style="width:450px;padding:0px" [nzTitle]="title" [nzBordered]="true" [nzExtra]="extraTemplate">
                 <div nz-row nzType="flex" nzJustify="space-between" nzAlign="bottom">
                   <div nz-col nzSpan="11">
                     <p>历史未整改问题:3</p>
@@ -78,14 +73,12 @@
                   <i nz-icon nzType="area-chart" nzTheme="outline"></i>
                 </button>
               </ng-template>
+              <ng-template #title>
+                <a style="color:black;" (click)="goDepartmentDraw()">部门一历史整改情况</a>
+              </ng-template>
             </div>
             <div class="box-item" style="margin-right: 20px;">
-              <nz-card
-                style="width:450px;padding:0px"
-                nzTitle="部门二历史整改情况"
-                [nzBordered]="true"
-                [nzExtra]="extraTemplate"
-              >
+              <nz-card style="width:450px;padding:0px" [nzTitle]="title" [nzBordered]="true" [nzExtra]="extraTemplate">
                 <div nz-row nzType="flex" nzJustify="space-between" nzAlign="bottom">
                   <div nz-col nzSpan="11">
                     <p>历史未整改问题:3</p>
@@ -107,12 +100,7 @@
               </nz-card>
             </div>
             <div class="box-item" style="margin-right: 20px;">
-              <nz-card
-                style="width:450px;padding:0px"
-                nzTitle="部门三历史整改情况"
-                [nzBordered]="true"
-                [nzExtra]="extraTemplate"
-              >
+              <nz-card style="width:450px;padding:0px" [nzTitle]="title" [nzBordered]="true" [nzExtra]="extraTemplate">
                 <div nz-row nzType="flex" nzJustify="space-between" nzAlign="bottom">
                   <div nz-col nzSpan="11">
                     <p>历史未整改问题:3</p>
@@ -134,12 +122,7 @@
               </nz-card>
             </div>
             <div class="box-item" style="margin-right: 20px;">
-              <nz-card
-                style="width:450px;padding:0px"
-                nzTitle="部门四历史整改情况"
-                [nzBordered]="true"
-                [nzExtra]="extraTemplate"
-              >
+              <nz-card style="width:450px;padding:0px" [nzTitle]="title" [nzBordered]="true" [nzExtra]="extraTemplate">
                 <div nz-row nzType="flex" nzJustify="space-between" nzAlign="bottom">
                   <div nz-col nzSpan="11">
                     <p>历史未整改问题:3</p>
@@ -161,12 +144,7 @@
               </nz-card>
             </div>
             <div class="box-item" style="margin-right: 20px;">
-              <nz-card
-                style="width:450px;padding:0px"
-                nzTitle="部门五历史整改情况"
-                [nzBordered]="true"
-                [nzExtra]="extraTemplate"
-              >
+              <nz-card style="width:450px;padding:0px" [nzTitle]="title" [nzBordered]="true" [nzExtra]="extraTemplate">
                 <div nz-row nzType="flex" nzJustify="space-between" nzAlign="bottom">
                   <div nz-col nzSpan="11">
                     <p>历史未整改问题:3</p>
@@ -188,7 +166,7 @@
               </nz-card>
             </div>
             <div class="box-item" style="margin-right: 20px;">
-              <nz-card style="width:450px;padding:0px" nzTitle="部门六历史整改情况" [nzExtra]="extraTemplate">
+              <nz-card style="width:450px;padding:0px" [nzTitle]="title" [nzExtra]="extraTemplate">
                 <div nz-row nzType="flex" nzJustify="space-between" nzAlign="bottom">
                   <div nz-col nzSpan="11">
                     <p>历史未整改问题:3</p>
