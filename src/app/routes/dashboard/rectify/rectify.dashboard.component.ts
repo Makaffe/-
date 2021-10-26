@@ -237,7 +237,7 @@ export class RectifyDashboardComponent implements OnInit {
   }
 
   assignIssue() {
-    this.issueAssignFormComponent.show();
+    this.issueAssignFormComponent.edit();
   }
 
   workbench() {
