@@ -20,7 +20,7 @@ export class AuditPostDTO {
     this.auditPostType = item && item.auditPostType ? item.auditPostType : null;
     this.auditPostTypeId = item && item.auditPostTypeId ? item.auditPostTypeId : null;
     this.systemFile = item && item.systemFile ? item.systemFile : null;
-    this.systemFiles = item && item.systemFiles ? item.systemFiles : null;
+    this.systemFiles = item && item.systemFiles ? item.systemFiles : [];
   }
   /**
    * 对象ID，新增时应当为null, 系统会自动生成
@@ -105,7 +105,7 @@ export class AuditPostDTO {
   /**
    * 上传的附件信息
    */
-  systemFiles?: SystemFileDTO;
+  systemFiles?: Array<SystemFileDTO>;
 
   auditDateRange?: Date[];
 

@@ -6,6 +6,7 @@ import { OrganizationService, UserService } from '@ng-mt-framework/api';
 import { ObjectUtil } from '@ng-mt-framework/util';
 import { NzMessageService } from 'ng-zorro-antd';
 import UUID from 'uuidjs';
+import { AuditPostWatchComponent } from './audit-post-watch.component';
 import { RectifyProblemDTO } from './model/rectify-problem-dto';
 import { RectifyChildIssueDetailComponent } from './rectify-child-issue-detail.component';
 import { RectifyProblemService } from './service/RectifyProblemService';
@@ -53,6 +54,12 @@ export class RectifyIssueSplitComponent implements OnInit {
    */
   @ViewChild('rectifyChildIssueDetailComponent', { static: false })
   rectifyChildIssueDetailComponent: RectifyChildIssueDetailComponent;
+
+  /**
+   * 审计报告查看组件
+   */
+  @ViewChild('auditPostWatchComponent', { static: false })
+  auditPostWatchComponent: AuditPostWatchComponent;
 
   /**
    * 模态框是否可见
@@ -326,5 +333,13 @@ export class RectifyIssueSplitComponent implements OnInit {
     } else {
       return '';
     }
+  }
+
+  /**
+   * 查看审计报告
+   * @param auditPostId 审计报告id
+   */
+  watchAuditPost(auditPostId: string) {
+    this.auditPostWatchComponent.isVisible = true;
   }
 }
