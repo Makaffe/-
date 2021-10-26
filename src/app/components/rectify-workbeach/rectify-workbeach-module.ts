@@ -10,6 +10,8 @@ import { RectifyMeasureReplyComponent } from './rectify-measure-reply.component'
 import { RectifyMeasureComponent } from './rectify-measure.component';
 import { RectifyProblemSwitchComponent } from './rectify-problem-switch.component';
 import { RectifyTimeLineComponent } from './rectify-time-line.component';
+import { RectifyWorkbeachPutComponent } from './rectify-workbeach-put.component';
+import { RectifyWorkbeachTableComponent } from './rectify-workbeach-table.component';
 import { RectifyWorkbeachViewComponent } from './rectify-workbeach-view.component';
 
 const COMPONENTS = [
@@ -19,6 +21,8 @@ const COMPONENTS = [
   RectifyMeasureComponent,
   RectifyMeasureReplyComponent,
   RectifyProblemSwitchComponent,
+  RectifyWorkbeachPutComponent,
+  RectifyWorkbeachTableComponent,
   RectifyTimeLineComponent,
 ];
 @NgModule({

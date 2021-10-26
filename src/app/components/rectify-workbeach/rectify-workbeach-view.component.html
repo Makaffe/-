@@ -4,7 +4,7 @@
       <div nz-row style=" border:1px solid #a1a0a0;padding-top: 5px;padding-bottom: 5px;">
         <div nz-col>
           <div style="margin-left: 40px;" nz-row nzJustify="space-between">
-            <div nzSpan="5" nz-col>
+            <div nzSpan="3" nz-col>
               <!-- <button nz-button nzType="primary" (click)="clickFold()">
               <i nz-icon nzType="up" nzTheme="outline" *ngIf="!isFold"></i>
               <i nz-icon nzType="down" nzTheme="outline" *ngIf="isFold"></i>
@@ -15,16 +15,18 @@
               <font color="#3399f7"> 整改问题名称</font>
             </div>
             <div nzSpan="2" nz-col style='margin-top: 5px;'>整改反馈进度</div>
-            <div nzSpan="6" nz-col style='margin-top: 4px;'>
+            <div nzSpan="4" nz-col style='margin-top: 4px;'>
               <nz-progress nzSize="small" [nzPercent]="50" nzStatus="active"></nz-progress>
             </div>
-            <div nzSpan="10" nz-col *ngIf="isRectify">
+            <div nzSpan="14" nz-col *ngIf="isRectify">
               <div style="position: absolute;right: 0px;"> &nbsp;
                 <button nz-button nzType="primary" (click)="rectifySwitch()">切换问题</button>
+                <button nz-button nzType="primary" (click)="applicationExtension()"><i nz-icon
+                    nzType="exclamation-circle" nzTheme="outline" style='color: red;'></i>申请延期</button>
+                <button nz-button nzType="primary" (click)="applicationRecord()">延期申请记录</button>
               </div>
-
             </div>
-            <div nzSpan="10" nz-col *ngIf="!isRectify">
+            <div nzSpan="14" nz-col *ngIf="!isRectify">
               <div style="position: absolute;right: 0px;">
                 &nbsp;
                 <button nz-button nzType="primary">反馈提醒</button>
@@ -32,7 +34,11 @@
                 <button nz-button nzType="danger" nzDanger (click)="transfer()"
                   [disabled]="'已移交'===rectifyTrack.transferStatus">移交纪检</button>
                 <button nz-button nzType="primary" (click)="rectifySwitch()">切换问题</button>
-                <nz-popconfirm [nzTitle]="confirmtittle" (nzOnConfirm)="onChangeStates(rectifyTrack.id)">
+                <button nz-button nzType="primary" (click)="delayExtension()"><i nz-icon nzType="exclamation-circle"
+                    nzTheme="outline" style='color: red;'></i>延期审批</button>
+                <button nz-button nzType="primary" (click)="delayApprove()">延期审批记录</button>
+                <nz-popconfirm [nzTitle]="confirmtittle" (nzOnConfirm)="onChangeStates(rectifyTrack.id)"
+                  style="margin-right: 6px;">
                   <ng-template #confirmtittle>
                     <font color='red'>结束整改如果有子问题，那么所有子问题都会结束整改</font>
                     <br />
@@ -40,9 +46,6 @@
                   </ng-template>
                   <button nz-button nzType="primary" nz-popconfirm>结束整改</button>
                 </nz-popconfirm>
-
-                <button nz-button nzType="primary"><i nz-icon nzType="exclamation-circle" nzTheme="outline"
-                    style='color: red;'></i>延期审批</button>
               </div>
             </div>
           </div>
@@ -131,7 +134,6 @@
         </div>
       </div>
     </div>
-
   </as-split-area>
 
   <as-split-area [size]="'*'">
@@ -378,6 +380,12 @@
 <!-- 整改措施回复 -->
 <app-rectify-measure-reply #rectifyMeasureReplyComponent (saveRectifyMeasureReply)="loadData()">
 </app-rectify-measure-reply>
+
+<!-- 整改部门提交申请请求
+  调用弹窗组件 -->
+<app-rectify-workbeach-put #rectifyWorkbeachPutComponent [isRectify]="isRectify"></app-rectify-workbeach-put>
+
+<rectify-workbeach-table #rectifyWorkbeachTableComponent></rectify-workbeach-table>
 <!-- 移交纪检 -->
 <app-rectify-issue-transfer #rectifyIssueTransferComponent></app-rectify-issue-transfer>
 <!-- 整改成效 -->

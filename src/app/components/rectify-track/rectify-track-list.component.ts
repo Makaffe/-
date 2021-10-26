@@ -134,7 +134,7 @@ export class RectifyTrackListComponent implements OnInit {
       .subscribe(
         data => {
           if (data) {
-            //this.listOfMapData = data.data;
+            // this.listOfMapData = data.data;
             this.pageInfo.pageNo = data.pageNo + 1;
             this.pageInfo.pageSize = data.pageSize;
             this.pageInfo.totalPages = data.totalPages;
