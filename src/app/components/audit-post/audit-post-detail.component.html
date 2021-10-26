@@ -31,13 +31,17 @@
         </div>
       </div>
     </as-split-area>
+    <nz-divider [nzText]="title" style="margin-top:-20px">
+      <ng-template #title>
+        <h1>读取审计报告</h1>
+      </ng-template>
+    </nz-divider>
     <as-split-area [size]="'*'" style="height:100%;">
-      <nz-divider nzText="读取审计报告"></nz-divider>
       <div style="height:100%;margin-left:10px;margin-top:10px;overflow:scroll;">
         <nz-form-item>
           <nz-form-label nzSpan="3">上传审计报告</nz-form-label>
 
-          <nz-form-control nzSpan="8">
+          <nz-form-control nzSpan="19">
             <nz-upload
               nzAction=""
               [nzCustomRequest]="customReq"
@@ -55,24 +59,7 @@
             </nz-upload>
           </nz-form-control>
         </nz-form-item>
-        <nz-form-item>
-          <nz-form-label nzSpan="3">报告内容提取</nz-form-label>
-          <nz-form-control nzSpan="8">
-            <button (click)="downLoadPostFile()" [disabled]="!currentItem.systemFile" nz-button>
-              <i nz-icon nzType="download" nzTheme="outline"></i>下载报告
-            </button>
-            <button (click)="previewPostFile()" [disabled]="!currentItem.systemFile" nz-button>
-              <i nz-icon nzType="zoom-in" nzTheme="outline"></i>查看报告
-            </button>
-            <button
-              *ngIf="!isWatch"
-              [disabled]="!currentItem.systemFile || isWatch || currentItem.auditReportStatus == 'GENERATED'"
-              nz-button
-            >
-              <i nz-icon nzType="file-search" nzTheme="outline"></i>开始读取
-            </button>
-          </nz-form-control>
-        </nz-form-item>
+
         <nz-form-item>
           <nz-form-label nzSpan="3">附件</nz-form-label>
           <nz-form-control nzSpan="19">
@@ -85,9 +72,27 @@
             </app-attach-list>
           </nz-form-control>
         </nz-form-item>
-
+        <nz-form-item>
+          <nz-form-label nzSpan="3">报告内容提取</nz-form-label>
+          <nz-form-control nzSpan="19">
+            <button (click)="downLoadPostFile()" [disabled]="!currentItem.systemFile" nz-button>
+              <i nz-icon nzType="download" nzTheme="outline"></i>下载报告
+            </button>
+            <button (click)="previewPostFile()" [disabled]="!currentItem.systemFile" nz-button>
+              <i nz-icon nzType="zoom-in" nzTheme="outline"></i>查看报告
+            </button>
+            <button
+              *ngIf="!isWatch"
+              [disabled]="!currentItem.systemFile || isWatch || currentItem.auditReportStatus == 'GENERATED'"
+              nz-button
+              (click)="loadFile()"
+            >
+              <i nz-icon nzType="file-search" nzTheme="outline"></i>开始读取
+            </button>
+          </nz-form-control>
+        </nz-form-item>
         <!--基本信息-->
-        <nz-form-item *ngIf="fileList.length > 0">
+        <nz-form-item *ngIf="show">
           <nz-form-label nzSpan="3" nzRequired>审计报告名称</nz-form-label>
           <nz-form-control nzSpan="8" [nzValidateStatus]="name.invalid && (name.dirty || name.touched) ? 'error' : ''">
             <input
@@ -124,7 +129,7 @@
         <!-- <nz-form-item>
           
         </nz-form-item> -->
-        <nz-form-item *ngIf="fileList.length > 0">
+        <nz-form-item *ngIf="show">
           <nz-form-label nzSpan="3" nzRequired>审计时间</nz-form-label>
           <nz-form-control
             nzSpan="8"
@@ -163,7 +168,7 @@
             </nz-form-explain>
           </nz-form-control>
         </nz-form-item>
-        <nz-form-item *ngIf="fileList.length > 0">
+        <nz-form-item *ngIf="show">
           <nz-form-label nzSpan="3" nzRequired>被审计单位名称</nz-form-label>
           <nz-form-control
             nzSpan="8"
@@ -185,8 +190,14 @@
 
         <nz-form-item>
           <nz-form-label nzSpan="3">审计发现清单</nz-form-label>
-          <nz-form-control nzSpan="21">
-            <nz-table #columnTable nzBordered [nzData]="listOfData" [nzScroll]="{ x: '900px' }">
+          <nz-form-control nzSpan="19">
+            <nz-table
+              #columnTable
+              nzBordered
+              [nzData]="listOfData"
+              style="padding-left: 0px !important;"
+              [nzScroll]="{ x: '900px' }"
+            >
               <thead>
                 <tr>
                   <th nzWidth="50px" nzAlign="center" nzLeft="0px">序号</th>
