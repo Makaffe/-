@@ -31,13 +31,17 @@
         </div>
       </div>
     </as-split-area>
+    <nz-divider [nzText]="title" style="margin-top:-20px">
+      <ng-template #title>
+        <h1>审计报告解析</h1>
+      </ng-template>
+    </nz-divider>
     <as-split-area [size]="'*'" style="height:100%;">
-      <nz-divider></nz-divider>
       <div style="height:100%;margin-left:10px;margin-top:10px;overflow:scroll;">
         <nz-form-item>
-          <nz-form-label nzSpan="3">上传审计报告</nz-form-label>
+          <nz-form-label nzRequired nzSpan="3">上传审计报告</nz-form-label>
 
-          <nz-form-control nzSpan="21">
+          <nz-form-control nzSpan="19">
             <nz-upload
               nzAction=""
               [nzCustomRequest]="customReq"
@@ -49,36 +53,48 @@
               (nzChange)="handleChange($event)"
               [nzRemove]="removeFile"
             >
-              <button nz-button nzShape="round" [disabled]="isWatch || currentItem.auditReportStatus == 'GENERATED'">
+              <button nz-button [disabled]="isWatch || currentItem.auditReportStatus == 'GENERATED'">
                 <i nz-icon nzType="upload"></i><span>上传文件</span>
               </button>
             </nz-upload>
           </nz-form-control>
         </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzSpan="3">项目相关资料</nz-form-label>
+          <nz-form-control nzSpan="19">
+            <app-attach-list
+              [show]="!isWatch"
+              [(attachFiles)]="currentItem.systemFiles"
+              #attachListComponent
+              [fileType]="'AUDIT_POST_FILES'"
+            >
+            </app-attach-list>
+          </nz-form-control>
+        </nz-form-item>
         <nz-form-item>
           <nz-form-label nzSpan="3">报告内容提取</nz-form-label>
-          <nz-form-control nzSpan="21">
-            <button (click)="downLoadPostFile()" [disabled]="!currentItem.systemFile" nz-button nzShape="round">
+          <nz-form-control nzSpan="19">
+            <button (click)="downLoadPostFile()" [disabled]="!currentItem.systemFile" nz-button>
               <i nz-icon nzType="download" nzTheme="outline"></i>下载报告
             </button>
-            <button (click)="previewPostFile()" [disabled]="!currentItem.systemFile" nz-button nzShape="round">
+            <button (click)="previewPostFile()" [disabled]="!currentItem.systemFile" nz-button>
               <i nz-icon nzType="zoom-in" nzTheme="outline"></i>查看报告
             </button>
             <button
               *ngIf="!isWatch"
               [disabled]="!currentItem.systemFile || isWatch || currentItem.auditReportStatus == 'GENERATED'"
               nz-button
-              nzShape="round"
+              (click)="loadFile()"
             >
               <i nz-icon nzType="file-search" nzTheme="outline"></i>开始读取
             </button>
           </nz-form-control>
         </nz-form-item>
-
         <!--基本信息-->
-        <nz-form-item>
+        <nz-form-item *ngIf="show">
           <nz-form-label nzSpan="3" nzRequired>审计报告名称</nz-form-label>
-          <nz-form-control nzSpan="21" [nzValidateStatus]="name.invalid && (name.dirty || name.touched) ? 'error' : ''">
+          <nz-form-control nzSpan="8" [nzValidateStatus]="name.invalid && (name.dirty || name.touched) ? 'error' : ''">
             <input
               nz-input
               required
@@ -91,11 +107,9 @@
               请填写审计报告名称
             </nz-form-explain>
           </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
           <nz-form-label nzSpan="3" nzRequired>审计单位名称</nz-form-label>
           <nz-form-control
-            nzSpan="21"
+            nzSpan="8"
             [nzValidateStatus]="auditName.invalid && (auditName.dirty || auditName.touched) ? 'error' : ''"
           >
             <input
@@ -112,30 +126,13 @@
             </nz-form-explain>
           </nz-form-control>
         </nz-form-item>
-        <nz-form-item>
-          <nz-form-label nzSpan="3" nzRequired>被审计对象名称</nz-form-label>
-          <nz-form-control
-            nzSpan="21"
-            [nzValidateStatus]="reauditName.invalid && (reauditName.dirty || reauditName.touched) ? 'error' : ''"
-          >
-            <input
-              nz-input
-              required
-              [disabled]="isWatch || currentItem.auditReportStatus == 'GENERATED'"
-              #reauditName="ngModel"
-              name="reauditName"
-              [(ngModel)]="currentItem.reauditName"
-            />
-
-            <nz-form-explain *ngIf="auditName.invalid && (auditName.dirty || auditName.touched)">
-              请填写被审计对象名称
-            </nz-form-explain>
-          </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
+        <!-- <nz-form-item>
+          
+        </nz-form-item> -->
+        <nz-form-item *ngIf="show">
           <nz-form-label nzSpan="3" nzRequired>审计时间</nz-form-label>
           <nz-form-control
-            nzSpan="9"
+            nzSpan="8"
             [nzValidateStatus]="
               auditDateRange.invalid && (auditDateRange.dirty || auditDateRange.touched) ? 'error' : ''
             "
@@ -153,7 +150,7 @@
           </nz-form-control>
           <nz-form-label nzSpan="3" nzRequired>报告来源</nz-form-label>
           <nz-form-control
-            nzSpan="9"
+            nzSpan="8"
             [nzValidateStatus]="reportSource.invalid && (reportSource.dirty || reportSource.touched) ? 'error' : ''"
           >
             <app-dict-select
@@ -171,22 +168,36 @@
             </nz-form-explain>
           </nz-form-control>
         </nz-form-item>
-        <nz-form-item>
-          <nz-form-label nzSpan="3">附件</nz-form-label>
-          <nz-form-control nzSpan="21">
-            <app-attach-list
-              [show]="!isWatch"
-              [(attachFiles)]="currentItem.systemFiles"
-              #attachListComponent
-              [fileType]="'AUDIT_POST_FILES'"
-            >
-            </app-attach-list>
+        <nz-form-item *ngIf="show">
+          <nz-form-label nzSpan="3" nzRequired>被审计单位名称</nz-form-label>
+          <nz-form-control
+            nzSpan="8"
+            [nzValidateStatus]="reauditName.invalid && (reauditName.dirty || reauditName.touched) ? 'error' : ''"
+          >
+            <input
+              nz-input
+              required
+              [disabled]="isWatch || currentItem.reauditName == 'GENERATED'"
+              #reauditName="ngModel"
+              name="reauditName"
+              [(ngModel)]="currentItem.reauditName"
+            />
+            <nz-form-explain *ngIf="reauditName.invalid && (reauditName.dirty || reauditName.touched)">
+              请填写被审计单位名称
+            </nz-form-explain>
           </nz-form-control>
         </nz-form-item>
-        <nz-form-item>
+
+        <nz-form-item *ngIf="show">
           <nz-form-label nzSpan="3">审计发现清单</nz-form-label>
-          <nz-form-control nzSpan="21">
-            <nz-table #columnTable nzBordered [nzData]="listOfData" [nzScroll]="{ x: '900px' }">
+          <nz-form-control nzSpan="19">
+            <nz-table
+              #columnTable
+              nzBordered
+              [nzData]="listOfData"
+              style="padding-left: 0px !important;"
+              [nzScroll]="{ x: '900px' }"
+            >
               <thead>
                 <tr>
                   <th nzWidth="50px" nzAlign="center" nzLeft="0px">序号</th>
@@ -194,7 +205,7 @@
                   <th nzWidth="100px" nzAlign="center">问题类型</th>
                   <th nzWidth="100px" nzAlign="center">整改部门</th>
                   <th nzWidth="100px" nzAlign="center">整改责任人</th>
-                  <th nzWidth="100px" nzAlign="center">涉及金额</th>
+                  <th nzWidth="100px" nzAlign="center">涉及金额(元)</th>
                   <th nzWidth="100px" nzAlign="center">问题描述</th>
                   <th nzWidth="100px" nzAlign="center">审计建议</th>
                   <th nzRight="100px" nzAlign="center" nzWidth="100px">问题来源</th>
@@ -222,16 +233,16 @@
                     }}
                   </td>
 
-                  <td nzLeft="50px">
+                  <td nzAlign="center" nzLeft="50px">
                     {{ data.name }}
                   </td>
-                  <td>{{ data.type | dictTransform: 'PROBLEM_TYPE' | async }}</td>
-                  <td>{{ convertOrganization(data?.rectifyDepartmentId) }}</td>
-                  <td>{{ convertdutyUser(data?.dutyUserId) }}</td>
-                  <td>{{ data.money }}</td>
-                  <td>{{ data.remark }}</td>
-                  <td>{{ data.advice }}</td>
-                  <td nzRight="100px">
+                  <td nzAlign="center">{{ data.type | dictTransform: 'PROBLEM_TYPE' | async }}</td>
+                  <td nzAlign="center">{{ convertOrganization(data?.rectifyDepartmentId) }}</td>
+                  <td nzAlign="center">{{ convertdutyUser(data?.dutyUserId) }}</td>
+                  <td nzAlign="center">{{ data.money }}</td>
+                  <td nzAlign="center">{{ data.remark }}</td>
+                  <td nzAlign="center">{{ data.advice }}</td>
+                  <td nzAlign="center" nzRight="100px">
                     {{ data.source }}
                   </td>
 
