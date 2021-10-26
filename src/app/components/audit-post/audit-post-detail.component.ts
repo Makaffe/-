@@ -101,6 +101,11 @@ export class AuditPostDetailComponent implements OnInit {
   lookup = false;
 
   /**
+   * 判断是否显示输入框
+   */
+  show = false;
+
+  /**
    * 整改部门树
    */
   organizationTree = [];
@@ -193,9 +198,10 @@ export class AuditPostDetailComponent implements OnInit {
   }
 
   done(): void {
-    console.dir(this.auditPostForm);
-
-    console.dir(this.auditPostForm.form);
+    if (this.fileList.length === 0) {
+      this.msg.warning('请先上传报告');
+      return;
+    }
     if (!FormUtil.validateForm(this.auditPostForm.form)) {
       this.msg.warning(`请补全报告基本信息`);
       return;
@@ -581,5 +587,14 @@ export class AuditPostDetailComponent implements OnInit {
     this.paramsItem = this.initProblem();
     FormUtil.resetForm(this.problemform.form);
     this.isVisabled = false;
+  }
+
+  /**
+   * 读取文件
+   */
+  loadFile() {
+    if (this.fileList.length > 0) {
+      this.show = true;
+    }
   }
 }

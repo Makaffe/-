@@ -6,6 +6,7 @@ import { OrganizationService, UserService } from '@ng-mt-framework/api';
 import { ObjectUtil } from '@ng-mt-framework/util';
 import { NzMessageService } from 'ng-zorro-antd';
 import UUID from 'uuidjs';
+import { AuditPostWatchComponent } from './audit-post-watch.component';
 import { RectifyProblemDTO } from './model/rectify-problem-dto';
 import { RectifyChildIssueDetailComponent } from './rectify-child-issue-detail.component';
 import { RectifyProblemService } from './service/RectifyProblemService';
@@ -33,6 +34,7 @@ export class RectifyIssueSplitComponent implements OnInit {
     rectifyDepartmentId: null,
     dutyUserId: null,
     zgjzsj: null,
+    sjje: 123,
   };
 
   /**
@@ -54,6 +56,12 @@ export class RectifyIssueSplitComponent implements OnInit {
   rectifyChildIssueDetailComponent: RectifyChildIssueDetailComponent;
 
   /**
+   * 审计报告查看组件
+   */
+  @ViewChild('auditPostWatchComponent', { static: false })
+  auditPostWatchComponent: AuditPostWatchComponent;
+
+  /**
    * 模态框是否可见
    */
   isVisible = false;
@@ -62,6 +70,11 @@ export class RectifyIssueSplitComponent implements OnInit {
    * 后台请求标识
    */
   loading = false;
+
+  /**
+   * 是否查看
+   */
+  isWatch = false;
 
   /**
    * 左侧宽度
@@ -146,6 +159,7 @@ export class RectifyIssueSplitComponent implements OnInit {
   handleCancel() {
     this.childrenProblemList = [];
     this.isVisible = false;
+    FormUtil.resetForm(this.form.form);
   }
 
   /**
@@ -180,8 +194,10 @@ export class RectifyIssueSplitComponent implements OnInit {
   /**
    * 初始化编辑页面
    * @param item 数据源
+   * @param isWatch 是否查看
    */
-  edit(item?: RectifyProblemDTO) {
+  edit(item: RectifyProblemDTO, isWatch: boolean) {
+    this.isWatch = isWatch;
     this.problemItem = ObjectUtil.deepClone(item);
     if (item.children && item.children.length > 0) {
       item.children.forEach(problem => {
@@ -196,7 +212,7 @@ export class RectifyIssueSplitComponent implements OnInit {
    * 新增子问题
    */
   addChildrenProblem() {
-    this.rectifyChildIssueDetailComponent.edit();
+    this.rectifyChildIssueDetailComponent.edit(null, false);
   }
 
   /**
@@ -204,7 +220,15 @@ export class RectifyIssueSplitComponent implements OnInit {
    * @param item 子问题
    */
   startEdit(item: RectifyProblemDTO) {
-    this.rectifyChildIssueDetailComponent.edit(item);
+    this.rectifyChildIssueDetailComponent.edit(item, false);
+  }
+
+  /**
+   * 查看子问题
+   * @param item 子问题
+   */
+  watchChildrenProblem(item: RectifyProblemDTO) {
+    this.rectifyChildIssueDetailComponent.edit(item, true);
   }
 
   /**
@@ -309,5 +333,13 @@ export class RectifyIssueSplitComponent implements OnInit {
     } else {
       return '';
     }
+  }
+
+  /**
+   * 查看审计报告
+   * @param auditPostId 审计报告id
+   */
+  watchAuditPost(auditPostId: string) {
+    this.auditPostWatchComponent.isVisible = true;
   }
 }
