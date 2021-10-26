@@ -32,12 +32,12 @@
       </div>
     </as-split-area>
     <as-split-area [size]="'*'" style="height:100%;">
-      <nz-divider></nz-divider>
+      <nz-divider nzText="读取审计报告"></nz-divider>
       <div style="height:100%;margin-left:10px;margin-top:10px;overflow:scroll;">
         <nz-form-item>
           <nz-form-label nzSpan="3">上传审计报告</nz-form-label>
 
-          <nz-form-control nzSpan="21">
+          <nz-form-control nzSpan="8">
             <nz-upload
               nzAction=""
               [nzCustomRequest]="customReq"
@@ -49,7 +49,7 @@
               (nzChange)="handleChange($event)"
               [nzRemove]="removeFile"
             >
-              <button nz-button nzShape="round" [disabled]="isWatch || currentItem.auditReportStatus == 'GENERATED'">
+              <button nz-button [disabled]="isWatch || currentItem.auditReportStatus == 'GENERATED'">
                 <i nz-icon nzType="upload"></i><span>上传文件</span>
               </button>
             </nz-upload>
@@ -57,28 +57,39 @@
         </nz-form-item>
         <nz-form-item>
           <nz-form-label nzSpan="3">报告内容提取</nz-form-label>
-          <nz-form-control nzSpan="21">
-            <button (click)="downLoadPostFile()" [disabled]="!currentItem.systemFile" nz-button nzShape="round">
+          <nz-form-control nzSpan="8">
+            <button (click)="downLoadPostFile()" [disabled]="!currentItem.systemFile" nz-button>
               <i nz-icon nzType="download" nzTheme="outline"></i>下载报告
             </button>
-            <button (click)="previewPostFile()" [disabled]="!currentItem.systemFile" nz-button nzShape="round">
+            <button (click)="previewPostFile()" [disabled]="!currentItem.systemFile" nz-button>
               <i nz-icon nzType="zoom-in" nzTheme="outline"></i>查看报告
             </button>
             <button
               *ngIf="!isWatch"
               [disabled]="!currentItem.systemFile || isWatch || currentItem.auditReportStatus == 'GENERATED'"
               nz-button
-              nzShape="round"
             >
               <i nz-icon nzType="file-search" nzTheme="outline"></i>开始读取
             </button>
           </nz-form-control>
         </nz-form-item>
+        <nz-form-item>
+          <nz-form-label nzSpan="3">附件</nz-form-label>
+          <nz-form-control nzSpan="19">
+            <app-attach-list
+              [show]="!isWatch"
+              [(attachFiles)]="currentItem.systemFiles"
+              #attachListComponent
+              [fileType]="'AUDIT_POST_FILES'"
+            >
+            </app-attach-list>
+          </nz-form-control>
+        </nz-form-item>
 
         <!--基本信息-->
-        <nz-form-item>
+        <nz-form-item *ngIf="fileList.length > 0">
           <nz-form-label nzSpan="3" nzRequired>审计报告名称</nz-form-label>
-          <nz-form-control nzSpan="21" [nzValidateStatus]="name.invalid && (name.dirty || name.touched) ? 'error' : ''">
+          <nz-form-control nzSpan="8" [nzValidateStatus]="name.invalid && (name.dirty || name.touched) ? 'error' : ''">
             <input
               nz-input
               required
@@ -91,11 +102,9 @@
               请填写审计报告名称
             </nz-form-explain>
           </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
           <nz-form-label nzSpan="3" nzRequired>审计单位名称</nz-form-label>
           <nz-form-control
-            nzSpan="21"
+            nzSpan="8"
             [nzValidateStatus]="auditName.invalid && (auditName.dirty || auditName.touched) ? 'error' : ''"
           >
             <input
@@ -112,30 +121,13 @@
             </nz-form-explain>
           </nz-form-control>
         </nz-form-item>
-        <nz-form-item>
-          <nz-form-label nzSpan="3" nzRequired>被审计对象名称</nz-form-label>
-          <nz-form-control
-            nzSpan="21"
-            [nzValidateStatus]="reauditName.invalid && (reauditName.dirty || reauditName.touched) ? 'error' : ''"
-          >
-            <input
-              nz-input
-              required
-              [disabled]="isWatch || currentItem.auditReportStatus == 'GENERATED'"
-              #reauditName="ngModel"
-              name="reauditName"
-              [(ngModel)]="currentItem.reauditName"
-            />
-
-            <nz-form-explain *ngIf="auditName.invalid && (auditName.dirty || auditName.touched)">
-              请填写被审计对象名称
-            </nz-form-explain>
-          </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
+        <!-- <nz-form-item>
+          
+        </nz-form-item> -->
+        <nz-form-item *ngIf="fileList.length > 0">
           <nz-form-label nzSpan="3" nzRequired>审计时间</nz-form-label>
           <nz-form-control
-            nzSpan="9"
+            nzSpan="8"
             [nzValidateStatus]="
               auditDateRange.invalid && (auditDateRange.dirty || auditDateRange.touched) ? 'error' : ''
             "
@@ -153,7 +145,7 @@
           </nz-form-control>
           <nz-form-label nzSpan="3" nzRequired>报告来源</nz-form-label>
           <nz-form-control
-            nzSpan="9"
+            nzSpan="8"
             [nzValidateStatus]="reportSource.invalid && (reportSource.dirty || reportSource.touched) ? 'error' : ''"
           >
             <app-dict-select
@@ -171,18 +163,26 @@
             </nz-form-explain>
           </nz-form-control>
         </nz-form-item>
-        <nz-form-item>
-          <nz-form-label nzSpan="3">附件</nz-form-label>
-          <nz-form-control nzSpan="21">
-            <app-attach-list
-              [show]="!isWatch"
-              [(attachFiles)]="currentItem.systemFiles"
-              #attachListComponent
-              [fileType]="'AUDIT_POST_FILES'"
-            >
-            </app-attach-list>
+        <nz-form-item *ngIf="fileList.length > 0">
+          <nz-form-label nzSpan="3" nzRequired>被审计单位名称</nz-form-label>
+          <nz-form-control
+            nzSpan="8"
+            [nzValidateStatus]="reauditName.invalid && (reauditName.dirty || reauditName.touched) ? 'error' : ''"
+          >
+            <input
+              nz-input
+              required
+              [disabled]="isWatch || currentItem.reauditName == 'GENERATED'"
+              #reauditName="ngModel"
+              name="reauditName"
+              [(ngModel)]="currentItem.reauditName"
+            />
+            <nz-form-explain *ngIf="reauditName.invalid && (reauditName.dirty || reauditName.touched)">
+              请填写被审计单位名称
+            </nz-form-explain>
           </nz-form-control>
         </nz-form-item>
+
         <nz-form-item>
           <nz-form-label nzSpan="3">审计发现清单</nz-form-label>
           <nz-form-control nzSpan="21">
