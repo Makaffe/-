@@ -1,11 +1,11 @@
-import { DatePipe, formatDate } from '@angular/common';
-import { Component, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
+import { formatDate } from '@angular/common';
+import { Component, Inject, Input, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CacheService } from '@delon/cache';
 import { QueryOptions } from '@mt-framework-ng/core';
 import { OrganizationService, SystemFileService } from '@ng-mt-framework/api';
 import { TreeUtil } from '@ng-mt-framework/comp';
 import { NzMessageService } from 'ng-zorro-antd';
-import { RectifyIssueListComponent } from '../rectify-issue/rectify-issue-list.component';
 import { RectifyIssueTransferComponent } from '../rectify-issue/rectify-issue-transfer.component';
 import { RectifyProblemService } from '../rectify-issue/service/RectifyProblemService';
 import { RectifyTrackDTO } from '../rectify-track/model/RectifyTrackDTO';
@@ -18,6 +18,8 @@ import { RectifyMeasureReplyComponent } from './rectify-measure-reply.component'
 import { RectifyMeasureComponent } from './rectify-measure.component';
 import { RectifyProblemSwitchComponent } from './rectify-problem-switch.component';
 import { RectifyTimeLineComponent } from './rectify-time-line.component';
+import { RectifyWorkbeachPutComponent } from './rectify-workbeach-put.component';
+import { RectifyWorkbeachTableComponent } from './rectify-workbeach-table.component';
 import { RectifyMeasureService } from './service/RectifyMeasureService';
 
 @Component({
@@ -51,6 +53,19 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   @ViewChild('rectifyProblemSwitchComponent', { static: false })
   rectifyProblemSwitchComponent: RectifyProblemSwitchComponent;
 
+  /**
+   * 整改部门提交申请请求
+   * 调用弹窗组件
+   */
+  @ViewChild('rectifyWorkbeachPutComponent', { static: false })
+  rectifyWorkbeachPutComponent: RectifyWorkbeachPutComponent;
+
+  /**
+   * 审批人员同不同意，整改部门提交的申请
+   * 调用列表弹窗组件
+   */
+  @ViewChild('rectifyWorkbeachTableComponent', { static: false })
+  rectifyWorkbeachTableComponent: RectifyWorkbeachTableComponent;
   // 时间轴组件
   @ViewChild('rectifyTimeLineComponent', { static: false })
   rectifyTimeLineComponent: RectifyTimeLineComponent;
@@ -86,7 +101,10 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   // 整改跟踪dto
   rectifyTrack = this.initRtParams();
 
-  // 判断是否为整改部门
+  /**
+   * 判断是否为整改部门
+   */
+  @Input()
   isRectify = false;
 
   // 折叠与展开
@@ -151,6 +169,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
     private systemFileService: SystemFileService,
     private rectifyProblemService: RectifyProblemService,
     private organizationService: OrganizationService,
+    private cacheService: CacheService,
     @Inject(LOCALE_ID) private locale: string,
   ) {}
 
@@ -159,8 +178,13 @@ export class RectifyWorkbeachViewComponent implements OnInit {
     this.organizationService.getOrganizationTreeOfEmployeeOrUser().subscribe(data => {
       this.organizationTree = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
     });
-    //this.loadData();
+    // this.loadData();
     this.loadTimeOption();
+    if (this.cacheService.get('__user', { mode: 'none' }).userType === 'AUDIT_DEPARTMENT') {
+      this.isRectify = false;
+    } else {
+      this.isRectify = true;
+    }
   }
 
   // 获取数据
@@ -431,4 +455,36 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   }
 
   onChangeStates(id: string): void {}
+
+  /**
+   * 整改部门进去
+   * 申请延期方法
+   */
+  applicationExtension() {
+    this.rectifyWorkbeachPutComponent.open();
+  }
+
+  /**
+   * 整改部门登录进去
+   * 延期申请记录
+   */
+  applicationRecord() {
+    this.rectifyWorkbeachTableComponent.Open();
+  }
+
+  /**
+   * 审计人员进去
+   * 批不批准延期审批记录
+   */
+  delayApprove() {
+    this.rectifyWorkbeachTableComponent.Open();
+  }
+
+  /**
+   * 延期审批
+   */
+  delayExtension() {
+    this.rectifyWorkbeachPutComponent.isWatchForTable = true;
+    this.rectifyWorkbeachPutComponent.open();
+  }
 }

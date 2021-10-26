@@ -80,7 +80,13 @@ export class AuditPostTypeTreeComponent implements OnInit {
   constructor(private auditPostTypeService: AuditPostTypeService, private msg: NzMessageService) {}
 
   // 左侧树节点数据
-  nodes = [];
+  nodes = [
+    {
+      title: '审计报告1',
+      key: '123',
+      children: [],
+    },
+  ];
 
   /**
    * 新增树的类型
@@ -114,7 +120,7 @@ export class AuditPostTypeTreeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getNode();
+    // this.getNode();
   }
 
   loadTree(): void {

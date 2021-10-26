@@ -45,13 +45,14 @@
             <nz-tag *ngIf="item.transferStatus === '移交中'" [nzColor]="'#FFBF00'">移交中</nz-tag>
             <nz-tag *ngIf="item.transferStatus === '已移交'" [nzColor]="'#04B404'">已移交</nz-tag>
           </td>
-          <td>{{ item?.auditPost?.name }}</td>
+          <td>{{ item?.auditPost.name }}</td>
           <td>{{ item.name }}</td>
-          <td>{{ item.type | dictTransform: 'PROBLEM_TYPE' | async }}</td>
-          <td nzAlign="right">{{ 123 | currency: 'CNY':'symbol-narrow' }}</td>
-          <td>{{ item?.rectifyDepartment?.name }}</td>
+          <!-- <td>{{ item.type | dictTransform: 'PROBLEM_TYPE' | async }}</td> -->
+          <td>{{ item.type }}</td>
+          <td nzAlign="right">{{ item.money | currency: 'CNY':'symbol-narrow' }}</td>
+          <td>{{ item?.rectifyDepartment }}</td>
           <td>整改单位</td>
-          <td>{{ item?.dutyUser?.name }}</td>
+          <td>{{ item?.dutyUser }}</td>
           <td>审计负责人</td>
           <td>
             <ng-container *ngIf="item.level === 0">

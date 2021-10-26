@@ -1,0 +1,30 @@
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="'延期审批记录'" [nzMaskClosable]="false" (nzOnCancel)="handleCancel()"
+  [nzFooter]="formFooter" [nzStyle]="{ top: '65px' }" nzWidth="1050" [nzBodyStyle]="{
+  'overflow-y': 'auto',
+  'overflow-x': 'hidden',
+  padding: '24px'
+}">
+  <form nz-form #form="ngForm">
+    <st #st [data]="listOfData" nzSize="middle" [multiSort]="tableParameter.multiSort" [loading]="loading"
+      [req]="tableParameter.req" [scroll]="{ y: '100%' }" [bordered]="true" [res]="tableParameter.res"
+      [total]="tableParameter.page.total" [size]="tableParameter.size" [pi]="tableParameter.pi" [ps]="tableParameter.ps"
+      [columns]="columns" [rowClickTime]="500" (change)="stChange($event)" [page]="tableParameter.page"
+      [noResult]="null" style="height: 500px;">
+      <ng-template st-row="number" let-row let-index="index">
+        {{ ((st.pi ? st.pi : 1) - 1) * (st.ps ? st.ps : 0) + (index + 1) }}
+      </ng-template>
+      <ng-template st-row="operations" let-row let-index="index">
+        <a (click)="watch()">查看</a>
+      </ng-template>
+    </st>
+  </form>
+
+  <ng-template #formFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">取消</button>
+    <button nz-button nzType="primary" (click)="saveData()">
+      确定
+    </button>
+  </ng-template>
+</nz-modal>
+
+<app-rectify-workbeach-put #rectifyWorkbeachPutComponent></app-rectify-workbeach-put>
