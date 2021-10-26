@@ -1,0 +1,129 @@
+<!-- <nz-timeline>
+  <nz-timeline-item>审计人员问题下发 2015-09-01</nz-timeline-item>
+  <nz-timeline-item nzColor="green">审计人员整改通知书发送到OA 2015-09-01</nz-timeline-item>
+  <nz-timeline-item nzColor="red">失效整改措施 2015-09-01</nz-timeline-item>
+  <nz-timeline-item nzColor="gray">回复审计人员 2015-09-01</nz-timeline-item>
+</nz-timeline> -->
+
+<!-- <nz-tree [nzSearchValue]="searchValue" [nzDraggable]="false" nzBlockNode nzShowLine [nzData]="nodes"
+  (nzClick)="clickTreeNode($event)" [nzTreeTemplate]="nzTreeTemplate">
+</nz-tree>
+<ng-template #nzTreeTemplate let-node let-origin="origin">
+  <span class="custom-node">
+    <span *ngIf="!node.isLeaf">
+      <i nz-icon [nzType]="node.isExpanded ? 'caret-down' : 'caret-right'" (click)="clickTreeNode($event)"></i>
+      <span class="folder-name" style="cursor:pointer" [class.active]="selectNode?.id === node.id">{{ node.title
+        }}&nbsp;{{node.author}}&nbsp;{{node.time}}</span>
+    </span>
+
+    <span *ngIf="node.isLeaf ">
+      <span class="file-name" style="cursor:pointer" [class.active]="selectNode?.id === node.id">
+        {{node.timeLines[0].title}}
+        <nz-timeline *ngFor='let timeLine of node.timeLines'>
+          <nz-timeline-item nzColor="red"> {{ timeLine.title }}&nbsp;{{timeLine.author}}&nbsp;{{timeLine.time}}
+          </nz-timeline-item>
+        </nz-timeline>
+      </span>
+    </span>
+  </span>
+</ng-template> -->
+
+
+<!--<nz-table #expandTable [nzData]="listOfMapData" style="height: 100%;" nzShowPagination='false'>
+  <tbody>
+    <ng-container *ngFor="let data of expandTable.data; let i = index">
+      <ng-container *ngFor="let item of mapOfExpandedData[data.id]; let ci = index">
+        <tr *ngIf="(item.parent && item.parent.expand) || !item.parent">
+          <td *ngIf='item.timeLines&& item.timeLines.length>0'>
+            <nz-timeline *ngFor='let timeLine of item.timeLines'>
+              <nz-timeline-item nzColor="red">
+                {{timeLine.author}}:{{ timeLine.name }}&nbsp;{{timeLine.time}}
+              </nz-timeline-item>
+            </nz-timeline>
+          </td>
+
+          <td *ngIf='!item.timeLines || item.timeLines.length<1'>
+            {{item.author}}:{{ item.name }}&nbsp;{{item.time}}
+          </td>
+        </tr>
+      </ng-container>
+    </ng-container>
+  </tbody>
+</nz-table> -->
+
+<!-- <nz-table #expandTable [nzData]="listOfMapData" style="height: 100%;" nzShowPagination='false'>
+
+  <thead>
+    <tr>
+      <th nzWidth="50px" nzShowExpand *ngIf="expandTable"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <ng-container *ngFor="let data of expandTable.data; let i=index">
+      <ng-container *ngFor="let item of mapOfExpandedData[data.id]; let ci=index">
+        <tr *ngIf="(item.parent && item.parent.expand) || !item.parent">
+          <td [nzIndentSize]="item.level * 20" [nzShowExpand]="!!(item.children && item.children.length > 0)"
+            [(nzExpand)]="item.expand" (nzExpandChange)="collapse(mapOfExpandedData[data.id], item, $event)"
+            *ngIf="item.level === 0 &&(!item.timeLines || item.timeLines.length<1)">
+            {{item.author}}:{{ item.name }}&nbsp;{{item.time}}
+          </td>
+          <td [nzIndentSize]="item.level * 20" *ngIf="item.level === 1 && item.timeLines&& item.timeLines.length>0">
+            <nz-timeline *ngFor='let timeLine of item.timeLines'>
+              <nz-timeline-item nzColor="red">
+                {{timeLine.author}}:{{ timeLine.name }}&nbsp;{{timeLine.time}}
+              </nz-timeline-item>
+            </nz-timeline>
+          </td>
+
+          <td>124545487</td>
+        </tr>
+      </ng-container>
+    </ng-container>
+  </tbody>
+
+</nz-table> -->
+<nz-table #expandTable [nzData]="listOfMapData" nzShowPagination='false' [nzScroll]="{ y: '240px' }" [nzNoResult]=''>
+  <thead>
+    <tr *ngIf="false">
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let data of expandTable.data">
+      <ng-container *ngFor="let item of mapOfExpandedData[data.id]">
+        <tr *ngIf="(item.parent && item.parent.expand) || !item.parent">
+          <td nzWidth="100%" [nzIndentSize]="item.level * 20"
+            [nzShowExpand]="!!(item.children && item.children.length > 0)" [(nzExpand)]="item.expand"
+            (nzExpandChange)="collapse(mapOfExpandedData[data.id], item, $event)"
+            *ngIf="!item.timeLines || item.timeLines.length<1">
+            <a [ngStyle]="{'color':item.id===tableClickId?'#1890ff':'#000000A6'}" (click)="tableClick(item.id)">
+              {{item.author}}:{{ item.name }}&nbsp;{{item.time}}
+            </a>
+          </td>
+          <td nzWidth="100%" [nzIndentSize]="item.level * 20" *ngIf="!(item.children && item.children.length > 0)">
+            <div
+              [ngStyle]="{'margin-left': marginLeft(item.level),'margin-bottom': '-20px','margin-top': '-10px' ,'width':'90%'} ">
+              <nz-timeline *ngIf=' item.timeLines&& item.timeLines.length>0'>
+                <ng-container *ngFor='let timeLine of item.timeLines'>
+                  <nz-timeline-item nzColor="red" *ngIf="timeLine.objectType==='1'">
+                    <a [ngStyle]="{'color':timeLine.id===tableClickId?'#1890ff':'#000000A6'}"
+                      (click)="tableClick(timeLine.id)">
+                      {{timeLine.author}}:{{ timeLine.name }}&nbsp;{{timeLine.time}}
+                    </a>
+                  </nz-timeline-item>
+                  <nz-timeline-item nzColor="green" *ngIf="timeLine.objectType==='2'">
+                    <a [ngStyle]="{'color':timeLine.id===tableClickId?'#1890ff':'#000000A6'}"
+                      (click)="tableClick(timeLine.id)">
+                      {{timeLine.author}}:{{ timeLine.name }}&nbsp;{{timeLine.time}}
+                    </a>
+                  </nz-timeline-item>
+                </ng-container>
+              </nz-timeline>
+            </div>
+          </td>
+        </tr>
+      </ng-container>
+    </ng-container>
+  </tbody>
+</nz-table>
