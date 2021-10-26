@@ -198,9 +198,10 @@ export class AuditPostDetailComponent implements OnInit {
   }
 
   done(): void {
-    console.dir(this.auditPostForm);
-
-    console.dir(this.auditPostForm.form);
+    if (this.fileList.length === 0) {
+      this.msg.warning('请先上传报告');
+      return;
+    }
     if (!FormUtil.validateForm(this.auditPostForm.form)) {
       this.msg.warning(`请补全报告基本信息`);
       return;

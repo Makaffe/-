@@ -33,13 +33,13 @@
     </as-split-area>
     <nz-divider [nzText]="title" style="margin-top:-20px">
       <ng-template #title>
-        <h1>读取审计报告</h1>
+        <h1>审计报告解析</h1>
       </ng-template>
     </nz-divider>
     <as-split-area [size]="'*'" style="height:100%;">
       <div style="height:100%;margin-left:10px;margin-top:10px;overflow:scroll;">
         <nz-form-item>
-          <nz-form-label nzSpan="3">上传审计报告</nz-form-label>
+          <nz-form-label nzRequired nzSpan="3">上传审计报告</nz-form-label>
 
           <nz-form-control nzSpan="19">
             <nz-upload
@@ -61,7 +61,7 @@
         </nz-form-item>
 
         <nz-form-item>
-          <nz-form-label nzSpan="3">附件</nz-form-label>
+          <nz-form-label nzSpan="3">项目相关资料</nz-form-label>
           <nz-form-control nzSpan="19">
             <app-attach-list
               [show]="!isWatch"
@@ -188,7 +188,7 @@
           </nz-form-control>
         </nz-form-item>
 
-        <nz-form-item>
+        <nz-form-item *ngIf="show">
           <nz-form-label nzSpan="3">审计发现清单</nz-form-label>
           <nz-form-control nzSpan="19">
             <nz-table
@@ -205,7 +205,7 @@
                   <th nzWidth="100px" nzAlign="center">问题类型</th>
                   <th nzWidth="100px" nzAlign="center">整改部门</th>
                   <th nzWidth="100px" nzAlign="center">整改责任人</th>
-                  <th nzWidth="100px" nzAlign="center">涉及金额</th>
+                  <th nzWidth="100px" nzAlign="center">涉及金额(元)</th>
                   <th nzWidth="100px" nzAlign="center">问题描述</th>
                   <th nzWidth="100px" nzAlign="center">审计建议</th>
                   <th nzRight="100px" nzAlign="center" nzWidth="100px">问题来源</th>
@@ -233,16 +233,16 @@
                     }}
                   </td>
 
-                  <td nzLeft="50px">
+                  <td nzAlign="center" nzLeft="50px">
                     {{ data.name }}
                   </td>
-                  <td>{{ data.type | dictTransform: 'PROBLEM_TYPE' | async }}</td>
-                  <td>{{ convertOrganization(data?.rectifyDepartmentId) }}</td>
-                  <td>{{ convertdutyUser(data?.dutyUserId) }}</td>
-                  <td>{{ data.money }}</td>
-                  <td>{{ data.remark }}</td>
-                  <td>{{ data.advice }}</td>
-                  <td nzRight="100px">
+                  <td nzAlign="center">{{ data.type | dictTransform: 'PROBLEM_TYPE' | async }}</td>
+                  <td nzAlign="center">{{ convertOrganization(data?.rectifyDepartmentId) }}</td>
+                  <td nzAlign="center">{{ convertdutyUser(data?.dutyUserId) }}</td>
+                  <td nzAlign="center">{{ data.money }}</td>
+                  <td nzAlign="center">{{ data.remark }}</td>
+                  <td nzAlign="center">{{ data.advice }}</td>
+                  <td nzAlign="center" nzRight="100px">
                     {{ data.source }}
                   </td>
 
