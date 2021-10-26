@@ -1,7 +1,7 @@
 <as-split direction="horizontal" unit="pixel" [useTransition]="true" gutterSize="3"
   (gutterClick)="leftSize = leftSize == 0 ? LEFT_WIDTH : 0">
   <!-- 左侧审计知识树 -->
-  <as-split-area [size]="300" minSize="180" maxSize="300" class="app-audit-tree app-audit-tree-left">
+  <as-split-area [size]="300" minSize="180" maxSize="300" class="app-audit-tree app-audit-tree-left" class="bg-white" style="padding:10px 10px 0 10px">
     <rectify-post-type-tree (selectNodeEvent)="selectNode($event)"></rectify-post-type-tree>
   </as-split-area>
   <!--右侧编辑区-->
