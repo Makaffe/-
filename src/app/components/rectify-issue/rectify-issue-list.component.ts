@@ -148,7 +148,15 @@ export class RectifyIssueListComponent implements OnInit {
    * @param item 整改问题数据
    */
   splitIssue(item: RectifyProblemDTO) {
-    this.rectifyIssueSplitComponent.edit(item);
+    this.rectifyIssueSplitComponent.edit(item, false);
+  }
+
+  /**
+   * 查看
+   * @param item 整改问题数据
+   */
+  watch(item: RectifyProblemDTO) {
+    this.rectifyIssueSplitComponent.edit(item, true);
   }
 
   /**

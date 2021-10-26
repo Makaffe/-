@@ -55,6 +55,11 @@ export class RectifyChildIssueDetailComponent implements OnInit {
    */
   loading = false;
 
+  /**
+   * 是否查看
+   */
+  isWatch = false;
+
   constructor(
     private msg: NzMessageService,
     private organizationService: OrganizationService,
@@ -103,8 +108,10 @@ export class RectifyChildIssueDetailComponent implements OnInit {
   /**
    * 初始化编辑页面
    * @param item 数据源dto
+   * @param isWatch 是否查看
    */
-  edit(item?: RectifyProblemDTO): void {
+  edit(item: RectifyProblemDTO, isWatch: boolean): void {
+    this.isWatch = isWatch;
     this.currentItem = this.initProblemDTO(item);
     this.currentItem.auditPostId = this.problemItem.auditPost.id;
     this.currentItem.parentId = this.problemItem.id;
