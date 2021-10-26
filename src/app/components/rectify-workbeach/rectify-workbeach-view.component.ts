@@ -1,5 +1,5 @@
 import { DatePipe, formatDate } from '@angular/common';
-import { Component, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, Input, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QueryOptions } from '@mt-framework-ng/core';
 import { OrganizationService, SystemFileService } from '@ng-mt-framework/api';
@@ -17,6 +17,9 @@ import { RectifyEffectComponent } from './rectify-effect.component';
 import { RectifyMeasureReplyComponent } from './rectify-measure-reply.component';
 import { RectifyMeasureComponent } from './rectify-measure.component';
 import { RectifyProblemSwitchComponent } from './rectify-problem-switch.component';
+
+import { RectifyWorkbeachPutComponent } from './rectify-workbeach-put.component';
+import { RectifyWorkbeachTableComponent } from './rectify-workbeach-table.component';
 import { RectifyMeasureService } from './service/RectifyMeasureService';
 
 @Component({
@@ -45,6 +48,20 @@ export class RectifyWorkbeachViewComponent implements OnInit {
 
   @ViewChild('rectifyProblemSwitchComponent', { static: false })
   rectifyProblemSwitchComponent: RectifyProblemSwitchComponent;
+
+  /**
+   * 整改部门提交申请请求
+   * 调用弹窗组件
+   */
+  @ViewChild('rectifyWorkbeachPutComponent', { static: false })
+  rectifyWorkbeachPutComponent: RectifyWorkbeachPutComponent;
+
+  /**
+   * 审批人员同不同意，整改部门提交的申请
+   * 调用列表弹窗组件
+   */
+  @ViewChild('rectifyWorkbeachTableComponent', {static: false})
+  rectifyWorkbeachTableComponent: RectifyWorkbeachTableComponent;
 
   // 分页参数
   private options: QueryOptions = {
@@ -78,6 +95,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   rectifyTrack = this.initRtParams();
 
   // 判断是否为整改部门
+  @Input()
   isRectify = false;
 
   // 折叠与展开
@@ -412,4 +430,36 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   }
 
   onChangeStates(id: string): void {}
+
+  /**
+   * 整改部门进去
+   * 申请延期方法
+   */
+  applicationExtension() {
+    this.rectifyWorkbeachPutComponent.open();
+  }
+
+  /**
+   * 整改部门登录进去
+   * 延期申请记录
+   */
+  applicationRecord() {
+    this.rectifyWorkbeachTableComponent.Open();
+  }
+
+   /**
+    * 审计人员进去
+    * 批不批准延期审批记录
+    */
+  delayApprove() {
+    this.rectifyWorkbeachTableComponent.Open();
+  }
+
+
+  delayExtension() {
+    this.isRectify = true;
+    this.rectifyWorkbeachPutComponent.open();
+
+  }
+
 }
