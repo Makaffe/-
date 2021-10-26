@@ -5,5 +5,6 @@ export * from './rectify-issue-split.component';
 export * from './rectify-child-issue-detail.component';
 export * from './rectify-issue-order.component';
 export * from './rectify-issue-transfer.component';
+export * from './audit-post-watch.component';
 export * from './service/RectifyProblemService';
 export * from './model/rectify-problem-dto';

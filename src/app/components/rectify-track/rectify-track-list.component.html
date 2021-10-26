@@ -12,7 +12,7 @@
       <th nzWidth="150px">审计报告名称</th>
       <th nzWidth="150px">问题名称</th>
       <th nzWidth="150px">问题类型</th>
-      <th nzWidth="150px">涉及金额(万元)</th>
+      <th nzWidth="150px">涉及金额(元)</th>
       <th nzWidth="150px">整改部门</th>
       <th nzWidth="150px">整改单位</th>
       <th nzWidth="150px">整改负责人</th>
@@ -51,7 +51,7 @@
           <td>{{ item?.auditPost?.name }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.type | dictTransform: 'PROBLEM_TYPE' | async }}</td>
-          <td>{{ 123 | currency: 'CNY':'symbol-narrow' }}</td>
+          <td nzAlign="right">{{ 123 | currency: 'CNY':'symbol-narrow' }}</td>
           <td>{{ item?.rectifyDepartment?.name }}</td>
           <td>整改单位</td>
           <td>{{ item?.dutyUser?.name }}</td>

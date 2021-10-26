@@ -16,13 +16,15 @@
   </as-split-area>
   <!-- 审计知识树节点 -->
   <as-split-area [size]="'*'" minSize="180" maxSize="320">
-    <nz-input-group [nzSuffix]="suffixIcon" style="width: 100%;">
+    <nz-input-group [nzSuffix]="suffixIcon" style="width: 100%;padding-left: 10px;padding-right: 5px;">
       <input type="text" nz-input placeholder="搜索" (nzSearchValueChange)="nzSearch($event)" [(ngModel)]="searchValue" />
     </nz-input-group>
     <ng-template #suffixIcon>
       <i nz-icon nzType="search"></i>
     </ng-template>
-    <nz-tree [nzData]="nodes" nzShowLine [nzSearchValue]="searchValue" (nzClick)="nzClick($event)"></nz-tree>
+    <div style="padding-left: 10px;padding-right: 10px;">
+      <nz-tree [nzData]="nodes" nzShowLine [nzSearchValue]="searchValue" (nzClick)="nzClick($event)"></nz-tree>
+    </div>
   </as-split-area>
 </as-split>
 <audit-post-tree-edit (notification)="getNode()" [knowledgeType]="knowledgeType" #knowledgeTypeTreeEditComponent>

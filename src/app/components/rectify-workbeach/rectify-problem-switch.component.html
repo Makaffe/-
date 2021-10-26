@@ -95,12 +95,17 @@
         <thead>
           <tr>
             <th nzWidth="50px" nzAlign="center" nzLeft="0px"></th>
-            <th nzWidth="120px">序号</th>
+            <th nzWidth="100px" nzLeft="50px">序号</th>
             <th nzWidth="100px" nzAlign="center">下发状态</th>
             <th nzWidth="100px" nzAlign="center">移交状态</th>
+            <th nzWidth="150px">审计报告名称</th>
             <th nzWidth="150px">问题名称</th>
+            <th nzWidth="150px">问题类型</th>
+            <th nzWidth="150px">涉及金额(元)</th>
             <th nzWidth="150px">整改部门</th>
+            <th nzWidth="150px">整改单位</th>
             <th nzWidth="150px">整改负责人</th>
+            <th nzWidth="150px">审计负责人</th>
             <th nzWidth="150px">已完成整改措施数</th>
             <th nzWidth="150px">整改截止时间</th>
             <th nzWidth="150px">整改拟完成时间</th>
@@ -117,10 +122,10 @@
                   (nzCheckedChange)="checked(item,mapOfCheckedId[item.id])" nzLeft="0px"></td>
                 <td [nzIndentSize]="item.level * 20" [nzShowExpand]="!!(item.children && item.children.length > 0)"
                   [(nzExpand)]="item.expand" (nzExpandChange)="collapse(mapOfExpandedData[data.id], item, $event)"
-                  *ngIf="item.level === 0">
+                  *ngIf="item.level === 0" nzLeft="50px">
                   {{ item.level === 0 ? i + 1 : i + 1 + '-' + ci }}
                 </td>
-                <td [nzIndentSize]="item.level * 20" *ngIf="item.level === 1">
+                <td [nzIndentSize]="item.level * 20" *ngIf="item.level === 1" nzLeft="50px">
                   {{ item.level === 0 ? i + 1 : i + 1 + '-' + ci }}
                 </td>
                 <td nzAlign="center">
@@ -133,9 +138,14 @@
                   <nz-tag *ngIf="item.transferStatus === '移交中'" [nzColor]="'#FFBF00'">移交中</nz-tag>
                   <nz-tag *ngIf="item.transferStatus === '已移交'" [nzColor]="'#04B404'">已移交</nz-tag>
                 </td>
+                <td>{{ item?.auditPost?.name }}</td>
                 <td>{{ item.name }}</td>
+                <td>{{ item.type | dictTransform: 'PROBLEM_TYPE' | async }}</td>
+                <td nzAlign="right">{{ 123 | currency: 'CNY':'symbol-narrow' }}</td>
                 <td>{{ item?.rectifyDepartment?.name }}</td>
+                <td>整改单位</td>
                 <td>{{ item?.dutyUser?.name }}</td>
+                <td>审计负责人</td>
                 <td>{{ item.rectifyCount }}</td>
                 <td>{{ item.rectifyEndTime }}</td>
                 <td>{{ item.lastModifiedTime }}</td>
