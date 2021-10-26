@@ -43,7 +43,7 @@ export class RectifyPostDetailComponent implements OnInit {
    *  组件是否可见
    */
   isVisible = false;
-
+  unit = null;
   /**
    * 整改统计时间
    */
@@ -209,5 +209,12 @@ export class RectifyPostDetailComponent implements OnInit {
    */
   tagClick() {
     // this.router.navigate([`/insight/special-report/template-edit/${this.currentItem.templateFile.id}`]);
+  }
+
+  /**
+   * 整改单位选择下列选中事件
+   */
+  unitOnSelect($event) {
+    console.log('danwei', $event);
   }
 }

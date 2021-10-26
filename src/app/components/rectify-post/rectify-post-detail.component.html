@@ -10,9 +10,9 @@
   <form nz-form #form=ngForm>
     <nz-form-item>
       <nz-form-label nzSpan="4" nzRequired> 整改汇报名称</nz-form-label>
-      <nz-form-control nzSpan="20"
-        [nzValidateStatus]="name.invalid && (name.dirty || name.touched) ? 'error' : ''">
-        <input nz-input [readOnly]=" isWatch" #name = "ngModel" name="name" placeHolder="请填写整改汇报名称" [(ngModel)]="currentItem.name" required />
+      <nz-form-control nzSpan="20" [nzValidateStatus]="name.invalid && (name.dirty || name.touched) ? 'error' : ''">
+        <input nz-input [readOnly]=" isWatch" #name="ngModel" name="name" placeHolder="请填写整改汇报名称"
+          [(ngModel)]="currentItem.name" required />
         <nz-form-explain *ngIf="name.invalid && (name.dirty || name.touched)">
           请填写整改汇报名称
         </nz-form-explain>
@@ -33,7 +33,7 @@
     <nz-form-item>
       <nz-form-label nzSpan="4">审计报告</nz-form-label>
       <nz-form-control nzSpan="20">
-        <nz-select [nzDisabled]="isWatch" nzPlaceHolder="请选择审计报告" >
+        <nz-select [nzDisabled]="isWatch" nzPlaceHolder="请选择审计报告">
         </nz-select>
       </nz-form-control>
     </nz-form-item>
@@ -76,13 +76,13 @@
           *ngIf="currentItem&&currentItem.templateFile">
           {{currentItem.templateFile.templateName}}</nz-tag>
         <nz-tag *ngIf="!currentItem||!currentItem.templateFile">无</nz-tag>
+        <button nz-button nzType="default" (click)="referenceTempl()" *ngIf="!isWatch">
+          <i nz-icon nzType="link" nzTheme="outline"></i>引用模板
+        </button>
       </nz-form-control>
     </nz-form-item>
   </form>
   <ng-template #noticeEditorFooter>
-    <button nz-button nzType="default" (click)="referenceTempl()" *ngIf="!isWatch">
-      <i nz-icon nzType="link" nzTheme="outline"></i>引用模板
-    </button>
     <button nz-button nzType="default" (click)="handleCancel()">取消</button>
     <button nz-button nzType="primary" (click)="save()" *ngIf="!isWatch" [nzLoading]="loading">确定</button>
   </ng-template>
