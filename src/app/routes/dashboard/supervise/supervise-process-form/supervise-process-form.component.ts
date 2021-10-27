@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AttachListComponent } from 'src/app/components/common/attach/attach-list.component';
+import { AuditPostWatchComponent } from 'src/app/components/rectify-issue/audit-post-watch.component';
 
 interface ItemData {
   id: string;
@@ -15,6 +16,12 @@ interface ItemData {
 export class SuperviseProcessFormComponent implements OnInit {
   @ViewChild('attachListComponent', { static: false })
   attachListComponent: AttachListComponent;
+
+  /**
+   * 审计报告详情弹窗
+   */
+  @ViewChild('auditPostWatchComponent', { static: false })
+  auditPostWatchComponent: AuditPostWatchComponent;
 
   /**
    * 左侧宽度
@@ -90,5 +97,12 @@ export class SuperviseProcessFormComponent implements OnInit {
       this.leftSize = 0;
       this.rightSize = 100;
     }
+  }
+
+  /**
+   * 查看报告
+   */
+  viewReport() {
+    this.auditPostWatchComponent.watch(null);
   }
 }
