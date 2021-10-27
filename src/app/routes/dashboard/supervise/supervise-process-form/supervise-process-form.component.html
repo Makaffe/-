@@ -17,7 +17,7 @@
           <nz-form-item>
             <nz-form-label nzSpan="5">所属报告</nz-form-label>
             <nz-form-control nzSpan="19">
-              <input nz-input readonly name="report" [(ngModel)]="currentItem.reportName" />
+              <button nz-button nzType="link" (click)="viewReport()" nz-tooltip nzTooltipTitle="点击查看报告详情">{{currentItem.reportName}}</button>
             </nz-form-control>
           </nz-form-item>
           <nz-form-item>
@@ -173,3 +173,4 @@
     </div>
   </ng-template>
 </nz-modal>
+<app-audit-post-watch #auditPostWatchComponent></app-audit-post-watch>
