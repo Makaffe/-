@@ -9,7 +9,7 @@
       <as-split direction="vertical" unit="pixel" gutterSize="0">
         <as-split-area class="flex-fixed" [size]="40">
           <nz-divider></nz-divider>
-          <div style="padding: 8px;">
+          <div style="padding: 7px;">
             <span style="font-size: 18px;">问题详情</span>
           </div>
           <nz-divider></nz-divider>
@@ -20,8 +20,8 @@
               <nz-form-label nzSpan="4">所属审计报告</nz-form-label>
               <nz-form-control nzSpan="20">
                 <button nzTooltipTitle="点击查看报告详情" nzTooltipPlacement="bottom" nz-button nz-tooltip nzType="link"
-                  style="padding: 0px;"
-                  (click)="watchAuditPost(problemItem?.auditPost.id)">{{ problemItem?.auditPost.name }}
+                  style="padding: 0px;" (click)="watchAuditPost(problemItem?.auditPost.id)">{{
+                  problemItem?.auditPost.name }}
                   <i nz-icon nzType="eye" nzTheme="twotone"></i>
                 </button>
               </nz-form-control>
