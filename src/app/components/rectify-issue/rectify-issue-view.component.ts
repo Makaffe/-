@@ -23,8 +23,8 @@ export class RectifyIssueViewComponent implements OnInit {
    */
   params = {
     auditPostName: null, // 报告名称
-    improtAuditPostStartTime: null, // 导入报告开始时间
-    improtAuditPostEndTime: null, // 导入报告开始时间
+    importAuditPostStartTime: null, // 导入报告开始时间
+    importAuditPostEndTime: null, // 导入报告开始时间
     problemType: null, // 问题类型
     problemName: null, // 问题名称
     isDistribute: null, // 是否已分配
@@ -114,8 +114,8 @@ export class RectifyIssueViewComponent implements OnInit {
   clear() {
     this.params = {
       auditPostName: null, // 报告名称
-      improtAuditPostStartTime: null, // 导入报告开始时间
-      improtAuditPostEndTime: null, // 导入报告开始时间
+      importAuditPostStartTime: null, // 导入报告开始时间
+      importAuditPostEndTime: null, // 导入报告开始时间
       problemType: null, // 问题类型
       problemName: null, // 问题名称
       isDistribute: null, // 是否已分配
@@ -129,11 +129,11 @@ export class RectifyIssueViewComponent implements OnInit {
 
   /**
    * 获取整改表格checkbox选中的数据
-   * @param datas checkbox选中的数据
+   * @param data checkbox选中的数据
    */
-  getCheckboxData(datas: Array<RectifyProblemDTO>) {
+  getCheckboxData(data: Array<RectifyProblemDTO>) {
     this.checkboxData = [];
-    datas.forEach(problem => {
+    data.forEach(problem => {
       if (!problem.children || problem.children.length === 0) {
         this.checkboxData.push(problem);
       }
@@ -173,21 +173,21 @@ export class RectifyIssueViewComponent implements OnInit {
    * 禁用开始时间
    */
   disabledStartDate = (startValue: Date): boolean => {
-    if (!startValue || !this.params.improtAuditPostEndTime) {
+    if (!startValue || !this.params.importAuditPostEndTime) {
       return false;
     }
-    return startValue.getTime() > new Date(this.params.improtAuditPostEndTime).getTime();
-    // tslint:disable-next-line:semicolon
+    return startValue.getTime() > new Date(this.params.importAuditPostEndTime).getTime();
+    // tslint:disable-next-line: semicolon
   };
 
   /**
    * 禁用结束时间
    */
   disabledEndDate = (endValue: Date): boolean => {
-    if (!endValue || !this.params.improtAuditPostStartTime) {
+    if (!endValue || !this.params.importAuditPostStartTime) {
       return false;
     }
-    return endValue.getTime() <= new Date(this.params.improtAuditPostStartTime).getTime();
-    // tslint:disable-next-line:semicolon
+    return endValue.getTime() <= new Date(this.params.importAuditPostStartTime).getTime();
+    // tslint:disable-next-line: semicolon
   };
 }
