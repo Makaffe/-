@@ -4,8 +4,9 @@
     'overflow-x': 'hidden',
     padding: '25px 25px 0 25px'
   }">
-  <as-split direction="horizontal" unit="percent" [useTransition]="true">
-    <as-split-area [size]="leftSize" minSize="0" maxSize="50" style="background-color: white;">
+  <as-split direction="horizontal" unit="percent" [useTransition]="true" gutterSize="5"
+    (dragEnd)="dragEnd($event.sizes)">
+    <as-split-area [(size)]="leftSize" minSize="0" maxSize="50" style="background-color: white;">
       <as-split direction="vertical" unit="pixel" gutterSize="0">
         <as-split-area class="flex-fixed" [size]="40">
           <nz-divider></nz-divider>
@@ -64,7 +65,7 @@
 
     </as-split-area>
     <!--右侧编辑区-->
-    <as-split-area [size]="rightSize" style="overflow: hidden">
+    <as-split-area [(size)]="rightSize" style="overflow: hidden">
       <as-split direction="vertical" unit="pixel" gutterSize="0">
         <as-split-area class="flex-fixed" [size]="40">
           <nz-divider></nz-divider>

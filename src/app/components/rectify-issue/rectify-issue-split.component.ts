@@ -342,4 +342,13 @@ export class RectifyIssueSplitComponent implements OnInit {
   watchAuditPost(auditPostId: string) {
     this.auditPostWatchComponent.isVisible = true;
   }
+
+  /**
+   * 拖动结束调用的方法
+   * @param sizes
+   */
+  dragEnd(sizes: Array<any>) {
+    this.leftSize = sizes[0];
+    this.rightSize = sizes[1];
+  }
 }
