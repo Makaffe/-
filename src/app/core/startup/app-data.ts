@@ -23,8 +23,14 @@ export const APP_DATA = {
           // acl: [],
           children: [
             {
-              text: '整改台账管理',
+              text: '审计报告管理',
               link: '/audit-rectify/audit-post',
+              i18n: '',
+              // acl: [],
+            },
+            {
+              text: '整改台账管理',
+              link: '/audit-rectify/rectification-post',
               i18n: '',
               // acl: [],
             },

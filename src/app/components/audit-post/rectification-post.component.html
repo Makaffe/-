@@ -1,0 +1,61 @@
+<!-- <as-split direction="vertical" unit="pixel" gutterSize="0">
+  <as-split-area [size]="'*'">
+    <nz-table #nestedTable [nzData]="listOfParentData" [nzPageSize]="10">
+      <thead>
+        <tr>
+          <th nzWidth="50px" nzShowExpand>序号</th>
+          <th nzWidth="150px">状态</th>
+          <th nzWidth="300px">审计报告名称</th>
+          <th nzWidth="300px">审计单位名称</th>
+          <th nzWidth="300px">审计开始时间</th>
+          <th nzWidth="300px">审计结束时间</th>
+          <th nzWidth="200px">审计问题数</th>
+          <th nzWidth="200px">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-template ngFor let-data [ngForOf]="nestedTable.data">
+          <tr>
+            <td nzShowExpand [(nzExpand)]="data.expand"></td>
+            <td>{{ data.auditReportStatus }}</td>
+            <td>{{ data.name }}</td>
+            <td>{{ data.auditName }}</td>
+            <td>{{ data.auditStartTime }}</td>
+            <td>{{ data.auditEndTime }}</td>
+            <td>{{ data.probkemAmount }}</td>
+            <td><a>编辑</a></td>
+          </tr>
+          <tr [nzExpand]="data.expand">
+            <th></th>
+            <td colspan="7">
+              <nz-table style="margin: -10px;" #innerTable [nzData]="listOfChildrenData" [nzShowPagination]="false">
+                <thead>
+                  <tr>
+                    <th nzWidth="50px">序号</th>
+                    <th nzWidth="300px">问题名称</th>
+                    <th nzWidth="300px">问题类型</th>
+                    <th nzWidth="300px">整改部门</th>
+                    <th nzWidth="300px">整改责任人</th>
+                    <th nzWidth="300px" nzAlign="right">涉及金额(元)</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of innerTable.data; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ data?.name }}</td>
+                    <td>{{ data?.type }}</td>
+                    <td>{{ data?.department }}></td>
+                    <td>{{ data?.dustyname }}</td>
+                    <td nzAlign="right">{{ data.money | currency: 'CNY':'symbol-narrow' }}</td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </nz-table>
+            </td>
+          </tr>
+        </ng-template>
+      </tbody>
+    </nz-table>
+  </as-split-area>
+</as-split> -->
