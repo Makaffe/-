@@ -30,12 +30,18 @@ import { OaTemplateViewComponent } from 'src/app/components/oa-template/oa-templ
 import { StatisticsAnalysisAuditIssueViewComponent } from 'src/app/components/statistics-analysis/statistics-analysis-audit-issue-view.component';
 // tslint:disable-next-line:max-line-length
 import { StatisticsAnalysisAuditRectifyResultComponent } from 'src/app/components/statistics-analysis/statistics-analysis-audit-rectify-result.component';
+import { RectificationPostComponent } from 'src/app/components/audit-post/rectification-post.component';
 
 const routes: Routes = [
   {
     path: 'audit-post',
     component: AuditPostViewComponent,
     data: { title: '审计报告', reuse: true },
+  },
+  {
+    path: 'rectification-post',
+    component: RectificationPostComponent,
+    data: { title: '整改台账', reuse: true },
   },
   {
     path: 'rectify-issue',

@@ -154,7 +154,7 @@ export class RectifyIssueOrderComponent implements OnInit {
       data => {
         if (data) {
           this.tableData = data.data;
-          this.tableData = __spread(this.tableData);
+          this.tableData = [...this.tableData];
           this.tableParameter.page.total = data.totalRecords;
           this.tableParameter.pi = data.pageNo + 1;
         }

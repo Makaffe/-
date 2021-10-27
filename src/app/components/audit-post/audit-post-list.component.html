@@ -26,9 +26,9 @@
   <ng-template st-row="auditEndTime" let-row let-index="index">
     {{ row.auditEndTime | date: 'yyyy-MM-dd' }}
   </ng-template>
-  <ng-template st-row="probkemAmount" let-row let-index="index">
+  <!-- <ng-template st-row="probkemAmount" let-row let-index="index">
     {{ row.rectifyProblems && row.rectifyProblems.length > 0 ? row.rectifyProblems.length : 0 }}
-  </ng-template>
+  </ng-template> -->
   <ng-template st-row="state" let-row let-index="index">
     {{ row.state | date: 'yyyy-MM-dd' }}
     <nz-tag [nzColor]="row.state === '已处理' ? '#008cec' : '#d7d7d7'">{{ row.state }}</nz-tag>
@@ -37,9 +37,9 @@
     <a (click)="check(row)">查看</a>
     <ng-container *ngIf="row.auditReportStatus != 'GENERATED'">
       <nz-divider nzType="vertical"></nz-divider>
-      <a  (click)="edit(row)">编辑</a>
+      <a (click)="edit(row)">编辑</a>
       <nz-divider nzType="vertical"></nz-divider>
-      <nz-popconfirm  [nzTitle]="confirmtittle" (nzOnConfirm)="delete(row)">
+      <nz-popconfirm [nzTitle]="confirmtittle" (nzOnConfirm)="delete(row)">
         <ng-template #confirmtittle>是否要删除该条数据</ng-template>
         <a nz-popconfirm>删除</a>
       </nz-popconfirm>

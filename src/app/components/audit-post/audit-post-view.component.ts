@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { AuditPostListComponent } from './audit-post-list.component';
 
 @Component({
-  selector: 'audit-post-view',
+  selector: 'app-audit-post-view',
   templateUrl: './audit-post-view.component.html',
   styles: [],
 })
