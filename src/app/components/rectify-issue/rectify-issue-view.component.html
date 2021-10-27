@@ -19,12 +19,12 @@
                 <nz-form-label [nzSm]="10" [nzXs]="24">报告导入时间</nz-form-label>
                 <nz-form-control [nzSm]="8" [nzXs]="12">
                   <nz-date-picker [nzFormat]="'yyyy-MM-dd'" name="startDate"
-                    [(ngModel)]="params.improtAuditPostStartTime" nzPlaceHolder="开始日期"
+                    [(ngModel)]="params.importAuditPostStartTime" nzPlaceHolder="开始日期"
                     [nzDisabledDate]="disabledStartDate">
                   </nz-date-picker>
                 </nz-form-control>
                 <nz-form-control [nzSm]="8" [nzXs]="12">
-                  <nz-date-picker [nzFormat]="'yyyy-MM-dd'" name="endDate" [(ngModel)]="params.improtAuditPostEndTime"
+                  <nz-date-picker [nzFormat]="'yyyy-MM-dd'" name="endDate" [(ngModel)]="params.importAuditPostEndTime"
                     nzPlaceHolder="结束日期" [nzDisabledDate]="disabledEndDate">
                   </nz-date-picker>
                 </nz-form-control>

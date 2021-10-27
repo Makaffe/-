@@ -34,7 +34,7 @@ export class AuditPostWatchComponent implements OnInit {
   /**
    * 这个问题清单弹窗可见性
    */
-  isVisableForProblem = false;
+  isVisibleForProblem = false;
 
   constructor(private msg: NzMessageService) {}
 
@@ -52,7 +52,7 @@ export class AuditPostWatchComponent implements OnInit {
    * 关闭整改问题模态框
    */
   handleCancelForProblem() {
-    this.isVisableForProblem = false;
+    this.isVisibleForProblem = false;
   }
 
   /**
@@ -68,6 +68,6 @@ export class AuditPostWatchComponent implements OnInit {
    * 查看问题
    */
   watchProblem() {
-    this.isVisableForProblem = true;
+    this.isVisibleForProblem = true;
   }
 }
