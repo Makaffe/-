@@ -6,7 +6,7 @@
   <ng-template #totalTemplate let-total> 共 {{ pageInfo.totalRecords }} 条 </ng-template>
   <thead>
     <tr>
-      <th nzWidth="100px" nzLeft="0px">序号</th>
+      <th nzWidth="100px" nzLeft="0px" nzAlign="center">序号</th>
       <th nzWidth="100px" nzAlign="center">下发状态</th>
       <th nzWidth="100px" nzAlign="center">移交状态</th>
       <th nzWidth="150px">审计报告名称</th>
@@ -64,7 +64,7 @@
           <td>
             <nz-progress [nzPercent]="item.rectifyPassPercent"></nz-progress>
           </td>
-          <td nzRight="0px">
+          <td nzRight="0px" nzAlign="center">
             <button style="padding: 0px;" nz-button nzType="link" (click)="goWorkBeach(item.id)">进入工作台</button>
           </td>
         </tr>
