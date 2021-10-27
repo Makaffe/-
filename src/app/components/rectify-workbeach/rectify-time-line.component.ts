@@ -127,6 +127,54 @@ export class RectifyTimeLineComponent implements OnInit {
         },
       ],
     },
+    {
+      title: '报告XXX2 2015-08-02',
+      key: '300',
+      author: 'NG ZORRO',
+      objectType: '11111',
+      active: false,
+      disabled: false,
+      children: [
+        {
+          title: '报告XXX2 2015-08-02',
+          key: '400',
+          author: 'NG ZORRO',
+          objectType: '11111',
+          active: false,
+          disabled: false,
+          children: [
+            {
+              title: '报告XXX2 2015-08-02',
+              key: '310',
+              author: 'NG ZORRO',
+              objectType: '11111',
+              active: false,
+              disabled: false,
+              timeLines: [
+                {
+                  title: '审计人员：问题下发 2015-09-01',
+                  key: '3100',
+                  author: 'NG ZORRO',
+                  objectType: '1',
+                },
+                {
+                  title: '审计人员：整改通知书OA发送 2015-09-01',
+                  key: '3001',
+                  author: 'NG ZORRO',
+                  objectType: '2',
+                },
+                {
+                  title: '张三：提交整改措施 2015-09-01',
+                  key: '3102',
+                  author: 'NG ZORRO',
+                  objectType: '3',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
   ];
 
   ngOnInit(): void {}

@@ -469,7 +469,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
    * 延期申请记录
    */
   applicationRecord() {
-    this.rectifyWorkbeachTableComponent.Open();
+    this.rectifyWorkbeachTableComponent.Open('批复人');
   }
 
   /**
@@ -477,7 +477,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
    * 批不批准延期审批记录
    */
   delayApprove() {
-    this.rectifyWorkbeachTableComponent.Open();
+    this.rectifyWorkbeachTableComponent.Open('申请人');
   }
 
   /**
