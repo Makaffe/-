@@ -190,14 +190,14 @@
                     <td nzAlign="right">{{ data.sjje | currency: 'CNY':'symbol-narrow' }}</td>
                     <td>{{ convertOrganization(data?.rectifyDepartmentId) }}</td>
                     <td>{{ convertOrganization(data?.rectifyDepartmentId) }}</td>
-                    <td>{{ convertdutyUser(data?.dutyUserId) }}</td>
+                    <td>{{ convertDutyUser(data?.dutyUserId) }}</td>
                     <td>{{ formatDateFun(data?.zgjzsj) }}</td>
                     <td nzRight="0px" nzAlign="center">
                       <ng-container *ngIf="!isWatch">
                         <a (click)="startEdit(data)">编辑</a>
                         <nz-divider nzType="vertical"></nz-divider>
-                        <nz-popconfirm [nzTitle]="confirmtittle" (nzOnConfirm)="onDelete(data.uuid)">
-                          <ng-template #confirmtittle>确定删除该数据？</ng-template>
+                        <nz-popconfirm [nzTitle]="title" (nzOnConfirm)="onDelete(data.uuid)">
+                          <ng-template #title>确定删除该数据？</ng-template>
                           <a nz-popconfirm>删除</a>
                         </nz-popconfirm>
                         <nz-divider nzType="vertical"></nz-divider>

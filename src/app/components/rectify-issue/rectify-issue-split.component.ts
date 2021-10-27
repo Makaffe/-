@@ -278,7 +278,7 @@ export class RectifyIssueSplitComponent implements OnInit {
    * @param id 整改负责人id
    * @returns 整改负责人name
    */
-  convertdutyUser(id: string) {
+  convertDutyUser(id: string) {
     if (id) {
       return this.dutyUserMap.get(id);
     }

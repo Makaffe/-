@@ -87,7 +87,7 @@ export class RectifyIssueListComponent implements OnInit {
   /**
    * checkbox选中的数据
    */
-  checkboxDatas = [];
+  checkboxData = [];
 
   ngOnInit(): void {
     // this.load();
@@ -125,7 +125,7 @@ export class RectifyIssueListComponent implements OnInit {
     //     () => {},
     //     () => {
     //       this.mapOfCheckedId = {};
-    //       this.checkboxDatas = [];
+    //       this.checkboxData = [];
     //       this.checkboxChange.emit([]);
     //       this.loading = false;
     //     },
@@ -139,11 +139,11 @@ export class RectifyIssueListComponent implements OnInit {
    */
   checked(item: RectifyProblemDTO, isCheck: boolean) {
     if (isCheck) {
-      this.checkboxDatas.push(item);
+      this.checkboxData.push(item);
     } else {
-      this.checkboxDatas = this.checkboxDatas.filter(problem => problem.id !== item.id);
+      this.checkboxData = this.checkboxData.filter(problem => problem.id !== item.id);
     }
-    this.checkboxChange.emit(this.checkboxDatas);
+    this.checkboxChange.emit(this.checkboxData);
   }
 
   /**

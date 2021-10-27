@@ -28,7 +28,7 @@
     <nz-form-item>
       <nz-form-label nzSpan="4" nzRequired>被审计单位名称</nz-form-label>
       <nz-form-control nzSpan="8">
-        <input nz-input name="reauditName" [value]="'被审计单位名称'" readonly />
+        <input nz-input name="AuditedName" [value]="'被审计单位名称'" readonly />
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
@@ -70,9 +70,9 @@
   </ng-template>
 </nz-modal>
 
-<nz-modal [(nzVisible)]="isVisableForProblem" nzTitle="整改问题清单详情" (nzOnCancel)="handleCancelForProblem()"
+<nz-modal [(nzVisible)]="isVisibleForProblem" nzTitle="整改问题清单详情" (nzOnCancel)="handleCancelForProblem()"
   nzWidth="1200px">
-  <form nz-form #problemform="ngForm">
+  <form nz-form #problemForm="ngForm">
     <nz-form-item nz-row>
       <nz-form-label [nzSpan]="4" nzRequired>问题名称</nz-form-label>
       <nz-form-control [nzSpan]="20">
