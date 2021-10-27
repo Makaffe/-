@@ -199,7 +199,7 @@ export class AuditPostDetailComponent implements OnInit {
 
   done(): void {
     if (this.fileList.length === 0) {
-      this.msg.warning('请先上传报告');
+      this.msg.warning('请先上传报告并读取');
       return;
     }
     if (!FormUtil.validateForm(this.auditPostForm.form)) {
@@ -389,6 +389,7 @@ export class AuditPostDetailComponent implements OnInit {
           this.msg.success(`删除成功`);
           this.fileList = [];
           this.currentItem.systemFile = null;
+          this.loadFile();
         },
         error: () => {},
         complete: () => {},
@@ -595,6 +596,8 @@ export class AuditPostDetailComponent implements OnInit {
   loadFile() {
     if (this.fileList.length > 0) {
       this.show = true;
+    } else {
+      this.show = false;
     }
   }
 }

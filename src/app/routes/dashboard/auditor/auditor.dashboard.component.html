@@ -326,7 +326,7 @@
             </nz-card>
           </div>
           <div nz-col nzSpan="7">
-            <nz-card>
+            <nz-card [nzTitle]="waitDo">
               <st
                 style="height:300px"
                 [scroll]="{ y: '240px' }"
@@ -340,6 +340,11 @@
                   <nz-badge [nzCount]="109" style="float: right;"></nz-badge>
                 </ng-template>
               </st>
+              <ng-template #waitDo>
+                <div nz-row>
+                  <h3 nz-col nzSpan="16">我的待办</h3>
+                </div>
+              </ng-template>
             </nz-card>
           </div>
         </div>

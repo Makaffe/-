@@ -13,6 +13,7 @@ import { AuditPostTreeEditComponent } from './audit-post-tree-edit.component';
 import { AuditPostTypeTreeComponent } from './audit-post-type-tree.component';
 
 import { AuditPostViewComponent } from './audit-post-view.component';
+import { RectificationPostComponent } from './rectification-post.component';
 
 const COMPONENTS = [
   AuditPostViewComponent,
@@ -21,6 +22,7 @@ const COMPONENTS = [
   AuditPostTreeEditComponent,
   AuditPostTypeTreeComponent,
   AuditPostDetailComponent,
+  RectificationPostComponent,
 ];
 @NgModule({
   imports: [CommonModule, SharedModule, OrganizationComponentModule, SecurityComponentModule, AttachListModule],
