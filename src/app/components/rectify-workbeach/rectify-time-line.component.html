@@ -1,17 +1,28 @@
 <nz-collapse [nzBordered]="false">
-  <nz-collapse-panel *ngFor="let panel of panels" [nzHeader]="panel.title" [nzActive]="panel.active"
-    (nzActiveChange)="ActiveChange()">
-    <!-- <p>{{ panel.name }}</p> -->
+  <nz-collapse-panel *ngFor="let panel of panels" [nzHeader]="header" [nzActive]="panel.active"
+    (nzActiveChange)="ActiveChange(panel)">
+    <ng-template #header>
+      <font style="font-size: 16px;" [ngClass]="{'select-item':clickKey === panel.key}">
+        {{panel.title}}</font>
+    </ng-template>
     <div *ngIf="panel.children && panel.children.length > 0">
       <nz-collapse [nzBordered]="false">
-        <nz-collapse-panel *ngFor="let children of panel.children" [nzHeader]="children.title"
-          [nzActive]="children.active">
-          <div *ngIf="!children.children || children.children.length < 1">
+        <nz-collapse-panel *ngFor="let childItem of panel.children" [nzHeader]="childHeader"
+          [nzActive]="childItem.active" (nzActiveChange)="ActiveChange(childItem)">
+          <ng-template #childHeader>
+            <font style="font-size: 16px;" [ngClass]="{'select-item':clickKey === childItem.key}">
+              {{childItem.title}}</font>
+          </ng-template>
+          <div *ngIf="!childItem.children || childItem.children.length < 1">
             <nz-timeline>
-              <nz-timeline-item>审计人员问题下发 2015-09-01</nz-timeline-item>
-              <nz-timeline-item nzColor="green">审计人员整改通知书发送到OA 2015-09-01</nz-timeline-item>
-              <nz-timeline-item nzColor="red">失效整改措施 2015-09-01</nz-timeline-item>
-              <nz-timeline-item nzColor="gray">回复审计人员 2015-09-01</nz-timeline-item>
+              <ng-container *ngFor="let timeLine of childItem.timeLines">
+                <nz-timeline-item (click)="ActiveChange(timeLine)" style="cursor:pointer;"
+                  [nzColor]="lineColor(timeLine.objectType)">
+                  <div [ngClass]="{'select-item':clickKey === timeLine.key}">
+                    {{timeLine.title}}
+                  </div>
+                </nz-timeline-item>
+              </ng-container>
             </nz-timeline>
           </div>
         </nz-collapse-panel>
@@ -19,12 +30,15 @@
     </div>
     <div *ngIf="!panel.children || panel.children.length < 1">
       <nz-timeline>
-        <nz-timeline-item>审计人员问题下发 2015-09-01</nz-timeline-item>
-        <nz-timeline-item nzColor="green">审计人员整改通知书发送到OA 2015-09-01</nz-timeline-item>
-        <nz-timeline-item nzColor="red">失效整改措施 2015-09-01</nz-timeline-item>
-        <nz-timeline-item nzColor="gray">回复审计人员 2015-09-01</nz-timeline-item>
+        <ng-container *ngFor="let timeLine of panel.timeLines">
+          <nz-timeline-item (click)="ActiveChange(timeLine)" [nzColor]="lineColor(timeLine.objectType)"
+            style="cursor:pointer">
+            <div [ngClass]="{'select-item':clickKey === timeLine.key}">
+              {{timeLine.title}}
+            </div>
+          </nz-timeline-item>
+        </ng-container>
       </nz-timeline>
     </div>
-
   </nz-collapse-panel>
 </nz-collapse>

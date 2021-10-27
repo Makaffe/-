@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NzCollapseComponent } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-rectify-time-line',
@@ -8,10 +9,36 @@ import { Component, OnInit } from '@angular/core';
       :host ::ng-deep .ant-collapse > .ant-collapse-item {
         border-bottom: none;
       }
+
+      .select-item {
+        background: #acd6ff;
+      }
+      :host ::ng-deep .ant-collapse > .ant-collapse-item {
+        border-bottom: none;
+      }
+
+      :host ::ng-deep .ant-timeline-item-last > .ant-timeline-item-content {
+        min-height: 0;
+      }
+
+      :host ::ng-deep .ant-collapse-content > .ant-collapse-content-box {
+        padding-bottom: 0px;
+      }
+
+      :host ::ng-deep .ant-collapse > .ant-collapse-item > .ant-collapse-header {
+        padding: 4px 16px 4px 40px;
+      }
+
+      :host ::ng-deep .ant-timeline-item {
+        padding: 0 0 10px !important;
+      }
     `,
   ],
 })
 export class RectifyTimeLineComponent implements OnInit {
+  @ViewChild('abcde', { static: false })
+  abcde: NzCollapseComponent;
+  clickKey = null;
   panels = [
     {
       title: '报告1 2015-08-02',
@@ -54,6 +81,7 @@ export class RectifyTimeLineComponent implements OnInit {
           disabled: false,
         },
       ],
+      children: [],
     },
     {
       title: '报告XXX2 2015-08-02',
@@ -103,5 +131,21 @@ export class RectifyTimeLineComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  ActiveChange() {}
+  ActiveChange(value: any) {
+    this.clickKey = value.key;
+    console.log(value);
+  }
+
+  // 时间轴颜色
+  lineColor(objectType: string) {
+    if (objectType === '1') {
+      return 'green';
+    } else if (objectType === '2') {
+      return 'red';
+    } else if (objectType === '3') {
+      return 'gray';
+    } else if (objectType === '4') {
+      return 'red';
+    }
+  }
 }
