@@ -13,6 +13,57 @@
             <font style="font-size: 16px;" [ngClass]="{'select-item':clickKey === childItem.key}">
               {{childItem.title}}</font>
           </ng-template>
+
+          <div *ngIf="childItem.children && childItem.children.length > 0">
+            <nz-collapse [nzBordered]="false">
+              <nz-collapse-panel *ngFor="let child2Item of childItem.children" [nzHeader]="child2Header"
+                [nzActive]="child2Item.active" (nzActiveChange)="ActiveChange(child2Item)">
+                <ng-template #child2Header>
+                  <font style="font-size: 16px;" [ngClass]="{'select-item':clickKey === child2Item.key}">
+                    {{child2Item.title}}</font>
+                </ng-template>
+
+                <div *ngIf="child2Item.children && child2Item.children.length > 0">
+                  <nz-collapse [nzBordered]="false">
+                    <nz-collapse-panel *ngFor="let child3Item of child2Item.children" [nzHeader]="child3Header"
+                      [nzActive]="child3Item.active" (nzActiveChange)="ActiveChange(child3Item)">
+                      <ng-template #child3Header>
+                        <font style="font-size: 16px;" [ngClass]="{'select-item':clickKey === child3Item.key}">
+                          {{child3Item.title}}</font>
+                      </ng-template>
+                      <div *ngIf="!child3Item.children || child3Item.children.length < 1">
+                        <nz-timeline>
+                          <ng-container *ngFor="let timeLine of child3Item.timeLines">
+                            <nz-timeline-item (click)="ActiveChange(timeLine)" style="cursor:pointer;"
+                              [nzColor]="lineColor(timeLine.objectType)">
+                              <div [ngClass]="{'select-item':clickKey === timeLine.key}">
+                                {{timeLine.title}}
+                              </div>
+                            </nz-timeline-item>
+                          </ng-container>
+                        </nz-timeline>
+                      </div>
+                    </nz-collapse-panel>
+                  </nz-collapse>
+                </div>
+
+                <div *ngIf="!child2Item.children || child2Item.children.length < 1">
+                  <nz-timeline>
+                    <ng-container *ngFor="let timeLine of child2Item.timeLines">
+                      <nz-timeline-item (click)="ActiveChange(timeLine)" style="cursor:pointer;"
+                        [nzColor]="lineColor(timeLine.objectType)">
+                        <div [ngClass]="{'select-item':clickKey === timeLine.key}">
+                          {{timeLine.title}}
+                        </div>
+                      </nz-timeline-item>
+                    </ng-container>
+                  </nz-timeline>
+                </div>
+              </nz-collapse-panel>
+            </nz-collapse>
+          </div>
+
+
           <div *ngIf="!childItem.children || childItem.children.length < 1">
             <nz-timeline>
               <ng-container *ngFor="let timeLine of childItem.timeLines">
