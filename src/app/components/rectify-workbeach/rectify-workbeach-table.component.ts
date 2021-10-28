@@ -42,11 +42,7 @@ export class RectifyWorkbeachTableComponent implements OnInit {
    */
   isVisible = false;
 
-  /**
-   *状态是不是通过
-   */
-  @Input()
-  access = false;
+
 
   /**
    * 接收数据
@@ -160,6 +156,6 @@ export class RectifyWorkbeachTableComponent implements OnInit {
   isShowData() {
     this.listOfData[0].name1 = '';
     this.listOfData[0].time = '';
-    this.access = true;
+    this.rectifyWorkbeachPutComponent.access = true;
   }
 }
