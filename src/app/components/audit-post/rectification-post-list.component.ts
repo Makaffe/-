@@ -17,7 +17,6 @@ export class RectificationPostListComponent implements OnInit {
       auditname: '审计报告一',
       money: 60000,
       process: 95,
-      dutyUser: '张伟',
       auditEndTime: '2020-10-27',
       children: [
         {
