@@ -60,6 +60,72 @@ export class RectifyChildIssueDetailComponent implements OnInit {
    */
   isWatch = false;
 
+  /**
+   * 整改对象列表
+   */
+  options = [
+    {
+      value: '整改单位1',
+      label: '整改单位1',
+      children: [
+        {
+          value: '整改部门1',
+          label: '整改部门1',
+          children: [
+            {
+              value: '张伟',
+              label: '张伟',
+              isLeaf: true,
+            },
+            {
+              value: '李琦',
+              label: '李琦',
+              isLeaf: true,
+            },
+          ],
+        },
+        {
+          value: '整改部门2',
+          label: '整改部门2',
+          children: [
+            {
+              value: '刘烨',
+              label: '刘烨',
+              isLeaf: true,
+            },
+            {
+              value: '王菲',
+              label: '王菲',
+              isLeaf: true,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      value: '整改单位2',
+      label: '整改单位2',
+      children: [
+        {
+          value: '整改部门3',
+          label: '整改部门3',
+          children: [
+            {
+              value: '汪峰',
+              label: '汪峰',
+              isLeaf: true,
+            },
+          ],
+        },
+      ],
+    },
+  ];
+
+  /**
+   * 选择的整改对象
+   */
+  values: string[] | null = null;
+
   constructor(
     private msg: NzMessageService,
     private organizationService: OrganizationService,
