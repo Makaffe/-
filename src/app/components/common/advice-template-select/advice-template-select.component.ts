@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { NzTreeNode } from 'ng-zorro-antd';
 @Component({
   selector: 'app-advice-template-select',
   templateUrl: './advice-template-select.component.html',
@@ -36,7 +35,6 @@ export class AdviceTemplateSelectComponent implements OnInit {
    */
   @Input()
   adviceTemplate = null;
-
   value = null;
 
   /**
@@ -44,6 +42,12 @@ export class AdviceTemplateSelectComponent implements OnInit {
    */
   @Output()
   adviceTemplateChange = new EventEmitter<string>();
+
+  /**
+   * 是否禁用
+   */
+  @Input()
+  disabled = false;
 
   ngOnInit() {}
 
