@@ -25,6 +25,8 @@ import { RectifyPostModule } from 'src/app/components/rectify-post/rectify-post-
 import { AdviceTemplateModule } from 'src/app/components/advice-template/advice-template-module';
 import { RectifyWorkBeachModule } from 'src/app/components/rectify-workbeach/rectify-workbeach-module';
 import { StatisticsAnalysisModule } from 'src/app/components/statistics-analysis/statistics-analysis-module';
+import { SuperviseWaitTabComponent } from '../../dashboard/supervise/supervise-wait-tab/supervise-wait-tab.component';
+import { SuperviseFinishTabComponent } from '../../dashboard/supervise/supervise-finish-tab/supervise-finish-tab.component';
 
 const COMMPONENTS = [
   AuditorDashboardComponent,
@@ -33,6 +35,8 @@ const COMMPONENTS = [
   IssueAssignFormComponent,
   IssueAssignTableComponent,
   SuperviseProcessFormComponent,
+  SuperviseWaitTabComponent,
+  SuperviseFinishTabComponent
 ];
 @NgModule({
   declarations: [...COMMPONENTS],
