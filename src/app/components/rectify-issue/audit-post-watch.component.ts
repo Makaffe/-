@@ -31,11 +31,6 @@ export class AuditPostWatchComponent implements OnInit {
    */
   isVisible = false;
 
-  /**
-   * 这个问题清单弹窗可见性
-   */
-  isVisibleForProblem = false;
-
   constructor(private msg: NzMessageService) {}
 
   ngOnInit() {}
@@ -49,25 +44,11 @@ export class AuditPostWatchComponent implements OnInit {
   }
 
   /**
-   * 关闭整改问题模态框
-   */
-  handleCancelForProblem() {
-    this.isVisibleForProblem = false;
-  }
-
-  /**
    * 初始化查看页面
    * @param item 数据源dto
    */
   watch(item: AuditPostDTO): void {
     this.currentItem = new AuditPostDTO(item);
     this.isVisible = true;
-  }
-
-  /**
-   * 查看问题
-   */
-  watchProblem() {
-    this.isVisibleForProblem = true;
   }
 }

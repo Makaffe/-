@@ -6,32 +6,50 @@
   }">
   <form nz-form #auditPostForm="ngForm">
     <nz-form-item>
-      <nz-form-label nzSpan="4" nzRequired>审计报告名称</nz-form-label>
-      <nz-form-control nzSpan="8">
+      <nz-form-label nzSpan="3" nzRequired>审计报告名称</nz-form-label>
+      <nz-form-control nzSpan="9">
         <input nz-input name="name" [value]="'审计报告名称'" readonly />
       </nz-form-control>
-      <nz-form-label nzSpan="4" nzRequired>审计单位名称</nz-form-label>
-      <nz-form-control nzSpan="8">
+      <nz-form-label nzSpan="3" nzRequired>审计单位名称</nz-form-label>
+      <nz-form-control nzSpan="9">
         <input nz-input name="auditName" [value]="'审计单位名称'" readonly />
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label nzSpan="4" nzRequired>审计时间</nz-form-label>
-      <nz-form-control nzSpan="8">
+      <nz-form-label nzSpan="3" nzRequired>审计时间</nz-form-label>
+      <nz-form-control nzSpan="9">
         <input nz-input name="auditDateRange" [value]="'审计时间'" readonly />
       </nz-form-control>
-      <nz-form-label nzSpan="4" nzRequired>报告来源</nz-form-label>
-      <nz-form-control nzSpan="8">
+      <nz-form-label nzSpan="3" nzRequired>报告来源</nz-form-label>
+      <nz-form-control nzSpan="9">
         <input nz-input name="auditName" [value]="'报告来源'" readonly />
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label nzSpan="4" nzRequired>被审计单位名称</nz-form-label>
-      <nz-form-control nzSpan="8">
+      <nz-form-label nzSpan="3" nzRequired>被审计单位名称</nz-form-label>
+      <nz-form-control nzSpan="9">
         <input nz-input name="AuditedName" [value]="'被审计单位名称'" readonly />
       </nz-form-control>
     </nz-form-item>
+
     <nz-form-item>
+      <nz-form-label nzSpan="3">审计报告文件</nz-form-label>
+      <nz-form-control nzSpan="19">
+        <app-attach-list [show]="false" [(attachFiles)]="currentItem.systemFiles" #attachListComponent
+          [fileName]="'审计报告名称'" [fileType]="'AUDIT_POST_FILES'" [fileTitle]="''" [TBHeight]="'100px'">
+        </app-attach-list>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzSpan="3">项目相关资料</nz-form-label>
+      <nz-form-control nzSpan="19">
+        <app-attach-list [show]="false" [(attachFiles)]="currentItem.systemFiles" #attachListComponent
+          [fileName]="'资料名称'" [fileType]="'AUDIT_POST_FILES'" [fileTitle]="''">
+        </app-attach-list>
+      </nz-form-control>
+    </nz-form-item>
+    <!-- <nz-form-item>
       <nz-form-label nzSpan="4">审计发现清单</nz-form-label>
       <nz-form-control nzSpan="20">
         <nz-table #columnTable nzBordered [nzData]="rectifyProblemList" style="padding-left: 0px !important;"
@@ -63,14 +81,14 @@
           </tbody>
         </nz-table>
       </nz-form-control>
-    </nz-form-item>
+    </nz-form-item> -->
   </form>
   <ng-template #formFooter>
     <button nz-button nzType="default" (click)="handleCancel()">取消</button>
   </ng-template>
 </nz-modal>
 
-<nz-modal [(nzVisible)]="isVisibleForProblem" nzTitle="整改问题清单详情" (nzOnCancel)="handleCancelForProblem()"
+<!-- <nz-modal [(nzVisible)]="isVisibleForProblem" nzTitle="整改问题清单详情" (nzOnCancel)="handleCancelForProblem()"
   nzWidth="1200px">
   <form nz-form #problemForm="ngForm">
     <nz-form-item nz-row>
@@ -120,4 +138,4 @@
       </nz-form-control>
     </nz-form-item>
   </form>
-</nz-modal>
+</nz-modal> -->
