@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { TABLE_PARAMETER } from '@mt-framework-ng/core';
 import { OrganizationService } from '@ng-mt-framework/api';
 import { QueryOptions } from '@ng-mt-framework/api/lib/model/common/query-options';
 import { ObjectUtil } from '@ng-mt-framework/util';
 import { NzMessageService } from 'ng-zorro-antd';
+import { RectifyIssueTransferComponent } from '../rectify-issue/rectify-issue-transfer.component';
 import { RectifyProblemService } from '../rectify-issue/service/RectifyProblemService';
 import { RectifyTrackDTO } from './model/RectifyTrackDTO';
 
@@ -14,6 +15,12 @@ import { RectifyTrackDTO } from './model/RectifyTrackDTO';
   styles: [],
 })
 export class RectifyTrackListComponent implements OnInit {
+  /**
+   * 纪检组件
+   */
+  @ViewChild('rectifyIssueTransferComponent', { static: false })
+  rectifyIssueTransferComponent: RectifyIssueTransferComponent;
+
   constructor(
     private router: Router,
     private msg: NzMessageService,
@@ -243,5 +250,16 @@ export class RectifyTrackListComponent implements OnInit {
   // 跳转工作台
   goWorkBeach(id: string) {
     this.router.navigate(['/audit-rectify/rectify-workbeach'], { queryParams: { rectifyProblemId: id } });
+  }
+
+  /**
+   * 移交纪检
+   */
+  transfer(item: any) {
+    const arr = [];
+    arr.push(item);
+    this.rectifyIssueTransferComponent.isReadOnly = true;
+    this.rectifyIssueTransferComponent.createDate = false;
+    this.rectifyIssueTransferComponent.edit(arr);
   }
 }

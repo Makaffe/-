@@ -23,6 +23,21 @@ export class RectifyIssueTransferComponent implements OnInit {
   ids: Array<string> = [];
 
   /**
+   * 只读
+   */
+  isReadOnly: any;
+
+  /**
+   * 只读
+   */
+  createDate: any;
+
+  /**
+   * 文件
+   */
+  systemFiles = [];
+
+  /**
    * 模态框是否可见
    */
   isVisible = false;
@@ -32,7 +47,10 @@ export class RectifyIssueTransferComponent implements OnInit {
    */
   loading = false;
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.isReadOnly = false;
+    this.createDate = true;
+  }
 
   /**
    * 关闭

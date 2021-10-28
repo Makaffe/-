@@ -13,10 +13,9 @@
       <th nzWidth="200px">问题名称</th>
       <th nzWidth="150px">问题类型</th>
       <th nzWidth="150px" nzAlign="right">涉及金额(元)</th>
-      <th nzWidth="150px">整改部门</th>
-      <th nzWidth="150px">整改单位</th>
-      <th nzWidth="150px">整改负责人</th>
-      <th nzWidth="150px">审计负责人</th>
+      <th nzWidth="200px">整改反馈进度</th>
+      <th nzWidth="150px">整改跟踪负责人</th>
+      <th nzWidth="200px">整改负责人</th>
       <th nzWidth="150px" nzAlign="right">已完成整改措施数</th>
       <th nzWidth="150px">整改截止时间</th>
       <th nzWidth="150px">整改拟完成时间</th>
@@ -52,10 +51,11 @@
           <td>{{ item.name }}</td>
           <td>{{ item.type | dictTransform: 'PROBLEM_TYPE' | async }}</td>
           <td nzAlign="right">{{ 123 | currency: 'CNY':'symbol-narrow' }}</td>
-          <td>{{ item?.rectifyDepartment?.name }}</td>
-          <td>整改单位</td>
-          <td>{{ item?.dutyUser?.name }}</td>
-          <td>审计负责人</td>
+          <td>
+            <nz-progress [nzPercent]="item.rectifyPassPercent"></nz-progress>
+          </td>
+          <td>李勇</td>
+          <td>整改单位/森林防护部/{{ item?.dutyUser?.name }}</td>
           <td nzAlign="right">{{ item.rectifyCount }}</td>
           <td>{{ item.rectifyEndTime }}</td>
           <td>{{ item.lastModifiedTime }}</td>
@@ -72,3 +72,6 @@
     </ng-container>
   </tbody>
 </nz-table>
+
+<!-- 移交纪检 -->
+<app-rectify-issue-transfer #rectifyIssueTransferComponent></app-rectify-issue-transfer>

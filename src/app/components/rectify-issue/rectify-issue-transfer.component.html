@@ -1,51 +1,63 @@
-<nz-modal
-  [(nzVisible)]="isVisible"
-  [nzMaskClosable]="false"
-  (nzOnCancel)="handleCancel()"
-  [nzFooter]="rectifyIssueSplitFooter"
-  nzWidth="800"
-  [nzTitle]="'移交纪检提示'"
-  [nzBodyStyle]="{
+<nz-modal [(nzVisible)]="isVisible" [nzMaskClosable]="false" (nzOnCancel)="handleCancel()"
+  [nzFooter]="rectifyIssueSplitFooter" nzWidth="800" [nzTitle]="'移交纪检提示'" [nzBodyStyle]="{
     'height.px': '300px',
     'overflow-y': 'auto',
     'overflow-x': 'hidden',
     'padding-top': '0px',
     'padding-bottom': '0px'
-  }"
->
+  }">
   <form nz-form>
     <nz-form-item>
       <nz-form-label nzSpan="4">移交内容</nz-form-label>
       <nz-form-control nzSpan="20">
         <div nz-row nzJustify="space-between">
-          <div nz-col nzSpan="6"><label nz-checkbox>问题名称</label></div>
-          <div nz-col nzSpan="6"><label nz-checkbox>问题描述</label></div>
-          <div nz-col nzSpan="6"><label nz-checkbox>问题类型</label></div>
-          <div nz-col nzSpan="6"><label nz-checkbox>问题来源</label></div>
+          <div nz-col nzSpan="6"><label nz-checkbox [nzDisabled]="isReadOnly">问题名称</label></div>
+          <div nz-col nzSpan="6"><label nz-checkbox [nzDisabled]="isReadOnly">问题描述</label></div>
+          <div nz-col nzSpan="6"><label nz-checkbox [nzDisabled]="isReadOnly">问题类型</label></div>
+          <div nz-col nzSpan="6"><label nz-checkbox [nzDisabled]="isReadOnly">问题来源</label></div>
         </div>
         <div nz-row nzJustify="space-between">
-          <div nz-col nzSpan="6"><label nz-checkbox>整改部门</label></div>
-          <div nz-col nzSpan="6"><label nz-checkbox>整改负责人</label></div>
-          <div nz-col nzSpan="6"><label nz-checkbox>审计建议</label></div>
-          <div nz-col nzSpan="6"><label nz-checkbox>整改截止时间</label></div>
+          <div nz-col nzSpan="6"><label nz-checkbox [nzDisabled]="isReadOnly">整改部门</label></div>
+          <div nz-col nzSpan="6"><label nz-checkbox [nzDisabled]="isReadOnly">整改负责人</label></div>
+          <div nz-col nzSpan="6"><label nz-checkbox [nzDisabled]="isReadOnly">审计建议</label></div>
+          <div nz-col nzSpan="6"><label nz-checkbox [nzDisabled]="isReadOnly">整改截止时间</label></div>
         </div>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label nzSpan="4">移交原因</nz-form-label>
       <nz-form-control nzSpan="20">
-        <nz-select></nz-select>
-        <textarea rows="6" nz-input></textarea>
+        <!-- <nz-select [nzDisabled]="isReadOnly"></nz-select> -->
+        <textarea rows="5" nz-input [readonly]="isReadOnly"></textarea>
       </nz-form-control>
     </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzSpan="4">上传附件</nz-form-label>
+    <!-- <nz-form-item>
+      <nz-form-label nzSpan="4">移交附件</nz-form-label>
       <nz-form-control nzSpan="20">
-        <nz-upload nzAction="">
-          <button nz-button><i nz-icon nzType="upload"></i><span>Click to Upload</span></button>
-        </nz-upload></nz-form-control
-      >
+        <nz-form-control nzSpan="20">
+          <app-attach-list [show]="true" [(attachFiles)]="systemFiles" #attachListComponent
+            [fileType]="'TRANSFER_RESALE_FILE'">
+          </app-attach-list>
+        </nz-form-control>
+      </nz-form-control>
+    </nz-form-item> -->
+
+    <nz-form-item *ngIf="!createDate">
+      <nz-form-label nzSpan="4">纪检处理结果</nz-form-label>
+      <nz-form-control nzSpan="20">
+        <textarea rows="5" nz-input [readOnly]='isReadOnly'></textarea>
+      </nz-form-control>
     </nz-form-item>
+    <!-- 
+    <nz-form-item>
+      <nz-form-label nzSpan="4">处理结果文件</nz-form-label>
+      <nz-form-control nzSpan="20">
+        <app-attach-list [show]="true" [(attachFiles)]="systemFiles" #attachListComponent
+          [fileType]="'TRANSFER_RESALE_FILE'">
+        </app-attach-list>
+      </nz-form-control>
+    </nz-form-item> -->
+
   </form>
   <ng-template #rectifyIssueSplitFooter>
     <button nz-button nzType="default" (click)="handleCancel()">取消</button>
