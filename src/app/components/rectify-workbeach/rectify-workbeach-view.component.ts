@@ -484,7 +484,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
    * 延期审批
    */
   delayExtension() {
-    this.rectifyWorkbeachPutComponent.isWatchForTable = true;
+   // this.rectifyWorkbeachPutComponent.isWatchForTable = true;
     this.rectifyWorkbeachPutComponent.open();
   }
 }
