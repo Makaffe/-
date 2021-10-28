@@ -8,8 +8,9 @@ import { AuditPostDTO } from './model/AuditPostDTO';
 import { AuditPostService } from './service/AuditPostService';
 
 const TAG: STColumnTag = {
-  GENERATED: { text: '已生成', color: 'red' },
-  NO_GENERATED: { text: '未生成', color: 'green' },
+  GENERATED: { text: '已整改', color: 'red' },
+  NO_GENERATED: { text: '未整改', color: 'green' },
+  GENERATING: { text: '整改中', color: 'blue' },
 };
 @Component({
   // tslint:disable-next-line:component-selector
@@ -33,6 +34,14 @@ export class AuditPostListComponent implements OnInit {
     },
     {
       auditReportStatus: 'NO_GENERATED',
+      name: '审计报告',
+      auditName: '审计单位',
+      auditStartTime: '2021-10-26',
+      auditEndTime: '2021-10-27',
+      probkemAmount: 10,
+    },
+    {
+      auditReportStatus: 'GENERATING',
       name: '审计报告',
       auditName: '审计单位',
       auditStartTime: '2021-10-26',
