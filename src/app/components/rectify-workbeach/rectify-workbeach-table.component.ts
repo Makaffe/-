@@ -1,4 +1,4 @@
-import { Component, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, Input, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
 import { STColumn, STColumnTag, STComponent } from '@delon/abc';
 import { TABLE_PARAMETER } from '@ng-mt-framework/comp';
 import { ObjectUtil } from '@ng-mt-framework/util';
@@ -8,7 +8,7 @@ const TAG: STColumnTag = {
   1: { text: '通过', color: 'green' },
   2: { text: '错误', color: 'red' },
   3: { text: '进行中', color: 'blue' },
-  4: { text: '草稿', color: '' },
+  4: { text: '通过中', color: '' },
   5: { text: '警告', color: 'orange' },
 };
 @Component({
@@ -42,6 +42,8 @@ export class RectifyWorkbeachTableComponent implements OnInit {
    */
   isVisible = false;
 
+
+
   /**
    * 接收数据
    */
@@ -64,7 +66,7 @@ export class RectifyWorkbeachTableComponent implements OnInit {
     },
     {
       title: '延期截止日期',
-      index: 'time',
+      index: 'time2',
       width: '140px',
       className: 'text-center',
       sort: this.tableParameter.sortDef,
@@ -79,7 +81,7 @@ export class RectifyWorkbeachTableComponent implements OnInit {
     { title: '批复人', index: 'name1', width: '100px' },
     { title: '批复日期', index: 'time', width: '140px', className: 'text-center', sort: this.tableParameter.sortDef },
     { title: '申请人', index: 'name2', width: '100px' },
-    { title: '申请日期', index: 'time', width: '140px', className: 'text-center', sort: this.tableParameter.sortDef },
+    { title: '申请日期', index: 'time2', width: '140px', className: 'text-center', sort: this.tableParameter.sortDef },
     { title: '操作', render: 'operations', width: '80px', className: 'text-center' },
   ];
 
@@ -128,6 +130,8 @@ export class RectifyWorkbeachTableComponent implements OnInit {
         colums.title = title;
       }
     });
+
+    this.isShowData();
     this.st.resetColumns({ columns: this.columns, emitReload: true });
     this.isVisible = true;
   }
@@ -144,5 +148,14 @@ export class RectifyWorkbeachTableComponent implements OnInit {
     this.rectifyWorkbeachPutComponent.create = true;
     this.rectifyWorkbeachPutComponent.currentItem.closingDate = new Date();
     this.rectifyWorkbeachPutComponent.isVisible = true;
+  }
+
+  /**
+   * 批复人与批复日期显示还是不显示
+   */
+  isShowData() {
+    this.listOfData[0].name1 = '';
+    this.listOfData[0].time = '';
+    this.rectifyWorkbeachPutComponent.access = true;
   }
 }

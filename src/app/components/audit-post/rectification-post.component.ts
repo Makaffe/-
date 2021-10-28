@@ -1,40 +1,5 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { NzMessageService, UploadFile, UploadFilter, UploadXHRArgs } from 'ng-zorro-antd';
-import { Observable, Observer } from 'rxjs';
-import { RectifyProblemDTO } from '../rectify-issue/model/rectify-problem-dto';
-import UUID from 'uuidjs';
-import { NgForm } from '@angular/forms';
-import { FormUtil, TreeUtil } from '@mt-framework-ng/util';
-import { AuditPostDTO } from './model/AuditPostDTO';
-import { OrganizationService, SystemFileService, UserDTO, UserService } from '@ng-mt-framework/api';
-import { ActivatedRoute, Router } from '@angular/router';
-import { DatePipe } from '@angular/common';
-import { AuditPostService } from './service/AuditPostService';
-import { ReuseTabService } from '@delon/abc';
-import { Broadcaster } from 'src/app/matech/service/broadcaster';
-import { AttachListComponent } from '../common/attach/attach-list.component';
-import { DictSelectComponent } from '../common/dict-select/dict-select.component';
-import { TreeNodeInterface } from 'src/app/routes/dashboard/rectify/rectify.dashboard.component';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { RectificationPostListComponent } from './rectification-post-list.component';
-interface ParentItemData {
-  key: number;
-  auditReportStatus: string;
-  name: string;
-  auditName: string;
-  probkemAmount: number | string;
-  auditEndTime: string;
-  auditStartTime: string;
-  expand: boolean;
-}
-
-interface ChildrenItemData {
-  key: number;
-  name: string;
-  type: string;
-  department: string;
-  dustyname: string;
-  money: string;
-}
 @Component({
   selector: 'app-rectification-post',
   templateUrl: './rectification-post.component.html',
@@ -54,6 +19,12 @@ export class RectificationPostComponent implements OnInit {
   startValue: Date | null = null;
   endValue: Date | null = null;
   endOpen = false;
+
+  /**
+   * 表格高度
+   */
+  @Input()
+  tableHeight = '100%';
 
   /**
    *

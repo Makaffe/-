@@ -1,11 +1,12 @@
 import { formatDate } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { _HttpClient } from '@delon/theme';
 import { FormUtil } from '@mt-framework-ng/util';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { RectificationReportDTO } from './model/RectificationReportDTO';
+import { RectificationReportTypeDTO } from './model/RectificationReportTypeDTO';
 import { RectificationReportService } from './service/RectificationReportService';
 import { TempalteSelectComponent } from './tempalte-select.component';
 
@@ -37,7 +38,13 @@ export class RectifyPostDetailComponent implements OnInit {
   /**
    * 当前编辑对象
    */
-  currentItem: RectificationReportDTO = new RectificationReportDTO();
+  currentItem: any = {};
+
+  /**
+   * 当前左侧树点击的节点
+   */
+  @Input()
+  currentClickNode: RectificationReportTypeDTO = new RectificationReportTypeDTO();
 
   /**
    *  组件是否可见
