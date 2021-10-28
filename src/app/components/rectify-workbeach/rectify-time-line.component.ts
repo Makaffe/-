@@ -41,7 +41,7 @@ export class RectifyTimeLineComponent implements OnInit {
   clickKey = null;
   panels = [
     {
-      title: '报告1 2015-08-02',
+      title: '问题1 2015-08-02',
       key: '100',
       author: 'NG ZORRO',
       objectType: '11111',
@@ -84,7 +84,7 @@ export class RectifyTimeLineComponent implements OnInit {
       children: [],
     },
     {
-      title: '报告XXX2 2015-08-02',
+      title: '问题XXX2 2015-08-02',
       key: '200',
       author: 'NG ZORRO',
       objectType: '11111',
@@ -92,7 +92,7 @@ export class RectifyTimeLineComponent implements OnInit {
       disabled: false,
       children: [
         {
-          title: '报告XXX2 2015-08-02',
+          title: '子问题XXX3 2015-08-02',
           key: '210',
           author: 'NG ZORRO',
           objectType: '11111',
@@ -128,7 +128,7 @@ export class RectifyTimeLineComponent implements OnInit {
       ],
     },
     {
-      title: '报告XXX2 2015-08-02',
+      title: '问题XXX2 2015-08-02',
       key: '300',
       author: 'NG ZORRO',
       objectType: '11111',
@@ -136,7 +136,7 @@ export class RectifyTimeLineComponent implements OnInit {
       disabled: false,
       children: [
         {
-          title: '报告XXX2 2015-08-02',
+          title: '子问题XXX2 2015-08-02',
           key: '400',
           author: 'NG ZORRO',
           objectType: '11111',
@@ -144,7 +144,7 @@ export class RectifyTimeLineComponent implements OnInit {
           disabled: false,
           children: [
             {
-              title: '报告XXX2 2015-08-02',
+              title: '子问题XXX2 2015-08-02',
               key: '310',
               author: 'NG ZORRO',
               objectType: '11111',
