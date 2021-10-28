@@ -206,6 +206,8 @@ export class AuditorDashboardComponent implements OnInit {
     },
   ];
 
+  option: any;
+
   ngOnInit() {
     this.cards = [
       {
@@ -260,6 +262,35 @@ export class AuditorDashboardComponent implements OnInit {
     )
       .pipe(delay(500))
       .subscribe(res => (this.users = res));
+    this.option = {
+      title: {
+        text: '我的工作量统计',
+        left: 'center',
+      },
+      tooltip: {
+        trigger: 'item',
+        formatter: '{a} <br/>{b} : {c} ({d}%)',
+      },
+      series: [
+        {
+          name: '我的工作量统计',
+          type: 'pie',
+          radius: [30, 150],
+          center: ['50%', '50%'],
+          roseType: 'area',
+          itemStyle: {
+            borderRadius: 5,
+          },
+          data: [
+            { value: 5, name: '已下发整改问题' },
+            { value: 3, name: '已完成整改问题' },
+            { value: 4, name: '已回复整改反馈' },
+            { value: 3, name: '已完成整改报告' },
+            { value: 5, name: '跟进中的整改问题' },
+          ],
+        },
+      ],
+    };
   }
   goDepartmentDraw() {
     this.router.navigate(['/audit-rectify/department-draw']);
