@@ -35,7 +35,7 @@
   </ng-template>
   <ng-template st-row="operations" let-row let-index="index">
     <a (click)="check(row)">查看</a>
-    <ng-container *ngIf="row.auditReportStatus != 'GENERATED'">
+    <ng-container *ngIf="row.auditReportStatus === 'NO_GENERATED'">
       <nz-divider nzType="vertical"></nz-divider>
       <a (click)="edit(row)">编辑</a>
       <nz-divider nzType="vertical"></nz-divider>

@@ -198,7 +198,8 @@
             <nz-form-item>
               <nz-form-label nzSpan="4">引用建议模版</nz-form-label>
               <nz-form-control nzSpan="8">
-                <app-advice-template-select [(adviceTemplate)]="currentItem.advice"></app-advice-template-select>
+                <app-advice-template-select [(adviceTemplate)]="currentItem.advice" [disabled]="isWatch">
+                </app-advice-template-select>
               </nz-form-control>
             </nz-form-item>
 

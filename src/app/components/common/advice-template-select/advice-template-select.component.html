@@ -1,12 +1,12 @@
 <div style="display: flex;">
   <nz-tree-select [nzNodes]="templateNodes" nzShowSearch nzDefaultExpandAll [(ngModel)]="value" name="adviceTemplate"
-    style="width: 100%;">
+    style="width: 100%;" [disabled]="disabled">
   </nz-tree-select>
   &nbsp;&nbsp;
   <nz-popconfirm [nzTitle]="confirmtittle" (nzOnConfirm)="confirmReference()" style="margin-top: -5px;">
     <ng-template #confirmtittle>
       确定要引用该模板？
     </ng-template>
-    <button nz-button nzType="primary" nz-popconfirm [disabled]="!value">确认引用</button>
+    <button nz-button nzType="primary" nz-popconfirm [disabled]="!value || disabled">确认引用</button>
   </nz-popconfirm>
 </div>

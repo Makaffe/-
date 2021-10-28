@@ -398,6 +398,10 @@ export class AuditPostDetailComponent implements OnInit {
     }
     // tslint:disable-next-line:semicolon
   };
+  previewFile = (file: UploadFile) => {
+    this.preview(this.currentItem.systemFile.id, this.currentItem.systemFile.name);
+    // tslint:disable-next-line:semicolon
+  };
 
   previewPostFile(): void {
     this.preview(this.currentItem.systemFile.id, this.currentItem.systemFile.name);
