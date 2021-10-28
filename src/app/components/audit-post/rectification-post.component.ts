@@ -15,6 +15,7 @@ import { Broadcaster } from 'src/app/matech/service/broadcaster';
 import { AttachListComponent } from '../common/attach/attach-list.component';
 import { DictSelectComponent } from '../common/dict-select/dict-select.component';
 import { TreeNodeInterface } from 'src/app/routes/dashboard/rectify/rectify.dashboard.component';
+import { RectificationPostListComponent } from './rectification-post-list.component';
 interface ParentItemData {
   key: number;
   auditReportStatus: string;
@@ -39,59 +40,71 @@ interface ChildrenItemData {
   templateUrl: './rectification-post.component.html',
 })
 export class RectificationPostComponent implements OnInit {
-  listOfParentData: ParentItemData[] = [
-    {
-      key: 1,
-      auditReportStatus: '未生成',
-      name: '审计报告',
-      auditName: '审计单位',
-      auditStartTime: '2021-10-26',
-      auditEndTime: '2021-10-27',
-      probkemAmount: 10,
-      expand: false,
-    },
-    {
-      key: 2,
-      auditReportStatus: '已生成',
-      name: '审计报告',
-      auditName: '审计单位',
-      auditStartTime: '2021-10-26',
-      auditEndTime: '2021-10-27',
-      probkemAmount: 10,
-      expand: false,
-    },
-  ];
-  listOfChildrenData: ChildrenItemData[] = [
-    {
-      key: 1,
-      name: '金额分配问题',
-      type: '金额分配',
-      department: '财政部',
-      dustyname: 'zhangSan',
-      money: '10000',
-    },
-    {
-      key: 2,
-      name: '金额分配问题',
-      type: '金额分配',
-      department: '财政部',
-      dustyname: 'zhangSan',
-      money: '10000',
-    },
-  ];
+  /**
+   * 列表组件
+   */
 
-  ngOnInit(): void {
-    // for (let i = 0; i < 3; ++i) {
-    //   this.listOfParentData.push({
-    //     key: i,
-    //     name: 'Screem',
-    //     platform: 'iOS',
-    //     version: '10.3.4.5654',
-    //     upgradeNum: 500,
-    //     creator: 'Jack',
-    //     createdAt: '2014-12-24 23:12:00',
-    //     expand: false,
-    //   });
-    // }
+  @ViewChild('rectificationPostListComponent', { static: false })
+  rectificationPostListComponent: RectificationPostListComponent;
+  /**
+   * 搜索参数
+   */
+  params = this.initParams();
+
+  startValue: Date | null = null;
+  endValue: Date | null = null;
+  endOpen = false;
+
+  /**
+   *
+   * @param startValue 开始时间
+   *
+   */
+  disabledStartDate = (startValue: Date): boolean => {
+    if (!startValue || !this.endValue) {
+      return false;
+    }
+    return startValue.getTime() > this.endValue.getTime();
+    // tslint:disable-next-line:semicolon
+  };
+  /**
+   *
+   * @param endValue 结束时间
+   *
+   */
+  disabledEndDate = (endValue: Date): boolean => {
+    if (!endValue || !this.startValue) {
+      return false;
+    }
+    return endValue.getTime() <= this.startValue.getTime();
+    // tslint:disable-next-line:semicolon
+  };
+
+  /**
+   *
+   * @param item 参数
+   *
+   */
+  initParams(item?: any) {
+    return {
+      name: item ? item.name : null,
+      auditPostName: item ? item.auditPostName : null,
+      importAuditPostStartTime: item ? item.importAuditPostStartTime : null,
+      importAuditPostEndTime: item ? item.importAuditPostEndTime : null,
+      problemType: item ? item.problemType : null,
+      finishStatus: item ? item.finishStatus : null,
+      source: item ? item.source : null,
+    };
   }
+
+  /**
+   * 搜索
+   */
+  search() {}
+
+  /**
+   * 清除
+   */
+  clear() {}
+  ngOnInit(): void {}
 }

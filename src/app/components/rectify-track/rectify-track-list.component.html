@@ -10,20 +10,18 @@
       <th nzWidth="100px" nzAlign="center">下发状态</th>
       <th nzWidth="100px" nzAlign="center">移交状态</th>
       <th nzWidth="150px">审计报告名称</th>
-      <th nzWidth="150px">问题名称</th>
+      <th nzWidth="250px">问题名称</th>
       <th nzWidth="150px">问题类型</th>
       <th nzWidth="150px" nzAlign="right">涉及金额(元)</th>
-      <th nzWidth="150px">整改部门</th>
-      <th nzWidth="150px">整改单位</th>
-      <th nzWidth="150px">整改负责人</th>
-      <th nzWidth="150px">审计负责人</th>
+      <th nzWidth="200px">整改反馈进度</th>
+      <th nzWidth="150px">整改跟踪负责人</th>
+      <th nzWidth="200px">整改负责人</th>
       <th nzWidth="150px" nzAlign="right">已完成整改措施数</th>
       <th nzWidth="120px" nzAlign="center">整改截止时间</th>
       <th nzWidth="120px" nzAlign="center">整改拟完成时间</th>
       <th nzWidth="120px" nzAlign="center">最近一次反馈时间</th>
       <th nzWidth="120px" nzAlign="center">下一次反馈时间</th>
-      <th nzWidth="200px">整改反馈进度</th>
-      <th nzWidth="130px" nzAlign="center" nzRight="0px">操作</th>
+      <th nzWidth="200px" nzAlign="center" nzRight="0px">操作</th>
     </tr>
   </thead>
   <tbody>
@@ -52,23 +50,28 @@
           <td>{{ item.name }}</td>
           <td>{{ item.type | dictTransform: 'PROBLEM_TYPE' | async }}</td>
           <td nzAlign="right">{{ 123 | currency: 'CNY':'symbol-narrow' }}</td>
-          <td>{{ item?.rectifyDepartment?.name }}</td>
-          <td>整改单位</td>
-          <td>{{ item?.dutyUser?.name }}</td>
-          <td>审计负责人</td>
+          <td>
+            <nz-progress [nzPercent]="item.rectifyPassPercent"></nz-progress>
+          </td>
+          <td>李勇</td>
+          <td>整改单位/森林防护部/{{ item?.dutyUser?.name }}</td>
           <td nzAlign="right">{{ item.rectifyCount }}</td>
           <td nzAlign="center">{{ item.rectifyEndTime }}</td>
           <td nzAlign="center">{{ item.lastModifiedTime }}</td>
           <td nzAlign="center">{{ item.latelyFeedbackTime }}</td>
           <td nzAlign="center">{{ item.nextFeedbackTime }}</td>
-          <td>
-            <nz-progress [nzPercent]="item.rectifyPassPercent"></nz-progress>
-          </td>
-          <td nzRight="0px" nzAlign="center">
-            <button style="padding: 0px;" nz-button nzType="link" (click)="goWorkBeach(item.id)">进入工作台</button>
+          <td nzRight="0px">
+            <button nz-button nzType="link" (click)="goWorkBeach(item.id)" style="padding: 0;">进入工作台</button>
+            <nz-divider nzType="vertical"></nz-divider>
+            <button nz-button nzType="link" (click)="transfer(item)" [disabled]="'true'" style="padding: 0;">
+              移交结果查看
+            </button>
           </td>
         </tr>
       </ng-container>
     </ng-container>
   </tbody>
 </nz-table>
+
+<!-- 移交纪检 -->
+<app-rectify-issue-transfer #rectifyIssueTransferComponent></app-rectify-issue-transfer>
