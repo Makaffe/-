@@ -53,7 +53,7 @@ export class RectifyPostListComponent implements OnInit {
   /**
    * 列表数据
    */
-  tableData: Array<RectificationReportDTO> = [];
+  tableData: Array<any> = [];
 
   /**
    * 当前单选框选中的数据
@@ -87,7 +87,7 @@ export class RectifyPostListComponent implements OnInit {
    */
   tableParameter = ObjectUtil.deepClone(TABLE_PARAMETER);
   columns = [
-    { index: 'id', type: 'radio', width: '5px', className: 'text-center' },
+    // { index: 'id', type: 'radio', width: '5px', className: 'text-center' },
     { title: '序号', render: 'number', width: '10px', className: 'text-center' },
     {
       title: '状态',
@@ -99,20 +99,28 @@ export class RectifyPostListComponent implements OnInit {
       sort: this.tableParameter.sortDef,
     },
     {
+      title: '报告类型',
+      index: 'reportType',
+      width: '20px',
+      type: 'tag',
+      className: 'text-center',
+      sort: this.tableParameter.sortDef,
+    },
+    {
       title: '整改汇报名称',
       index: 'name',
-      width: '40px',
+      width: '45px',
       sort: this.tableParameter.sortDef,
 
     },
     {
       title: '整改统计时间',
       index: 'auditTime',
-      width: '30px',
+      width: '25px',
       sort: this.tableParameter.sortDef,
-      className: 'text-left',
+      className: 'text-center',
     },
-    { title: '操作', render: 'operations', width: '20px', className: 'text-center', fixed: 'right' },
+    { title: '操作', render: 'operations', width: '25px', className: 'text-center', fixed: 'right' },
   ];
   constructor(
     private router: Router,
@@ -151,9 +159,49 @@ export class RectifyPostListComponent implements OnInit {
         }
         Object.assign(item, { auditTime });
       });
-      this.tableData = data.data;
-      this.tableParameter.page.total = data.totalRecords;
-      this.tableParameter.pi = data.pageNo + 1;
+      // this.tableData = data.data;
+      // this.tableParameter.page.total = data.totalRecords;
+      // this.tableParameter.pi = data.pageNo + 1;
+      if (this.currentClickNode && this.currentClickNode.id) {
+        if (this.currentClickNode.name === '按审计报告') {
+          this.columns[4] = {
+            title: '审计报告',
+            index: 'auditReport',
+            width: '25px',
+            sort: this.tableParameter.sortDef,
+            className: 'text-center',
+          };
+        } else if (this.currentClickNode.name === '按整改部门') {
+          this.columns[4] = {
+            title: '整改部门',
+            index: 'rectifyDepartment',
+            width: '25px',
+            sort: this.tableParameter.sortDef,
+            className: 'text-center',
+          };
+        } else if (this.currentClickNode.name === '按时间区间') {
+          this.columns[4] = {
+            title: '整改统计时间',
+            index: 'auditTime',
+            width: '25px',
+            sort: this.tableParameter.sortDef,
+            className: 'text-center',
+          };
+        }
+        this.columns = [...this.columns];
+        const reportType = this.currentClickNode.name;
+        this.tableData = [
+          {
+            id: '1', name: '财政支出报告',
+            reportType,
+            auditReportStatus: 'NO_CREATE',
+            auditTime: '2021-2-4~2021-9-4',
+            auditReport: '财务报告',
+            rectifyDepartment: '财务部'
+          }
+        ];
+      }
+
     }, null, () => { this.loading = false; });
   }
   /**
@@ -162,6 +210,14 @@ export class RectifyPostListComponent implements OnInit {
   edit(row: RectificationReportDTO, isWatch: boolean, rectificationReportTypeId?: string): void {
     this.rectifyPostDetailComponent.openModal(row, isWatch, rectificationReportTypeId);
   }
+
+  /**
+   * 查看生成的报告
+   */
+  viewGnerateReport(item?: any) {
+
+  }
+
   /**
    * 删除
    */

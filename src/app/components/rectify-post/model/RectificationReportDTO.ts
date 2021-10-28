@@ -51,36 +51,36 @@ export class RectificationReportDTO {
   /**
    * 关联文书模板
    */
-  templateFile: TemplateFile;
+  templateFile?: TemplateFile;
 
   /**
    * 关联文书模板id
    */
-  templateFileId: string;
+  templateFileId?: string;
 
   /**
    * 关联文书报告
    */
-  reportFile: ReportFile;
+  reportFile?: ReportFile;
 
   /**
    * 关联文书报告id
    */
-  reportFileId: ReportFile;
+  reportFileId?: ReportFile;
 
   /**
    * 整改报告类型
    */
-  rectificationReportType: RectificationReportTypeDTO;
+  rectificationReportType?: RectificationReportTypeDTO;
 
   /**
    * 整改报告id
    */
-  rectificationReportTypeId: string;
+  rectificationReportTypeId?: string;
 
   /**
    * 报告存储目录id
    */
-  categoryId: string;
+  categoryId?: string;
 
 }
