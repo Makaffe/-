@@ -30,6 +30,13 @@ export class AuditorDashboardComponent implements OnInit {
   data1 = [132, 324, 327];
   xData = ['9:00-10:00', '10:00-11:00', '11:00-12:00'];
 
+  pageInfo = {
+    pageNo: 1,
+    pageSize: 20,
+    totalPages: 1,
+    totalRecords: 20,
+  };
+
   option1 = {
     color: ['#3398DB'],
     tooltip: {
@@ -138,7 +145,7 @@ export class AuditorDashboardComponent implements OnInit {
       width: '50px',
     },
     {
-      title: '状态',
+      title: '下发状态',
       index: 'name',
       width: '80px',
       render: 'status',
@@ -247,21 +254,36 @@ export class AuditorDashboardComponent implements OnInit {
         className: 'bg-primary',
       },
     ];
-    of(
-      Array(10)
-        .fill({})
-        // tslint:disable-next-line:variable-name
-        .map((_item: any, idx: number) => {
-          return {
-            id: idx + 1,
-            name: `name ${idx + 1}`,
-            age: Math.ceil(Math.random() * 10) + 20,
-            status: Math.floor(Math.random() * 5) + 1,
-          };
-        }),
-    )
-      .pipe(delay(500))
-      .subscribe(res => (this.users = res));
+    this.users = [
+      {
+        name: '待办事项1',
+        count: 10,
+      },
+      {
+        name: '待办事项2',
+        count: 5,
+      },
+      {
+        name: '待办事项3',
+        count: 15,
+      },
+      {
+        name: '待办事项4',
+        count: 1,
+      },
+      {
+        name: '待办事项5',
+        count: 3,
+      },
+      {
+        name: '待办事项6',
+        count: 8,
+      },
+      {
+        name: '待办事项7',
+        count: 108,
+      },
+    ];
     this.option = {
       title: {
         text: '我的工作量统计',
@@ -288,6 +310,37 @@ export class AuditorDashboardComponent implements OnInit {
             { value: 3, name: '已完成整改报告' },
             { value: 5, name: '跟进中的整改问题' },
           ],
+        },
+      ],
+    };
+    this.option = {
+      title: {
+        text: '我的工作量统计',
+        left: 'center',
+      },
+      tooltip: {
+        trigger: 'item',
+        formatter: '{a} <br/>{b} : {c} ({d}%)',
+      },
+      series: [
+        {
+          name: '我的工作量统计',
+          type: 'pie',
+          radius: '50%',
+          data: [
+            { value: 5, name: '已下发整改问题' },
+            { value: 3, name: '已完成整改问题' },
+            { value: 4, name: '已回复整改反馈' },
+            { value: 3, name: '已完成整改报告' },
+            { value: 5, name: '跟进中的整改问题' },
+          ],
+          // emphasis: {
+          //   itemStyle: {
+          //     shadowBlur: 10,
+          //     shadowOffsetX: 0,
+          //     shadowColor: 'rgba(0, 10, 5, 0.5)',
+          //   },
+          // },
         },
       ],
     };
