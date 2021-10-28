@@ -23,9 +23,10 @@
       <th nzWidth="100px" nzAlign="center">下发状态</th>
       <th nzWidth="100px" nzAlign="center">移交状态</th>
       <th nzWidth="150px">审计报告名称</th>
-      <th nzWidth="150px">问题名称</th>
+      <th nzWidth="250px">问题名称</th>
       <th nzWidth="150px">问题类型</th>
       <th nzWidth="150px" nzAlign="right">涉及金额(元)</th>
+      <th nzWidth="200px">整改反馈进度</th>
       <th nzWidth="150px">整改对象</th>
       <th nzWidth="150px">整改负责人</th>
       <th nzWidth="150px">整改跟踪负责人</th>
@@ -34,7 +35,6 @@
       <th nzWidth="120px" nzAlign="center">整改拟完成时间</th>
       <th nzWidth="120px" nzAlign="center">最近一次反馈时间</th>
       <th nzWidth="120px" nzAlign="center">下一次反馈时间</th>
-      <th nzWidth="200px">整改反馈进度</th>
       <th nzWidth="200px" nzAlign="center" nzRight="0px">操作</th>
     </tr>
   </thead>
@@ -69,6 +69,9 @@
           <td>{{ item.name }}</td>
           <td>{{ item.type | dictTransform: 'PROBLEM_TYPE' | async }}</td>
           <td nzAlign="right">{{ 123 | currency: 'CNY':'symbol-narrow' }}</td>
+          <td>
+            <nz-progress [nzPercent]="item.rectifyPassPercent"></nz-progress>
+          </td>
           <td>整改对象</td>
           <td>{{ item?.dutyUser?.name }}</td>
           <td>整改跟踪负责人</td>
@@ -77,9 +80,7 @@
           <td nzAlign="center">{{ item.lastModifiedTime }}</td>
           <td nzAlign="center">{{ item.latelyFeedbackTime }}</td>
           <td nzAlign="center">{{ item.nextFeedbackTime }}</td>
-          <td>
-            <nz-progress [nzPercent]="item.rectifyPassPercent"></nz-progress>
-          </td>
+
           <td nzRight="0px" nzAlign="center">
             <button style="padding: 0px;" nz-button nzType="link" *ngIf="item.transferStatus === '未移交'">移交</button>
             <nz-divider nzType="vertical" *ngIf="item.transferStatus === '未移交'"></nz-divider>
@@ -90,3 +91,6 @@
     </ng-container>
   </tbody>
 </nz-table>
+
+<!-- 移交纪检 -->
+<app-rectify-issue-transfer #rectifyIssueTransferComponent></app-rectify-issue-transfer>

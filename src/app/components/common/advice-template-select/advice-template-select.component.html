@@ -1,6 +1,6 @@
 <div style="display: flex;">
   <nz-tree-select [nzNodes]="templateNodes" nzShowSearch nzDefaultExpandAll [(ngModel)]="value" name="adviceTemplate"
-    [disabled]="disabled">
+    style="width: 100%;" [disabled]="disabled">
   </nz-tree-select>
   &nbsp;&nbsp;
   <nz-popconfirm [nzTitle]="confirmtittle" (nzOnConfirm)="confirmReference()" style="margin-top: -5px;">

@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { STColumn } from '@delon/abc';
 import { IssueAssignFormComponent } from './issue-assign-form/issue-assign-form.component';
 export interface TreeNodeInterface {
-  key: number;
+  id: number;
   name: string;
   age?: number;
   level?: number;
@@ -19,6 +20,16 @@ export interface TreeNodeInterface {
 export class RectifyDashboardComponent implements OnInit {
   @ViewChild('issueAssignFormComponent', { static: false })
   issueAssignFormComponent: IssueAssignFormComponent;
+
+  /**
+   * 左边宽度
+   */
+  leftSize = 80;
+
+  /**
+   * 右边宽度
+   */
+  rightSize = 20;
 
   option = {
     color: ['#8A2BE2'],
@@ -121,78 +132,103 @@ export class RectifyDashboardComponent implements OnInit {
     ],
   };
 
-  listOfMapData: TreeNodeInterface[] = [
+  listOfMapData = [
     {
-      key: 1,
-      name: 'John Brown sr.',
-      age: 60,
-      address: 'New York No. 1 Lake Park',
+      id: '1',
+      status: '整改中',
+      transferStatus: '未移交',
+      problemSources: '外部审计',
+      name: '餐饮费用超过规定标准',
+      type: '',
+      principal: '李明',
+      specific: '王力',
+      rectifyMeasureCount: 1,
+      rectifyMeasureCountComplete: 1,
+      rectifyEndTime: '2021-12-13',
+      lastModifiedTime: '2021-12-10',
+      residueDayNum: '3',
+      feedbackResidueDayNum: '1',
       children: [
         {
-          key: 11,
-          name: 'John Brown',
-          age: 42,
-          address: 'New York No. 2 Lake Park',
-        },
-        {
-          key: 12,
-          name: 'John Brown jr.',
-          age: 30,
-          address: 'New York No. 3 Lake Park',
-          children: [
-            {
-              key: 121,
-              name: 'Jimmy Brown',
-              age: 16,
-              address: 'New York No. 3 Lake Park',
-            },
-          ],
-        },
-        {
-          key: 13,
-          name: 'Jim Green sr.',
-          age: 72,
-          address: 'London No. 1 Lake Park',
-          children: [
-            {
-              key: 131,
-              name: 'Jim Green',
-              age: 42,
-              address: 'London No. 2 Lake Park',
-              children: [
-                {
-                  key: 1311,
-                  name: 'Jim Green jr.',
-                  age: 25,
-                  address: 'London No. 3 Lake Park',
-                },
-                {
-                  key: 1312,
-                  name: 'Jimmy Green sr.',
-                  age: 18,
-                  address: 'London No. 4 Lake Park',
-                },
-              ],
-            },
-          ],
+          id: '2',
+          status: '整改中',
+          transferStatus: '未移交',
+          problemSources: '外部审计',
+          name: '餐饮费用超过规定标准子问题',
+          type: '',
+          principal: '王力',
+          specific: '刘汉',
+          rectifyMeasureCount: 1,
+          rectifyMeasureCountComplete: 1,
+          rectifyEndTime: '2021-12-13',
+          lastModifiedTime: '2021-12-10',
+          residueDayNum: '3',
+          feedbackResidueDayNum: '1',
         },
       ],
     },
+  ];
+
+  /**
+   * 消息
+   */
+  Reminderscolumns: STColumn[] = [
     {
-      key: 2,
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park',
+      title: '消息',
+      render: 'message',
+      index: 'message',
+      width: '100%',
     },
   ];
 
-  mapOfExpandedData: { [key: string]: TreeNodeInterface[] } = {};
+  msdData = [
+    {
+      id: '1',
+      message: '餐饮费用整改通知',
+    },
+  ];
 
-  collapse(array: TreeNodeInterface[], data: TreeNodeInterface, $event: boolean): void {
+  /**
+   * 饼图数据
+   */
+  optionPie = {
+    title: {},
+    tooltip: {
+      // trigger: 'item',
+    },
+    legend: {
+      top: 'top',
+    },
+    series: [
+      {
+        name: '问题',
+        type: 'pie',
+        radius: '50%',
+        data: [
+          { value: 44, name: '问题总数' },
+          { value: 18, name: '整改中' },
+          { value: 6, name: '已逾期' },
+          { value: 20, name: '未处理' },
+        ],
+        emphasis: {
+          itemStyle: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: 'rgba(0, 10, 5, 0.5)',
+          },
+        },
+      },
+    ],
+  };
+
+  mapOfExpandedData: { [id: string]: any[] } = {};
+
+  collapse(array: any[], data: any, $event: boolean): void {
     if ($event === false) {
       if (data.children) {
         data.children.forEach(d => {
-          const target = array.find(a => a.key === d.key)!;
+          // tslint:disable-next-line:no-non-null-assertion
+          const target = array.find(a => a.id === d.id)!;
           target.expand = false;
           this.collapse(array, target, false);
         });
@@ -202,17 +238,19 @@ export class RectifyDashboardComponent implements OnInit {
     }
   }
 
-  convertTreeToList(root: TreeNodeInterface): TreeNodeInterface[] {
-    const stack: TreeNodeInterface[] = [];
-    const array: TreeNodeInterface[] = [];
+  convertTreeToList(root: any): any[] {
+    const stack: any[] = [];
+    const array: any[] = [];
     const hashMap = {};
     stack.push({ ...root, level: 0, expand: false });
 
     while (stack.length !== 0) {
+      // tslint:disable-next-line:no-non-null-assertion
       const node = stack.pop()!;
       this.visitNode(node, hashMap, array);
       if (node.children) {
         for (let i = node.children.length - 1; i >= 0; i--) {
+          // tslint:disable-next-line:no-non-null-assertion
           stack.push({ ...node.children[i], level: node.level! + 1, expand: false, parent: node });
         }
       }
@@ -221,9 +259,9 @@ export class RectifyDashboardComponent implements OnInit {
     return array;
   }
 
-  visitNode(node: TreeNodeInterface, hashMap: { [key: string]: boolean }, array: TreeNodeInterface[]): void {
-    if (!hashMap[node.key]) {
-      hashMap[node.key] = true;
+  visitNode(node: any, hashMap: { [id: string]: boolean }, array: any[]): void {
+    if (!hashMap[node.id]) {
+      hashMap[node.id] = true;
       array.push(node);
     }
   }
@@ -232,7 +270,7 @@ export class RectifyDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.listOfMapData.forEach(item => {
-      this.mapOfExpandedData[item.key] = this.convertTreeToList(item);
+      this.mapOfExpandedData[item.id] = this.convertTreeToList(item);
     });
   }
 
