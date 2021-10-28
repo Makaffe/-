@@ -93,3 +93,29 @@
     </div>
   </nz-collapse-panel>
 </nz-collapse>
+
+
+<!-- <nz-tree [nzData]="nodes" (nzClick)="activeNode($event)" [nzTreeTemplate]="nzTreeTemplate"></nz-tree>
+<ng-template #nzTreeTemplate let-node>
+  <span class="custom-node">
+    <span *ngIf="!node.isLeaf">
+      <span class="folder-name" [class.active]="activedNode?.key === node.key">{{ node.title }}</span>
+    </span>
+    <span *ngIf="node.isLeaf">
+      <div *ngIf="node.origin.objectType==='1'"
+        style="height: 10px;width: 10px;border: red solid 2px; display:inline-block; border-radius: 50px;">
+      </div>
+      <div *ngIf="node.origin.objectType==='2'"
+        style="height: 10px;width: 10px;border: #108ee9 solid 2px; display:inline-block; border-radius: 50px;"></div>
+      <div *ngIf="node.origin.objectType==='3'"
+        style="height: 10px;width: 10px;border: #f76a00 solid 2px; display:inline-block; border-radius: 50px;"></div>
+      <div *ngIf="node.origin.objectType==='4'"
+        style="height: 10px;width: 10px;border: #87d068 solid 2px; display:inline-block; border-radius: 50px;">
+      </div>
+      <span class="file-name" [class.active]="activedNode?.key === node.key">{{ node.title }}</span>
+    </span>
+    <br>
+    <span style="margin-left:3px; " *ngIf="node.isLeaf&&!nodeParent(node)">
+      |</span>
+  </span>
+</ng-template> -->

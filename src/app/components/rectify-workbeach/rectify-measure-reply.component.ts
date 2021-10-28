@@ -11,7 +11,10 @@ import { RectifyMeasureService } from './service/RectifyMeasureService';
   styles: [],
 })
 export class RectifyMeasureReplyComponent implements OnInit {
-  isVisible = false;
+  /**
+   * 附件
+   */
+  systemFiles = [];
 
   // 措施回复信息
   rectifyMeasureReply = this.initParams();
@@ -22,6 +25,9 @@ export class RectifyMeasureReplyComponent implements OnInit {
   @Output()
   saveRectifyMeasureReply = new EventEmitter();
 
+  @Output()
+  rectifyMeasureReplyBoolean = new EventEmitter();
+
   constructor(
     private rectifyMeasureReplyService: RectifyMeasureReplyService,
     private msg: NzMessageService,
@@ -30,7 +36,7 @@ export class RectifyMeasureReplyComponent implements OnInit {
 
   ngOnInit(): void {}
   handleCancel() {
-    this.isVisible = false;
+    this.rectifyMeasureReplyBoolean.emit();
   }
 
   // 保存措施回复

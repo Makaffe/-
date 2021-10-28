@@ -35,6 +35,8 @@ export class RectifyIssueSplitComponent implements OnInit {
     dutyUserId: null,
     zgjzsj: null,
     sjje: 123,
+    remark: '问题描述问题描述问题描述问题描述',
+    advice: '问题建议问题建议',
   };
 
   /**
@@ -115,6 +117,72 @@ export class RectifyIssueSplitComponent implements OnInit {
    * 整改负责人map
    */
   dutyUserMap: Map<string, string> = new Map<string, string>();
+
+  /**
+   * 整改对象列表
+   */
+  options = [
+    {
+      value: '整改单位1',
+      label: '整改单位1',
+      children: [
+        {
+          value: '整改部门1',
+          label: '整改部门1',
+          children: [
+            {
+              value: '张伟',
+              label: '张伟',
+              isLeaf: true,
+            },
+            {
+              value: '李琦',
+              label: '李琦',
+              isLeaf: true,
+            },
+          ],
+        },
+        {
+          value: '整改部门2',
+          label: '整改部门2',
+          children: [
+            {
+              value: '刘烨',
+              label: '刘烨',
+              isLeaf: true,
+            },
+            {
+              value: '王菲',
+              label: '王菲',
+              isLeaf: true,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      value: '整改单位2',
+      label: '整改单位2',
+      children: [
+        {
+          value: '整改部门3',
+          label: '整改部门3',
+          children: [
+            {
+              value: '汪峰',
+              label: '汪峰',
+              isLeaf: true,
+            },
+          ],
+        },
+      ],
+    },
+  ];
+
+  /**
+   * 选择的整改对象
+   */
+  values: string[] | null = null;
 
   /**
    * 删除子问题
@@ -341,5 +409,14 @@ export class RectifyIssueSplitComponent implements OnInit {
    */
   watchAuditPost(auditPostId: string) {
     this.auditPostWatchComponent.isVisible = true;
+  }
+
+  /**
+   * 拖动结束调用的方法
+   * @param sizes 左右两块的尺寸
+   */
+  dragEnd(sizes: Array<any>) {
+    this.leftSize = sizes[0];
+    this.rightSize = sizes[1];
   }
 }

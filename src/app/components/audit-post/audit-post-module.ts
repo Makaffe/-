@@ -5,6 +5,8 @@ import { SharedModule } from '@shared';
 import { AttachListModule } from '../common/attach/attach-list.module';
 
 import { DictSelectComponent } from '../common/dict-select/dict-select.component';
+import { AuditPostWatchComponent } from '../rectify-issue/audit-post-watch.component';
+import { RectifyIssueModule } from '../rectify-issue/rectify-issue-module';
 
 import { AuditPostDetailComponent } from './audit-post-detail.component';
 
@@ -13,6 +15,7 @@ import { AuditPostTreeEditComponent } from './audit-post-tree-edit.component';
 import { AuditPostTypeTreeComponent } from './audit-post-type-tree.component';
 
 import { AuditPostViewComponent } from './audit-post-view.component';
+import { RectificationPostListComponent } from './rectification-post-list.component';
 import { RectificationPostComponent } from './rectification-post.component';
 
 const COMPONENTS = [
@@ -23,9 +26,17 @@ const COMPONENTS = [
   AuditPostTypeTreeComponent,
   AuditPostDetailComponent,
   RectificationPostComponent,
+  RectificationPostListComponent,
 ];
 @NgModule({
-  imports: [CommonModule, SharedModule, OrganizationComponentModule, SecurityComponentModule, AttachListModule],
+  imports: [
+    CommonModule,
+    SharedModule,
+    OrganizationComponentModule,
+    SecurityComponentModule,
+    AttachListModule,
+    RectifyIssueModule,
+  ],
   exports: [...COMPONENTS],
   declarations: [...COMPONENTS],
 })
