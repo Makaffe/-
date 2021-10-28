@@ -14,6 +14,7 @@ import { RectifyMeasureDTO } from './model/RectifyMeasureDTO';
 import { RectifyMeasureEditInfoDTO } from './model/RectifyMeasureEditInfoDTO';
 import { RectifyDiaryComponent } from './rectify-diary.component';
 import { RectifyEffectComponent } from './rectify-effect.component';
+import { RectifyFeedbackRemindComponent } from './rectify-feedback-remind.component';
 import { RectifyMeasureReplyComponent } from './rectify-measure-reply.component';
 import { RectifyMeasureComponent } from './rectify-measure.component';
 import { RectifyProblemSwitchComponent } from './rectify-problem-switch.component';
@@ -69,6 +70,12 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   // 时间轴组件
   @ViewChild('rectifyTimeLineComponent', { static: false })
   rectifyTimeLineComponent: RectifyTimeLineComponent;
+
+  /**
+   * 反馈提醒组件
+   */
+  @ViewChild('rectifyFeedbackRemindComponent', { static: false })
+  rectifyFeedbackRemindComponent: RectifyFeedbackRemindComponent;
 
   /**
    * 判断是否为整改部门
@@ -163,32 +170,19 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   /**
    * 模板选择值
    */
-  templateValues: any;
+  templateValue: any;
 
   /**
-   * 下拉模板值
+   * 建议模板树
    */
-  templateOptions = [
+  nodes = [
     {
-      value: 'zhejiang',
-      label: '通知模板',
+      title: '催办通知模板',
+      key: '建议模板1',
+      isLeaf: false,
       children: [
-        {
-          value: 'hangzhou',
-          label: '催办通知模板',
-          children: [
-            {
-              value: 'xihu',
-              label: '整改问题催办模板',
-              isLeaf: true,
-            },
-            {
-              value: 'xihu',
-              label: '问题下发通知模板',
-              isLeaf: true,
-            },
-          ],
-        },
+        { title: '整改问题催办模板', key: '建议模板2', isLeaf: true },
+        { title: '问题下发通知模板', key: '建议模板2', isLeaf: true },
       ],
     },
   ];
@@ -554,15 +548,22 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   /**
    * 模板值处理
    */
-  templateChanges(eve: any) {}
+  templateChange(eve: any) {}
 
   /**
    * 清空数据
    */
   clear() {
-    this.templateValues = null;
+    this.templateValue = null;
     this.demoValue = null;
     this.rectifyBackFeedHzUnit = null;
     this.rectifyEndTime = null;
+  }
+
+  /**
+   * 反馈提醒
+   */
+  rectifyFeedbackRemind() {
+    this.rectifyFeedbackRemindComponent.isVisible = true;
   }
 }
