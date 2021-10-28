@@ -1,0 +1,105 @@
+<as-split direction="vertical" unit="pixel" gutterSize="0">
+  <as-split-area class="flex-fixed" [size]="40">
+    <div class="app-toor-bar">
+      <form #searchForm="ngForm" nz-form class="matech-search-form">
+        <div nz-row [nzGutter]="24" nzType="flex" nzJustify="space-between" nzAlign="middle" class="search-row">
+          <!-- 搜索框 -->
+          <div nz-col [nzSpan]="7">
+            <nz-form-item>
+              <nz-form-label nzSpan="8">整改问题</nz-form-label>
+              <nz-form-control nzSpan="16"><input nz-input /></nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col [nzSpan]="6">
+            <nz-form-item>
+              <nz-form-label nzSpan="6">时间</nz-form-label>
+              <nz-form-control nzSpan="18">
+                <nz-range-picker></nz-range-picker>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col [nzSpan]="6">
+            <nz-form-item>
+              <nz-form-label nzSpan="6">状态</nz-form-label>
+              <nz-form-control nzSpan="18">
+                <nz-select nzAllowClear>
+                  <nz-option nzValue="已处理" nzLabel="已处理"></nz-option>
+                  <nz-option nzValue="未处理" nzLabel="未处理"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col [nzSpan]="4">
+            <button nz-button nzType="primary"><i nz-icon nzType="search" nzTheme="outline"></i>查找</button>
+          </div>
+        </div>
+        <div nz-row [nzGutter]="24" nzType="flex" nzJustify="space-between" nzAlign="middle" class="search-row">
+          <div nz-col [nzSpan]="7">
+            <nz-form-item>
+              <nz-form-label nzSpan="8">整改部门</nz-form-label>
+              <nz-form-control nzSpan="16">
+                <nz-select nzAllowClear>
+                  <nz-option nzValue="部门一" nzLabel="部门一"></nz-option>
+                  <nz-option nzValue="部门二" nzLabel="部门二"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col [nzSpan]="4">
+            <button nz-button nzType="default"><i nz-icon nzType="rest" nzTheme="outline"></i>重置</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </as-split-area>
+  <as-split-area [size]="'*'" style="margin-top: 10px;">
+    <div nz-row style="background-color: white; height: 100%;">
+      <nz-table #expandTable [nzData]="listOfMapData" [nzShowTotal]="showTotalTpl" [nzSize]="'middle'" [nzPageSize]="20"
+        [nzPageSizeOptions]="[20,35,50,100]" [nzShowQuickJumper]="true" [nzShowSizeChanger]="true" style="height:100%;">
+        <thead>
+          <tr>
+            <th nzWidth="80px" nzAlign="center">序号</th>
+            <th nzWidth="5%" nzAlign="center">状态</th>
+            <th nzWidth="15%" nzAlign="center">问题来源</th>
+            <th nzWidth="15%" nzAlign="center">问题名称</th>
+            <th nzWidth="10%" nzAlign="center">问题类型</th>
+            <th nzWidth="10%" nzAlign="center">整改部门</th>
+            <th nzWidth="10%" nzAlign="center">整改负责人</th>
+            <th nzWidth="100px" nzAlign="center">移交时间</th>
+            <th nzWidth="10%" nzAlign="center">移交原因</th>
+            <th nzWidth="100px" nzRight="0">问题处理</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let data of expandTable.data ; let i=index">
+            <ng-container *ngFor="let item of mapOfExpandedData[data.key] ; let ci=index">
+              <tr *ngIf="(item.parent && item.parent.expand) || !item.parent">
+                <td [nzIndentSize]="item.level * 20" [nzShowExpand]="!!item.children" [(nzExpand)]="item.expand"
+                  (nzExpandChange)="collapse(mapOfExpandedData[data.key], item, $event)" nzAlign="center">
+                  {{ item.level === 0?i+1:i+1 + '-' + ci }}
+                </td>
+                <td nzAlign="center">{{ item.status }}</td>
+                <td nzAlign="center">{{ item.source }}</td>
+                <td nzAlign="center">{{ item.problemName }}</td>
+                <td nzAlign="center">{{ item.type }}</td>
+                <td nzAlign="center">{{ item.rectifyDepartment }}</td>
+                <td nzAlign="center">{{ item.leader }}</td>
+                <td nzAlign="center">{{ item.time }}</td>
+                <td nzAlign="center">{{ item.reason }}</td>
+                <td nzRight="0">
+                  <a (click)="process()">处理</a>
+                  <nz-divider nzType="vertical"></nz-divider>
+                  <a (click)="show()">查看</a>
+                </td>
+              </tr>
+            </ng-container>
+          </ng-container>
+        </tbody>
+        <ng-template #showTotalTpl let-range="range" let-total>
+          共 {{ total }} 条
+        </ng-template>
+      </nz-table>
+    </div>
+  </as-split-area>
+</as-split>

@@ -12,10 +12,10 @@
   <ng-template st-row="operations" let-row let-index="index">
     <a (click)="edit(row,false)">编辑</a>
     <nz-divider nzType="vertical"></nz-divider>
-    <a (click)="edit(row,true)">查看</a>
+    <a (click)="viewGnerateReport(row)">查看报告</a>
     <nz-divider nzType="vertical"></nz-divider>
     <a nz-popconfirm nzPopconfirmTitle="是否要删除该条数据?" nzPopconfirmPlacement="bottom" (nzOnConfirm)="delete(row)">删除</a>
   </ng-template>
 </st>
 <!-- 整改报告详情-->
-<rectify-post-detail #rectifyPostDetailComponent (dataChange)="load()"></rectify-post-detail>
+<rectify-post-detail #rectifyPostDetailComponent [currentClickNode]="currentClickNode" (dataChange)="load()"></rectify-post-detail>

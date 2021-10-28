@@ -44,6 +44,11 @@ export class RectifyIssueOrderComponent implements OnInit {
   tableData = [];
 
   /**
+   * 引用OA模板内容
+   */
+  content: string;
+
+  /**
    * 分页参数
    */
   private options: QueryOptions = {

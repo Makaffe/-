@@ -92,7 +92,7 @@ export class RectifyTimeLineComponent implements OnInit {
       disabled: false,
       children: [
         {
-          title: '子问题XXX3 2015-08-02',
+          title: '子问题XXX2 2015-08-02',
           key: '210',
           author: 'NG ZORRO',
           objectType: '11111',
@@ -136,7 +136,7 @@ export class RectifyTimeLineComponent implements OnInit {
       disabled: false,
       children: [
         {
-          title: '子问题XXX2 2015-08-02',
+          title: '问题XXX2 2015-08-02',
           key: '400',
           author: 'NG ZORRO',
           objectType: '11111',
@@ -144,7 +144,7 @@ export class RectifyTimeLineComponent implements OnInit {
           disabled: false,
           children: [
             {
-              title: '子问题XXX2 2015-08-02',
+              title: '问题XXX2 2015-08-02',
               key: '310',
               author: 'NG ZORRO',
               objectType: '11111',
