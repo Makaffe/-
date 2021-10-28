@@ -14,10 +14,23 @@ export class RectifyWorkbeachPutComponent implements OnInit {
     applyReason: null,
     replyComments: null,
     systemFiles: [],
+    radioValue: null,
+
   };
 
+  /**
+   * 用于标记是否同意审批
+   */
+  isAgree = false;
+
+  /**
+   * 后端接收文件
+   */
   systemFiles = [];
 
+  /**
+   * 是否是查看状态
+   */
   isWatchForTable = false;
 
   create = false;
@@ -60,6 +73,7 @@ export class RectifyWorkbeachPutComponent implements OnInit {
           '申请原因申请原因申请原因申请原因申请原因申请原因申请原因申请原因申请原因申请原因申请原因申请原因申请原因',
         replyComments: null,
         systemFiles: [],
+        radioValue: null,
       };
     }
     this.isVisible = true;
@@ -76,5 +90,13 @@ export class RectifyWorkbeachPutComponent implements OnInit {
    */
   saveData() {
     this.isVisible = false;
+  }
+
+  /**
+   * 判断是否同意审批
+   */
+  agree() {
+    this.isAgree = !this.isAgree;
+
   }
 }
