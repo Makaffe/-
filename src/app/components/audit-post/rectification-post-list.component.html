@@ -31,14 +31,10 @@
           </td>
           <td>{{ item.auditEndTime }}</td>
           <td>{{ item.dutyUser }}</td>
-          <<<<<<< HEAD <td nzAlign="right">{{ item.money | currency: 'CNY':'symbol-narrow' }}</td>
-            =======
-            <td nzRight="right">{{ item.money }}</td>
-            >>>>>>> master
-
-            <td [nzAlign]="'center'">
-              <button nz-button nzType="link" (click)="watch(item)">查看</button>
-            </td>
+          <td nzAlign="right">{{ item.money | currency: 'CNY':'symbol-narrow' }}</td>
+          <td [nzAlign]="'center'">
+            <button nz-button nzType="link" (click)="watch(item)">查看</button>
+          </td>
         </tr>
       </ng-container>
     </ng-container>

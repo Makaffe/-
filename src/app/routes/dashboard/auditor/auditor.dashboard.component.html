@@ -32,7 +32,8 @@
   <div nz-row style="padding: 10px;">
     <div nz-row nzJustify="space-between">
       <div nz-col nzSpan="17">
-        <app-rectify-track-list #rectifyTrackList [title]="'我处理的整改问题'" [tableHeight]="'400px'"></app-rectify-track-list>
+        <app-rectify-track-list #rectifyTrackList [title]="'我处理中的整改问题'" [tableHeight]="'400px'">
+        </app-rectify-track-list>
       </div>
       <div nz-col nzSpan="7">
         <nz-table #basicTable [nzData]="users" [nzScroll]="{y: '100%' }" [nzTotal]="pageInfo.totalRecords"
