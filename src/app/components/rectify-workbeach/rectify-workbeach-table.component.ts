@@ -1,5 +1,5 @@
 import { Component, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
-import { STColumn, STColumnTag } from '@delon/abc';
+import { STColumn, STColumnTag, STComponent } from '@delon/abc';
 import { TABLE_PARAMETER } from '@ng-mt-framework/comp';
 import { ObjectUtil } from '@ng-mt-framework/util';
 import { RectifyWorkbeachPutComponent } from './rectify-workbeach-put.component';
@@ -26,25 +26,38 @@ export class RectifyWorkbeachTableComponent implements OnInit {
    */
   @ViewChild('rectifyWorkbeachPutComponent', { static: false })
   rectifyWorkbeachPutComponent: RectifyWorkbeachPutComponent;
+  /**
+   * st 表格组件
+   */
+  @ViewChild('st', { static: false })
+  st: STComponent;
 
   /**
    * 列表参数
    */
   tableParameter = ObjectUtil.deepClone(TABLE_PARAMETER);
 
+  /**
+   * 控制弹窗是否弹出
+   */
   isVisible = false;
 
+  /**
+   * 接收数据
+   */
   approvingData = [];
 
   constructor() {}
 
+  /**
+   * 列定义
+   */
   columns: STColumn[] = [
-    { title: '序号', render: 'number', width: '80px', sort: this.tableParameter.sortDef, className: 'text-center' },
+    { title: '序号', render: 'number', width: '80px', className: 'text-center' },
     {
       title: '状态',
       index: 'status',
-      width: '20%',
-      sort: this.tableParameter.sortDef,
+      width: '100px',
       className: 'text-center',
       type: 'tag',
       tag: TAG,
@@ -52,17 +65,21 @@ export class RectifyWorkbeachTableComponent implements OnInit {
     {
       title: '延期截止日期',
       index: 'time',
-      width: '20%',
+      width: '140px',
+      className: 'text-center',
       sort: this.tableParameter.sortDef,
     },
-    { title: '批复人', index: 'name', width: '20%', sort: this.tableParameter.sortDef },
-    { title: '批复日期', index: 'time2', width: '20%', sort: this.tableParameter.sortDef },
     {
       title: '原整改截止日期',
       index: 'endTime',
-      width: '20%',
+      width: '140px',
+      className: 'text-center',
       sort: this.tableParameter.sortDef,
     },
+    { title: '批复人', index: 'name1', width: '100px' },
+    { title: '批复日期', index: 'time', width: '140px', className: 'text-center', sort: this.tableParameter.sortDef },
+    { title: '申请人', index: 'name2', width: '100px' },
+    { title: '申请日期', index: 'time', width: '140px', className: 'text-center', sort: this.tableParameter.sortDef },
     { title: '操作', render: 'operations', width: '80px', className: 'text-center' },
   ];
 
@@ -74,7 +91,8 @@ export class RectifyWorkbeachTableComponent implements OnInit {
       id: '1',
       status: '4',
       time: '2021-10-26',
-      name: '张伟',
+      name1: '张伟',
+      name2: '张有山',
       time2: '2021-10-26',
       endTime: '2021-10-26',
     },
@@ -82,7 +100,8 @@ export class RectifyWorkbeachTableComponent implements OnInit {
       id: 'r1',
       status: '1',
       time: '2021-11-18',
-      name: '刘壮实',
+      name1: '刘壮实',
+      name2: '邓莉屏',
       time2: '2021-10-26',
       endTime: '2021-11-18',
     },
@@ -94,13 +113,22 @@ export class RectifyWorkbeachTableComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  /**
+   *
+   * @param e 翻页设置
+   */
   stChange(e: any) {}
 
-  agree() {}
   /**
    * 打开列表弹窗
    */
-  Open() {
+  Open(title: string) {
+    this.columns.forEach(colums => {
+      if (colums.index === 'name') {
+        colums.title = title;
+      }
+    });
+    this.st.resetColumns({ columns: this.columns, emitReload: true });
     this.isVisible = true;
   }
 

@@ -141,21 +141,20 @@
       <as-split-area [size]="leftSize" style="background-color: white; padding-top: 5px;">
         <as-split direction="vertical" unit="pixel" gutterSize="0">
           <as-split-area class="flex-fixed" [size]="40">
+            <div style="padding-bottom: 3px; padding-left: 45px; margin-top: 2px;">
+              <font style="color:#0000FF; font-size: 18px;">整改跟踪时间轴</font>
+            </div>
+            <div style="padding: 0 5px;">
+              <nz-divider></nz-divider>
+            </div>
           </as-split-area>
-          <div style="height: 30px; padding-left: 45px; margin-top: 2px;">
-            <font style="color:#0000FF; font-size: 18px;">整改跟踪时间轴</font>
-          </div>
-          <div style="padding: 0 5px;">
-            <nz-divider></nz-divider>
-          </div>
           <as-split-area [size]="'*'">
-            <div style="height: 100%;">
+            <div style="height: 100%;width: 100%;">
               <app-rectify-time-line #rectifyTimeLineComponent></app-rectify-time-line>
             </div>
           </as-split-area>
         </as-split>
       </as-split-area>
-
       <as-split-area [size]="rightSize">
         <as-split direction="vertical" unit="pixel" gutterSize="0" style="background-color: white; padding-top:5px ;">
           <as-split-area class="flex-fixed" [size]="40">

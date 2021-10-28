@@ -21,9 +21,10 @@ import { UEditorModule } from 'ngx-ueditor';
 import { UeditorComponent } from '../components/common/ueditor/ueditor.component';
 import { DictSelectComponent } from '../components/common/dict-select/dict-select.component';
 import { DictPipe } from '../matech/pipe/dict-pipe.pipe';
+import { AdviceTemplateSelectComponent } from '../components/common/advice-template-select/advice-template-select.component';
 const THIRDMODULES = [NgZorroAntdModule, CountdownModule, AngularSplitModule, NgxEchartsModule, PdfJsViewerModule];
 
-const COMPONENTS = [UeditorComponent, DictSelectComponent, DictPipe];
+const COMPONENTS = [UeditorComponent, DictSelectComponent, DictPipe, AdviceTemplateSelectComponent];
 
 const DIRECTIVES = [];
 // #endregion
