@@ -61,6 +61,22 @@ export class RectifyTrackListComponent implements OnInit {
       nextFeedbackTime: '2021-11-30',
       rectifyPassPercent: '20',
     },
+    {
+      id: '2',
+      sendStatus: '已下发',
+      transferStatus: '已移交',
+      auditPost: { name: '审计报告' },
+      name: '餐饮费用超过规定标准',
+      type: '',
+      rectifyDepartment: { name: '自然资源局' },
+      dutyUser: { name: '李名' },
+      rectifyCount: 1,
+      rectifyEndTime: '2021-12-13',
+      lastModifiedTime: '2021-12-10',
+      latelyFeedbackTime: '2021-11-10',
+      nextFeedbackTime: '2021-11-30',
+      rectifyPassPercent: '20',
+    },
   ];
   mapOfExpandedData: { [id: string]: any[] } = {};
 

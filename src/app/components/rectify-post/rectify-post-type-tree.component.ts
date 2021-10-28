@@ -71,7 +71,7 @@ export class RectifyPostTypeTreeComponent implements OnInit {
   }
 
   nzClick(event: any) {
-    if (event.keys && event.keys.length > 0) {
+    if (event.keys && event.keys.length > 0 && event.node.origin.name !== '所有报告') {
       this.selectedNode = event.node.origin;
       this.selectNodeEvent.emit(this.selectedNode);
     } else {
@@ -86,6 +86,7 @@ export class RectifyPostTypeTreeComponent implements OnInit {
     this.spinning = true;
     this.rectificationReportTypeService.findAll().subscribe(data => {
       this.nodes = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
+      this.nodes[0].isSelectable = false;
       this.selectedNode = null;
     }, null, () => { this.spinning = false; });
   }

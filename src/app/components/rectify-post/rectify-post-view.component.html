@@ -1,7 +1,8 @@
 <as-split direction="horizontal" unit="pixel" [useTransition]="true" gutterSize="3"
   (gutterClick)="leftSize = leftSize == 0 ? LEFT_WIDTH : 0">
   <!-- 左侧审计知识树 -->
-  <as-split-area [size]="300" minSize="180" maxSize="300" class="app-audit-tree app-audit-tree-left" class="bg-white" style="padding:10px 10px 0 10px">
+  <as-split-area [size]="300" minSize="180" maxSize="300" class="app-audit-tree app-audit-tree-left" class="bg-white"
+    style="padding:10px 10px 0 10px">
     <rectify-post-type-tree (selectNodeEvent)="selectNode($event)"></rectify-post-type-tree>
   </as-split-area>
   <!--右侧编辑区-->
@@ -14,7 +15,7 @@
               <button nz-button (click)="create()" [disabled]="!currentClickNode||!currentClickNode.id"><i nz-icon
                   type="plus" theme="outline"></i>新增</button>
               <button nz-button (click)="search()"><i nz-icon type="reload" theme="outline"></i>刷新</button>
-              <button nz-button (click)="templEdit()" [acl]="">
+              <!-- <button nz-button (click)="templEdit()" [acl]="">
                 <i nz-icon nzType="radar-chart" nzTheme="outline"></i>文书模板
               </button>
               <button nz-button (click)="generate()" [acl]="">
@@ -22,7 +23,7 @@
               </button>
               <button nz-button (click)="viewGenerateDoc()" [acl]="">
                 <i nz-icon nzType="radar-chart" nzTheme="outline"></i>查看文档
-              </button>
+              </button> -->
 
             </div>
           </div>
@@ -38,11 +39,33 @@
                   </nz-form-control>
                 </nz-form-item>
               </div>
-              <div nz-col [nzSpan]="9">
+              <div nz-col [nzSpan]="9" *ngIf="currentClickNode.name!=='按审计报告'&&currentClickNode.name!=='按整改部门'">
                 <nz-form-item style="justify-content: start;">
                   <nz-form-label [nzSpan]="8">统计时间</nz-form-label>
                   <nz-form-control [nzSpan]="16">
                     <nz-range-picker name="time" [(ngModel)]="filter.auditTime"></nz-range-picker>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col [nzSpan]="9" *ngIf="currentClickNode.name==='按审计报告'">
+                <nz-form-item style="justify-content: start;">
+                  <nz-form-label [nzSpan]="8">审计报告</nz-form-label>
+                  <nz-form-control [nzSpan]="16">
+                    <nz-select nzPlaceHolder="请选择审计报告">
+                    </nz-select>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col [nzSpan]="9" *ngIf="currentClickNode.name==='按整改部门'">
+                <nz-form-item style="justify-content: start;">
+                  <nz-form-label [nzSpan]="8">整改部门</nz-form-label>
+                  <nz-form-control [nzSpan]="8">
+                    <mt-organization-select placeHolder="整改单位" organizationType="UNIT">
+                    </mt-organization-select>
+                  </nz-form-control>
+                  <nz-form-control [nzSpan]="8">
+                    <mt-organization-select placeHolder="整改部门" organizationType="DEPARTMENT">
+                    </mt-organization-select>
                   </nz-form-control>
                 </nz-form-item>
               </div>

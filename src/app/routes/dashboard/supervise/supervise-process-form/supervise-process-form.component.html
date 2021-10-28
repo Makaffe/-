@@ -6,7 +6,7 @@
   <as-split direction="horizontal" unit="percent" [useTransition]="true"
     (gutterClick)="leftSize = leftSize == 0 ? leftSize : 0">
     <as-split-area [size]="leftSize" minSize="0" maxSize="50" style="background-color: white;" style="overflow: hidden">
-      <nz-card [nzTitle]="leftTitle" [nzBodyStyle]="{height:'100%',overflow:'auto'}"
+      <nz-card [nzTitle]="leftTitle" [nzBodyStyle]="{height:'90%',overflow:'auto'}"
         style="height: 100%;">
         <ng-template #leftTitle>
           <div style="padding: 8px;">
@@ -77,18 +77,18 @@
               <textarea nz-input rows="6" readonly></textarea>
             </nz-form-control>
           </nz-form-item>
-          <nz-form-item>
+          <!-- <nz-form-item>
             <nz-form-label nzSpan="5">附件</nz-form-label>
             <nz-form-control nzSpan="19">
               <app-attach-list [show]="false"></app-attach-list>
             </nz-form-control>
-          </nz-form-item>
+          </nz-form-item> -->
         </form>
       </nz-card>
     </as-split-area>
     <!--右侧编辑区-->
     <as-split-area [size]="rightSize" style="overflow: hidden">
-      <nz-card [nzTitle]="rightTitle" [nzBodyStyle]="{height:'100%',overflow:'auto',padding: '14px'}"
+      <nz-card [nzTitle]="rightTitle" [nzBodyStyle]="{height:'90%',overflow:'auto',padding: '14px'}"
         style="height: 100%">
         <ng-template #rightTitle>
           <button [nzTooltipTitle]="leftSize === 0 ? '显示问题详情' : '隐藏问题详情'" nzTooltipPlacement="bottom" nz-button

@@ -13,7 +13,7 @@
       <th nzWidth="20%">进度</th>
       <th nzWidth="10%">截止日期</th>
       <th nzWidth="10%">整改负责人</th>
-      <th nzWidth="10%" nzRight="right">涉及金额(元)</th>
+      <th nzWidth="10%" nzRight="right">涉及金额（元）</th>
       <th nzWidth="10%" [nzAlign]="'center'">操作</th>
     </tr>
   </thead>
@@ -31,11 +31,14 @@
           </td>
           <td>{{ item.auditEndTime }}</td>
           <td>{{ item.dutyUser }}</td>
-          <td nzAlign="right">{{ item.money | currency: 'CNY':'symbol-narrow' }}</td>
+          <<<<<<< HEAD <td nzAlign="right">{{ item.money | currency: 'CNY':'symbol-narrow' }}</td>
+            =======
+            <td nzRight="right">{{ item.money }}</td>
+            >>>>>>> master
 
-          <td [nzAlign]="'center'">
-            <button nz-button nzType="link" (click)="watch(item)">查看</button>
-          </td>
+            <td [nzAlign]="'center'">
+              <button nz-button nzType="link" (click)="watch(item)">查看</button>
+            </td>
         </tr>
       </ng-container>
     </ng-container>

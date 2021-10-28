@@ -15,8 +15,12 @@ export class RectifyWorkbeachPutComponent implements OnInit {
     replyComments: null,
     systemFiles: [],
     radioValue: null,
-
   };
+
+  /**
+   *状态是不是通过
+   */
+  access = false;
 
   /**
    * 用于标记是否同意审批
@@ -96,7 +100,7 @@ export class RectifyWorkbeachPutComponent implements OnInit {
    * 判断是否同意审批
    */
   agree() {
-    this.isAgree = !this.isAgree;
-
+    //this.isAgree = !this.isAgree;
+    this.isAgree = true;
   }
 }

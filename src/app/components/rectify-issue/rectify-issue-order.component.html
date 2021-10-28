@@ -40,10 +40,11 @@
         </nz-table>
       </nz-form-control>
     </nz-form-item>
+
     <nz-form-item>
       <nz-form-label nzSpan="4">OA发文模板类型</nz-form-label>
       <nz-form-control nzSpan="20">
-        <nz-tree-select
+        <!-- <nz-tree-select
           [nzNodes]="oASendTemplateTypeTree"
           nzDefaultExpandAll
           nzShowSearch
@@ -72,7 +73,15 @@
           [page]="tableParameter.page"
           [noResult]="null"
         >
-        </st>
+        </st> -->
+
+        <app-advice-template-select [(adviceTemplate)]="content" (flag)="(false)"></app-advice-template-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="4" nzFor="content">模板内容</nz-form-label>
+      <nz-form-control [nzSpan]="20">
+        <textarea rows="5" nz-input name="content" [(ngModel)]="content"></textarea>
       </nz-form-control>
     </nz-form-item>
   </form>
