@@ -14,6 +14,7 @@ import { RectifyMeasureDTO } from './model/RectifyMeasureDTO';
 import { RectifyMeasureEditInfoDTO } from './model/RectifyMeasureEditInfoDTO';
 import { RectifyDiaryComponent } from './rectify-diary.component';
 import { RectifyEffectComponent } from './rectify-effect.component';
+import { RectifyFeedbackRemindComponent } from './rectify-feedback-remind.component';
 import { RectifyMeasureReplyComponent } from './rectify-measure-reply.component';
 import { RectifyMeasureComponent } from './rectify-measure.component';
 import { RectifyProblemSwitchComponent } from './rectify-problem-switch.component';
@@ -70,6 +71,23 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   @ViewChild('rectifyTimeLineComponent', { static: false })
   rectifyTimeLineComponent: RectifyTimeLineComponent;
 
+  /**
+   * 反馈提醒组件
+   */
+  @ViewChild('rectifyFeedbackRemindComponent', { static: false })
+  rectifyFeedbackRemindComponent: RectifyFeedbackRemindComponent;
+
+  /**
+   * 判断是否为整改部门
+   */
+  @Input()
+  isRectify = false;
+
+  /**
+   * 回复判断
+   */
+  isRectifyMeasureReply = true;
+
   // 分页参数
   private options: QueryOptions = {
     page: 0,
@@ -101,16 +119,10 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   // 整改跟踪dto
   rectifyTrack = this.initRtParams();
 
-  /**
-   * 判断是否为整改部门
-   */
-  @Input()
-  isRectify = false;
-
   // 折叠与展开
   isFold = true;
 
-  demoValue = 20;
+  demoValue: any;
 
   // 是否无法整改
   radioValue = false;
@@ -155,11 +167,32 @@ export class RectifyWorkbeachViewComponent implements OnInit {
     },
   ];
 
+  /**
+   * 模板选择值
+   */
+  templateValue: any;
+
+  /**
+   * 建议模板树
+   */
+  nodes = [
+    {
+      title: '催办通知模板',
+      key: '建议模板1',
+      isLeaf: false,
+      children: [
+        { title: '整改问题催办模板', key: '建议模板2', isLeaf: true },
+        { title: '问题下发通知模板', key: '建议模板2', isLeaf: true },
+      ],
+    },
+  ];
+
   // 反馈频率
-  days = [];
-  weeks = [];
-  months = [];
-  years = [];
+  // days = [];
+  // weeks = [];
+  // months = [];
+  // years = [];
+  rectifyBackFeedHzUnit: any;
 
   constructor(
     private router: Router,
@@ -250,21 +283,21 @@ export class RectifyWorkbeachViewComponent implements OnInit {
     this.loadData();
   }
 
-  /** 执行周期下拉数据 */
-  loadTimeOption() {
-    for (let i = 1; i <= 31; i++) {
-      this.days.push(i);
-    }
-    for (let i = 1; i <= 4; i++) {
-      this.weeks.push(i);
-    }
-    for (let i = 1; i <= 12; i++) {
-      this.months.push(i);
-    }
-    for (let i = 1; i <= 50; i++) {
-      this.years.push(i);
-    }
-  }
+  // /** 执行周期下拉数据 */
+  // loadTimeOption() {
+  //   for (let i = 1; i <= 31; i++) {
+  //     this.days.push(i);
+  //   }
+  //   for (let i = 1; i <= 4; i++) {
+  //     this.weeks.push(i);
+  //   }
+  //   for (let i = 1; i <= 12; i++) {
+  //     this.months.push(i);
+  //   }
+  //   for (let i = 1; i <= 50; i++) {
+  //     this.years.push(i);
+  //   }
+  // }
 
   formatterPercent = (value: number) => `${value} %`;
 
@@ -372,9 +405,9 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   }
 
   // 整改措施回复
-  rectifyMeasureReplyClick(rectifyMeasureId: string) {
-    this.rectifyMeasureReplyComponent.isVisible = true;
-    this.rectifyMeasureReplyComponent.rectifyMeasureReply.rectifyMeasureId = rectifyMeasureId;
+  rectifyMeasureReplyClick(rectifyMeasureId?: string) {
+    this.isRectifyMeasureReply = false;
+    // this.rectifyMeasureReplyComponent.rectifyMeasureReply.rectifyMeasureId = rectifyMeasureId;
   }
 
   // 修改阅读状态
@@ -418,9 +451,16 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   /**
    * 移交纪检
    */
-  transfer() {
+  transfer(turnOver: boolean) {
     const arr = [];
     arr.push(this.rectifyTrack);
+    if (turnOver) {
+      this.rectifyIssueTransferComponent.isReadOnly = true;
+      this.rectifyIssueTransferComponent.createDate = false;
+    } else {
+      this.rectifyIssueTransferComponent.isReadOnly = false;
+      this.rectifyIssueTransferComponent.createDate = true;
+    }
     this.rectifyIssueTransferComponent.edit(arr);
   }
 
@@ -486,5 +526,44 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   delayExtension() {
     this.rectifyWorkbeachPutComponent.isWatchForTable = true;
     this.rectifyWorkbeachPutComponent.open();
+  }
+
+  /**
+   * 回复切换
+   */
+  clickRectifyMeasureReply() {
+    this.isRectifyMeasureReply = true;
+  }
+
+  /**
+   * 查看附件
+   */
+  lookFile(systemFiles: any) {
+    this.rectifyMeasureComponent.isWatch = true;
+    this.rectifyMeasureComponent.isFile = true;
+    this.rectifyMeasureComponent.rectifyMeasure.systemFiles = systemFiles;
+    this.rectifyMeasureComponent.isVisible = true;
+  }
+
+  /**
+   * 模板值处理
+   */
+  templateChange(eve: any) {}
+
+  /**
+   * 清空数据
+   */
+  clear() {
+    this.templateValue = null;
+    this.demoValue = null;
+    this.rectifyBackFeedHzUnit = null;
+    this.rectifyEndTime = null;
+  }
+
+  /**
+   * 反馈提醒
+   */
+  rectifyFeedbackRemind() {
+    this.rectifyFeedbackRemindComponent.isVisible = true;
   }
 }

@@ -2,6 +2,7 @@ import { DatePipe, formatDate } from '@angular/common';
 import { Component, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
 import { OrganizationService } from '@ng-mt-framework/api';
 import { TreeUtil } from '@ng-mt-framework/comp';
+import { RectifyIssueTransferComponent } from '../rectify-issue/rectify-issue-transfer.component';
 import { RectifyTrackListComponent } from './rectify-track-list.component';
 
 @Component({
@@ -13,6 +14,7 @@ import { RectifyTrackListComponent } from './rectify-track-list.component';
 export class RectifyTrackViewComponent implements OnInit {
   @ViewChild('rectifyTrackList', { static: false })
   rectifyTrackList: RectifyTrackListComponent;
+
   /**
    * 时间
    */
