@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { QueryOptions } from '@mt-framework-ng/core';
 import { AuditPostWatchComponent } from '../rectify-issue/audit-post-watch.component';
 import { RectifyIssueSplitComponent } from '../rectify-issue/rectify-issue-split.component';
 @Component({
@@ -10,6 +11,39 @@ export class RectificationPostListComponent implements OnInit {
   auditPostWatchComponent: AuditPostWatchComponent;
   @ViewChild('rectifyIssueSplitComponent', { static: false })
   rectifyIssueSplitComponent: RectifyIssueSplitComponent;
+
+  /**
+   * 表格高度
+   */
+  @Input()
+  tableHeight = '100%';
+
+  /**
+   * 表格title
+   */
+  @Input()
+  title = '';
+
+  /**
+   * 树状表格分页参数
+   */
+  pageInfo = {
+    pageNo: 1,
+    pageSize: 20,
+    totalPages: 1,
+    totalRecords: 20,
+  };
+
+  /**
+   * 分页参数
+   */
+  private queryOptions: QueryOptions = {
+    page: 0,
+    size: 20,
+    sort: 'sendStatus,desc,id,desc',
+  };
+
+  loading = false;
 
   listOfMapData = [
     {
@@ -139,5 +173,23 @@ export class RectificationPostListComponent implements OnInit {
     } else {
       this.rectifyIssueSplitComponent.edit(item, true);
     }
+  }
+
+  load() {}
+
+  /**
+   * 每页条数改变的回调
+   */
+  pageSizeChange(pageSize: number) {
+    this.queryOptions.size = pageSize;
+    this.load();
+  }
+
+  /**
+   * 	页码改变的回调
+   */
+  pageIndexChange(pageIndex: number) {
+    this.queryOptions.page = pageIndex - 1;
+    this.load();
   }
 }
