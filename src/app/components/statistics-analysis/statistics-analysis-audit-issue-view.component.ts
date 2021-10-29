@@ -383,34 +383,35 @@ export class StatisticsAnalysisAuditIssueViewComponent implements OnInit {
     },
     xAxis: {
       type: 'category',
-      data: ['整改逾期问题数', '未完成整改问题数', '移交纪检问题数'],
+      data: ['整改逾期问题数', '移交纪检问题数', '未完成整改问题数'],
     },
     yAxis: {
       type: 'value',
     },
     series: [
       {
-        data: [10, 30, 1],
+        data: [120, 200, 150],
         type: 'bar',
         itemStyle: {
           normal: {
             // 好，这里就是重头戏了，定义一个list，然后根据所以取得不同的值，这样就实现了，
             color(params) {
               // build a color map as your need.
-              const colorList = ['#B5C334', '#26C0C0'];
+              // const colorList = ['#E87C25', '#FAD860'];
 
-              return colorList[params.dataIndex];
+              // return colorList[params.dataIndex];
+              return '#26C0C0';
             },
             // 以下为是否显示，显示位置和显示格式的设置了
-            // label: {
-            //   show: true,
+            //   label: {
+            //     show: true,
 
-            //   position: 'top',
+            //     position: 'top',
 
-            //   //                             formatter: '{c}'
+            //     //                             formatter: '{c}'
 
-            //   formatter: '{b}\n{c}',
-            // },
+            //     formatter: '{b}\n{c}',
+            //   },
           },
         },
         // 设置柱的宽度，要是数据太少，柱子太宽不美观~
@@ -576,6 +577,79 @@ export class StatisticsAnalysisAuditIssueViewComponent implements OnInit {
         data: [30, 20, 24, 12],
         type: 'line',
         color: ['orange'],
+      },
+    ],
+  };
+
+  datas = [
+    { name: '人力资源管理', value: 30 },
+    { name: '重大经营事项及风险', value: 28 },
+    { name: '重大经营事项', value: 24 },
+    { name: '内部控制方面', value: 23 },
+    { name: '人力资源管理', value: 8 },
+    { name: '重大经营事项及风险', value: 7 },
+    { name: '重大经营事项', value: 6 },
+    { name: '内部控制方面', value: 5 },
+    { name: '人力资源管理', value: 4 },
+    { name: '重大经营事项及风险', value: 3 },
+    { name: '重大经营事项', value: 2 },
+    { name: '内部控制方面', value: 1 },
+  ];
+
+  optionHotWord = {
+    tooltip: {
+      show: true,
+      position: 'top',
+      textStyle: {
+        fontSize: 30,
+      },
+    },
+    series: [
+      {
+        type: 'wordCloud',
+        // 网格大小，各项之间间距
+        gridSize: 30,
+        // 形状 circle 圆，cardioid  心， diamond 菱形，
+        // triangle-forward 、triangle 三角，star五角星
+        shape: 'circle',
+        // 字体大小范围
+        sizeRange: [20, 50],
+        // 文字旋转角度范围
+        rotationRange: [0, 0],
+        // 旋转步值
+        rotationStep: 0,
+        // 自定义图形
+        // maskImage: maskImage,
+        left: 'center',
+        top: 'center',
+        right: null,
+        bottom: null,
+        // 画布宽
+        width: '80%',
+        // 画布高
+        height: '80%',
+        // 是否渲染超出画布的文字
+        drawOutOfBound: false,
+        textStyle: {
+          normal: {
+            color() {
+              return (
+                'rgb(' +
+                [
+                  Math.round(Math.random() * 200 + 55),
+                  Math.round(Math.random() * 200 + 55),
+                  Math.round(Math.random() * 200 + 55),
+                ].join(',') +
+                ')'
+              );
+            },
+          },
+          emphasis: {
+            shadowBlur: 10,
+            shadowColor: '#2ac',
+          },
+        },
+        data: this.datas,
       },
     ],
   };

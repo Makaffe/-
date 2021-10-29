@@ -217,7 +217,9 @@
   <as-split-area [size]="'*'">
     <div nz-row style="height:600px">
       <div nz-col nzSpan="12">
-
+        <div style="height:360px" class="chart" echarts [theme]="'macarons'" [options]="optionHotWord"
+           (chartClick)="onChartClickPie($event)">
+        </div>
         <nz-divider nzType="vertical"></nz-divider>
       </div>
 
