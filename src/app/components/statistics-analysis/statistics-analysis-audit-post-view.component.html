@@ -1,0 +1,45 @@
+<!-- <div nz-col style="height:100%;margin-left:10px;margin-top:10px;overflow:scroll;"> -->
+<as-split direction="vertical" unit="pixel" gutterSize="0" style="background-color: white;">
+  <as-split-area [size]="'*'">
+    <div nz-row nzJustify="space-between">
+      <div nz-col nzSpan="14" style="float: right;">
+        <nz-form-label nzSpan="18">年度</nz-form-label>
+        <nz-form-control nzSpan="5">
+          <nz-year-picker></nz-year-picker>
+        </nz-form-control>
+      </div>
+    </div>
+    <div nz-row nzJustify="space-between" style="padding:0px,10px;">
+      <div nzSpan="8" nz-col>
+        <nz-card [nzBordered]="false">
+          <div echarts [options]="option1" (chartClick)="onChartClick('option1')"></div>
+        </nz-card>
+      </div>
+      <div nzSpan="8" nz-col>
+        <nz-card [nzBordered]="false">
+          <div echarts [options]="option2" (chartClick)="onChartClick('option2')"></div>
+        </nz-card>
+      </div>
+      <div nzSpan="8" nz-col>
+        <nz-card [nzBordered]="false">
+          <div echarts [options]="option3"></div>
+        </nz-card>
+      </div>
+    </div>
+    <div nz-row nzJustify="space-betweent" style="margin:0px,10px;">
+      <div nzSpan="24" nz-col>
+        <nz-card [nzBordered]="false">
+          <div echarts [options]="option4" (chartClick)="onChartClick('option4')"></div>
+        </nz-card>
+      </div>
+      <div nzSpan="24" nz-col>
+        <nz-card [nzBordered]="false">
+          <div echarts [options]="option5" (chartClick)="onChartClick('option5')"></div>
+        </nz-card>
+      </div>
+    </div>
+  </as-split-area>
+</as-split>
+
+<!-- </div> -->
+<app-statistics-analysis-detail #statisticsAnalysisDeatilComponent [option]="option"></app-statistics-analysis-detail>

@@ -32,7 +32,12 @@ import { StatisticsAnalysisAuditIssueViewComponent } from 'src/app/components/st
 import { StatisticsAnalysisAuditRectifyResultComponent } from 'src/app/components/statistics-analysis/statistics-analysis-audit-rectify-result.component';
 import { RectificationPostComponent } from 'src/app/components/audit-post/rectification-post.component';
 // tslint:disable-next-line:max-line-length
+
+// tslint:disable-next-line:max-line-length
 import { StatisticsAnalysisRectifyDepartmentComponent } from 'src/app/components/statistics-analysis/statistics-analysis-rectify-department/statistics-analysis-rectify-department.component';
+
+// tslint:disable-next-line:max-line-length
+import { StatisticsAnalysisAuditPostViewComponent } from 'src/app/components/statistics-analysis/statistics-analysis-audit-post-view.component';
 
 const routes: Routes = [
   {
@@ -112,6 +117,14 @@ const routes: Routes = [
     component: StatisticsAnalysisAuditIssueViewComponent,
     data: {
       title: '审计问题分析',
+      reuse: true,
+    },
+  },
+  {
+    path: 'audit-post-analysis',
+    component: StatisticsAnalysisAuditPostViewComponent,
+    data: {
+      title: '审计报告',
       reuse: true,
     },
   },
