@@ -25,31 +25,36 @@
       </ng-container>
     </nz-form-item>
 
-    <nz-form-item *ngIf="!isWatchForTable">
+    <nz-form-item *ngIf="isWatchForTable||create">
 
-      <nz-form-item *ngIf="access">
+      <nz-form-item *ngIf="create">
       <nz-form-label nzSpan="3" >批复人</nz-form-label>
       <nz-form-control nzSpan="9">
         <input nz-input name="sss" [value]="'张伟'" readonly />
       </nz-form-control>
-    </nz-form-item>
 
-    <nz-form-item *ngIf="access">
       <nz-form-label nzSpan="3" >批复日期</nz-form-label>
       <nz-form-control nzSpan="9">
         <input nz-input name="bbb" [value]="'2021-10-26'" readonly />
       </nz-form-control>
+
     </nz-form-item>
 
-      <nz-form-label nzSpan="3">申请人</nz-form-label>
+
+
+
+      <nz-form-label nzSpan="3" >申请人</nz-form-label>
       <nz-form-control nzSpan="9">
         <input nz-input name="sss" [value]="'张丽丽'" readonly />
       </nz-form-control>
+
+
 
       <nz-form-label nzSpan="3">申请日期</nz-form-label>
       <nz-form-control nzSpan="9">
         <input nz-input name="bbb" [value]="'2021-10-26'" readonly />
       </nz-form-control>
+
 
     </nz-form-item>
 
@@ -65,25 +70,25 @@
       <nz-form-label [nzSpan]="3">申请延期附件</nz-form-label>
       <nz-form-control nzSpan="21">
         <app-attach-list [show]="true" [(attachFiles)]="currentItem.systemFiles" #attachListComponent
-          [fileType]="'RECTIFY_MEASURE_FILE'">
+          [fileType]="'RECTIFY_MEASURE_FILE'" [disabled]="create">
         </app-attach-list>
       </nz-form-control>
     </nz-form-item>
 
-    <nz-form-item >
+    <nz-form-item *ngIf="!isRectify">
       <nz-form-label nzSpan="3">是否同意</nz-form-label>
       <nz-form-control nzSpan="9">
-        <nz-radio-group [(ngModel)]="currentItem.radioValue" name="isAgree"[nzDisabled]="isWatchForTable">
+        <nz-radio-group [(ngModel)]="currentItem.radioValue" name="isAgree"[nzDisabled]="!isWatchForTable||isable">
           <label nz-radio nzValue="A" (click)="agree()">同意</label>
           <label nz-radio nzValue="B" (click)="agree()">不同意</label>
         </nz-radio-group>
       </nz-form-control>
     </nz-form-item>
 
-    <nz-form-item *ngIf="(!isRectify&&isAgree)||isWatchForTable" >
+    <nz-form-item *ngIf="((!isRectify||!isWatchForTable)&&isAgree)||isable" >
       <nz-form-label nzSpan="3">批复意见</nz-form-label>
       <nz-form-control nzSpan="21">
-        <textarea rows="6" nz-input name="replyComments" [(ngModel)]="currentItem.replyComments" [disabled]="isWatchForTable"></textarea>
+        <textarea rows="6" nz-input name="replyComments" [(ngModel)]="currentItem.replyComments" [disabled]="!isWatchForTable||isable"></textarea>
       </nz-form-control>
     </nz-form-item>
 
