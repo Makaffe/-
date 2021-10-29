@@ -31,6 +31,8 @@ import { StatisticsAnalysisAuditIssueViewComponent } from 'src/app/components/st
 // tslint:disable-next-line:max-line-length
 import { StatisticsAnalysisAuditRectifyResultComponent } from 'src/app/components/statistics-analysis/statistics-analysis-audit-rectify-result.component';
 import { RectificationPostComponent } from 'src/app/components/audit-post/rectification-post.component';
+// tslint:disable-next-line:max-line-length
+import { StatisticsAnalysisRectifyDepartmentComponent } from 'src/app/components/statistics-analysis/statistics-analysis-rectify-department/statistics-analysis-rectify-department.component';
 
 const routes: Routes = [
   {
@@ -94,6 +96,14 @@ const routes: Routes = [
     component: RectifyWorkbeachViewComponent,
     data: {
       title: '整改工作台',
+      reuse: true,
+    },
+  },
+  {
+    path: 'rectify-department-analysis',
+    component: StatisticsAnalysisRectifyDepartmentComponent,
+    data: {
+      title: '整改部门分析',
       reuse: true,
     },
   },

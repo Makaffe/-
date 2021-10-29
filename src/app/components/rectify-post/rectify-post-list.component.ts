@@ -90,11 +90,10 @@ export class RectifyPostListComponent implements OnInit {
     // { index: 'id', type: 'radio', width: '5px', className: 'text-center' },
     { title: '序号', render: 'number', width: '10px', className: 'text-center' },
     {
-      title: '状态',
-      index: 'auditReportStatus',
+      title: '报告年份',
+      index: 'year',
       width: '15px',
       type: 'tag',
-      tag: TAG,
       className: 'text-center',
       sort: this.tableParameter.sortDef,
     },
@@ -194,7 +193,7 @@ export class RectifyPostListComponent implements OnInit {
           {
             id: '1', name: '财政支出报告',
             reportType,
-            auditReportStatus: 'NO_CREATE',
+            year: '2021',
             auditTime: '2021-2-4~2021-9-4',
             auditReport: '财务报告',
             rectifyDepartment: '财务部'

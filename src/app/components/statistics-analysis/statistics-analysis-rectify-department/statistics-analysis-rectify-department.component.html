@@ -1,0 +1,35 @@
+<div nz-col style="height:100%;margin-left:10px;margin-top:10px;overflow:scroll;">
+  <div nz-row nzJustify="space-around">
+    <nz-card [nzTitle]="'部门整改情况'" [nzExtra]="extraTemplate1">
+      <ng-template #extraTemplate1>
+        <nz-year-picker nzPlaceHolder="请选择年度"></nz-year-picker>
+      </ng-template>
+      <div echarts [options]="option" (chartClick)="departmentSituation($event)"></div>
+    </nz-card>
+  </div>
+  <div nz-row nzJustify="space-around">
+    <nz-card [nzTitle]="'部门整改问题涉及金额'" [nzExtra]="extraTemplate2">
+      <ng-template #extraTemplate2>
+        <nz-year-picker nzPlaceHolder="请选择年度"></nz-year-picker>
+      </ng-template>
+      <div echarts [options]="option2" (chartClick)="departmentFigure($event)"></div>
+    </nz-card>
+  </div>
+  <div nz-row nzJustify="space-around">
+    <div nz-col nzSpan="14">
+      <nz-card nzTitle="部门问题数量变化趋势" style="margin-right: 10px;">
+        <div echarts [options]="option1" (chartClick)="departmentProblemNumber($event)"></div>
+      </nz-card>
+    </div>
+    <div nz-col nzSpan="10">
+      <nz-card nzTitle="近３年多发问题数量部门排行TOP10">
+        <st #st [data]="tableData" nzSize="middle" [scroll]="{ y: '100%' }" [bordered]="false" [columns]="columns"
+          [rowClickTime]="200" style="height: 400px;cursor:pointer" [page]="page" (change)="change($event)">
+          <ng-template st-row="number" let-row let-index="index">
+            {{ ((st.pi ? st.pi : 1) - 1) * (st.ps ? st.ps : 0) + (index + 1) }}
+          </ng-template>
+        </st>
+      </nz-card>
+    </div>
+  </div>
+</div>

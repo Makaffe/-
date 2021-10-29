@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { AttachListComponent } from 'src/app/components/common/attach/attach-list.component';
 import { AuditPostWatchComponent } from 'src/app/components/rectify-issue/audit-post-watch.component';
 
@@ -13,10 +13,10 @@ interface ItemData {
   templateUrl: './supervise-process-form.component.html',
   styleUrls: [],
 })
-export class SuperviseProcessFormComponent implements OnInit {
+export class SuperviseProcessFormComponent implements OnInit, AfterViewInit {
   @ViewChild('attachListComponent', { static: false })
   attachListComponent: AttachListComponent;
-
+  height = '700px';
   /**
    * 审计报告详情弹窗
    */
@@ -70,6 +70,9 @@ export class SuperviseProcessFormComponent implements OnInit {
     if (this.disabled) {
       this.updateEditCache(false);
     }
+    setTimeout(() => {
+      this.setTabContentHeight();
+    }, 300);
   }
 
   addRow() {
@@ -104,5 +107,23 @@ export class SuperviseProcessFormComponent implements OnInit {
    */
   viewReport() {
     this.auditPostWatchComponent.watch(null);
+  }
+
+  ngAfterViewInit() {
+    this.setTabContentHeight();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize($event) {
+    this.setTabContentHeight();
+  }
+
+  /**
+   * 设置弹窗高度
+   */
+  private setTabContentHeight() {
+    // 浏览器内容区高度
+    const tabContentHeight = document.body.clientHeight;
+    this.height = tabContentHeight * 0.8 + 'px';
   }
 }

@@ -1,13 +1,12 @@
 <nz-modal [(nzVisible)]="isVisible" [nzMaskClosable]="false" (nzOnCancel)="handleCancel()" [nzFooter]="editorFooter"
   nzWidth="80%" [nzStyle]="{ top: '24px' }" [nzBodyStyle]="{
-    'height': '700px',
+  'height':height,
     padding: '20px 20px 20px 20px'
   }">
   <as-split direction="horizontal" unit="percent" [useTransition]="true"
     (gutterClick)="leftSize = leftSize == 0 ? leftSize : 0">
     <as-split-area [size]="leftSize" minSize="0" maxSize="50" style="background-color: white;" style="overflow: hidden">
-      <nz-card [nzTitle]="leftTitle" [nzBodyStyle]="{height:'90%',overflow:'auto'}"
-        style="height: 100%;">
+      <nz-card [nzTitle]="leftTitle" [nzBodyStyle]="{height:'90%',overflow:'auto'}" style="height: 100%;">
         <ng-template #leftTitle>
           <div style="padding: 8px;">
             问题详情
@@ -17,7 +16,8 @@
           <nz-form-item>
             <nz-form-label nzSpan="5">所属报告</nz-form-label>
             <nz-form-control nzSpan="19">
-              <button nz-button nzType="link" (click)="viewReport()" nz-tooltip nzTooltipTitle="点击查看报告详情">{{currentItem.reportName}}</button>
+              <button nz-button nzType="link" (click)="viewReport()" nz-tooltip
+                nzTooltipTitle="点击查看报告详情">{{currentItem.reportName}}</button>
             </nz-form-control>
           </nz-form-item>
           <nz-form-item>
