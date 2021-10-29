@@ -1,5 +1,10 @@
-<as-split direction="horizontal" unit="pixel" [useTransition]="true" gutterSize="2"
-  (gutterClick)="leftSize = leftSize == 0 ? LEFT_WIDTH : 0">
+<as-split
+  direction="horizontal"
+  unit="pixel"
+  [useTransition]="true"
+  gutterSize="2"
+  (gutterClick)="leftSize = leftSize == 0 ? LEFT_WIDTH : 0"
+>
   <!-- 左侧树 -->
   <as-split-area [size]="leftSize" minSize="120" maxSize="180" class="bg-white" style="padding:10px 0 0 10px">
     <div nz-row>
@@ -10,11 +15,11 @@
         <button nz-button (click)="showTypeModal(false)">
           <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
         </button>
-        <button nz-button [disabled]="currentProposalTypeNode.id?false:true" (click)="showTypeModal(true)">
+        <button nz-button [disabled]="currentProposalTypeNode.id ? false : true" (click)="showTypeModal(true)">
           <i nz-icon nzType="edit" nzTheme="outline"></i>
         </button>
         <nz-popconfirm (nzOnConfirm)="delete()" [nzTitle]="'是否要删除该模板类型？'">
-          <button nz-button class="mb-sm" nz-popconfirm [disabled]="currentProposalTypeNode.id?false:true">
+          <button nz-button class="mb-sm" nz-popconfirm [disabled]="currentProposalTypeNode.id ? false : true">
             <i nz-icon type="delete" theme="outline"></i>
           </button>
         </nz-popconfirm>
@@ -37,8 +42,9 @@
         <div class="app-toor-bar">
           <div nz-row nzType="flex" nzJustify="space-around" nzAlign="middle">
             <div nz-col nzSpan="24">
-              <button nz-button [disabled]="currentProposalTypeNode.id?false:true" (click)="create()"><i nz-icon
-                  type="plus" theme="outline"></i>新增</button>
+              <button nz-button [disabled]="currentProposalTypeNode.id ? false : true" (click)="create()">
+                <i nz-icon type="plus" theme="outline"></i>新增
+              </button>
               <button nz-button (click)="search()"><i nz-icon type="reload" theme="outline"></i>刷新</button>
             </div>
           </div>
@@ -50,7 +56,13 @@
                 <nz-form-item style="justify-content: start;">
                   <nz-form-label [nzSpan]="7">审计建议</nz-form-label>
                   <nz-form-control [nzSpan]="19">
-                    <input nz-input type="text" name="name" [(ngModel)]="filter.auditProposal" placeholder="请输入搜索条件" />
+                    <input
+                      nz-input
+                      type="text"
+                      name="name"
+                      [(ngModel)]="filter.auditProposal"
+                      placeholder="请输入搜索条件"
+                    />
                   </nz-form-control>
                 </nz-form-item>
               </div>
@@ -58,17 +70,24 @@
                 <nz-form-item style="justify-content: start;">
                   <nz-form-label [nzSpan]="7">问题类型</nz-form-label>
                   <nz-form-control [nzSpan]="19">
-                    <app-dict-select dictCode="PROBLEM_TYPE" name="problemTypeSelect" [placeHolder]="'请选择搜索条件'"
-                      [(ngModel)]="filter.problemType" #problemTypeSelect="ngModel"></app-dict-select>
+                    <app-dict-select
+                      dictCode="PROBLEM_TYPE"
+                      name="problemTypeSelect"
+                      [placeHolder]="'请选择搜索条件'"
+                      [(ngModel)]="filter.problemType"
+                      #problemTypeSelect="ngModel"
+                    ></app-dict-select>
                   </nz-form-control>
                 </nz-form-item>
               </div>
               <!-- 查找按钮 -->
               <div nz-col [nzSpan]="6">
-                <button nz-button nzType="default" (click)="clearCondition()"><i nz-icon nzType="rest"
-                    nzTheme="outline"></i>重置</button>
-                <button nz-button nzType="primary" (click)="search()"><i nz-icon nzType="search"
-                    nzTheme="outline"></i>查找</button>
+                <button nz-button nzType="default" (click)="clearCondition()">
+                  <i nz-icon nzType="reload" nzTheme="outline"></i>重置
+                </button>
+                <button nz-button nzType="primary" (click)="search()">
+                  <i nz-icon nzType="search" nzTheme="outline"></i>查找
+                </button>
               </div>
             </div>
           </form>
@@ -84,16 +103,25 @@
 
 <advice-template-detail #adviceTemplateDetailComponent (refresh)="search()"></advice-template-detail>
 
-<nz-modal [(nzVisible)]="isVisible" [nzMaskClosable]="false" (nzOnCancel)="this.isVisible = false"
-  [nzFooter]="editorFooter" nzWidth="1200" [nzTitle]="'建议模板详情'" [nzStyle]="{ top: '65px' }" [nzBodyStyle]="{
+<nz-modal
+  [(nzVisible)]="isVisible"
+  [nzMaskClosable]="false"
+  (nzOnCancel)="this.isVisible = false"
+  [nzFooter]="editorFooter"
+  nzWidth="1200"
+  [nzTitle]="'建议模板详情'"
+  [nzStyle]="{ top: '65px' }"
+  [nzBodyStyle]="{
     'overflow-y': 'auto',
     'overflow-x': 'hidden',
     padding: '24px 24px 0 24px'
-  }">
+  }"
+>
   <form nz-form #form="ngForm">
     <nz-form-item>
       <nz-form-label nzSpan="4">模板类型</nz-form-label>
-      <nz-form-control nzSpan="20"><input nz-input name="name" [(ngModel)]="proposalTemplateTypeDTO.name" />
+      <nz-form-control nzSpan="20"
+        ><input nz-input name="name" [(ngModel)]="proposalTemplateTypeDTO.name" />
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
@@ -111,7 +139,7 @@
   </form>
   <ng-template #editorFooter>
     <div class="steps-action">
-      <button nz-button nzType="default" (click)="this.isVisible = false;">取消</button>
+      <button nz-button nzType="default" (click)="this.isVisible = false">取消</button>
       <button nz-button nzType="primary" [nzLoading]="loading" (click)="add()">
         <span>完成</span>
       </button>

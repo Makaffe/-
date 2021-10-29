@@ -68,7 +68,7 @@ export class AuditPostListComponent implements OnInit {
       fixed: 'left',
     },
     {
-      title: '审计报告类型',
+      title: '审计报告来源',
       index: 'type',
       width: '40px',
       sort: this.tableParameter.sortDef,

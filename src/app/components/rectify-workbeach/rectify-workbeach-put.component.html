@@ -1,23 +1,38 @@
-<nz-modal [(nzVisible)]="isVisible" [nzTitle]="'申请延期详情'" [nzMaskClosable]="false" (nzOnCancel)="handleCancel()"
-  [nzFooter]="formFooter" [nzStyle]="{ top: '65px' }" nzWidth="1200" [nzBodyStyle]="{
-    'max-height':'700px',
-  'overflow-y': 'auto',
-  'overflow-x': 'hidden',
-  padding: '24px'
-}">
+<nz-modal
+  [(nzVisible)]="isVisible"
+  [nzTitle]="'申请延期详情'"
+  [nzMaskClosable]="false"
+  (nzOnCancel)="handleCancel()"
+  [nzFooter]="formFooter"
+  [nzStyle]="{ top: '65px' }"
+  nzWidth="1200"
+  [nzBodyStyle]="{
+    'max-height': '700px',
+    'overflow-y': 'auto',
+    'overflow-x': 'hidden',
+    padding: '24px'
+  }"
+>
   <form nz-form #form="ngForm">
     <nz-form-item>
       <nz-form-label nzSpan="3" nzRequired>延期截止日期</nz-form-label>
-      <nz-form-control nzSpan="9"
-        [nzValidateStatus]="closingDate.invalid && (closingDate.dirty || closingDate.touched) ? 'error' : ''">
-        <nz-date-picker required #closingDate="ngModel" name="closingDate" [(ngModel)]="currentItem.closingDate"
-          [disabled]="!isRectify"></nz-date-picker>
+      <nz-form-control
+        nzSpan="9"
+        [nzValidateStatus]="closingDate.invalid && (closingDate.dirty || closingDate.touched) ? 'error' : ''"
+      >
+        <nz-date-picker
+          required
+          #closingDate="ngModel"
+          name="closingDate"
+          [(ngModel)]="currentItem.closingDate"
+          [disabled]="!isRectify"
+        ></nz-date-picker>
         <nz-form-explain *ngIf="closingDate.invalid && (closingDate.dirty || closingDate.touched)">
           请选择提交延期截止日期
         </nz-form-explain>
       </nz-form-control>
 
-      <ng-container >
+      <ng-container>
         <nz-form-label nzSpan="3">原整改截止日期</nz-form-label>
         <nz-form-control nzSpan="9">
           <input nz-input name="sss" [value]="'2021-11-18'" readonly />
@@ -25,51 +40,54 @@
       </ng-container>
     </nz-form-item>
 
-    <nz-form-item *ngIf="isWatchForTable||create">
-
+    <nz-form-item *ngIf="isWatchForTable || create">
       <nz-form-item *ngIf="create">
-      <nz-form-label nzSpan="3" >批复人</nz-form-label>
-      <nz-form-control nzSpan="9">
-        <input nz-input name="sss" [value]="'张伟'" readonly />
-      </nz-form-control>
+        <nz-form-label nzSpan="3">批复人</nz-form-label>
+        <nz-form-control nzSpan="9">
+          <input nz-input name="sss" [value]="'张伟'" readonly />
+        </nz-form-control>
 
-      <nz-form-label nzSpan="3" >批复日期</nz-form-label>
-      <nz-form-control nzSpan="9">
-        <input nz-input name="bbb" [value]="'2021-10-26'" readonly />
-      </nz-form-control>
-
-    </nz-form-item>
-
-
-
-    <nz-form-item *ngIf="!create">
-      <nz-form-label nzSpan="3" >申请人</nz-form-label>
-      <nz-form-control nzSpan="9">
-        <input nz-input name="sss" [value]="'张丽丽'" readonly />
-      </nz-form-control>
-
-
-      <nz-form-label nzSpan="3">申请日期</nz-form-label>
-      <nz-form-control nzSpan="9">
-        <input nz-input name="bbb" [value]="'2021-10-26'" readonly />
-      </nz-form-control>
+        <nz-form-label nzSpan="3">批复日期</nz-form-label>
+        <nz-form-control nzSpan="9">
+          <input nz-input name="bbb" [value]="'2021-10-26'" readonly />
+        </nz-form-control>
       </nz-form-item>
 
+      <nz-form-item *ngIf="!create || !isRectify">
+        <nz-form-label nzSpan="3">申请人</nz-form-label>
+        <nz-form-control nzSpan="9">
+          <input nz-input name="sss" [value]="'张丽丽'" readonly />
+        </nz-form-control>
+
+        <nz-form-label nzSpan="3">申请日期</nz-form-label>
+        <nz-form-control nzSpan="9">
+          <input nz-input name="bbb" [value]="'2021-10-26'" readonly />
+        </nz-form-control>
+      </nz-form-item>
     </nz-form-item>
 
     <nz-form-item>
       <nz-form-label nzSpan="3">申请原因</nz-form-label>
       <nz-form-control nzSpan="21">
-        <textarea rows="6" nz-input name="applyReason" [(ngModel)]="currentItem.applyReason"
-          [readonly]="!isRectify"></textarea>
+        <textarea
+          rows="6"
+          nz-input
+          name="applyReason"
+          [(ngModel)]="currentItem.applyReason"
+          [readonly]="!isRectify"
+        ></textarea>
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
       <nz-form-label [nzSpan]="3">申请延期附件</nz-form-label>
       <nz-form-control nzSpan="21">
-        <app-attach-list [show]="true" [(attachFiles)]="currentItem.systemFiles" #attachListComponent
-          [fileType]="'RECTIFY_MEASURE_FILE'" [disabled]="create">
+        <app-attach-list
+          [show]="isRectify"
+          [(attachFiles)]="currentItem.systemFiles"
+          #attachListComponent
+          [fileType]="'RECTIFY_MEASURE_FILE'"
+        >
         </app-attach-list>
       </nz-form-control>
     </nz-form-item>
@@ -77,17 +95,23 @@
     <nz-form-item *ngIf="!isRectify">
       <nz-form-label nzSpan="3">是否同意</nz-form-label>
       <nz-form-control nzSpan="9">
-        <nz-radio-group [(ngModel)]="currentItem.radioValue" name="isAgree"[nzDisabled]="!isWatchForTable||isable">
+        <nz-radio-group [(ngModel)]="currentItem.radioValue" name="isAgree" [nzDisabled]="!isWatchForTable || isable">
           <label nz-radio nzValue="A" (click)="agree()">同意</label>
           <label nz-radio nzValue="B" (click)="agree()">不同意</label>
         </nz-radio-group>
       </nz-form-control>
     </nz-form-item>
 
-    <nz-form-item *ngIf="((!isRectify||!isWatchForTable)&&isAgree)||isable" >
+    <nz-form-item *ngIf="((!isRectify || !isWatchForTable) && isAgree) || isable">
       <nz-form-label nzSpan="3">批复意见</nz-form-label>
       <nz-form-control nzSpan="21">
-        <textarea rows="6" nz-input name="replyComments" [(ngModel)]="currentItem.replyComments" [disabled]="!isWatchForTable||isable"></textarea>
+        <textarea
+          rows="6"
+          nz-input
+          name="replyComments"
+          [(ngModel)]="currentItem.replyComments"
+          [disabled]="!isWatchForTable || isable"
+        ></textarea>
       </nz-form-control>
     </nz-form-item>
 
@@ -99,7 +123,6 @@
         </app-attach-list>
       </nz-form-control>
     </nz-form-item> -->
-
   </form>
 
   <ng-template #formFooter>
@@ -109,4 +132,3 @@
     </button>
   </ng-template>
 </nz-modal>
-

@@ -1,7 +1,12 @@
-<as-split direction="vertical" unit="pixel" [disabled]="true" gutterSize="0"
-  (gutterClick)="leftSize = leftSize == 0 ? ORGANIZATION_TREE_WIDTH : 0">
+<as-split
+  direction="vertical"
+  unit="pixel"
+  [disabled]="true"
+  gutterSize="0"
+  (gutterClick)="leftSize = leftSize == 0 ? ORGANIZATION_TREE_WIDTH : 0"
+>
   <!-- 审计知识树操作栏 -->
-  <as-split-area class="flex-fixed" [size]="40" [size]="leftSize" minSize="180" maxSize="320">
+  <!-- <as-split-area class="flex-fixed" [size]="40" [size]="leftSize" minSize="180" maxSize="320">
     <div class="app-tool-bar tree-tool-bar" style="padding: 10px 0 0 0;" *ngIf="isShowIndexButton">
       <button nz-button (click)="openTree(selectedNode)" nz-tooltip nzTooltipTitle="新增节点">
         <i nz-icon type="plus" theme="outline"></i>
@@ -13,11 +18,17 @@
         <i nz-icon nzType="edit" nzTheme="outline"></i>
       </button>
     </div>
-  </as-split-area>
+  </as-split-area> -->
   <!-- 审计知识树节点 -->
-  <as-split-area [size]="'*'" minSize="180" maxSize="320">
+  <as-split-area [size]="'*'" minSize="180" maxSize="320" style="padding: 10px 0 0 0;">
     <nz-input-group [nzSuffix]="suffixIcon" style="width: 100%;padding-left: 10px;padding-right: 5px;">
-      <input type="text" nz-input placeholder="搜索" (nzSearchValueChange)="nzSearch($event)" [(ngModel)]="searchValue" />
+      <input
+        type="text"
+        nz-input
+        placeholder="搜索"
+        (nzSearchValueChange)="nzSearch($event)"
+        [(ngModel)]="searchValue"
+      />
     </nz-input-group>
     <ng-template #suffixIcon>
       <i nz-icon nzType="search"></i>
