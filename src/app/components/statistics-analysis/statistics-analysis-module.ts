@@ -8,15 +8,20 @@ import { AuditPostModule } from '../audit-post/audit-post-module';
 import { StatisticsAnalysisAuditIssueViewComponent } from './statistics-analysis-audit-issue-view.component';
 import { StatisticsAnalysisAuditPostViewComponent } from './statistics-analysis-audit-post-view.component';
 import { StatisticsAnalysisAuditRectifyResultComponent } from './statistics-analysis-audit-rectify-result.component';
+
+// tslint:disable-next-line:max-line-length
+import { StatisticsAnalysisRectifyDepartmentComponent } from './statistics-analysis-rectify-department/statistics-analysis-rectify-department.component';
+
 import { StatisticsAnalysisDeatilComponent } from './statistics-analysis-detail.component';
 import { StatisticsBrokenLineComponent } from './statistics-broken-line.component';
 
 const COMPONENTS = [
   StatisticsAnalysisAuditIssueViewComponent,
   StatisticsAnalysisAuditRectifyResultComponent,
-  StatisticsAnalysisAuditPostViewComponent,
+  StatisticsAnalysisRectifyDepartmentComponent,
   StatisticsAnalysisDeatilComponent,
   StatisticsBrokenLineComponent,
+  StatisticsAnalysisAuditPostViewComponent,
 ];
 @NgModule({
   imports: [CommonModule, SharedModule, NgxEchartsModule, AuditPostModule, RectifyIssueModule],

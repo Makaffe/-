@@ -12,16 +12,53 @@
     </as-split-area>
     <as-split-area class="flex-fixed" [size]="25" class="chart-area" style="background-color: white;margin-left: 10px;">
       <as-split direction="vertical" unit="pixel" gutterSize="0">
-        <as-split-area  class="flex-fixed" [size]="80">
-          <div echarts [options]="option" ></div>
-          <!-- <nz-card  nzTitle="问题统计">
-            <p style="font-weight:500;font-size:16px;font-style:normal">问题总数：4</p>
-            <p style="font-weight:500;font-size:16px;font-style:normal">待办问题数：2</p>
-            <p style="font-weight:500;font-size:16px;font-style:normal">已办问题数：2</p>
-            <p style="font-weight:500;font-size:16px;font-style:normal">问题总数：4</p>
-            <p style="font-weight:500;font-size:16px;font-style:normal">待办问题数：2</p>
-
-          </nz-card> -->
+        <as-split-area class="flex-fixed" [size]="80">
+          <!-- <div echarts [options]="option" ></div> -->
+          <nz-card nzTitle="问题统计">
+            <div nz-row>
+              <h4 style="font-weight:500;font-size:16px;font-style:normal">问题总数：20</h4>
+            </div>
+            <div nz-row>
+              <div nz-col nzSpan="8">
+                <p style="font-weight:500;font-size:16px;font-style:normal">已办问题数：
+                </p>
+              </div>
+              <div nz-col nzSpan="16">
+                <nz-progress [nzPercent]="25" nz-tooltip nzTitle="25%" [nzFormat]="format1">
+                </nz-progress>
+              </div>
+            </div>
+            <div nz-row>
+              <div nz-col nzSpan="8">
+                <p style="font-weight:500;font-size:16px;font-style:normal">待办问题数：
+                </p>
+              </div>
+              <div nz-col nzSpan="16">
+                <nz-progress [nzPercent]="50" nz-tooltip nzTitle="50%" [nzFormat]="format2">
+                </nz-progress>
+              </div>
+            </div>
+            <div nz-row>
+              <div nz-col nzSpan="8">
+                <p style="font-weight:500;font-size:16px;font-style:normal">已发函问题数：
+                </p>
+              </div>
+              <div nz-col nzSpan="16">
+                <nz-progress [nzPercent]="25" nz-tooltip nzTitle="25%" [nzFormat]="format3">
+                </nz-progress>
+              </div>
+            </div>
+            <div nz-row>
+              <div nz-col nzSpan="8">
+                <p style="font-weight:500;font-size:16px;font-style:normal">已处分问题数：
+                </p>
+              </div>
+              <div nz-col nzSpan="16">
+                <nz-progress [nzPercent]="10" nz-tooltip nzTitle="10%" [nzFormat]="format4">
+                </nz-progress>
+              </div>
+            </div>
+          </nz-card>
         </as-split-area>
         <as-split-area [size]="'*'">
           <st #todoSt [data]="messages" nzSize="middle" [scroll]="{ y: '100%'}" [bordered]="true"
@@ -36,4 +73,3 @@
     </as-split-area>
   </as-split>
 </div>
-<supervise-process-form #superviseProcessFormComponent></supervise-process-form>

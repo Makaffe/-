@@ -361,11 +361,10 @@ export class DepartmentDrawComponent implements OnInit {
           },
         },
       ],
-      yAxis: [
-        {
-          type: 'value',
-        },
-      ],
+      yAxis: {
+        name: '单位（元）',
+        type: 'value',
+      },
       series: [
         {
           type: 'bar',

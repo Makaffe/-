@@ -2,15 +2,15 @@
   <as-split-area class="flex-fixed" [size]="40">
     <div class="app-toor-bar">
       <form #searchForm="ngForm" nz-form class="matech-search-form">
-        <div nz-row [nzGutter]="24" nzType="flex" nzJustify="space-between" nzAlign="middle" class="search-row">
+        <div nz-row [nzGutter]="24" nzType="flex" nzAlign="middle" class="search-row">
           <!-- 搜索框 -->
-          <div nz-col [nzSpan]="7">
+          <div nz-col [nzSpan]="5">
             <nz-form-item>
-              <nz-form-label nzSpan="8">整改问题</nz-form-label>
-              <nz-form-control nzSpan="16"><input nz-input /></nz-form-control>
+              <nz-form-label nzSpan="10">整改问题</nz-form-label>
+              <nz-form-control nzSpan="14"><input nz-input /></nz-form-control>
             </nz-form-item>
           </div>
-          <div nz-col [nzSpan]="6">
+          <div nz-col [nzSpan]="5">
             <nz-form-item>
               <nz-form-label nzSpan="6">时间</nz-form-label>
               <nz-form-control nzSpan="18">
@@ -18,7 +18,7 @@
               </nz-form-control>
             </nz-form-item>
           </div>
-          <div nz-col [nzSpan]="6">
+          <div nz-col [nzSpan]="4">
             <nz-form-item>
               <nz-form-label nzSpan="6">状态</nz-form-label>
               <nz-form-control nzSpan="18">
@@ -29,15 +29,10 @@
               </nz-form-control>
             </nz-form-item>
           </div>
-          <div nz-col [nzSpan]="4">
-            <button nz-button nzType="primary"><i nz-icon nzType="search" nzTheme="outline"></i>查找</button>
-          </div>
-        </div>
-        <div nz-row [nzGutter]="24" nzType="flex" nzJustify="space-between" nzAlign="middle" class="search-row">
-          <div nz-col [nzSpan]="7">
+          <div nz-col [nzSpan]="5">
             <nz-form-item>
-              <nz-form-label nzSpan="8">整改部门</nz-form-label>
-              <nz-form-control nzSpan="16">
+              <nz-form-label nzSpan="9">整改部门</nz-form-label>
+              <nz-form-control nzSpan="15">
                 <nz-select nzAllowClear>
                   <nz-option nzValue="部门一" nzLabel="部门一"></nz-option>
                   <nz-option nzValue="部门二" nzLabel="部门二"></nz-option>
@@ -45,18 +40,19 @@
               </nz-form-control>
             </nz-form-item>
           </div>
-          <div nz-col [nzSpan]="4">
+          <div nz-col [nzSpan]="5">
             <button nz-button nzType="default"><i nz-icon nzType="rest" nzTheme="outline"></i>重置</button>
+            <button nz-button nzType="primary"><i nz-icon nzType="search" nzTheme="outline"></i>查找</button>
           </div>
         </div>
-
       </form>
     </div>
   </as-split-area>
   <as-split-area [size]="'*'" style="margin-top: 10px;">
-    <div nz-row style="background-color: white; height: 100%;">
-      <nz-table #expandTable [nzData]="listOfMapData" [nzShowTotal]="showTotalTpl" [nzSize]="'middle'" [nzPageSize]="20"
-        [nzPageSizeOptions]="[20,35,50,100]" [nzShowQuickJumper]="true" [nzShowSizeChanger]="true" style="height:100%;">
+    <div nz-row style=" height: 100%;">
+      <nz-table #expandTable nzSize="middle" [nzShowTotal]="showTotalTpl" [nzData]="listOfMapData"
+        [nzShowSizeChanger]="true" [nzShowQuickJumper]="true" [nzPageSize]="20" [nzPageSizeOptions]="[20,35,50,100]"
+        nzBordered [nzScroll]="{ x: '1200px', y: '240px' }">
         <thead>
           <tr>
             <th nzWidth="80px" nzAlign="center">序号</th>
@@ -103,3 +99,4 @@
     </div>
   </as-split-area>
 </as-split>
+<supervise-process-form #superviseProcessFormComponent></supervise-process-form>

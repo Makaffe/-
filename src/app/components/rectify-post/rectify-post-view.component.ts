@@ -26,6 +26,7 @@ export class RectifyPostViewComponent implements OnInit {
   filter = {
     name: null,
     auditTime: null,
+    year: null
   };
 
   /**
