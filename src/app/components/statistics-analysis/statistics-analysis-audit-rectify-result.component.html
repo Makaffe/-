@@ -4,7 +4,7 @@
 
   <div nz-row nzJustify="space-between">
     <div nzSpan="8" nz-col>
-      <nz-card [nzTitle]="title1">
+      <nz-card [nzTitle]="title1" [nzBordered]='false'>
         <ng-template #title1>
           <form #searchForm="ngForm" nz-form>
             <div nz-row [nzGutter]="24" nzType="flex" nzJustify="space-around" nzAlign="middle" class="search-row">
@@ -29,7 +29,7 @@
 
 
     <div nzSpan="8" nz-col>
-      <nz-card [nzTitle]="title2">
+      <nz-card [nzTitle]="title2" [nzBordered]='false'>
         <ng-template #title2>
           <form #searchForm="ngForm" nz-form>
             <div nz-row [nzGutter]="24" nzType="flex" nzJustify="space-around" nzAlign="middle" class="search-row">
@@ -53,7 +53,7 @@
 
 
  <div nzSpan="8" nz-col>
-      <nz-card [nzTitle]="title3">
+      <nz-card [nzTitle]="title3" [nzBordered]='false'>
         <ng-template #title3>
           <form #searchForm="ngForm" nz-form>
             <div nz-row [nzGutter]="24" nzType="flex" nzJustify="space-around" nzAlign="middle" class="search-row">
@@ -71,7 +71,7 @@
   </div>
   <div nz-row nzJustify="space-between">
     <div nzSpan="16" nz-col>
-      <nz-card [nzTitle]="title4">
+      <nz-card [nzTitle]="title4" [nzBordered]='false'>
         <ng-template #title4>
           <form #searchForm="ngForm" nz-form>
             <div nz-row [nzGutter]="24" nzType="flex" nzJustify="space-around" nzAlign="middle" class="search-row">
@@ -137,7 +137,7 @@
     </div>
 
     <div nzSpan="8" nz-col>
-      <nz-card [nzTitle]="title5">
+      <nz-card [nzTitle]="title5" [nzBordered]='false'>
         <ng-template #title5>
           <form #searchForm="ngForm" nz-form>
             <div nz-row [nzGutter]="24" nzType="flex" nzJustify="space-around" nzAlign="middle" class="search-row">
@@ -180,7 +180,7 @@
     <div nz-row style="padding: 10px;">
       <div nz-row nzJustify="space-between">
         <div nz-col nzSpan="8">
-          <nz-card >
+          <nz-card [nzBordered]='false'>
 
             <div echarts [options]="option003"></div>
 
@@ -189,7 +189,7 @@
 
         <div nz-col nzSpan="8">
 
-          <nz-card >
+          <nz-card [nzBordered]='false'>
 
             <div echarts [options]="option01"></div>
           </nz-card>
@@ -197,7 +197,7 @@
 
         <div nz-col nzSpan="8">
 
-          <nz-card >
+          <nz-card [nzBordered]='false'>
             <div echarts [options]="zhexian1"></div>
           </nz-card>
 
@@ -209,7 +209,7 @@
       <div nz-row nzJustify="space-between">
         <div nz-col nzSpan="16">
 
-          <nz-card [nzTitle]="title4">
+          <nz-card [nzTitle]="title4" [nzBordered]='false'>
             <ng-template #title4>
               <form #searchForm="ngForm" nz-form>
                 <div nz-row [nzGutter]="24" nzType="flex" nzJustify="space-around" nzAlign="middle" class="search-row">
@@ -276,7 +276,7 @@
         </div>
         <div nz-col nzSpan="8">
 
-          <nz-card >
+          <nz-card [nzBordered]="false">
             <div echarts [options]="zhexian2"></div>
           </nz-card>
 
