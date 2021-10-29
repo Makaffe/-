@@ -1,9 +1,17 @@
-<nz-modal [(nzVisible)]="isVisible" [nzTitle]="'审计报告详情'" [nzMaskClosable]="false" (nzOnCancel)="handleCancel()"
-  [nzFooter]="formFooter" [nzStyle]="{ top: '65px' }" nzWidth="1400" [nzBodyStyle]="{
+<nz-modal
+  [(nzVisible)]="isVisible"
+  [nzTitle]="'审计报告详情'"
+  [nzMaskClosable]="false"
+  (nzOnCancel)="handleCancel()"
+  [nzFooter]="formFooter"
+  [nzStyle]="{ top: '65px' }"
+  nzWidth="70%"
+  [nzBodyStyle]="{
     'overflow-y': 'auto',
     'overflow-x': 'hidden',
     padding: '24px'
-  }">
+  }"
+>
   <form nz-form #auditPostForm="ngForm">
     <nz-form-item>
       <nz-form-label nzSpan="3" nzRequired>审计报告名称</nz-form-label>
@@ -35,8 +43,15 @@
     <nz-form-item>
       <nz-form-label nzSpan="3">审计报告文件</nz-form-label>
       <nz-form-control nzSpan="19">
-        <app-attach-list [show]="false" [(attachFiles)]="currentItem.systemFiles" #attachListComponent
-          [fileName]="'审计报告名称'" [fileType]="'AUDIT_POST_FILES'" [fileTitle]="''" [TBHeight]="'100px'">
+        <app-attach-list
+          [show]="false"
+          [(attachFiles)]="currentItem.systemFiles"
+          #attachListComponent
+          [fileName]="'审计报告名称'"
+          [fileType]="'AUDIT_POST_FILES'"
+          [fileTitle]="''"
+          [TBHeight]="'100px'"
+        >
         </app-attach-list>
       </nz-form-control>
     </nz-form-item>
@@ -44,8 +59,14 @@
     <nz-form-item>
       <nz-form-label nzSpan="3">项目相关资料</nz-form-label>
       <nz-form-control nzSpan="19">
-        <app-attach-list [show]="false" [(attachFiles)]="currentItem.systemFiles" #attachListComponent
-          [fileName]="'资料名称'" [fileType]="'AUDIT_POST_FILES'" [fileTitle]="''">
+        <app-attach-list
+          [show]="false"
+          [(attachFiles)]="currentItem.systemFiles"
+          #attachListComponent
+          [fileName]="'资料名称'"
+          [fileType]="'AUDIT_POST_FILES'"
+          [fileTitle]="''"
+        >
         </app-attach-list>
       </nz-form-control>
     </nz-form-item>
