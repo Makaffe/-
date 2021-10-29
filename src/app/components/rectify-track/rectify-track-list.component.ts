@@ -10,8 +10,7 @@ import { RectifyProblemService } from '../rectify-issue/service/RectifyProblemSe
 import { RectifyTrackDTO } from './model/RectifyTrackDTO';
 
 @Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'rectify-track-list',
+  selector: 'app-rectify-track-list',
   templateUrl: './rectify-track-list.component.html',
   styles: [],
 })
@@ -28,6 +27,18 @@ export class RectifyTrackListComponent implements OnInit {
     private rectifyProblemService: RectifyProblemService,
     private organizationService: OrganizationService,
   ) {}
+
+  /**
+   * 表格title
+   */
+  @Input()
+  title = '';
+
+  /**
+   * 表格高度
+   */
+  @Input()
+  tableHeight = '100%';
 
   /**
    * 树表格相关参数
