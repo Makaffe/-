@@ -1,10 +1,25 @@
 <!-- 报告名称/问题名称/涉及金额/进度/截止日期/整改负责人/操作 -->
 
-<nz-table #expandTable [nzData]="listOfMapData" [nzScroll]="{ y: '100%' }" [nzLoading]="loading"
-  [ngStyle]="{'height':tableHeight}" [nzTotal]="pageInfo.totalRecords" [nzPageSize]="pageInfo.pageSize"
-  [nzPageIndex]="pageInfo.pageNo" [nzSize]="'small'" nzShowSizeChanger [nzShowTotal]="totalTemplate"
-  (nzPageSizeChange)="pageSizeChange($event)" (nzPageIndexChange)="pageIndexChange($event)" [nzShowQuickJumper]="true"
-  [nzFrontPagination]="false" [nzPageSizeOptions]="[20, 35, 50, 100]" nzBordered="true" [nzTitle]="title">
+<nz-table
+  #expandTable
+  [nzData]="listOfMapData"
+  [nzScroll]="{ y: '100%' }"
+  [nzLoading]="loading"
+  [ngStyle]="{ height: tableHeight }"
+  [nzTotal]="pageInfo.totalRecords"
+  [nzPageSize]="pageInfo.pageSize"
+  [nzPageIndex]="pageInfo.pageNo"
+  [nzSize]="'small'"
+  nzShowSizeChanger
+  [nzShowTotal]="totalTemplate"
+  (nzPageSizeChange)="pageSizeChange($event)"
+  (nzPageIndexChange)="pageIndexChange($event)"
+  [nzShowQuickJumper]="true"
+  [nzFrontPagination]="false"
+  [nzPageSizeOptions]="[20, 35, 50, 100]"
+  nzBordered="true"
+  [nzTitle]="title"
+>
   <ng-template #totalTemplate let-total> 共 {{ pageInfo.totalRecords }} 条 </ng-template>
   <thead>
     <tr>
@@ -21,8 +36,12 @@
     <ng-container *ngFor="let data of expandTable.data">
       <ng-container *ngFor="let item of mapOfExpandedData[data.id]">
         <tr *ngIf="(item.parent && item.parent.expand) || !item.parent">
-          <td [nzIndentSize]="item.level * 20" [nzShowExpand]="!!item.children" [(nzExpand)]="item.expand"
-            (nzExpandChange)="collapse(mapOfExpandedData[data.id], item, $event)">
+          <td
+            [nzIndentSize]="item.level * 20"
+            [nzShowExpand]="!!item.children"
+            [(nzExpand)]="item.expand"
+            (nzExpandChange)="collapse(mapOfExpandedData[data.id], item, $event)"
+          >
             {{ item.auditname }}
           </td>
           <td>{{ item.name }}</td>
