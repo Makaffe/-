@@ -31,6 +31,7 @@ import { StatisticsAnalysisAuditIssueViewComponent } from 'src/app/components/st
 // tslint:disable-next-line:max-line-length
 import { StatisticsAnalysisAuditRectifyResultComponent } from 'src/app/components/statistics-analysis/statistics-analysis-audit-rectify-result.component';
 import { RectificationPostComponent } from 'src/app/components/audit-post/rectification-post.component';
+import { DepartmentDrawComponent } from 'src/app/components/department-draw/department-draw.component';
 
 const routes: Routes = [
   {
@@ -83,7 +84,7 @@ const routes: Routes = [
   },
   {
     path: 'department-draw',
-    component: DepartmentDrawViewComponent,
+    component: DepartmentDrawComponent,
     data: {
       title: '部门画像',
       reuse: true,

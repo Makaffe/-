@@ -5,12 +5,9 @@ import { NgxEchartsModule } from 'ngx-echarts';
 
 import { DepartmentDrawListComponent } from './department-draw-list.component';
 import { DepartmentDrawViewComponent } from './department-draw-view.component';
+import { DepartmentDrawComponent } from './department-draw.component';
 
-
-const COMPONENTS = [
-  DepartmentDrawListComponent,
-  DepartmentDrawViewComponent
-];
+const COMPONENTS = [DepartmentDrawListComponent, DepartmentDrawViewComponent, DepartmentDrawComponent];
 @NgModule({
   imports: [CommonModule, SharedModule, NgxEchartsModule],
   exports: [...COMPONENTS],
