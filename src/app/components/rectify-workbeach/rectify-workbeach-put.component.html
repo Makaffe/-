@@ -42,19 +42,18 @@
 
 
 
-
+    <nz-form-item *ngIf="!create">
       <nz-form-label nzSpan="3" >申请人</nz-form-label>
       <nz-form-control nzSpan="9">
         <input nz-input name="sss" [value]="'张丽丽'" readonly />
       </nz-form-control>
 
 
-
       <nz-form-label nzSpan="3">申请日期</nz-form-label>
       <nz-form-control nzSpan="9">
         <input nz-input name="bbb" [value]="'2021-10-26'" readonly />
       </nz-form-control>
-
+      </nz-form-item>
 
     </nz-form-item>
 

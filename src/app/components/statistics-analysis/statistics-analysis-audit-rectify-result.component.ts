@@ -7,27 +7,51 @@ import * as echarts from 'echarts';
   styles: [],
 })
 export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
+  /**
+   * 年份
+   */
+  currentDate = new Date();
+  selectYear = new Date().getFullYear();
+
   option = null;
+
   page: STPage = {
     show: false,
   };
   option01 = {
+    title: {
+      text: '整改及时率统计',
+    },
     xAxis: {
       type: 'category',
-      data: ['部门一', '部门二', '部门三', '部门四', '部门五'],
+      data: ['部门二', '部门三', '部门一', '部门四', '部门五'],
     },
     yAxis: {
       type: 'value',
+      axisLabel: {
+        show: true,
+        interval: 'auto',
+        formatter: '{value} %',
+      },
     },
     series: [
       {
-        data: [120, 200, 150, 80, 70],
+        data: [80, 60, 55, 38, 29],
         type: 'bar',
+        itemStyle: {
+          normal: {
+            color: function(params) {
+              var colorList = ['#61a', '#c23531', '#91c7ac', '#2f4', '#d48265', '#749f83', '#00CA69'];
+              return colorList[params.dataIndex];
+            },
+          },
+        },
       },
     ],
   };
   optionData1 = null;
   optionData2 = null;
+
   optionData3 = null;
 
   lastOption = null;
@@ -68,6 +92,134 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
     },
   ];
   constructor() {}
+
+  zhexian1 = {
+    title: {
+      text: '',
+    },
+    tooltip: {
+      trigger: 'axis',
+    },
+    legend: {
+      data: ['审计挽回资金', '上缴（追回）资金', '财务处理资金', '管理效益提升'],
+    },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true,
+    },
+    toolbox: {
+      feature: {
+        saveAsImage: {},
+      },
+    },
+    xAxis: {
+      type: 'category',
+      boundaryGap: false,
+      data: ['0', '2018', '2019', '2020', '2021'],
+    },
+    yAxis: {
+      type: 'value',
+    },
+    series: [
+      {
+        name: '审计挽回资金',
+        type: 'line',
+        data: [12, 13, 10, 13],
+      },
+      {
+        name: '上缴（追回）资金',
+        type: 'line',
+        data: [22, 18, 19, 23],
+      },
+      {
+        name: '财务处理资金',
+        type: 'line',
+        data: [15, 23, 20, 38],
+      },
+      {
+        name: '管理效益提升',
+        type: 'line',
+        data: [32, 33, 30, 33],
+      },
+    ],
+  };
+
+  zhexian2 = {
+    title: {
+      text: '',
+    },
+    tooltip: {
+      trigger: 'axis',
+    },
+    legend: {
+      data: ['提出管理建议', '完善管理制度'],
+    },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true,
+    },
+    toolbox: {
+      feature: {
+        saveAsImage: {},
+      },
+    },
+    xAxis: {
+      type: 'category',
+      boundaryGap: false,
+      data: ['0', '2018', '2019', '2020', '2021'],
+    },
+    yAxis: {
+      type: 'value',
+    },
+    series: [
+      {
+        name: '提出管理建议',
+        type: 'line',
+        data: [12, 13, 10, 13],
+      },
+      {
+        name: '完善管理制度',
+        type: 'line',
+        data: [22, 18, 19, 23],
+      },
+    ],
+  };
+
+  option003 = {
+    title: {
+      text: '整改完成率统计',
+    },
+    xAxis: {
+      type: 'category',
+      data: ['部门二', '部门三', '部门一', '部门四', '部门五'],
+    },
+    yAxis: {
+      type: 'value',
+      axisLabel: {
+        show: true,
+        interval: 'auto',
+        formatter: '{value} %',
+      },
+    },
+    series: [
+      {
+        data: [20, 65, 45, 75, 16],
+        type: 'bar',
+        itemStyle: {
+          normal: {
+            color: function(params) {
+              var colorList = ['#c23531', '#2f4', '#61a', '#d48265', '#91c7ac', '#749f83', '#00CA69'];
+              return colorList[params.dataIndex];
+            },
+          },
+        },
+      },
+    ],
+  };
 
   ngOnInit() {
     this.loadOption();
@@ -182,7 +334,7 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
   loadOptionData1() {
     const color = ['#0090FF', '#FFC005', '#36CE9E', '#FF515A', '#8B5CFF', '#00CA69'];
 
-    const xAxisData = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const xAxisData = ['1月', '2月', '3月', '4月', '5月', '', ''];
 
     const yAxisData1 = [100, 138, 350, 173, 180, 150, 178];
 
@@ -255,7 +407,7 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
       },
       xAxis: {
         data: xAxisData,
-        show: false,
+        show: true,
       },
       yAxis: {
         show: false,
@@ -275,7 +427,7 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
   loadOptionData2() {
     const color = ['#0090FF', '#FFC005', '#36CE9E', '#FF515A', '#8B5CFF', '#00CA69'];
 
-    const xAxisData = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const xAxisData = ['1月', '2月', '3月', '4月', '5月', '', ''];
 
     const yAxisData2 = [50, 60, 90, 80, 60, 50, 70];
 
@@ -348,7 +500,7 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
       },
       xAxis: {
         data: xAxisData,
-        show: false,
+        show: true,
       },
       yAxis: {
         show: false,
@@ -368,7 +520,7 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
   loadOptionData3() {
     const color = ['#0090FF', '#FFC005', '#36CE9E', '#FF515A', '#8B5CFF', '#00CA69'];
 
-    const xAxisData = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const xAxisData = ['1月', '2月', '3月', '4月', '5月'];
 
     const yAxisData3 = [233, 201, 182, 198, 234, 210, 230];
 
@@ -441,7 +593,7 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
       },
       xAxis: {
         data: xAxisData,
-        show: false,
+        show: true,
       },
       yAxis: {
         show: false,
@@ -520,7 +672,7 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
         },
       ],
       xAxis: {
-        show: false,
+        show: true,
         type: 'value',
       },
       yAxis: [
@@ -649,5 +801,9 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
         },
       ],
     };
+  }
+
+  onChange(event: Date) {
+    this.selectYear = event.getFullYear();
   }
 }
