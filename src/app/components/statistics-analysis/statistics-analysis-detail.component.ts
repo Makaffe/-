@@ -22,7 +22,7 @@ export class StatisticsAnalysisDeatilComponent implements OnInit {
   /**
    * 接收传进来的类型
    */
-  @Input() option: any;
+  @Input() option: string;
 
   isVisible = false;
 

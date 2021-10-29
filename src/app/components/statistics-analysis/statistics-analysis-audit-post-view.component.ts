@@ -16,6 +16,8 @@ export class StatisticsAnalysisAuditPostViewComponent implements OnInit {
   @ViewChild('statisticsAnalysisDeatilComponent', { static: false })
   statisticsAnalysisDeatilComponent: StatisticsAnalysisDeatilComponent;
 
+  currentDate = new Date();
+
   /**
    * 传给子的类型
    */
@@ -117,7 +119,7 @@ export class StatisticsAnalysisAuditPostViewComponent implements OnInit {
       left: 'center',
     },
     tooltip: {
-      trigger: 'item',
+      trigger: 'axis',
     },
     xAxis: {
       type: 'category',

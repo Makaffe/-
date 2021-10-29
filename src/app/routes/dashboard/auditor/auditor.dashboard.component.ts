@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { STColumn, STColumnTag, STPage } from '@delon/abc';
-import { of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { STColumn, STColumnTag } from '@delon/abc';
 
 const TAG: STColumnTag = {
   'name 1': { text: '未开始', color: 'grey' },
@@ -216,6 +214,8 @@ export class AuditorDashboardComponent implements OnInit {
   option: any;
 
   ngOnInit() {
+    // 柱体颜色数组
+    const colorList = ['#4572A7', '#AA4643', '#89A54E', '#71588F', '#4198AF', '#DB843D', '#93A9CF'];
     this.cards = [
       {
         icon: 'info-circle',
@@ -297,35 +297,6 @@ export class AuditorDashboardComponent implements OnInit {
         {
           name: '我的工作量统计',
           type: 'pie',
-          radius: [30, 150],
-          center: ['50%', '50%'],
-          roseType: 'area',
-          itemStyle: {
-            borderRadius: 5,
-          },
-          data: [
-            { value: 5, name: '已下发整改问题' },
-            { value: 3, name: '已完成整改问题' },
-            { value: 4, name: '已回复整改反馈' },
-            { value: 3, name: '已完成整改报告' },
-            { value: 5, name: '跟进中的整改问题' },
-          ],
-        },
-      ],
-    };
-    this.option = {
-      title: {
-        text: '我的工作量统计',
-        left: 'center',
-      },
-      tooltip: {
-        trigger: 'item',
-        formatter: '{a} <br/>{b} : {c} ({d}%)',
-      },
-      series: [
-        {
-          name: '我的工作量统计',
-          type: 'pie',
           radius: '50%',
           data: [
             { value: 5, name: '已下发整改问题' },
@@ -334,13 +305,11 @@ export class AuditorDashboardComponent implements OnInit {
             { value: 3, name: '已完成整改报告' },
             { value: 5, name: '跟进中的整改问题' },
           ],
-          // emphasis: {
-          //   itemStyle: {
-          //     shadowBlur: 10,
-          //     shadowOffsetX: 0,
-          //     shadowColor: 'rgba(0, 10, 5, 0.5)',
-          //   },
-          // },
+          itemStyle: {
+            color(params) {
+              return colorList[params.dataIndex % colorList.length];
+            },
+          },
         },
       ],
     };
@@ -353,5 +322,10 @@ export class AuditorDashboardComponent implements OnInit {
   }
   onChange(result: Date): void {
     console.log('onChange: ', result);
+  }
+
+  onChartClick(event: any) {
+    console.log(event);
+    this.router.navigate(['/audit-rectify/department-draw']);
   }
 }

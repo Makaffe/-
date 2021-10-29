@@ -24,7 +24,7 @@
         <app-rectification-post-list [tableHeight]="'400px'" [title]="'整改台账信息'"></app-rectification-post-list>
       </div>
       <div nz-col nzSpan="7">
-        <div class="chart" echarts [theme]="'macarons'" [options]="option"></div>
+        <div class="chart" echarts [theme]="'macarons'" [options]="option" (chartClick)="onChartClick($event)"></div>
       </div>
     </div>
   </div>

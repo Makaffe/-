@@ -1,5 +1,15 @@
 import { formatDate } from '@angular/common';
-import { Component, EventEmitter, Inject, LOCALE_ID, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  HostListener,
+  Inject,
+  LOCALE_ID,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { FormUtil, TreeUtil } from '@mt-framework-ng/util';
 import { OrganizationService, UserService } from '@ng-mt-framework/api';
@@ -16,7 +26,7 @@ import { RectifyProblemService } from './service/RectifyProblemService';
   templateUrl: './rectify-issue-split.component.html',
   styles: [],
 })
-export class RectifyIssueSplitComponent implements OnInit {
+export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
   constructor(
     private rectifyProblemService: RectifyProblemService,
     private organizationService: OrganizationService,
@@ -67,6 +77,11 @@ export class RectifyIssueSplitComponent implements OnInit {
    * 模态框是否可见
    */
   isVisible = false;
+
+  /**
+   * 模态框高度
+   */
+  height = '800px';
 
   /**
    * 后台请求标识
@@ -418,5 +433,23 @@ export class RectifyIssueSplitComponent implements OnInit {
   dragEnd(sizes: Array<any>) {
     this.leftSize = sizes[0];
     this.rightSize = sizes[1];
+  }
+  /**
+   * 设置设置弹窗高度
+   */
+
+  private setTabContentHeight() {
+    // 浏览器内容区高度
+    const tabContentHeight = document.body.clientHeight;
+    this.height = tabContentHeight * 0.8 + 'px';
+  }
+
+  ngAfterViewInit() {
+    this.setTabContentHeight();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize($event) {
+    this.setTabContentHeight();
   }
 }
