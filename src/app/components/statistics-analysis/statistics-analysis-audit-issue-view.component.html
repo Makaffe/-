@@ -217,10 +217,12 @@
   <as-split-area [size]="'*'">
     <div nz-row style="height:600px">
       <div nz-col nzSpan="12">
-        <div style="height:360px" class="chart" echarts [theme]="'macarons'" [options]="optionHotWord"
-           (chartClick)="onChartClickPie($event)">
+        <div style="text-align: center;">
+          <font style="font-size: 18px;font-weight: bold;">审计问题类型</font>
         </div>
-        <nz-divider nzType="vertical"></nz-divider>
+        <div style="height:360px" class="chart" echarts [theme]="'macarons'" [options]="optionHotWord"
+           (chartClick)="onChartClick($event)">
+        </div>
       </div>
 
       <div nz-col nzSpan="12">
@@ -234,7 +236,8 @@
             </div>
           </div>
           <div nz-col nzSpan="12" style="margin-bottom: -30px;">
-            <div style="height:360px;" echarts [options]="optionColumnarPS"></div>
+            <div style="height:360px;" echarts [options]="optionColumnarPS" (chartClick)="onChartClickPie($event)">
+            </div>
           </div>
           <div style="text-align: center;">
             <font style="font-size: 18px;font-weight: bold;">问题数据历史变化</font>
@@ -247,7 +250,12 @@
         </div>
       </div>
     </div>
-    <div style="margin-top: 30px;" echarts [options]="optionColumnarPS1"></div>
-    <div echarts [options]="optionColumnarPS2"></div>
+    <div style="margin-top: 30px;" echarts [options]="optionColumnarPS1" (chartClick)="onChartClickPie($event)"></div>
+
+    <div echarts [options]="optionColumnarPS2" (chartClick)="onChartClickPie($event)"></div>
   </as-split-area>
 </as-split>
+
+
+<app-statistics-analysis-detail #statisticsAnalysisDeatilComponent></app-statistics-analysis-detail>
+<app-statistics-broken-line #statisticsBrokenLineComponent></app-statistics-broken-line>

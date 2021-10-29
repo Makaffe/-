@@ -1,0 +1,5 @@
+<nz-modal [(nzVisible)]="isVisible" nzWidth="80%" nzHeight="80%" nzTitle="各类型问题变化" (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()">
+  <div style="height:360px" class="chart" echarts [theme]="'macarons'" [options]="optionCreaseLine"
+     (chartClick)="onChartClickCreaseLin($event)"></div>
+</nz-modal>

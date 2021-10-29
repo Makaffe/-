@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { STColumn, STPage } from '@delon/abc';
 import * as echarts from 'echarts';
+import { StatisticsAnalysisDeatilComponent } from './statistics-analysis-detail.component';
+import { StatisticsBrokenLineComponent } from './statistics-broken-line.component';
 type EchartsOption = echarts.EChartOption;
 
 @Component({
@@ -9,6 +11,15 @@ type EchartsOption = echarts.EChartOption;
   styles: [],
 })
 export class StatisticsAnalysisAuditIssueViewComponent implements OnInit {
+  /**
+   * 穿透组件
+   */
+  @ViewChild('statisticsAnalysisDeatilComponent', { static: false })
+  statisticsAnalysisDeatilComponent: StatisticsAnalysisDeatilComponent;
+
+  @ViewChild('statisticsBrokenLineComponent', { static: false })
+  statisticsBrokenLineComponent: StatisticsBrokenLineComponent;
+
   // page: STPage = {
   //   show: false,
   // };
@@ -309,6 +320,8 @@ export class StatisticsAnalysisAuditIssueViewComponent implements OnInit {
    * 日期
    */
   dateYear: Date;
+
+  option: null;
 
   /**
    * 饼图数据
@@ -659,10 +672,18 @@ export class StatisticsAnalysisAuditIssueViewComponent implements OnInit {
   ngOnInit() {}
 
   onChartClickPie(ev: any) {
-    console.log(ev);
+    this.statisticsAnalysisDeatilComponent.option = 'option4';
+    this.statisticsAnalysisDeatilComponent.isVisible = true;
   }
 
-  onChartClickCreaseLin(ev: any) {}
+  onChartClick(ev: any) {
+    this.statisticsAnalysisDeatilComponent.option = 'option1';
+    this.statisticsAnalysisDeatilComponent.isVisible = true;
+  }
+
+  onChartClickCreaseLin(ev: any) {
+    this.statisticsBrokenLineComponent.isVisible = true;
+  }
 
   onChangeDateYear(ev: any) {}
 }
