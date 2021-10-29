@@ -1,6 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { RectificationPostListComponent } from '../audit-post/rectification-post-list.component';
-import { RectifyIssueListComponent } from '../rectify-issue/rectify-issue-list.component';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-statistics-broken-line',
