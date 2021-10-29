@@ -19,6 +19,7 @@ const COMPONENTS = [
   StatisticsAnalysisAuditRectifyResultComponent,
   StatisticsAnalysisRectifyDepartmentComponent,
   StatisticsAnalysisDeatilComponent,
+  StatisticsAnalysisAuditPostViewComponent,
 ];
 @NgModule({
   imports: [CommonModule, SharedModule, NgxEchartsModule, AuditPostModule, RectifyIssueModule],

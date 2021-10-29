@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { STColumn, STPage } from '@delon/abc';
 import { ECharts } from 'echarts';
+import { StatisticsAnalysisDeatilComponent } from '../statistics-analysis-detail.component';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -10,6 +11,8 @@ import { ECharts } from 'echarts';
   styles: []
 })
 export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
+  @ViewChild('statisticsAnalysisDeatilComponent', { static: false })
+  statisticsAnalysisDeatilComponent: StatisticsAnalysisDeatilComponent;
   page: STPage = {
     show: false,
   };
@@ -234,9 +237,6 @@ export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
     ],
   };
   option2 = {
-    title: {
-      text: '（单位:元）',
-    },
     tooltip: {
       trigger: 'axis',
       axisPointer: {            // 坐标轴指示器，坐标轴触发有效
@@ -249,6 +249,7 @@ export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
       data: ['部门一', '部门二', '部门三', '部门四', '部门五', '部门六', '部门七']
     },
     yAxis: {
+      name: '单位（元）',
       type: 'value'
     },
     series: [{
@@ -268,7 +269,10 @@ export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
   departmentSituation($event) {
     if ($event.componentType === 'xAxis') {
       this.router.navigate(['/audit-rectify/department-draw']);
+    } else if ($event.componentType === 'series') {
+      this.statisticsAnalysisDeatilComponent.showModal();
     }
+
   }
 
   /**
@@ -277,6 +281,8 @@ export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
   departmentFigure($event) {
     if ($event.componentType === 'xAxis') {
       this.router.navigate(['/audit-rectify/department-draw']);
+    } else if ($event.componentType === 'series') {
+      this.statisticsAnalysisDeatilComponent.showModal();
     }
   }
 
@@ -284,7 +290,6 @@ export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
    * 部门问题数量 legend点击事件
    */
   departmentProblemNumber($event) {
-    console.log($event);
   }
 
   /**
@@ -293,11 +298,11 @@ export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
   change($event) {
     // 双击事件
     if ($event.type === 'dblClick') {
-      console.log('表格双击事件');
+      this.statisticsAnalysisDeatilComponent.showModal();
     }
 
     if ($event.type === 'click') {
-      console.log('表格单击事件');
+      this.statisticsAnalysisDeatilComponent.showModal();
     }
   }
 }

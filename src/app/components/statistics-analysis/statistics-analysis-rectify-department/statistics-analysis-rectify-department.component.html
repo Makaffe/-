@@ -2,7 +2,12 @@
   <div nz-row nzJustify="space-around">
     <nz-card [nzTitle]="'部门整改情况'" [nzExtra]="extraTemplate1">
       <ng-template #extraTemplate1>
-        <nz-year-picker nzPlaceHolder="请选择年度"></nz-year-picker>
+        <nz-form-item>
+          <nz-form-label [nzSm]="8">年份</nz-form-label>
+          <nz-form-control [nzSm]="16">
+            <nz-year-picker nzPlaceHolder="请选择年度"></nz-year-picker>
+          </nz-form-control>
+        </nz-form-item>
       </ng-template>
       <div echarts [options]="option" (chartClick)="departmentSituation($event)"></div>
     </nz-card>
@@ -10,7 +15,12 @@
   <div nz-row nzJustify="space-around">
     <nz-card [nzTitle]="'部门整改问题涉及金额'" [nzExtra]="extraTemplate2">
       <ng-template #extraTemplate2>
-        <nz-year-picker nzPlaceHolder="请选择年度"></nz-year-picker>
+        <nz-form-item>
+          <nz-form-label [nzSm]="8">年份</nz-form-label>
+          <nz-form-control [nzSm]="16">
+            <nz-year-picker nzPlaceHolder="请选择年度"></nz-year-picker>
+          </nz-form-control>
+        </nz-form-item>
       </ng-template>
       <div echarts [options]="option2" (chartClick)="departmentFigure($event)"></div>
     </nz-card>
@@ -33,3 +43,4 @@
     </div>
   </div>
 </div>
+<app-statistics-analysis-detail #statisticsAnalysisDeatilComponent [option]="'整改问题'"></app-statistics-analysis-detail>
