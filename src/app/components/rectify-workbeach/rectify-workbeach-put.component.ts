@@ -22,6 +22,11 @@ export class RectifyWorkbeachPutComponent implements OnInit {
    */
   access = false;
 
+
+  /**
+   * 是不是禁用按钮
+   */
+  isable = false;
   /**
    * 用于标记是否同意审批
    */
