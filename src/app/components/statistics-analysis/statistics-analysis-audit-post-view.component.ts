@@ -139,7 +139,7 @@ export class StatisticsAnalysisAuditPostViewComponent implements OnInit {
    * 审计报告整改情况
    */
   option4 = {
-    barCategoryGap: '130',
+    barCategoryGap: '150',
     color: ['#5470C6', '#91CC75', '#FAC858'],
 
     title: {
@@ -217,7 +217,7 @@ export class StatisticsAnalysisAuditPostViewComponent implements OnInit {
    * 涉及金额角度
    */
   option5 = {
-    barCategoryGap: '130',
+    barCategoryGap: '150',
     color: ['#FAC858'],
 
     title: {
