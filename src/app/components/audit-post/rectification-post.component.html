@@ -18,14 +18,23 @@
               <nz-form-item nzFlex>
                 <nz-form-label [nzSm]="10" [nzXs]="24">报告导入时间</nz-form-label>
                 <nz-form-control [nzSm]="8" [nzXs]="12">
-                  <nz-date-picker [nzFormat]="'yyyy-MM-dd'" name="startDate"
-                    [(ngModel)]="params.importAuditPostStartTime" nzPlaceHolder="开始日期"
-                    [nzDisabledDate]="disabledStartDate">
+                  <nz-date-picker
+                    [nzFormat]="'yyyy-MM-dd'"
+                    name="startDate"
+                    [(ngModel)]="params.importAuditPostStartTime"
+                    nzPlaceHolder="开始日期"
+                    [nzDisabledDate]="disabledStartDate"
+                  >
                   </nz-date-picker>
                 </nz-form-control>
                 <nz-form-control [nzSm]="8" [nzXs]="12">
-                  <nz-date-picker [nzFormat]="'yyyy-MM-dd'" name="endDate" [(ngModel)]="params.importAuditPostEndTime"
-                    nzPlaceHolder="结束日期" [nzDisabledDate]="disabledEndDate">
+                  <nz-date-picker
+                    [nzFormat]="'yyyy-MM-dd'"
+                    name="endDate"
+                    [(ngModel)]="params.importAuditPostEndTime"
+                    nzPlaceHolder="结束日期"
+                    [nzDisabledDate]="disabledEndDate"
+                  >
                   </nz-date-picker>
                 </nz-form-control>
               </nz-form-item>
@@ -61,8 +70,13 @@
               <nz-form-item nzFlex>
                 <nz-form-label [nzSm]="9" [nzXs]="24">是否完成状态</nz-form-label>
                 <nz-form-control [nzSm]="16" [nzXs]="24">
-                  <nz-select name="sendStatus" [(ngModel)]="params.finishStatus" style="width: 100%;"
-                    nzAllowClear="true" nzShowSearch="true">
+                  <nz-select
+                    name="sendStatus"
+                    [(ngModel)]="params.finishStatus"
+                    style="width: 100%;"
+                    nzAllowClear="true"
+                    nzShowSearch="true"
+                  >
                     <nz-option nzLabel="是" [nzValue]="true"> </nz-option>
                     <nz-option nzLabel="否" [nzValue]="false"> </nz-option>
                   </nz-select>
@@ -77,7 +91,8 @@
 
             <div nz-col [nzSpan]="2">
               <button nz-button (click)="clear()">
-                <i nz-icon type="close" theme="outline" style="margin-top: 3px;"></i>重置
+                <i nz-icon nzType="reload" nzTheme="outline"></i>
+                重置
               </button>
             </div>
           </div>

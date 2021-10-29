@@ -94,7 +94,7 @@ export class AuditPostTypeTreeComponent implements OnInit {
           key: '12',
         },
         {
-          title: '外聘',
+          title: '外聘审计报告',
           key: '13',
         },
       ],

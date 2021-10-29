@@ -111,6 +111,12 @@ export const APP_DATA = {
           // acl: [],
           children: [
             {
+              text: '审计报告',
+              link: '/audit-rectify/audit-post-analysis',
+              i18n: '',
+              // acl: [],
+            },
+            {
               text: '审计问题',
               link: '/audit-rectify/audit-issue-analysis',
               i18n: '',
@@ -125,12 +131,6 @@ export const APP_DATA = {
             {
               text: '整改成果',
               link: '/audit-rectify/rectify-result-analysis',
-              i18n: '',
-              // acl: [],
-            },
-            {
-              text: '审计报告',
-              link: '/audit-rectify/audit-post-analysis',
               i18n: '',
               // acl: [],
             },

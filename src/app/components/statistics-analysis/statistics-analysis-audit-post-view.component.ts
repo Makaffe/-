@@ -171,9 +171,8 @@ export class StatisticsAnalysisAuditPostViewComponent implements OnInit {
       type: 'value',
     },
     xAxis: {
-      name: '报告类型',
       type: 'category',
-      data: ['内审报告', '迎审报告', '外聘报告', '审计报告4', '审计报告5', '审计报告6', '审计报告7'],
+      data: ['审计报告1', '审计报告2', '审计报告3', '审计报告4', '审计报告5', '审计报告6', '审计报告7'],
     },
     series: [
       {
@@ -223,7 +222,7 @@ export class StatisticsAnalysisAuditPostViewComponent implements OnInit {
     color: ['#FAC858'],
 
     title: {
-      text: '审计报告类型涉及金额统计情况',
+      text: '审计报告涉及金额统计情况',
       subtext: '金额分析',
       left: 'center',
     },
@@ -245,9 +244,8 @@ export class StatisticsAnalysisAuditPostViewComponent implements OnInit {
       containLabel: true,
     },
     xAxis: {
-      name: '报告类型',
       type: 'category',
-      data: ['内审报告', '迎审报告', '外聘报告', '审计报告4', '审计报告5', '审计报告6', '审计报告7'],
+      data: ['审计报告1', '审计报告2', '审计报告3', '审计报告4', '审计报告5', '审计报告6', '审计报告7'],
     },
     yAxis: {
       name: '单位（元）',
