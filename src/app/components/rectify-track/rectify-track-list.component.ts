@@ -271,11 +271,17 @@ export class RectifyTrackListComponent implements OnInit {
   /**
    * 移交纪检
    */
-  transfer(item: any) {
+  transfer(item: any, isLook: boolean) {
     const arr = [];
     arr.push(item);
-    this.rectifyIssueTransferComponent.isReadOnly = true;
-    this.rectifyIssueTransferComponent.createDate = false;
+    if (isLook) {
+      this.rectifyIssueTransferComponent.isReadOnly = true;
+      this.rectifyIssueTransferComponent.createDate = false;
+    } else {
+      this.rectifyIssueTransferComponent.isReadOnly = false;
+      this.rectifyIssueTransferComponent.createDate = true;
+    }
+
     this.rectifyIssueTransferComponent.edit(arr);
   }
 }

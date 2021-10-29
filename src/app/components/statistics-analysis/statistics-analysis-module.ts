@@ -13,12 +13,14 @@ import { StatisticsAnalysisAuditRectifyResultComponent } from './statistics-anal
 import { StatisticsAnalysisRectifyDepartmentComponent } from './statistics-analysis-rectify-department/statistics-analysis-rectify-department.component';
 
 import { StatisticsAnalysisDeatilComponent } from './statistics-analysis-detail.component';
+import { StatisticsBrokenLineComponent } from './statistics-broken-line.component';
 
 const COMPONENTS = [
   StatisticsAnalysisAuditIssueViewComponent,
   StatisticsAnalysisAuditRectifyResultComponent,
   StatisticsAnalysisRectifyDepartmentComponent,
   StatisticsAnalysisDeatilComponent,
+  StatisticsBrokenLineComponent,
   StatisticsAnalysisAuditPostViewComponent,
 ];
 @NgModule({
@@ -26,4 +28,4 @@ const COMPONENTS = [
   exports: [...COMPONENTS],
   declarations: [...COMPONENTS],
 })
-export class StatisticsAnalysisModule { }
+export class StatisticsAnalysisModule {}

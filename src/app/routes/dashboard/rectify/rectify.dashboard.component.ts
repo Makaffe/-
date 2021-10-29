@@ -186,6 +186,10 @@ export class RectifyDashboardComponent implements OnInit {
       id: '1',
       message: '餐饮费用整改通知',
     },
+    {
+      id: '2',
+      message: '餐饮费用整改通知2',
+    },
   ];
 
   /**
@@ -205,16 +209,15 @@ export class RectifyDashboardComponent implements OnInit {
         type: 'pie',
         radius: '50%',
         data: [
-          { value: 44, name: '问题总数' },
-          { value: 18, name: '整改中' },
-          { value: 6, name: '已逾期' },
-          { value: 20, name: '未处理' },
+          { value: 44, name: '无法整改' },
+          { value: 18, name: '正在整改' },
+          { value: 6, name: '已完成整改' },
         ],
         emphasis: {
           itemStyle: {
             shadowBlur: 10,
             shadowOffsetX: 0,
-            shadowColor: 'rgba(0, 10, 5, 0.5)',
+            shadowColor: 'rgba(90, 10, 5, 0.5)',
           },
         },
       },

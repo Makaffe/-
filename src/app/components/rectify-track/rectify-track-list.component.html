@@ -59,15 +59,19 @@
           <td>{{ item?.dutyUser?.name }}</td>
           <td>整改跟踪负责人</td>
           <td nzAlign="right">{{ item.rectifyCount }}</td>
-          <td>{{ item.rectifyEndTime }}</td>
-          <td>{{ item.lastModifiedTime }}</td>
-          <td>{{ item.latelyFeedbackTime }}</td>
-          <td>{{ item.nextFeedbackTime }}</td>
-
-          <td nzRight="0px" nzAlign="center">
-            <button style="padding: 0px;" nz-button nzType="link" *ngIf="item.transferStatus === '未移交'">移交</button>
-            <nz-divider nzType="vertical" *ngIf="item.transferStatus === '未移交'"></nz-divider>
-            <button style="padding: 0px;" nz-button nzType="link" (click)="goWorkBeach(item.id)">进入工作台</button>
+          <td nzAlign="center">{{ item.rectifyEndTime }}</td>
+          <td nzAlign="center">{{ item.lastModifiedTime }}</td>
+          <td nzAlign="center">{{ item.latelyFeedbackTime }}</td>
+          <td nzAlign="center">{{ item.nextFeedbackTime }}</td>
+          <td nzRight="0px">
+            <button nz-button nzType="link" (click)="goWorkBeach(item.id)" style="padding: 0;">进入工作台</button>
+            <nz-divider nzType="vertical"></nz-divider>
+            <button nz-button nzType="link" (click)="transfer(item,true)" style="padding: 0;"
+              *ngIf="item.transferStatus === '已移交'">
+              移交结果查看
+            </button>
+            <button style="padding: 0px;" nz-button nzType="link" *ngIf="item.transferStatus === '未移交'"
+              (click)="transfer(item,false)">移交</button>
           </td>
         </tr>
       </ng-container>

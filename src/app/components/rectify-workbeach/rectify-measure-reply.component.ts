@@ -41,6 +41,7 @@ export class RectifyMeasureReplyComponent implements OnInit {
 
   // 保存措施回复
   save() {
+    this.handleCancel();
     this.rectifyMeasureReplyService.add(this.rectifyMeasureReply).subscribe(
       data => {
         this.msg.success('保存成功！');

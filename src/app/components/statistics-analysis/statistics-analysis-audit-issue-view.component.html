@@ -1,4 +1,4 @@
-<div nz-col style="height:100%;margin-left:10px;margin-top:10px;overflow:scroll;">
+<!-- <div nz-col style="height:100%;margin-left:10px;margin-top:10px;overflow:scroll;">
   <div nz-row nzJustify="space-around">
     <div nz-col nzSpan="14">
       <nz-card nzTitle="整改情况统计" style="margin-right: 10px;">
@@ -201,4 +201,83 @@
       </div>
     </nz-card>
   </div>
-</div>
+</div> -->
+<as-split
+  direction="vertical"
+  unit="pixel"
+  gutterSize="0"
+  style="margin: 5px;background-color: white; overflow-y:scroll;"
+>
+  <as-split-area class="flex-fixed" [size]="40">
+    <div style="padding-top: 10px;padding-right: 20px;text-align: right;">
+      <nz-form-item>
+        <nz-form-label [nzSm]="20">年份</nz-form-label>
+        <nz-form-control [nzSm]="4">
+          <nz-year-picker [(ngModel)]="dateYear" (ngModelChange)="onChangeDateYear($event)"></nz-year-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </as-split-area>
+  <as-split-area [size]="'*'">
+    <div nz-row style="height:600px">
+      <div nz-col nzSpan="10">
+        <div style="text-align: center;">
+          <font style="font-size: 18px;font-weight: bold;">审计问题类型</font>
+        </div>
+        <div
+          style="height:360px"
+          class="chart"
+          echarts
+          [theme]="'macarons'"
+          [options]="optionHotWord"
+          (chartClick)="onChartClick($event)"
+        ></div>
+      </div>
+
+      <div nz-col nzSpan="12">
+        <div style="text-align: center;">
+          <font style="font-size: 18px;font-weight: bold;">整改情况统计</font>
+        </div>
+        <div nz-row style="height:360px;margin-top: -40px;">
+          <div nz-col nzSpan="10" style="margin-bottom: -30px;">
+            <div
+              style="height:360px"
+              class="chart"
+              echarts
+              [theme]="'macarons'"
+              [options]="optionPie"
+              (chartClick)="onChartClickPie($event)"
+            ></div>
+          </div>
+          <div nz-col nzSpan="14" style="margin-bottom: -5px;">
+            <div
+              style="height:360px;"
+              echarts
+              [options]="optionColumnarPS"
+              (chartClick)="onChartClickPie($event)"
+            ></div>
+          </div>
+          <div style="text-align: center;">
+            <font style="font-size: 18px;font-weight: bold;">问题数据历史变化</font>
+          </div>
+        </div>
+        <div nz-row style="height:360px;margin-top: -25px;width: 930px;">
+          <div
+            style="height:360px"
+            class="chart"
+            echarts
+            [theme]="'macarons'"
+            [options]="optionCreaseLine"
+            (chartClick)="onChartClickCreaseLin($event)"
+          ></div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top: 50px;" echarts [options]="optionColumnarPS1" (chartClick)="onChartClickPie($event)"></div>
+
+    <div echarts [options]="optionColumnarPS2" (chartClick)="onChartClickPie($event)"></div>
+  </as-split-area>
+</as-split>
+
+<app-statistics-analysis-detail #statisticsAnalysisDeatilComponent></app-statistics-analysis-detail>
+<app-statistics-broken-line #statisticsBrokenLineComponent></app-statistics-broken-line>
