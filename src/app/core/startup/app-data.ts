@@ -122,6 +122,12 @@ export const APP_DATA = {
               i18n: '',
               // acl: [],
             },
+            {
+              text: '审计报告',
+              link: '/audit-rectify/audit-post-analysis',
+              i18n: '',
+              // acl: [],
+            },
           ],
         },
         {

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { StatisticsAnalysisDeatilComponent } from '../statistics-analysis/statistics-analysis-detail.component';
 
 @Component({
   selector: 'app-department-draw',
@@ -7,6 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DepartmentDrawComponent implements OnInit {
   constructor() {}
+
+  @ViewChild('statisticsAnalysisDeatilComponent', { static: false })
+  statisticsAnalysisDeatilComponent: StatisticsAnalysisDeatilComponent;
+
+  /**
+   * 传给子的类型
+   */
+  type: string;
 
   /**
    * 年份
@@ -374,7 +383,10 @@ export class DepartmentDrawComponent implements OnInit {
 
   /**
    * 饼图点击
-   * @param event 饼图数据
+   * @param type 弹窗类型
    */
-  onChartClick(event: any) {}
+  onChartClick(type: string) {
+    this.type = type;
+    this.statisticsAnalysisDeatilComponent.showModal();
+  }
 }

@@ -1,0 +1,15 @@
+<nz-modal
+  [(nzVisible)]="isVisible"
+  nzWidth="80%"
+  nzHeight="80%"
+  [nzTitle]="option + '列表'"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+>
+  <div *ngIf="option === '审计报告'" style="height: 600px;">
+    <app-rectification-post-list #rectificationPostListComponent></app-rectification-post-list>
+  </div>
+  <div *ngIf="option === '整改问题'" style="height: 600px;">
+    <app-rectify-issue-list #rectifyIssueListComponent [isAnalysis]="true"></app-rectify-issue-list>
+  </div>
+</nz-modal>

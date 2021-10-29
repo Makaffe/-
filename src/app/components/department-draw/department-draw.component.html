@@ -36,7 +36,7 @@
               echarts
               [theme]="'macarons'"
               [options]="option1"
-              (chartClick)="onChartClick($event)"
+              (chartClick)="onChartClick('整改问题')"
             ></div>
           </div>
           <div nz-col nzSpan="12">
@@ -45,7 +45,7 @@
               echarts
               [theme]="'macarons'"
               [options]="option2"
-              (chartClick)="onChartClick($event)"
+              (chartClick)="onChartClick('整改问题')"
             ></div>
           </div>
         </div>
@@ -53,29 +53,61 @@
           <div style="text-align: center;margin-top: 10px;margin-bottom: -20px;">
             <font style="font-size: 18px;font-weight: bold;">部门1问题数多年变化</font>
           </div>
-          <div class="chart" echarts [theme]="'macarons'" [options]="option3" (chartClick)="onChartClick($event)"></div>
+          <div
+            class="chart"
+            echarts
+            [theme]="'macarons'"
+            [options]="option3"
+            (chartClick)="onChartClick('整改问题')"
+          ></div>
         </div>
       </div>
     </div>
     <div nz-row style="padding: 10px;">
       <div nz-row nzJustify="space-between">
         <div nz-col nzSpan="8">
-          <div class="chart" echarts [theme]="'macarons'" [options]="option4" (chartClick)="onChartClick($event)"></div>
+          <div
+            class="chart"
+            echarts
+            [theme]="'macarons'"
+            [options]="option4"
+            (chartClick)="onChartClick('整改问题')"
+          ></div>
         </div>
         <div nz-col nzSpan="8">
-          <div class="chart" echarts [theme]="'macarons'" [options]="option5" (chartClick)="onChartClick($event)"></div>
+          <div
+            class="chart"
+            echarts
+            [theme]="'macarons'"
+            [options]="option5"
+            (chartClick)="onChartClick('整改问题')"
+          ></div>
         </div>
         <div nz-col nzSpan="8">
-          <div class="chart" echarts [theme]="'macarons'" [options]="option6" (chartClick)="onChartClick($event)"></div>
+          <div
+            class="chart"
+            echarts
+            [theme]="'macarons'"
+            [options]="option6"
+            (chartClick)="onChartClick('整改问题')"
+          ></div>
         </div>
       </div>
     </div>
     <div nz-row style="padding: 10px;">
       <div nz-row nzJustify="space-between">
         <div nz-col nzSpan="24">
-          <div class="chart" echarts [theme]="'macarons'" [options]="option7" (chartClick)="onChartClick($event)"></div>
+          <div
+            class="chart"
+            echarts
+            [theme]="'macarons'"
+            [options]="option7"
+            (chartClick)="onChartClick('整改问题')"
+          ></div>
         </div>
       </div>
     </div>
   </as-split-area>
 </as-split>
+
+<app-statistics-analysis-detail #statisticsAnalysisDeatilComponent [option]="type"></app-statistics-analysis-detail>

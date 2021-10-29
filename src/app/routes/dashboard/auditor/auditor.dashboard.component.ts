@@ -214,6 +214,8 @@ export class AuditorDashboardComponent implements OnInit {
   option: any;
 
   ngOnInit() {
+    // 柱体颜色数组
+    const colorList = ['#4572A7', '#AA4643', '#89A54E', '#71588F', '#4198AF', '#DB843D', '#93A9CF'];
     this.cards = [
       {
         icon: 'info-circle',
@@ -303,6 +305,11 @@ export class AuditorDashboardComponent implements OnInit {
             { value: 3, name: '已完成整改报告' },
             { value: 5, name: '跟进中的整改问题' },
           ],
+          itemStyle: {
+            color(params) {
+              return colorList[params.dataIndex % colorList.length];
+            },
+          },
         },
       ],
     };
