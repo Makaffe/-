@@ -1,50 +1,91 @@
-<nz-modal [(nzVisible)]="isVisible" [nzTitle]="'子问题详情'" [nzMaskClosable]="false" (nzOnCancel)="handleCancel()"
-  [nzFooter]="formFooter" [nzStyle]="{ top: '65px' }" nzWidth="1200" [nzBodyStyle]="{
+<nz-modal
+  [(nzVisible)]="isVisible"
+  [nzTitle]="'子问题详情'"
+  [nzMaskClosable]="false"
+  (nzOnCancel)="handleCancel()"
+  [nzFooter]="formFooter"
+  [nzStyle]="{ top: '65px' }"
+  nzWidth="70%"
+  [nzBodyStyle]="{
     'overflow-y': 'auto',
     'overflow-x': 'hidden',
     padding: '24px'
-  }">
+  }"
+>
   <form nz-form #form="ngForm">
     <nz-form-item>
       <nz-form-label [nzSpan]="4" nzFor="name" nzRequired>问题名称</nz-form-label>
       <nz-form-control [nzSpan]="8" [nzValidateStatus]="name.invalid && (name.dirty || name.touched) ? 'error' : ''">
-        <input nz-input name="name" #name="ngModel" [(ngModel)]="currentItem.name" placeholder="问题名称" required
-          [readonly]="isWatch" />
+        <input
+          nz-input
+          name="name"
+          #name="ngModel"
+          [(ngModel)]="currentItem.name"
+          placeholder="问题名称"
+          required
+          [readonly]="isWatch"
+        />
         <nz-form-explain *ngIf="name.invalid && (name.dirty || name.touched)">
           请填写问题名称
         </nz-form-explain>
       </nz-form-control>
 
       <nz-form-label [nzSpan]="4" nzFor="problemType" nzRequired>问题类型</nz-form-label>
-      <nz-form-control [nzSpan]="8"
-        [nzValidateStatus]="problemType.invalid && (problemType.dirty || problemType.touched)? 'error' : ''">
-        <app-dict-select required [dictCode]="'PROBLEM_TYPE'" nzAllowClear [placeHolder]="'请选择问题类型'"
-          #problemType="ngModel" name="problemType" [(ngModel)]="currentItem.type" [disabled]='isWatch'>
+      <nz-form-control
+        [nzSpan]="8"
+        [nzValidateStatus]="problemType.invalid && (problemType.dirty || problemType.touched) ? 'error' : ''"
+      >
+        <app-dict-select
+          required
+          [dictCode]="'PROBLEM_TYPE'"
+          nzAllowClear
+          [placeHolder]="'请选择问题类型'"
+          #problemType="ngModel"
+          name="problemType"
+          [(ngModel)]="currentItem.type"
+          [disabled]="isWatch"
+        >
         </app-dict-select>
-        <nz-form-explain *ngIf="problemType.invalid &&(problemType.dirty || problemType.touched)">
+        <nz-form-explain *ngIf="problemType.invalid && (problemType.dirty || problemType.touched)">
           请选择问题类型
         </nz-form-explain>
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
-
       <nz-form-label [nzSpan]="4" nzFor="sjje" nzRequired>涉及金额(元)</nz-form-label>
       <nz-form-control [nzSpan]="8" [nzValidateStatus]="sjje.invalid && (sjje.dirty || sjje.touched) ? 'error' : ''">
-        <nz-input-number class="input-number" name="sjje" [nzMin]="0" [nzPrecision]="2" [(ngModel)]="currentItem.sjje"
-          required #sjje="ngModel" [disabled]="isWatch"></nz-input-number>
+        <nz-input-number
+          class="input-number"
+          name="sjje"
+          [nzMin]="0"
+          [nzPrecision]="2"
+          [(ngModel)]="currentItem.sjje"
+          required
+          #sjje="ngModel"
+          [disabled]="isWatch"
+        ></nz-input-number>
         <nz-form-explain *ngIf="sjje.invalid && (sjje.dirty || sjje.touched)">
           请填写涉及金额
         </nz-form-explain>
       </nz-form-control>
 
       <nz-form-label [nzSpan]="4" nzFor="dutyUserId" nzRequired>整改负责人</nz-form-label>
-      <nz-form-control [nzSpan]="8"
-        [nzValidateStatus]="dutyUserId.invalid && (dutyUserId.dirty || dutyUserId.touched)? 'error': ''">
-        <nz-select name="dutyUser" [(ngModel)]="currentItem.dutyUserId" style="width: 100%;" nzShowSearch="true"
-          nzAllowClear="true" #dutyUserId="ngModel" required [disabled]='isWatch'>
-          <nz-option *ngFor="let option of dutyUserList" [nzLabel]="option.name" [nzValue]="option.id">
-          </nz-option>
+      <nz-form-control
+        [nzSpan]="8"
+        [nzValidateStatus]="dutyUserId.invalid && (dutyUserId.dirty || dutyUserId.touched) ? 'error' : ''"
+      >
+        <nz-select
+          name="dutyUser"
+          [(ngModel)]="currentItem.dutyUserId"
+          style="width: 100%;"
+          nzShowSearch="true"
+          nzAllowClear="true"
+          #dutyUserId="ngModel"
+          required
+          [disabled]="isWatch"
+        >
+          <nz-option *ngFor="let option of dutyUserList" [nzLabel]="option.name" [nzValue]="option.id"> </nz-option>
         </nz-select>
         <nz-form-explain *ngIf="dutyUserId.invalid && (dutyUserId.dirty || dutyUserId.touched)">
           请选择整改负责人
@@ -54,10 +95,19 @@
 
     <nz-form-item>
       <nz-form-label [nzSpan]="4" nzFor="remark" nzRequired>问题描述</nz-form-label>
-      <nz-form-control [nzSpan]="20"
-        [nzValidateStatus]="remark.invalid && (remark.dirty || remark.touched) ? 'error' : ''">
-        <textarea required rows="3" #remark="ngModel" nz-input name="remark" [(ngModel)]="currentItem.remark"
-          [readonly]="isWatch"></textarea>
+      <nz-form-control
+        [nzSpan]="20"
+        [nzValidateStatus]="remark.invalid && (remark.dirty || remark.touched) ? 'error' : ''"
+      >
+        <textarea
+          required
+          rows="6"
+          #remark="ngModel"
+          nz-input
+          name="remark"
+          [(ngModel)]="currentItem.remark"
+          [readonly]="isWatch"
+        ></textarea>
         <nz-form-explain *ngIf="remark.invalid && (remark.dirty || remark.touched)">
           请填写问题描述
         </nz-form-explain>
@@ -66,24 +116,32 @@
 
     <nz-form-item>
       <nz-form-label [nzSpan]="4" nzFor="rectifyDepartmentId" nzRequired>整改对象</nz-form-label>
-      <nz-form-control [nzSpan]="8" [nzValidateStatus]="
-      rectifyDepartmentId.invalid &&
-          (rectifyDepartmentId.dirty || rectifyDepartmentId.touched)
-            ? 'error'
-            : ''
-        ">
-        <nz-cascader nzChangeOnSelect [nzOptions]="options" [(ngModel)]="values" [disabled]="isWatch"
-          #rectifyDepartmentId="ngModel" required name="rectifyDepartmentId">
+      <nz-form-control
+        [nzSpan]="8"
+        [nzValidateStatus]="
+          rectifyDepartmentId.invalid && (rectifyDepartmentId.dirty || rectifyDepartmentId.touched) ? 'error' : ''
+        "
+      >
+        <nz-cascader
+          nzChangeOnSelect
+          [nzOptions]="options"
+          [(ngModel)]="values"
+          [disabled]="isWatch"
+          #rectifyDepartmentId="ngModel"
+          required
+          name="rectifyDepartmentId"
+        >
         </nz-cascader>
         <nz-form-explain
-          *ngIf="rectifyDepartmentId.invalid && (rectifyDepartmentId.dirty || rectifyDepartmentId.touched)">
+          *ngIf="rectifyDepartmentId.invalid && (rectifyDepartmentId.dirty || rectifyDepartmentId.touched)"
+        >
           请选择整改对象
         </nz-form-explain>
       </nz-form-control>
 
       <nz-form-label [nzSpan]="4" nzFor="zgjzsj">整改截止时间</nz-form-label>
       <nz-form-control [nzSpan]="8">
-        <nz-date-picker [nzFormat]="'yyyy-MM-dd'" name="zgjzsj" [(ngModel)]="currentItem.zgjzsj" [disabled]='isWatch'>
+        <nz-date-picker [nzFormat]="'yyyy-MM-dd'" name="zgjzsj" [(ngModel)]="currentItem.zgjzsj" [disabled]="isWatch">
         </nz-date-picker>
       </nz-form-control>
     </nz-form-item>
@@ -99,10 +157,9 @@
     <nz-form-item>
       <nz-form-label [nzSpan]="4" nzFor="advice">审计建议</nz-form-label>
       <nz-form-control [nzSpan]="20">
-        <textarea rows="3" nz-input name="advice" [(ngModel)]="currentItem.advice" [readonly]="isWatch"></textarea>
+        <textarea rows="6" nz-input name="advice" [(ngModel)]="currentItem.advice" [readonly]="isWatch"></textarea>
       </nz-form-control>
     </nz-form-item>
-
   </form>
   <ng-template #formFooter>
     <button nz-button nzType="default" (click)="handleCancel()">取消</button>

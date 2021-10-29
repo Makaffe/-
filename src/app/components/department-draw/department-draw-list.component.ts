@@ -11,7 +11,7 @@ const TAG: STColumnTag = {
 };
 
 @Component({
-  selector: 'department-draw-list',
+  selector: 'app-department-draw-list',
   templateUrl: './department-draw-list.component.html',
   styles: [],
 })
