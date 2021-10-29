@@ -149,6 +149,7 @@ export class RectifyWorkbeachTableComponent implements OnInit {
     this.rectifyWorkbeachPutComponent.currentItem.closingDate = new Date();
     this.rectifyWorkbeachPutComponent.isVisible = true;
     //this.rectifyWorkbeachPutComponent.access = true;
+    this.rectifyWorkbeachPutComponent.isable = true;
   }
 
   /**
