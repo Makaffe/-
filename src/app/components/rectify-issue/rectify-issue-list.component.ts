@@ -21,6 +21,12 @@ export class RectifyIssueListComponent implements OnInit {
   rectifyIssueOrderComponent: RectifyIssueOrderComponent;
 
   /**
+   * 是否是统计分析（当为true是只有查看且没有checkbox）
+   */
+  @Input()
+  isAnalysis = false;
+
+  /**
    * 树表格相关参数
    */
   mapOfCheckedId: { [id: string]: boolean } = {};
