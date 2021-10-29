@@ -15,6 +15,11 @@ export class SuperviseDashboardComponent implements OnInit {
     front: false,
     show: false,
   };
+  value1 = '5';
+  value2 = '10';
+  value3 = '5';
+  value4 = '2';
+
   messages: any[] = [
     {
       name: '消息1',
@@ -129,6 +134,10 @@ export class SuperviseDashboardComponent implements OnInit {
       }
     ]
   };
+  format1 = (percent: string): string => this.value1;
+  format2 = (percent: string): string => this.value2;
+  format3 = (percent: string): string => this.value3;
+  format4 = (percent: string): string => this.value4;
 
   ngOnInit(): void {
   }

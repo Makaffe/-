@@ -31,15 +31,15 @@
           <form #searchForm="ngForm" nz-form class="matech-search-form">
             <div nz-row [nzGutter]="24" nzType="flex" nzJustify="space-between" nzAlign="middle" class="search-row">
               <!-- 搜索框 -->
-              <div nz-col [nzSpan]="9">
+              <div nz-col [nzSpan]="6">
                 <nz-form-item style="justify-content: start;">
-                  <nz-form-label [nzSpan]="8">整改汇报名称</nz-form-label>
-                  <nz-form-control [nzSpan]="16">
+                  <nz-form-label [nzSpan]="10">整改汇报名称</nz-form-label>
+                  <nz-form-control [nzSpan]="14">
                     <input nz-input type="text" name="name" [(ngModel)]="filter.name" placeholder="请输入搜索名称" />
                   </nz-form-control>
                 </nz-form-item>
               </div>
-              <div nz-col [nzSpan]="9" *ngIf="currentClickNode.name!=='按审计报告'&&currentClickNode.name!=='按整改部门'">
+              <div nz-col [nzSpan]="6" *ngIf="currentClickNode.name!=='按审计报告'&&currentClickNode.name!=='按整改部门'">
                 <nz-form-item style="justify-content: start;">
                   <nz-form-label [nzSpan]="8">统计时间</nz-form-label>
                   <nz-form-control [nzSpan]="16">
@@ -47,7 +47,7 @@
                   </nz-form-control>
                 </nz-form-item>
               </div>
-              <div nz-col [nzSpan]="9" *ngIf="currentClickNode.name==='按审计报告'">
+              <div nz-col [nzSpan]="6" *ngIf="currentClickNode.name==='按审计报告'">
                 <nz-form-item style="justify-content: start;">
                   <nz-form-label [nzSpan]="8">审计报告</nz-form-label>
                   <nz-form-control [nzSpan]="16">
@@ -56,16 +56,24 @@
                   </nz-form-control>
                 </nz-form-item>
               </div>
-              <div nz-col [nzSpan]="9" *ngIf="currentClickNode.name==='按整改部门'">
+              <div nz-col [nzSpan]="8" *ngIf="currentClickNode.name==='按整改部门'">
                 <nz-form-item style="justify-content: start;">
-                  <nz-form-label [nzSpan]="8">整改部门</nz-form-label>
-                  <nz-form-control [nzSpan]="8">
+                  <nz-form-label [nzSpan]="6">整改部门</nz-form-label>
+                  <nz-form-control [nzSpan]="9">
                     <mt-organization-select placeHolder="整改单位" organizationType="UNIT">
                     </mt-organization-select>
                   </nz-form-control>
-                  <nz-form-control [nzSpan]="8">
+                  <nz-form-control [nzSpan]="9">
                     <mt-organization-select placeHolder="整改部门" organizationType="DEPARTMENT">
                     </mt-organization-select>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col [nzSpan]="4">
+                <nz-form-item style="justify-content: start;">
+                  <nz-form-label [nzSpan]="10">年份</nz-form-label>
+                  <nz-form-control [nzSpan]="14">
+                    <nz-year-picker name="year" [(ngModel)]="filter.year" nzPlaceHolder="请选择"></nz-year-picker>
                   </nz-form-control>
                 </nz-form-item>
               </div>

@@ -117,6 +117,12 @@ export const APP_DATA = {
               // acl: [],
             },
             {
+              text: '整改部门',
+              link: '/audit-rectify/rectify-department-analysis',
+              i18n: '',
+              // acl: [],
+            },
+            {
               text: '整改成果',
               link: '/audit-rectify/rectify-result-analysis',
               i18n: '',

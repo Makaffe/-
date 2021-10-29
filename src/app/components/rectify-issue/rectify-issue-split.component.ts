@@ -81,7 +81,7 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
   /**
    * 模态框高度
    */
-  height = '800px';
+  height = null;
 
   /**
    * 后台请求标识

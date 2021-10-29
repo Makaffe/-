@@ -250,7 +250,7 @@ export class StatisticsAnalysisAuditPostViewComponent implements OnInit {
       data: ['内审报告', '迎审报告', '外聘报告', '审计报告4', '审计报告5', '审计报告6', '审计报告7'],
     },
     yAxis: {
-      name: '涉及金额',
+      name: '单位（元）',
       type: 'value',
     },
     series: [
