@@ -392,43 +392,42 @@ export class StatisticsAnalysisAuditIssueViewComponent implements OnInit {
    */
   optionColumnarPS = {
     tooltip: {
-      trigger: 'item',
+      trigger: 'axis',
+      axisPointer: {
+        type: 'shadow',
+      },
     },
-    xAxis: {
-      type: 'category',
-      data: ['整改逾期问题数', '移交纪检问题数', '未完成整改问题数'],
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true,
     },
-    yAxis: {
-      type: 'value',
-    },
+    xAxis: [
+      {
+        type: 'category',
+        data: ['整改逾期问题数', '未完成整改问题数', '移交纪检问题数'],
+        axisTick: {
+          alignWithLabel: true,
+        },
+      },
+    ],
+    yAxis: [
+      {
+        type: 'value',
+      },
+    ],
     series: [
       {
-        data: [120, 200, 150],
         type: 'bar',
+        barWidth: '40',
+        data: [5, 12, 3],
         itemStyle: {
-          normal: {
-            // 好，这里就是重头戏了，定义一个list，然后根据所以取得不同的值，这样就实现了，
-            color(params) {
-              // build a color map as your need.
-              // const colorList = ['#E87C25', '#FAD860'];
-
-              // return colorList[params.dataIndex];
-              return '#26C0C0';
-            },
-            // 以下为是否显示，显示位置和显示格式的设置了
-            //   label: {
-            //     show: true,
-
-            //     position: 'top',
-
-            //     //                             formatter: '{c}'
-
-            //     formatter: '{b}\n{c}',
-            //   },
+          color(params) {
+            const colorList = ['#4572A7', '#AA4643', '#89A54E', '#71588F', '#4198AF', '#DB843D', '#93A9CF'];
+            return colorList[params.dataIndex % colorList.length];
           },
         },
-        // 设置柱的宽度，要是数据太少，柱子太宽不美观~
-        barWidth: 40,
       },
     ],
   };
@@ -672,12 +671,12 @@ export class StatisticsAnalysisAuditIssueViewComponent implements OnInit {
   ngOnInit() {}
 
   onChartClickPie(ev: any) {
-    this.statisticsAnalysisDeatilComponent.option = 'option4';
+    this.statisticsAnalysisDeatilComponent.option = '整改问题';
     this.statisticsAnalysisDeatilComponent.isVisible = true;
   }
 
   onChartClick(ev: any) {
-    this.statisticsAnalysisDeatilComponent.option = 'option1';
+    this.statisticsAnalysisDeatilComponent.option = '审计报告';
     this.statisticsAnalysisDeatilComponent.isVisible = true;
   }
 
