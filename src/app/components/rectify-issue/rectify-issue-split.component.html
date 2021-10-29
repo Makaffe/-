@@ -182,24 +182,27 @@
               <nz-form-label nzSpan="4" nzRequired>问题描述</nz-form-label>
               <nz-form-control nzSpan="20"
                 [nzValidateStatus]="remark.invalid && (remark.dirty || remark.touched) ? 'error' : ''">
-                <textarea nz-input name="remark" [(ngModel)]="currentItem.remark" rows="5" required
+                <textarea nz-input name="remark" [(ngModel)]="currentItem.remark" rows="5" required [readOnly]="isWatch"
                   #remark="ngModel"></textarea>
                 <nz-form-explain *ngIf="remark.invalid && (remark.dirty || remark.touched)">
                   请填写问题描述
                 </nz-form-explain>
               </nz-form-control>
             </nz-form-item>
-            <nz-form-item>
-              <nz-form-label nzSpan="4">审计建议</nz-form-label>
-              <nz-form-control nzSpan="20">
-                <textarea nz-input name="advice" [(ngModel)]="currentItem.advice" rows="5"></textarea>
-              </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
+
+            <nz-form-item *ngIf="!isWatch">
               <nz-form-label nzSpan="4">引用建议模版</nz-form-label>
               <nz-form-control nzSpan="8">
                 <app-advice-template-select [(adviceTemplate)]="currentItem.advice" [disabled]="isWatch">
                 </app-advice-template-select>
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label nzSpan="4">审计建议</nz-form-label>
+              <nz-form-control nzSpan="20">
+                <textarea nz-input name="advice" [(ngModel)]="currentItem.advice" rows="5"
+                  [readOnly]="isWatch"></textarea>
               </nz-form-control>
             </nz-form-item>
 
@@ -212,9 +215,8 @@
                     <th nzWidth="50px" nzAlign="center">序号</th>
                     <th nzWidth="20%">问题名称</th>
                     <th nzWidth="15%">问题类型</th>
-                    <th nzWidth="10%">涉及金额(元)</th>
-                    <th nzWidth="15%">整改单位</th>
-                    <th nzWidth="15%">整改部门</th>
+                    <th nzWidth="15%">涉及金额(元)</th>
+                    <th nzWidth="25%">整改对象</th>
                     <th nzWidth="10%">整改负责人</th>
                     <th nzWidth="15%">整改截止时间</th>
                     <th nzWidth="160px" nzAlign="center">
@@ -226,12 +228,11 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let data of childrenTable.data; let i = index">
-                    <td>{{ i + 1 }}</td>
+                    <td nzAlign="center">{{ i + 1 }}</td>
                     <td>{{ data.name }}</td>
                     <td>{{ data.type | dictTransform: 'PROBLEM_TYPE' | async }}</td>
                     <td nzAlign="right">{{ data.sjje | currency: 'CNY':'symbol-narrow' }}</td>
-                    <td>{{ convertOrganization(data?.rectifyDepartmentId) }}</td>
-                    <td>{{ convertOrganization(data?.rectifyDepartmentId) }}</td>
+                    <td>整改单位1/整改部门1/张伟</td>
                     <td>{{ convertDutyUser(data?.dutyUserId) }}</td>
                     <td>{{ formatDateFun(data?.zgjzsj) }}</td>
                     <td nzRight="0px" nzAlign="center">

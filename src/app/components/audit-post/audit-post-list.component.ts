@@ -26,6 +26,7 @@ export class AuditPostListComponent implements OnInit {
   tableData: Array<any> = [
     {
       auditReportStatus: 'GENERATED',
+      type: '内审报告',
       name: '审计报告',
       auditName: '审计单位',
       auditStartTime: '2021-10-26',
@@ -34,6 +35,7 @@ export class AuditPostListComponent implements OnInit {
     },
     {
       auditReportStatus: 'NO_GENERATED',
+      type: '迎审报告',
       name: '审计报告',
       auditName: '审计单位',
       auditStartTime: '2021-10-26',
@@ -42,6 +44,7 @@ export class AuditPostListComponent implements OnInit {
     },
     {
       auditReportStatus: 'GENERATING',
+      type: '外聘报告',
       name: '审计报告',
       auditName: '审计单位',
       auditStartTime: '2021-10-26',
@@ -63,6 +66,13 @@ export class AuditPostListComponent implements OnInit {
       type: 'tag',
       tag: TAG,
       fixed: 'left',
+    },
+    {
+      title: '审计报告类型',
+      index: 'type',
+      width: '40px',
+      sort: this.tableParameter.sortDef,
+      className: 'text-center',
     },
     {
       title: '审计报告名称',

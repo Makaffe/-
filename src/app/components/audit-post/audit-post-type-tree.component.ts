@@ -7,7 +7,7 @@ import { AuditPostTreeEditComponent } from './audit-post-tree-edit.component';
 import { AuditPostTypeService } from './service/AuditPostTypeService';
 
 @Component({
-  selector: 'audit-post-type-tree',
+  selector: 'app-audit-post-type-tree',
   templateUrl: './audit-post-type-tree.component.html',
   styleUrls: ['./audit-post-type-tree.component.less'],
 })
@@ -82,9 +82,22 @@ export class AuditPostTypeTreeComponent implements OnInit {
   // 左侧树节点数据
   nodes = [
     {
-      title: '审计报告1',
-      key: '123',
-      children: [],
+      title: '所有报告',
+      key: '1',
+      children: [
+        {
+          title: '内审报告',
+          key: '11',
+        },
+        {
+          title: '迎审报告',
+          key: '12',
+        },
+        {
+          title: '外聘',
+          key: '13',
+        },
+      ],
     },
   ];
 

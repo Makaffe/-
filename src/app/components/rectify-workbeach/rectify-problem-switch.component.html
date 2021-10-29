@@ -1,6 +1,6 @@
 <nz-modal [(nzVisible)]="isVisible" [nzMaskClosable]="false" (nzOnCancel)="handleCancel()"
   [nzFooter]="noticeEditorFooter" nzWidth="80%" [nzTitle]="'切换整改问题'" [nzBodyStyle]="{
-    'height': '700px',
+    height: '700px',
     'overflow-y': 'auto',
     'overflow-x': 'hidden',
     padding: '24px 24px 0 24px'
@@ -39,7 +39,6 @@
                     </nz-range-picker>
                   </nz-form-control>
                 </nz-form-item>
-
               </div>
               <div nz-col [nzSpan]="2" nzOffset="1">
                 <button nz-button nzType="primary" style="margin-top: 3px;" (click)="search()">
@@ -77,8 +76,9 @@
               </div>
               <div nz-col [nzSpan]="7"></div>
               <div nz-col [nzSpan]="2" nzOffset="1">
-                <button nz-button (click)="clear()"><i nz-icon type="close" theme="outline"
-                    style="margin-top: 3px;"></i>清除</button>
+                <button nz-button (click)="clear()">
+                  <i nz-icon type="close" theme="outline" style="margin-top: 3px;"></i>重置
+                </button>
               </div>
             </div>
           </div>
@@ -94,19 +94,18 @@
         <ng-template #totalTemplate let-total> 共 {{ pageInfo.totalRecords }} 条 </ng-template>
         <thead>
           <tr>
-            <th nzWidth="50px" nzAlign="center" nzLeft="0px"></th>
-            <th nzWidth="100px" nzLeft="50px">序号</th>
+            <th nzWidth="100px" nzLeft="0px" nzAlign="center">序号</th>
             <th nzWidth="100px" nzAlign="center">下发状态</th>
             <th nzWidth="100px" nzAlign="center">移交状态</th>
             <th nzWidth="150px">审计报告名称</th>
-            <th nzWidth="150px">问题名称</th>
+            <th nzWidth="200px">问题名称</th>
             <th nzWidth="150px">问题类型</th>
-            <th nzWidth="150px">涉及金额(元)</th>
-            <th nzWidth="150px">整改部门</th>
-            <th nzWidth="150px">整改单位</th>
+            <th nzWidth="150px" nzAlign="right">涉及金额(元)</th>
+            <th nzWidth="200px">整改反馈进度</th>
+            <th nzWidth="150px">整改对象</th>
             <th nzWidth="150px">整改负责人</th>
-            <th nzWidth="150px">审计负责人</th>
-            <th nzWidth="150px">已完成整改措施数</th>
+            <th nzWidth="150px">整改跟踪负责人</th>
+            <th nzWidth="150px" nzAlign="right">已完成整改措施数</th>
             <th nzWidth="150px">整改截止时间</th>
             <th nzWidth="150px">整改拟完成时间</th>
             <th nzWidth="150px">最近一次反馈时间</th>
@@ -119,7 +118,7 @@
             <ng-container *ngFor="let item of mapOfExpandedData[data.id]; let ci = index">
               <tr *ngIf="(item.parent && item.parent.expand) || !item.parent">
                 <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[item.id]"
-                  (nzCheckedChange)="checked(item,mapOfCheckedId[item.id])" nzLeft="0px"></td>
+                  (nzCheckedChange)="checked(item, mapOfCheckedId[item.id])" nzLeft="0px"></td>
                 <td [nzIndentSize]="item.level * 20" [nzShowExpand]="!!(item.children && item.children.length > 0)"
                   [(nzExpand)]="item.expand" (nzExpandChange)="collapse(mapOfExpandedData[data.id], item, $event)"
                   *ngIf="item.level === 0" nzLeft="50px">
@@ -142,18 +141,17 @@
                 <td>{{ item.name }}</td>
                 <td>{{ item.type | dictTransform: 'PROBLEM_TYPE' | async }}</td>
                 <td nzAlign="right">{{ 123 | currency: 'CNY':'symbol-narrow' }}</td>
-                <td>{{ item?.rectifyDepartment?.name }}</td>
-                <td>整改单位</td>
-                <td>{{ item?.dutyUser?.name }}</td>
-                <td>审计负责人</td>
-                <td>{{ item.rectifyCount }}</td>
-                <td>{{ item.rectifyEndTime }}</td>
-                <td>{{ item.lastModifiedTime }}</td>
-                <td>{{ item.latelyFeedbackTime }}</td>
-                <td>{{ item.nextFeedbackTime }}</td>
                 <td>
                   <nz-progress [nzPercent]="item.rectifyPassPercent"></nz-progress>
                 </td>
+                <td>整改对象</td>
+                <td>{{ item?.dutyUser?.name }}</td>
+                <td>整改跟踪负责人</td>
+                <td nzAlign="right">{{ item.rectifyCount }}</td>
+                <td nzAlign="center">{{ item.rectifyEndTime }}</td>
+                <td nzAlign="center">{{ item.lastModifiedTime }}</td>
+                <td nzAlign="center">{{ item.latelyFeedbackTime }}</td>
+                <td nzAlign="center">{{ item.nextFeedbackTime }}</td>
               </tr>
             </ng-container>
           </ng-container>
@@ -161,7 +159,6 @@
       </nz-table>
     </as-split-area>
   </as-split>
-
 
   <ng-template #noticeEditorFooter>
     <button nz-button nzType="default" (click)="handleCancel()">取消</button>

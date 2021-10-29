@@ -117,7 +117,23 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   changeMsOrRp: ChangeMsOrRp;
 
   // 整改跟踪dto
-  rectifyTrack = this.initRtParams();
+  // rectifyTrack = this.initRtParams();
+  rectifyTrack = {
+    id: '1',
+    sendStatus: '已下发',
+    transferStatus: '未移交',
+    auditPost: { name: '审计报告' },
+    name: '餐饮费用超过规定标准',
+    type: '',
+    rectifyDepartment: { name: '自然资源局' },
+    dutyUser: { name: '李名' },
+    rectifyCount: 1,
+    rectifyEndTime: '2021-12-13',
+    lastModifiedTime: '2021-12-10',
+    latelyFeedbackTime: '2021-11-10',
+    nextFeedbackTime: '2021-11-30',
+    rectifyPassPercent: '20',
+  };
 
   // 折叠与展开
   isFold = true;
@@ -164,6 +180,23 @@ export class RectifyWorkbeachViewComponent implements OnInit {
       rectifyProgress: 10,
       systemFiles: [],
       rectifyCompleteTime: '2021-11-8',
+      rectifyMeasureReplys: [
+        {
+          name: '小明 2021-10-11',
+          replyContent: '关于xxx整改措施补充',
+          systemFiles: [{ name: '整改措施文件', originalName: '整改措施文件', size: '10', type: 'other' }],
+        },
+        {
+          name: '王成 2021-10-16',
+          replyContent: '已收到关于xxx整改措施补充',
+          systemFiles: [{ name: '整改措施文件2', originalName: '整改措施文件2', size: '10', type: 'other' }],
+        },
+        {
+          name: '小明 2021-10-17',
+          replyContent: '问题整改过程中出现了。。。',
+          systemFiles: [],
+        },
+      ],
     },
   ];
 
@@ -250,22 +283,22 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   /**
    * 处理路由参数
    */
-  resolveQueryParam() {
-    // 处理路由参数
-    this.activatedRoute.queryParams.subscribe(queryParams => {
-      if (queryParams.isRectify === 'true') {
-        this.isRectify = true;
-        this.rectifyTrack.id = '404664016171044864';
-      } else {
-        this.isRectify = false;
-        this.rectifyTrack.id = queryParams.rectifyProblemId;
-      }
-      this.rectifyProblemService.rectifyTrackById(this.rectifyTrack.id).subscribe(data => {
-        this.rectifyTrack = data;
-        this.date = this.formatDate(data.rectifyEndTime);
-      });
-    });
-  }
+  // resolveQueryParam() {
+  //   // 处理路由参数
+  //   this.activatedRoute.queryParams.subscribe(queryParams => {
+  //     if (queryParams.isRectify === 'true') {
+  //       this.isRectify = true;
+  //       this.rectifyTrack.id = '404664016171044864';
+  //     } else {
+  //       this.isRectify = false;
+  //       this.rectifyTrack.id = queryParams.rectifyProblemId;
+  //     }
+  //     this.rectifyProblemService.rectifyTrackById(this.rectifyTrack.id).subscribe(data => {
+  //       this.rectifyTrack = data;
+  //       this.date = this.formatDate(data.rectifyEndTime);
+  //     });
+  //   });
+  // }
 
   /**
    * 每页条数改变的回调
@@ -432,6 +465,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
       advice: item ? item.advice : null,
       rectifyDepartment: item ? item.rectifyDepartment : this.rd(),
       dutyUser: item ? item.dutyUser : this.du(),
+      transferStatus: item ? item.transferStatus : null,
     };
   }
 
@@ -487,10 +521,10 @@ export class RectifyWorkbeachViewComponent implements OnInit {
     this.rectifyProblemSwitchComponent.isVisible = true;
   }
 
-  chageRectify(rs: RectifyTrackDTO) {
+  chageRectify(rs: any) {
     if (rs) {
       this.rectifyTrack = rs;
-      this.loadData();
+      // this.loadData();
     }
   }
 
@@ -524,7 +558,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
    * 延期审批
    */
   delayExtension() {
-    this.rectifyWorkbeachPutComponent.isWatchForTable = true;
+    // this.rectifyWorkbeachPutComponent.isWatchForTable = true;
     this.rectifyWorkbeachPutComponent.open();
   }
 

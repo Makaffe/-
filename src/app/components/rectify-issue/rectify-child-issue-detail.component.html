@@ -88,17 +88,18 @@
       </nz-form-control>
     </nz-form-item>
 
-    <nz-form-item>
-      <nz-form-label [nzSpan]="4" nzFor="advice">审计建议</nz-form-label>
-      <nz-form-control [nzSpan]="20">
-        <textarea rows="3" nz-input name="advice" [(ngModel)]="currentItem.advice" [readonly]="isWatch"></textarea>
+    <nz-form-item *ngIf="!isWatch">
+      <nz-form-label nzSpan="4">引用建议模版</nz-form-label>
+      <nz-form-control nzSpan="8">
+        <app-advice-template-select [(adviceTemplate)]="currentItem.advice" [disabled]="isWatch">
+        </app-advice-template-select>
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label nzSpan="4">引用建议模版</nz-form-label>
-      <nz-form-control nzSpan="8">
-        <app-advice-template-select [(adviceTemplate)]="currentItem.advice"></app-advice-template-select>
+      <nz-form-label [nzSpan]="4" nzFor="advice">审计建议</nz-form-label>
+      <nz-form-control [nzSpan]="20">
+        <textarea rows="3" nz-input name="advice" [(ngModel)]="currentItem.advice" [readonly]="isWatch"></textarea>
       </nz-form-control>
     </nz-form-item>
 

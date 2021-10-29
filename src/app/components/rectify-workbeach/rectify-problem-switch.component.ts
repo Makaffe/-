@@ -28,13 +28,64 @@ export class RectifyProblemSwitchComponent implements OnInit {
    * 树表格相关参数
    */
   mapOfCheckedId: { [id: string]: boolean } = {};
-  listOfMapData = [];
+  listOfMapData = [
+    {
+      id: '1',
+      sendStatus: '已下发',
+      transferStatus: '未移交',
+      auditPost: { name: '审计报告' },
+      name: '餐饮费用超过规定标准',
+      type: '',
+      rectifyDepartment: { name: '自然资源局' },
+      dutyUser: { name: '李名' },
+      rectifyCount: 1,
+      rectifyEndTime: '2021-12-13',
+      lastModifiedTime: '2021-12-10',
+      latelyFeedbackTime: '2021-11-10',
+      nextFeedbackTime: '2021-11-30',
+      rectifyPassPercent: '20',
+      children: [
+        {
+          id: '12',
+          sendStatus: '已下发',
+          transferStatus: '未移交',
+          auditPost: { name: '审计报告' },
+          name: '餐饮费用超过规定标准',
+          type: '',
+          rectifyDepartment: { name: '自然资源局' },
+          dutyUser: { name: '李名' },
+          rectifyCount: 1,
+          rectifyEndTime: '2021-12-13',
+          lastModifiedTime: '2021-12-10',
+          latelyFeedbackTime: '2021-11-10',
+          nextFeedbackTime: '2021-11-30',
+          rectifyPassPercent: '20',
+        },
+      ],
+    },
+    {
+      id: '2',
+      sendStatus: '已下发',
+      transferStatus: '已移交',
+      auditPost: { name: '审计报告' },
+      name: '餐饮费用超过规定标准',
+      type: '',
+      rectifyDepartment: { name: '自然资源局' },
+      dutyUser: { name: '李名' },
+      rectifyCount: 1,
+      rectifyEndTime: '2021-12-13',
+      lastModifiedTime: '2021-12-10',
+      latelyFeedbackTime: '2021-11-10',
+      nextFeedbackTime: '2021-11-30',
+      rectifyPassPercent: '20',
+    },
+  ];
   mapOfExpandedData: { [id: string]: any[] } = {};
 
   /**
    * checkbox选中的数据
    */
-  checkboxData: RectifyTrackDTO;
+  checkboxData: any;
 
   //
   checkId: any;
@@ -102,7 +153,10 @@ export class RectifyProblemSwitchComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.load();
+    // this.load();
+    this.listOfMapData.forEach(item => {
+      this.mapOfExpandedData[item.id] = this.convertTreeToList(item);
+    });
   }
 
   initParams() {
@@ -137,7 +191,7 @@ export class RectifyProblemSwitchComponent implements OnInit {
       .subscribe(
         data => {
           if (data) {
-            this.listOfMapData = data.data;
+            // this.listOfMapData = data.data;
             this.pageInfo.pageNo = data.pageNo + 1;
             this.pageInfo.pageSize = data.pageSize;
             this.pageInfo.totalPages = data.totalPages;

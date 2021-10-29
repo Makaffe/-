@@ -24,14 +24,23 @@
               <nz-form-item nzFlex>
                 <nz-form-label [nzSm]="10" [nzXs]="24">报告导入时间</nz-form-label>
                 <nz-form-control [nzSm]="8" [nzXs]="12">
-                  <nz-date-picker [nzFormat]="'yyyy-MM-dd'" name="startDate"
-                    [(ngModel)]="params.improtAuditPostStartTime" nzPlaceHolder="开始日期"
-                    [nzDisabledDate]="disabledStartDate">
+                  <nz-date-picker
+                    [nzFormat]="'yyyy-MM-dd'"
+                    name="startDate"
+                    [(ngModel)]="params.improtAuditPostStartTime"
+                    nzPlaceHolder="开始日期"
+                    [nzDisabledDate]="disabledStartDate"
+                  >
                   </nz-date-picker>
                 </nz-form-control>
                 <nz-form-control [nzSm]="8" [nzXs]="12">
-                  <nz-date-picker [nzFormat]="'yyyy-MM-dd'" name="endDate" [(ngModel)]="params.improtAuditPostEndTime"
-                    nzPlaceHolder="结束日期" [nzDisabledDate]="disabledEndDate">
+                  <nz-date-picker
+                    [nzFormat]="'yyyy-MM-dd'"
+                    name="endDate"
+                    [(ngModel)]="params.improtAuditPostEndTime"
+                    nzPlaceHolder="结束日期"
+                    [nzDisabledDate]="disabledEndDate"
+                  >
                   </nz-date-picker>
                 </nz-form-control>
               </nz-form-item>
@@ -41,8 +50,12 @@
               <nz-form-item>
                 <nz-form-label [nzSm]="9" [nzXs]="24">问题类型</nz-form-label>
                 <nz-form-control [nzSm]="16" [nzXs]="24">
-                  <app-dict-select [dictCode]="'PROBLEM_TYPE'" nzAllowClear name="problemType"
-                    [(ngModel)]="params.problemType">
+                  <app-dict-select
+                    [dictCode]="'PROBLEM_TYPE'"
+                    nzAllowClear
+                    name="problemType"
+                    [(ngModel)]="params.problemType"
+                  >
                   </app-dict-select>
                 </nz-form-control>
               </nz-form-item>
@@ -68,8 +81,13 @@
               <nz-form-item nzFlex>
                 <nz-form-label [nzSm]="9" [nzXs]="24">下发状态</nz-form-label>
                 <nz-form-control [nzSm]="16" [nzXs]="24">
-                  <nz-select name="sendStatus" [(ngModel)]="params.sendStatus" style="width: 100%;" nzAllowClear="true"
-                    nzShowSearch="true">
+                  <nz-select
+                    name="sendStatus"
+                    [(ngModel)]="params.sendStatus"
+                    style="width: 100%;"
+                    nzAllowClear="true"
+                    nzShowSearch="true"
+                  >
                     <nz-option *ngFor="let option of sendStatusList" [nzLabel]="option.label" [nzValue]="option.value">
                     </nz-option>
                   </nz-select>
@@ -80,17 +98,23 @@
               <nz-form-item nzFlex>
                 <nz-form-label [nzSm]="9" [nzXs]="24">是否已分配</nz-form-label>
                 <nz-form-control [nzSm]="16" [nzXs]="24">
-                  <nz-select name="isDistribute" [(ngModel)]="params.isDistribute" style="width: 100%;"
-                    nzAllowClear="true" nzShowSearch="true">
-                    <nz-option nzLabel="是" nzValue=true></nz-option>
-                    <nz-option nzLabel="否" nzValue=false></nz-option>
+                  <nz-select
+                    name="isDistribute"
+                    [(ngModel)]="params.isDistribute"
+                    style="width: 100%;"
+                    nzAllowClear="true"
+                    nzShowSearch="true"
+                  >
+                    <nz-option nzLabel="是" nzValue="true"></nz-option>
+                    <nz-option nzLabel="否" nzValue="false"></nz-option>
                   </nz-select>
                 </nz-form-control>
               </nz-form-item>
             </div>
             <div nz-col [nzSpan]="2" nzOffset="1">
-              <button nz-button (click)="clear()"><i nz-icon type="close" theme="outline"
-                  style="margin-top: 3px;"></i>清除</button>
+              <button nz-button (click)="clear()">
+                <i nz-icon type="close" theme="outline" style="margin-top: 3px;"></i>重置
+              </button>
             </div>
           </div>
         </div>
@@ -98,6 +122,6 @@
     </div>
   </as-split-area>
   <as-split-area [size]="'*'">
-    <rectify-track-list #rectifyTrackList [filter]="params"></rectify-track-list>
+    <app-rectify-track-list #rectifyTrackList [filter]="params"></app-rectify-track-list>
   </as-split-area>
 </as-split>

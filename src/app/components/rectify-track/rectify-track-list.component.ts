@@ -10,8 +10,7 @@ import { RectifyProblemService } from '../rectify-issue/service/RectifyProblemSe
 import { RectifyTrackDTO } from './model/RectifyTrackDTO';
 
 @Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'rectify-track-list',
+  selector: 'app-rectify-track-list',
   templateUrl: './rectify-track-list.component.html',
   styles: [],
 })
@@ -30,6 +29,18 @@ export class RectifyTrackListComponent implements OnInit {
   ) {}
 
   /**
+   * 表格title
+   */
+  @Input()
+  title = '';
+
+  /**
+   * 表格高度
+   */
+  @Input()
+  tableHeight = '100%';
+
+  /**
    * 树表格相关参数
    */
   mapOfCheckedId: { [id: string]: boolean } = {};
@@ -38,6 +49,22 @@ export class RectifyTrackListComponent implements OnInit {
       id: '1',
       sendStatus: '已下发',
       transferStatus: '未移交',
+      auditPost: { name: '审计报告' },
+      name: '餐饮费用超过规定标准',
+      type: '',
+      rectifyDepartment: { name: '自然资源局' },
+      dutyUser: { name: '李名' },
+      rectifyCount: 1,
+      rectifyEndTime: '2021-12-13',
+      lastModifiedTime: '2021-12-10',
+      latelyFeedbackTime: '2021-11-10',
+      nextFeedbackTime: '2021-11-30',
+      rectifyPassPercent: '20',
+    },
+    {
+      id: '2',
+      sendStatus: '已下发',
+      transferStatus: '已移交',
       auditPost: { name: '审计报告' },
       name: '餐饮费用超过规定标准',
       type: '',
@@ -244,11 +271,17 @@ export class RectifyTrackListComponent implements OnInit {
   /**
    * 移交纪检
    */
-  transfer(item: any) {
+  transfer(item: any, isLook: boolean) {
     const arr = [];
     arr.push(item);
-    this.rectifyIssueTransferComponent.isReadOnly = true;
-    this.rectifyIssueTransferComponent.createDate = false;
+    if (isLook) {
+      this.rectifyIssueTransferComponent.isReadOnly = true;
+      this.rectifyIssueTransferComponent.createDate = false;
+    } else {
+      this.rectifyIssueTransferComponent.isReadOnly = false;
+      this.rectifyIssueTransferComponent.createDate = true;
+    }
+
     this.rectifyIssueTransferComponent.edit(arr);
   }
 }

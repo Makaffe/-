@@ -15,7 +15,6 @@ import { SysNameComponent } from './navigation/sys-name/sys-name.component';
 import { MtBaseDataModule } from '@mt-framework-ng/view';
 import { SystemDashboardComponent } from './dashboard/system/system-dashboard.component';
 
-
 const COMPONENTS = [
   // passport pages
   LoginComponent,
@@ -34,4 +33,4 @@ const COMPONENTS_NOROUNT = [];
   declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT],
   entryComponents: COMPONENTS_NOROUNT,
 })
-export class RoutesModule {}
+export class RoutesModule { }
