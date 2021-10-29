@@ -186,6 +186,10 @@ export class RectifyDashboardComponent implements OnInit {
       id: '1',
       message: '餐饮费用整改通知',
     },
+    {
+      id: '2',
+      message: '餐饮费用整改通知2',
+    },
   ];
 
   /**
