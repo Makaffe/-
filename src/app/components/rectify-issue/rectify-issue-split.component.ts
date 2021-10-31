@@ -434,10 +434,10 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
     this.leftSize = sizes[0];
     this.rightSize = sizes[1];
   }
+
   /**
    * 设置设置弹窗高度
    */
-
   private setTabContentHeight() {
     // 浏览器内容区高度
     const tabContentHeight = document.body.clientHeight;

@@ -6,5 +6,27 @@
   (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleOk()"
 >
-  <div style="height:360px" class="chart" echarts [theme]="'macarons'" [options]="optionCreaseLine"></div>
+  <div style="padding-top: 10px;padding-right: 20px;">
+    <div nz-row>
+      <nz-form-item>
+        <nz-form-label [nzSm]="16">类型</nz-form-label>
+        <nz-form-control [nzSm]="6">
+          <nz-select
+            [nzMaxTagCount]="3"
+            [nzMaxTagPlaceholder]="tagPlaceHolder"
+            nzMode="multiple"
+            [(ngModel)]="listOfSelectedValue"
+            (ngModelChange)="typeChange()"
+            style="width: 100%;"
+          >
+            <nz-option *ngFor="let option of listOfOption" [nzLabel]="option" [nzValue]="option"></nz-option>
+          </nz-select>
+          <ng-template #tagPlaceHolder let-selectedList> + {{ selectedList.length }}类型 </ng-template>
+        </nz-form-control>
+        <nz-form-control [nzSm]="2"></nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+
+  <div style="height:600px" class="chart" echarts [theme]="'macarons'" [options]="optionCreaseLine"></div>
 </nz-modal>

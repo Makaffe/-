@@ -16,45 +16,79 @@ export class StatisticsBrokenLineComponent implements OnInit {
   /**
    * 折线图
    */
-  optionCreaseLine = {
-    // title: {
-    //   text: '问题数据历史变化',
-    //   left: 'center',
-    // },
-    tooltip: {
-      trigger: 'axis',
-    },
-    xAxis: {
-      type: 'category',
-      data: ['类型1', '类型2', '类型3', '类型4', '类型5', '类型6', '类型7', '类型8', '类型9', '类型10'],
-    },
-    yAxis: {
-      type: 'value',
-    },
-    series: [
-      {
-        data: [30, 20, 24, 12, 30, 20, 24, 12, 30, 20],
-        type: 'line',
-        color: ['orange'],
-      },
-    ],
-  };
+  optionCreaseLine = null;
+
+  listOfOption = [];
+  listOfSelectedValue = [];
+  map: Map<string, Array<number>> = new Map<string, Array<number>>();
 
   constructor() {}
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    for (let index = 1; index <= 20; index++) {
+      const name = '类型' + index;
+      this.listOfOption.push(name);
+      this.map.set(name, this.seriesData());
+    }
+    this.listOfSelectedValue = this.listOfOption;
+    this.loadOption();
+  }
+
+  loadOption() {
+    const series = [];
+    this.listOfSelectedValue.forEach(type => {
+      series.push({
+        name: type,
+        type: 'line',
+        data: this.map.get(type),
+      });
+    });
+    this.optionCreaseLine = {
+      tooltip: {
+        trigger: 'axis',
+      },
+      xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: ['2017', '2018', '2019', '2020', '2021'],
+      },
+      yAxis: {
+        type: 'value',
+      },
+      series,
+    };
+  }
+
+  typeChange() {
+    this.loadOption();
+  }
+
+  /**
+   * 随机生成整数
+   * @param min 最小值
+   * @param max 最大值
+   * @returns 随机整数
+   */
+  random(min: number, max: number) {
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
+
+  seriesData() {
+    const randomData = [];
+    for (let index = 0; index < 20; index++) {
+      randomData.push(this.random(0, 50));
+    }
+    return randomData;
+  }
 
   showModal(): void {
     this.isVisible = true;
-    console.log(this.option);
   }
 
   handleOk(): void {
-    console.log('Button ok clicked!');
     this.isVisible = false;
   }
 
   handleCancel(): void {
-    console.log('Button cancel clicked!');
     this.isVisible = false;
   }
 }
