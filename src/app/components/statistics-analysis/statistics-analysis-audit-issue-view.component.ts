@@ -579,14 +579,14 @@ export class StatisticsAnalysisAuditIssueViewComponent implements OnInit {
     },
     xAxis: {
       type: 'category',
-      data: ['2018', '2019', '2020', '2021'],
+      data: ['2017', '2018', '2019', '2020', '2021'],
     },
     yAxis: {
       type: 'value',
     },
     series: [
       {
-        data: [30, 20, 24, 12],
+        data: [24, 30, 20, 24, 12],
         type: 'line',
         color: ['orange'],
       },
