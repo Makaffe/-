@@ -42,7 +42,7 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
     },
     series: [
       {
-        data: [80, 60, 55, 38, 29],
+        data: [100, 60, 55, 38, 29],
         type: 'bar',
         itemStyle: {
           normal: {
@@ -206,7 +206,7 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
     },
     series: [
       {
-        data: [20, 65, 45, 75, 16],
+        data: [20, 65, 100, 75, 16],
         type: 'bar',
         itemStyle: {
           normal: {
