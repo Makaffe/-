@@ -1,32 +1,17 @@
-<nz-modal
-  [(nzVisible)]="isVisible"
-  [nzTitle]="'申请延期详情'"
-  [nzMaskClosable]="false"
-  (nzOnCancel)="handleCancel()"
-  [nzFooter]="formFooter"
-  [nzStyle]="{ top: '65px' }"
-  nzWidth="1200"
-  [nzBodyStyle]="{
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="'申请延期详情'" [nzMaskClosable]="false" (nzOnCancel)="handleCancel()"
+  [nzFooter]="formFooter" [nzStyle]="{ top: '65px' }" nzWidth="1200" [nzBodyStyle]="{
     'max-height': '700px',
     'overflow-y': 'auto',
     'overflow-x': 'hidden',
     padding: '24px'
-  }"
->
+  }">
   <form nz-form #form="ngForm">
     <nz-form-item>
       <nz-form-label nzSpan="3" nzRequired>延期截止日期</nz-form-label>
-      <nz-form-control
-        nzSpan="9"
-        [nzValidateStatus]="closingDate.invalid && (closingDate.dirty || closingDate.touched) ? 'error' : ''"
-      >
-        <nz-date-picker
-          required
-          #closingDate="ngModel"
-          name="closingDate"
-          [(ngModel)]="currentItem.closingDate"
-          [disabled]="!isRectify"
-        ></nz-date-picker>
+      <nz-form-control nzSpan="9"
+        [nzValidateStatus]="closingDate.invalid && (closingDate.dirty || closingDate.touched) ? 'error' : ''">
+        <nz-date-picker required #closingDate="ngModel" name="closingDate" [(ngModel)]="currentItem.closingDate"
+          [disabled]="!isRectify"></nz-date-picker>
         <nz-form-explain *ngIf="closingDate.invalid && (closingDate.dirty || closingDate.touched)">
           请选择提交延期截止日期
         </nz-form-explain>
@@ -71,25 +56,16 @@
     <nz-form-item>
       <nz-form-label nzSpan="3">申请原因</nz-form-label>
       <nz-form-control nzSpan="21">
-        <textarea
-          rows="6"
-          nz-input
-          name="applyReason"
-          [(ngModel)]="currentItem.applyReason"
-          [readonly]="!isRectify"
-        ></textarea>
+        <textarea rows="6" nz-input name="applyReason" [(ngModel)]="currentItem.applyReason"
+          [readonly]="!isRectify"></textarea>
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
       <nz-form-label [nzSpan]="3">申请延期附件</nz-form-label>
       <nz-form-control nzSpan="21">
-        <app-attach-list
-          [show]="isRectify"
-          [(attachFiles)]="currentItem.systemFiles"
-          #attachListComponent
-          [fileType]="'RECTIFY_MEASURE_FILE'"
-        >
+        <app-attach-list [show]="isRectify" [(attachFiles)]="currentItem.systemFiles" #attachListComponent
+          [fileType]="'RECTIFY_MEASURE_FILE'">
         </app-attach-list>
       </nz-form-control>
     </nz-form-item>
@@ -119,13 +95,8 @@
     <nz-form-item *ngIf="((!isRectify || !isWatchForTable) && isAgree) || isable">
       <nz-form-label nzSpan="3">批复意见</nz-form-label>
       <nz-form-control nzSpan="21">
-        <textarea
-          rows="6"
-          nz-input
-          name="replyComments"
-          [(ngModel)]="currentItem.replyComments"
-          [disabled]="!isWatchForTable || isable"
-        ></textarea>
+        <textarea rows="6" nz-input name="replyComments" [(ngModel)]="currentItem.replyComments"
+          [disabled]="!isWatchForTable || isable"></textarea>
       </nz-form-control>
     </nz-form-item>
 
