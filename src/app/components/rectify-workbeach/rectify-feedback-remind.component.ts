@@ -16,6 +16,26 @@ export class RectifyFeedbackRemindComponent implements OnInit {
   // 整改问题id
   rectifyProblemId: string;
 
+  templateNodes = [
+    {
+      title: '模板类型1',
+      key: '模板类型1',
+      selectable: false,
+      children: [
+        {
+          title: '通知模板1',
+          key: '模板1',
+          isLeaf: true,
+        },
+        {
+          title: '通知模板2',
+          key: '模板2',
+          isLeaf: true,
+        },
+      ],
+    },
+  ];
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,

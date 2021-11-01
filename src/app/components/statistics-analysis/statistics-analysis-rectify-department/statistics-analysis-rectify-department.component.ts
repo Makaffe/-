@@ -8,9 +8,13 @@ import { StatisticsAnalysisDeatilComponent } from '../statistics-analysis-detail
   // tslint:disable-next-line:component-selector
   selector: 'statistics-analysis-rectify-department',
   templateUrl: './statistics-analysis-rectify-department.component.html',
-  styles: [` :host ::ng-deep .ant-card-extra{
-    padding: 0;
-  }`]
+  styles: [
+    `
+      :host ::ng-deep .ant-card-extra {
+        padding: 0;
+      }
+    `,
+  ],
 })
 export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
   @ViewChild('statisticsAnalysisDeatilComponent', { static: false })
@@ -69,7 +73,7 @@ export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
       id: '10',
       departmentName: '部门十',
       amount: 1,
-    }
+    },
   ];
 
   columns: STColumn[] = [
@@ -160,14 +164,14 @@ export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
         type: 'bar',
         stack: '饱和度',
         color: '#98d87d',
-        data: [30, 18, 11, 23, 29, 33, 30],
+        data: [30, 25, 15, 9, 12, 13, 2],
       },
       {
         name: '整改中',
         type: 'bar',
         stack: '饱和度',
         color: '#49a9ee',
-        data: [20, 18, 19, 23, 29, 33, 31],
+        data: [50, 62, 50, 40, 25, 28, 25],
       },
       {
         name: '无法整改',
@@ -175,7 +179,7 @@ export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
         stack: '饱和度',
         color: '#ffd86e',
         barMaxWidth: 50, // 柱子的宽度
-        data: [21, 11, 23, 15, 30, 23, 10],
+        data: [61, 18, 23, 15, 23, 11, 10],
       },
     ],
   };
@@ -190,7 +194,7 @@ export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
       // right: 0,
       width: '90%',
       height: '100',
-      data: ['部门一', '部门二', '部门三', '部门四', '部门五']
+      data: ['部门一', '部门二', '部门三', '部门四', '部门五'],
     },
     grid: {
       // left: '3%',
@@ -245,30 +249,33 @@ export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
   option2 = {
     tooltip: {
       trigger: 'axis',
-      axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-        type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-      }
+      axisPointer: {
+        // 坐标轴指示器，坐标轴触发有效
+        type: 'shadow', // 默认为直线，可选为：'line' | 'shadow'
+      },
     },
     xAxis: {
       name: '部门',
       type: 'category',
       triggerEvent: 'true',
-      data: ['部门一', '部门二', '部门三', '部门四', '部门五', '部门六', '部门七']
+      data: ['部门一', '部门二', '部门三', '部门四', '部门五', '部门六', '部门七'],
     },
     yAxis: {
       name: '涉及金额（单位：元）',
-      type: 'value'
+      type: 'value',
     },
-    series: [{
-      data: [120, 200, 150, 80, 70, 110, 130],
-      type: 'bar',
-      barWidth: '50'
-    }]
+    series: [
+      {
+        data: [230, 200, 189, 140, 125, 110, 80],
+        type: 'bar',
+        barWidth: '50',
+      },
+    ],
   };
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   /**
    * 部门整改情况图表 y轴名称点击事件
@@ -279,7 +286,6 @@ export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
     } else if ($event.componentType === 'series') {
       this.statisticsAnalysisDeatilComponent.showModal();
     }
-
   }
 
   /**
@@ -296,8 +302,7 @@ export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
   /**
    * 部门问题数量 legend点击事件
    */
-  departmentProblemNumber($event) {
-  }
+  departmentProblemNumber($event) {}
 
   /**
    * ３年多发问题数量部门排行TOP10  表格事件

@@ -115,7 +115,7 @@ export class DepartmentDrawComponent implements OnInit {
         {
           type: 'bar',
           barWidth: '40',
-          data: [5, 12, 3],
+          data: [15, 12, 3],
           itemStyle: {
             color(params) {
               return colorList[params.dataIndex % colorList.length];
@@ -280,7 +280,7 @@ export class DepartmentDrawComponent implements OnInit {
         {
           type: 'bar',
           barWidth: '40',
-          data: [10, 12, 15, 17, 20],
+          data: [100, 87, 56, 42, 20],
           itemStyle: {
             color(params) {
               return colorList[params.dataIndex % colorList.length];
@@ -290,50 +290,50 @@ export class DepartmentDrawComponent implements OnInit {
       ],
     };
 
-    this.option6 = {
-      // title: {
-      //   text: '部门1三年重复多发问题',
-      //   left: 'center',
-      // },
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'shadow',
-        },
-      },
-      grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true,
-      },
-      xAxis: [
-        {
-          type: 'category',
-          data: ['子类一', '子类二', '子类三', '子类四', '子类五'],
-          axisTick: {
-            alignWithLabel: true,
-          },
-        },
-      ],
-      yAxis: [
-        {
-          type: 'value',
-        },
-      ],
-      series: [
-        {
-          type: 'bar',
-          barWidth: '40',
-          data: [10, 12, 15, 17, 20],
-          itemStyle: {
-            color(params) {
-              return colorList[params.dataIndex % colorList.length];
-            },
-          },
-        },
-      ],
-    };
+    // this.option6 = {
+    //   // title: {
+    //   //   text: '部门1三年重复多发问题',
+    //   //   left: 'center',
+    //   // },
+    //   tooltip: {
+    //     trigger: 'axis',
+    //     axisPointer: {
+    //       type: 'shadow',
+    //     },
+    //   },
+    //   grid: {
+    //     left: '3%',
+    //     right: '4%',
+    //     bottom: '3%',
+    //     containLabel: true,
+    //   },
+    //   xAxis: [
+    //     {
+    //       type: 'category',
+    //       data: ['子类一', '子类二', '子类三', '子类四', '子类五'],
+    //       axisTick: {
+    //         alignWithLabel: true,
+    //       },
+    //     },
+    //   ],
+    //   yAxis: [
+    //     {
+    //       type: 'value',
+    //     },
+    //   ],
+    //   series: [
+    //     {
+    //       type: 'bar',
+    //       barWidth: '40',
+    //       data: [10, 12, 15, 17, 20],
+    //       itemStyle: {
+    //         color(params) {
+    //           return colorList[params.dataIndex % colorList.length];
+    //         },
+    //       },
+    //     },
+    //   ],
+    // };
 
     this.option7 = {
       // title: {
@@ -369,7 +369,7 @@ export class DepartmentDrawComponent implements OnInit {
         {
           type: 'bar',
           barWidth: '40',
-          data: [12415, 24213, 12425, 24123, 32321, 12356, 52132],
+          data: [62415, 54213, 42425, 34123, 22321, 12356, 8132],
           itemStyle: {
             color(params) {
               return colorList[params.dataIndex % colorList.length];

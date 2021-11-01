@@ -124,7 +124,8 @@
               </nz-form-item>
               <nz-form-item>
                 <nz-form-label nzSpan="2">审计报告</nz-form-label>
-                <nz-form-control nzSpan="21"><input nz-input readonly [(ngModel)]="rectifyTrack.source" name="source" />
+                <nz-form-control nzSpan="21"><input nz-input readonly [(ngModel)]="rectifyTrack.auditPost"
+                    name="source" />
                 </nz-form-control>
               </nz-form-item>
               <nz-form-item>
@@ -139,11 +140,11 @@
                   <textarea rows="3" nz-input readonly [(ngModel)]="rectifyTrack.advice" name="advice"></textarea>
                 </nz-form-control>
               </nz-form-item>
-              <nz-form-item *ngIf="isRectify">
+              <!-- <nz-form-item *ngIf="isRectify">
                 <nz-form-label nzSpan="2">整改要求</nz-form-label>
                 <nz-form-control nzSpan="21"><textarea rows="3" nz-input readonly name="整改要求"></textarea>
                 </nz-form-control>
-              </nz-form-item>
+              </nz-form-item> -->
               <nz-form-item>
                 <nz-form-item>
                   <nz-form-label nzSpan="2">是否无法整改</nz-form-label>
@@ -420,7 +421,7 @@
                             </div>
                             <!-- <div>{{rectifyMeasureReply.roles[0].name}}</div> -->
                             <div style="font-weight: 500;font-size: 18px;">{{ rectifyMeasureReply.replyContent }}</div>
-                            <div *ngIf="i === 0">
+                            <div *ngIf="i === data.rectifyMeasureReplys.length-1">
                               <button nz-button nzType="link" *ngIf="isRectifyMeasureReply"
                                 (click)="rectifyMeasureReplyClick(data.id)">
                                 回复
@@ -487,5 +488,5 @@
 <app-rectify-problem-switch #rectifyProblemSwitchComponent (rectifyProblem)="chageRectify($event)">
 </app-rectify-problem-switch>
 
-<!-- 反馈提醒组件 -->
+<!-- 催办通知组件 -->
 <app-rectify-feedback-remind #rectifyFeedbackRemindComponent></app-rectify-feedback-remind>

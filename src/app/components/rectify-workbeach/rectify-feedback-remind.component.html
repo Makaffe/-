@@ -7,13 +7,14 @@
     padding: '24px 24px 0 24px'
   }">
   <nz-form-item>
-    <nz-form-label nzSpan="4">引用建议模版</nz-form-label>
+    <nz-form-label nzSpan="4">引用催办通知模版</nz-form-label>
     <nz-form-control nzSpan="8">
-      <app-advice-template-select [(adviceTemplate)]="advice"></app-advice-template-select>
+      <app-advice-template-select [(adviceTemplate)]="advice" [templateNodes]="templateNodes">
+      </app-advice-template-select>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-label [nzSpan]="4" nzFor="advice">提醒内容</nz-form-label>
+    <nz-form-label [nzSpan]="4" nzFor="advice">催办通知内容</nz-form-label>
     <nz-form-control [nzSpan]="18">
       <textarea rows="15" nz-input name="advice" [(ngModel)]="advice"></textarea>
     </nz-form-control>
