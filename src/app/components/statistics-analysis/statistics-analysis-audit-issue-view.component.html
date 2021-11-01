@@ -230,7 +230,7 @@
           echarts
           [theme]="'macarons'"
           [options]="optionHotWord"
-          (chartClick)="onChartClick($event)"
+          (chartClick)="onChartClickPie($event)"
         ></div>
       </div>
 
@@ -259,17 +259,14 @@
           </div>
           <div style="text-align: center;">
             <font style="font-size: 18px;font-weight: bold;">问题数据历史变化</font>
+            <button nz-button nzType="link" (click)="onChartClickCreaseLin($event)" style="z-index: 10;float: right;">
+              查看所有问题数据
+            </button>
           </div>
         </div>
         <div nz-row style="height:360px;margin-top: -25px;width: 930px;">
-          <div
-            style="height:360px"
-            class="chart"
-            echarts
-            [theme]="'macarons'"
-            [options]="optionCreaseLine"
-            (chartClick)="onChartClickCreaseLin($event)"
-          ></div>
+          <div style="height:360px" class="chart" echarts [theme]="'macarons'" [options]="optionCreaseLine"></div>
+          <!-- (chartClick)="onChartClickCreaseLin($event)" -->
         </div>
       </div>
     </div>

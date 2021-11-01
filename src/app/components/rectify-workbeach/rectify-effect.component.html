@@ -1,48 +1,56 @@
-<nz-modal [(nzVisible)]="isVisible" [nzTitle]="'整改成效详情'" [nzMaskClosable]="false" (nzOnCancel)="handleCancel()"
-  [nzFooter]="formFooter" [nzStyle]="{ top: '65px' }" nzWidth="1050" [nzBodyStyle]="{
+<nz-modal
+  [(nzVisible)]="isVisible"
+  [nzTitle]="'整改成效详情'"
+  [nzMaskClosable]="false"
+  (nzOnCancel)="handleCancel()"
+  [nzFooter]="formFooter"
+  [nzStyle]="{ top: '65px' }"
+  nzWidth="1050"
+  [nzBodyStyle]="{
     'overflow-y': 'auto',
     'overflow-x': 'hidden',
     padding: '24px'
-  }">
+  }"
+>
   <form nz-form #form="ngForm">
     <nz-form-item>
       <nz-form-label nzSpan="5">审计挽回金额（元）</nz-form-label>
       <nz-form-control nzSpan="6">
-        <nz-input-number></nz-input-number>
+        <nz-input-number [nzDisabled]="isWatch"></nz-input-number>
       </nz-form-control>
       <nz-form-label nzSpan="5">上缴资金（元）</nz-form-label>
       <nz-form-control nzSpan="6">
-        <nz-input-number></nz-input-number>
+        <nz-input-number [nzDisabled]="isWatch"></nz-input-number>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label nzSpan="5">财务处理资金（元）</nz-form-label>
       <nz-form-control nzSpan="6">
-        <nz-input-number></nz-input-number>
+        <nz-input-number [nzDisabled]="isWatch"></nz-input-number>
       </nz-form-control>
       <nz-form-label nzSpan="5">促进节约资金（元）</nz-form-label>
       <nz-form-control nzSpan="6">
-        <nz-input-number></nz-input-number>
+        <nz-input-number [nzDisabled]="isWatch"></nz-input-number>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label nzSpan="5">违纪违规金额（元）</nz-form-label>
       <nz-form-control nzSpan="6">
-        <nz-input-number></nz-input-number>
+        <nz-input-number [nzDisabled]="isWatch"></nz-input-number>
       </nz-form-control>
       <nz-form-label nzSpan="5">整改提出管理建议（条）</nz-form-label>
       <nz-form-control nzSpan="6">
-        <input nz-input />
+        <input nz-input [readOnly]="isWatch" />
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label nzSpan="5">整改效益提升（元）</nz-form-label>
       <nz-form-control nzSpan="6">
-        <nz-input-number></nz-input-number>
+        <nz-input-number [nzDisabled]="isWatch"></nz-input-number>
       </nz-form-control>
       <nz-form-label nzSpan="5">整改后完善的制度（条）</nz-form-label>
       <nz-form-control nzSpan="6">
-        <input nz-input />
+        <input nz-input [readOnly]="isWatch" />
       </nz-form-control>
     </nz-form-item>
   </form>

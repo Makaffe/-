@@ -24,6 +24,8 @@ export class StatisticsAnalysisDeatilComponent implements OnInit {
    */
   @Input() option: string;
 
+  @Input() proState: string;
+
   isVisible = false;
 
   constructor() {}
