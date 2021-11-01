@@ -63,9 +63,9 @@ export class TemplateListComponent implements OnInit {
     { title: '创建时间', index: 'createdTime', width: '45%', className: 'text-center' },
   ];
 
-  constructor(private templateFileService: TemplateFileService) {}
+  constructor(private templateFileService: TemplateFileService) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   /**
    * 表格变化事件，用于双击、排序，翻页等操作
@@ -95,6 +95,9 @@ export class TemplateListComponent implements OnInit {
   }
 
   load(): void {
+    if (!this.queryParams.categoryId) {
+      return;
+    }
     this.loading = true;
     this.templateFileService
       .findByPage(
