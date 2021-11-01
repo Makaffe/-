@@ -14,20 +14,21 @@ export class AdviceTemplateSelectComponent implements OnInit {
   /**
    * 建议模板树
    */
+  @Input()
   templateNodes = [
     {
-      title: '建议模板类型1',
-      key: '建议模板类型1',
+      title: '模板类型1',
+      key: '模板类型1',
       selectable: false,
       children: [
         {
-          title: '建议模板1',
-          key: '建议模板1',
+          title: '模板1',
+          key: '模板1',
           isLeaf: true,
         },
         {
-          title: '建议模板2',
-          key: '建议模板2',
+          title: '模板2',
+          key: '模板2',
           isLeaf: true,
         },
       ],

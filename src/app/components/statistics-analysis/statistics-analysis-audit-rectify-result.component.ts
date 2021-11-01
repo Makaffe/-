@@ -206,12 +206,13 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
     },
     series: [
       {
-        data: [20, 65, 100, 75, 16],
+        data: [200, 165, 100, 75, 16],
         type: 'bar',
         itemStyle: {
           normal: {
-            color: function(params) {
-              var colorList = ['#c23531', '#2f4', '#61a', '#d48265', '#91c7ac', '#749f83', '#00CA69'];
+            color(params) {
+              // tslint:disable-next-line:prefer-const
+              const colorList = ['#c23531', '#2f4', '#61a', '#d48265', '#91c7ac', '#749f83', '#00CA69'];
               return colorList[params.dataIndex];
             },
           },
