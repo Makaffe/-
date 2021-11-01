@@ -54,29 +54,7 @@ export class AdviceTemplateSelectComponent implements OnInit {
   @Input()
   disabled = false;
 
-  ngOnInit() {
-    if (this.flag === false) {
-      this.templateNodes = [
-        {
-          title: 'OA消息模板',
-          key: '建议模板类型1',
-          selectable: false,
-          children: [
-            {
-              title: '问题下发模板',
-              key: '问题下发模板',
-              isLeaf: true,
-            },
-            {
-              title: '催办通知模板',
-              key: '催办通知模板',
-              isLeaf: true,
-            },
-          ],
-        },
-      ];
-    }
-  }
+  ngOnInit() {}
 
   /**
    * 确认引用
