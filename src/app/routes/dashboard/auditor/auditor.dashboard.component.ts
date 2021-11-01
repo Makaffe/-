@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { STColumn, STColumnTag } from '@delon/abc';
 
@@ -91,6 +91,7 @@ export class AuditorDashboardComponent implements OnInit {
     ],
   };
   constructor(private router: Router) {}
+
   users: any[] = [];
 
   rectifyIssuecolumns: STColumn[] = [
@@ -283,12 +284,36 @@ export class AuditorDashboardComponent implements OnInit {
         name: '待办事项7',
         count: 108,
       },
+      {
+        name: '待办事项2',
+        count: 5,
+      },
+      {
+        name: '待办事项3',
+        count: 15,
+      },
+      {
+        name: '待办事项4',
+        count: 1,
+      },
+      {
+        name: '待办事项5',
+        count: 3,
+      },
+      {
+        name: '待办事项6',
+        count: 8,
+      },
+      {
+        name: '待办事项7',
+        count: 108,
+      },
     ];
     this.option = {
-      title: {
-        text: '我的工作量统计',
-        left: 'center',
-      },
+      // title: {
+      //   text: '我的工作量统计',
+      //   left: 'center',
+      // },
       tooltip: {
         trigger: 'item',
         formatter: '{a} <br/>{b} : {c} ({d}%)',
@@ -324,8 +349,5 @@ export class AuditorDashboardComponent implements OnInit {
     console.log('onChange: ', result);
   }
 
-  onChartClick(event: any) {
-    console.log(event);
-    this.router.navigate(['/audit-rectify/department-draw']);
-  }
+  onChartClick(event: any) {}
 }
