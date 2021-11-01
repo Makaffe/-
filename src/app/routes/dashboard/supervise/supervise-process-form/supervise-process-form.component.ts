@@ -39,9 +39,8 @@ export class SuperviseProcessFormComponent implements OnInit, AfterViewInit {
     rectifyChargeName: 'jack',
     number: '42388',
     problemType: 'jack',
-
   };
-  constructor() { }
+  constructor() {}
   isVisible = false;
   date = new Date();
   radioLetterValue: any = 'A';
@@ -58,7 +57,7 @@ export class SuperviseProcessFormComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   handleCancel() {
     this.isVisible = false;
@@ -110,7 +109,7 @@ export class SuperviseProcessFormComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.setTabContentHeight();
+    // this.setTabContentHeight();
   }
 
   @HostListener('window:resize', ['$event'])

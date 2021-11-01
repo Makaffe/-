@@ -1,9 +1,4 @@
-<as-split
-  direction="vertical"
-  unit="pixel"
-  gutterSize="0"
-  style="margin: 5px;background-color: white; overflow-y:scroll;"
->
+<as-split direction="vertical" unit="pixel" gutterSize="0" style="margin-left:10px;overflow-y:scroll;">
   <as-split-area class="flex-fixed" [size]="40">
     <div style="padding-top: 10px;padding-right: 20px;">
       <div nz-row>
@@ -22,88 +17,92 @@
     </div>
   </as-split-area>
   <as-split-area [size]="'*'">
-    <div nz-row style="padding: 10px;">
+    <div nz-row>
       <div nz-row nzJustify="space-between">
         <div nz-col nzSpan="16">
-          <div style="text-align: center;margin-top: 10px;margin-bottom: -20px;">
-            <font style="font-size: 18px;font-weight: bold;">{{ selectYear }}年部门1整改情况统计</font>
-            &nbsp;&nbsp;&nbsp;
-            <font style="font-size: 16px;">问题总数：32</font>
-          </div>
-          <div nz-col nzSpan="12">
-            <div
-              class="chart"
-              echarts
-              [theme]="'macarons'"
-              [options]="option1"
-              (chartClick)="onChartClick('整改问题')"
-            ></div>
-          </div>
-          <div nz-col nzSpan="12">
-            <div
-              class="chart"
-              echarts
-              [theme]="'macarons'"
-              [options]="option2"
-              (chartClick)="onChartClick('整改问题')"
-            ></div>
-          </div>
+          <nz-card [nzTitle]="'整改情况统计'" style="margin-right: 10px;">
+            <div nz-col nzSpan="12">
+              <div
+                class="chart"
+                echarts
+                [theme]="'macarons'"
+                [options]="option1"
+                (chartClick)="onChartClick('整改问题')"
+              ></div>
+            </div>
+            <div nz-col nzSpan="12">
+              <div
+                class="chart"
+                echarts
+                [theme]="'macarons'"
+                [options]="option2"
+                (chartClick)="onChartClick('整改问题')"
+              ></div>
+            </div>
+          </nz-card>
         </div>
         <div nz-col nzSpan="8">
-          <div style="text-align: center;margin-top: 10px;margin-bottom: -20px;">
-            <font style="font-size: 18px;font-weight: bold;">部门1问题数多年变化</font>
-          </div>
-          <div
-            class="chart"
-            echarts
-            [theme]="'macarons'"
-            [options]="option3"
-            (chartClick)="onChartClick('整改问题')"
-          ></div>
+          <nz-card [nzTitle]="'问题数多年变化'">
+            <div
+              class="chart"
+              echarts
+              [theme]="'macarons'"
+              [options]="option3"
+              (chartClick)="onChartClick('整改问题')"
+            ></div>
+          </nz-card>
         </div>
       </div>
     </div>
-    <div nz-row style="padding: 10px;">
+    <div nz-row>
       <div nz-row nzJustify="space-between">
         <div nz-col nzSpan="8">
-          <div
-            class="chart"
-            echarts
-            [theme]="'macarons'"
-            [options]="option4"
-            (chartClick)="onChartClick('整改问题')"
-          ></div>
+          <nz-card [nzTitle]="'问题类型分布'" style="margin-right: 10px;">
+            <div
+              class="chart"
+              echarts
+              [theme]="'macarons'"
+              [options]="option4"
+              (chartClick)="onChartClick('整改问题')"
+            ></div>
+          </nz-card>
         </div>
         <div nz-col nzSpan="8">
-          <div
-            class="chart"
-            echarts
-            [theme]="'macarons'"
-            [options]="option5"
-            (chartClick)="onChartClick('整改问题')"
-          ></div>
+          <nz-card [nzTitle]="'问题类型TOP5'" style="margin-right: 10px;">
+            <div
+              class="chart"
+              echarts
+              [theme]="'macarons'"
+              [options]="option5"
+              (chartClick)="onChartClick('整改问题')"
+            ></div>
+          </nz-card>
         </div>
         <div nz-col nzSpan="8">
-          <div
-            class="chart"
-            echarts
-            [theme]="'macarons'"
-            [options]="option6"
-            (chartClick)="onChartClick('整改问题')"
-          ></div>
+          <nz-card [nzTitle]="'三年重复多发问题'">
+            <div
+              class="chart"
+              echarts
+              [theme]="'macarons'"
+              [options]="option6"
+              (chartClick)="onChartClick('整改问题')"
+            ></div>
+          </nz-card>
         </div>
       </div>
     </div>
-    <div nz-row style="padding: 10px;">
+    <div nz-row>
       <div nz-row nzJustify="space-between">
         <div nz-col nzSpan="24">
-          <div
-            class="chart"
-            echarts
-            [theme]="'macarons'"
-            [options]="option7"
-            (chartClick)="onChartClick('整改问题')"
-          ></div>
+          <nz-card [nzTitle]="'问题类型涉及金额'">
+            <div
+              class="chart"
+              echarts
+              [theme]="'macarons'"
+              [options]="option7"
+              (chartClick)="onChartClick('整改问题')"
+            ></div>
+          </nz-card>
         </div>
       </div>
     </div>
