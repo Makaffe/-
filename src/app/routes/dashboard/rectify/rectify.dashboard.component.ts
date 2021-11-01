@@ -256,12 +256,14 @@ export class RectifyDashboardComponent implements OnInit {
    * 饼图数据
    */
   optionPie = {
+    color: ['#5470C6', '#91CC75', '#FAC858'],
     title: {},
     tooltip: {
       // trigger: 'item',
     },
     legend: {
-      top: 'top',
+      orient: 'vertical',
+      x: 'right',
     },
     series: [
       {
