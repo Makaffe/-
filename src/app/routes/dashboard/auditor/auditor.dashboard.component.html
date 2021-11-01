@@ -29,19 +29,19 @@
     </div>
     <div nz-row>
       <div nz-row nzJustify="space-between">
-        <div nz-col nzSpan="17">
+        <div nz-col nzSpan="16">
           <nz-card [nzTitle]="'整改台账信息'" style="margin-right: 10px;">
             <app-rectification-post-list [tableHeight]="'400px'"></app-rectification-post-list>
           </nz-card>
         </div>
-        <div nz-col nzSpan="7">
+        <div nz-col nzSpan="8">
           <nz-card [nzTitle]="'我的工作量统计'">
             <div
               id="option"
               class="chart"
               echarts
               [theme]="'macarons'"
-              [options]="option"
+              [options]="option1"
               (chartClick)="onChartClick($event)"
             ></div>
           </nz-card>
@@ -51,30 +51,26 @@
 
     <div nz-row>
       <div nz-row nzJustify="space-between">
-        <div nz-col nzSpan="17">
+        <div nz-col nzSpan="16">
           <nz-card [nzTitle]="'我处理中的整改问题'" style="margin-right: 10px;">
             <app-rectify-track-list #rectifyTrackList [tableHeight]="'400px'"> </app-rectify-track-list>
           </nz-card>
         </div>
-        <div nz-col nzSpan="7">
+        <div nz-col nzSpan="8">
           <nz-card [nzTitle]="'我的待办'">
             <nz-table
               #basicTable
-              [nzData]="users"
+              [nzData]="msdData"
+              [nzShowPagination]="false"
+              [nzFrontPagination]="false"
               [nzScroll]="{ y: '100%' }"
-              [nzSize]="'small'"
-              nzBordered="true"
               style="height: 400px;"
             >
-              <thead>
-                <tr>
-                  <th>待办事项</th>
-                </tr>
-              </thead>
+              <thead></thead>
               <tbody>
-                <tr *ngFor="let data of basicTable.data">
-                  <td style="cursor: pointer;">
-                    {{ data.name }}
+                <tr *ngFor="let data of basicTable.data; let i = index">
+                  <td [ngStyle]="{ 'background-color': i % 2 === 0 ? 'rgb(255, 244, 255)' : 'rgb(233, 255, 220)' }">
+                    <span>{{ data.name }}</span>
                     <nz-badge [nzCount]="data.count" style="float: right;"></nz-badge>
                   </td>
                 </tr>

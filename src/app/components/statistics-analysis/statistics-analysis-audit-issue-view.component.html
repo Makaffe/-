@@ -227,7 +227,7 @@
           [options]="optionHotWord"
           (chartClick)="onChartClickPie($event)"
         ></div> -->
-        <nz-card nzTitle="审计问题类型" style="margin-right:10px">
+        <nz-card [nzTitle]="title" style="margin-right:10px">
           <div
             class="chart"
             echarts
@@ -236,6 +236,11 @@
             (chartClick)="onChartClickPie($event)"
           ></div>
         </nz-card>
+        <ng-template #title>
+          <div>
+            审计问题类型
+          </div>
+        </ng-template>
       </div>
 
       <div nz-col nzSpan="14">
@@ -251,9 +256,7 @@
           </div>
         </nz-card>
         <ng-template #extraTemplate>
-          <button nz-button nzType="link" (click)="onChartClickCreaseLin($event)">
-            查看所有问题数据
-          </button>
+          <a (click)="onChartClickCreaseLin($event)">查看所有问题数据</a>
         </ng-template>
 
         <!-- <div nz-row style="height:360px;margin-top: -40px;">

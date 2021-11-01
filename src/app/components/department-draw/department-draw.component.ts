@@ -233,7 +233,7 @@ export class DepartmentDrawComponent implements OnInit {
       },
       series: [
         {
-          name: '2011',
+          name: '',
           type: 'bar',
           data: [10, 12, 15, 17, 20],
           itemStyle: {
