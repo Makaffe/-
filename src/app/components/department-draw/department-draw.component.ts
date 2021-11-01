@@ -151,10 +151,10 @@ export class DepartmentDrawComponent implements OnInit {
     };
 
     this.option4 = {
-      title: {
-        text: '部门1问题类型分布',
-        left: 'center',
-      },
+      // title: {
+      //   text: '部门1问题类型分布',
+      //   left: 'center',
+      // },
       tooltip: {},
       radar: {
         radius: '70%', // 大小
@@ -207,10 +207,10 @@ export class DepartmentDrawComponent implements OnInit {
     };
 
     this.option5 = {
-      title: {
-        text: '部门1问题类型TOP 5',
-        left: 'center',
-      },
+      // title: {
+      //   text: '部门1问题类型TOP 5',
+      //   left: 'center',
+      // },
       tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -233,7 +233,7 @@ export class DepartmentDrawComponent implements OnInit {
       },
       series: [
         {
-          name: '2011',
+          name: '',
           type: 'bar',
           data: [10, 12, 15, 17, 20],
           itemStyle: {
@@ -246,10 +246,10 @@ export class DepartmentDrawComponent implements OnInit {
     };
 
     this.option6 = {
-      title: {
-        text: '部门1三年重复多发问题',
-        left: 'center',
-      },
+      // title: {
+      //   text: '部门1三年重复多发问题',
+      //   left: 'center',
+      // },
       tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -291,10 +291,10 @@ export class DepartmentDrawComponent implements OnInit {
     };
 
     this.option6 = {
-      title: {
-        text: '部门1三年重复多发问题',
-        left: 'center',
-      },
+      // title: {
+      //   text: '部门1三年重复多发问题',
+      //   left: 'center',
+      // },
       tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -336,10 +336,10 @@ export class DepartmentDrawComponent implements OnInit {
     };
 
     this.option7 = {
-      title: {
-        text: '部门1问题类型涉及金额',
-        left: 'center',
-      },
+      // title: {
+      //   text: '部门1问题类型涉及金额',
+      //   left: 'center',
+      // },
       tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -369,7 +369,7 @@ export class DepartmentDrawComponent implements OnInit {
         {
           type: 'bar',
           barWidth: '40',
-          data: [11, 9, 7, 8, 9, 6, 5],
+          data: [12415, 24213, 12425, 24123, 32321, 12356, 52132],
           itemStyle: {
             color(params) {
               return colorList[params.dataIndex % colorList.length];

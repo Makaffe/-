@@ -206,14 +206,20 @@ export class RectifyIssueListComponent implements OnInit {
     if (item.sendStatus === '未下发') {
       this.rectifyIssueSplitComponent.edit(item, true);
     } else {
-      this.closeModal.emit('关闭');
-      // tslint:disable-next-line:only-arrow-functions
-      setTimeout(function() {}, 1000);
-      // tslint:disable-next-line:only-arrow-functions
-      this.router.navigate(['/audit-rectify/rectify-workbeach'], {
-        // queryParams: { rectifyProblemId: id, isWatch: true },
-        queryParams: { isWatch: true },
-      });
+      if (this.isAnalysis) {
+        this.closeModal.emit('关闭');
+        setTimeout(() => {
+          this.router.navigate(['/audit-rectify/rectify-workbeach'], {
+            // queryParams: { rectifyProblemId: id, isWatch: true },
+            queryParams: { isWatch: true },
+          });
+        }, 500);
+      } else {
+        this.router.navigate(['/audit-rectify/rectify-workbeach'], {
+          // queryParams: { rectifyProblemId: id, isWatch: true },
+          queryParams: { isWatch: true },
+        });
+      }
     }
   }
 

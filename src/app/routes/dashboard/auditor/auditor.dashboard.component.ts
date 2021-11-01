@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { STColumn, STColumnTag } from '@delon/abc';
 
@@ -35,63 +35,11 @@ export class AuditorDashboardComponent implements OnInit {
     totalRecords: 20,
   };
 
-  option1 = {
-    color: ['#3398DB'],
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        // 坐标轴指示器，坐标轴触发有效
-        type: 'shadow', // 默认为直线，可选为：'line' | 'shadow'
-      },
-    },
-    grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '3%',
-      containLabel: true,
-    },
-    xAxis: [
-      {
-        type: 'category',
-        data: this.xData,
-        axisLine: {
-          show: false,
-        },
-        axisTick: {
-          show: false,
-        },
-        axisLabel: {
-          show: false,
-        },
-        show: false,
-      },
-    ],
-    yAxis: [
-      {
-        type: 'value',
-        axisLine: {
-          show: false,
-        },
-        axisTick: {
-          show: false,
-        },
-        axisLabel: {
-          show: false,
-        },
-        show: false,
-      },
-    ],
-    series: [
-      {
-        name: '直接访问',
-        type: 'bar',
-        barWidth: '40%',
-        data: this.data1,
-      },
-    ],
-  };
+  option1 = null;
+
   constructor(private router: Router) {}
-  users: any[] = [];
+
+  msdData: any[] = [];
 
   rectifyIssuecolumns: STColumn[] = [
     {
@@ -211,8 +159,6 @@ export class AuditorDashboardComponent implements OnInit {
     },
   ];
 
-  option: any;
-
   ngOnInit() {
     // 柱体颜色数组
     const colorList = ['#4572A7', '#AA4643', '#89A54E', '#71588F', '#4198AF', '#DB843D', '#93A9CF'];
@@ -254,7 +200,7 @@ export class AuditorDashboardComponent implements OnInit {
         className: 'bg-primary',
       },
     ];
-    this.users = [
+    this.msdData = [
       {
         name: '待办事项1',
         count: 10,
@@ -284,27 +230,33 @@ export class AuditorDashboardComponent implements OnInit {
         count: 108,
       },
     ];
-    this.option = {
-      title: {
-        text: '我的工作量统计',
-        left: 'center',
-      },
+
+    this.option1 = {
       tooltip: {
-        trigger: 'item',
-        formatter: '{a} <br/>{b} : {c} ({d}%)',
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow',
+        },
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true,
+      },
+      xAxis: {
+        type: 'value',
+        boundaryGap: [0, 0.01],
+      },
+      yAxis: {
+        type: 'category',
+        data: ['跟进中整改问题', '已下发整改问题', '已完成整改问题', '已回复整改反馈', '已完成整改报告'],
       },
       series: [
         {
-          name: '我的工作量统计',
-          type: 'pie',
-          radius: '50%',
-          data: [
-            { value: 5, name: '已下发整改问题' },
-            { value: 3, name: '已完成整改问题' },
-            { value: 4, name: '已回复整改反馈' },
-            { value: 3, name: '已完成整改报告' },
-            { value: 5, name: '跟进中的整改问题' },
-          ],
+          name: '',
+          type: 'bar',
+          data: [5, 5, 3, 4, 3],
           itemStyle: {
             color(params) {
               return colorList[params.dataIndex % colorList.length];
@@ -324,8 +276,5 @@ export class AuditorDashboardComponent implements OnInit {
     console.log('onChange: ', result);
   }
 
-  onChartClick(event: any) {
-    console.log(event);
-    this.router.navigate(['/audit-rectify/department-draw']);
-  }
+  onChartClick(event: any) {}
 }
