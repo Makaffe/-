@@ -75,25 +75,26 @@ export const APP_DATA = {
               // acl: [],
             },
             {
-              text: '文书模板',
-              link: '',
+              text: '报告模板',
               i18n: '',
-              children: [
-                {
-                  text: '模板管理',
-                  // i18n: '',
-                  icon: 'anticon-file-excel',
-                  link: '/audit-rectify/template-info',
-                  // acl: [],
-                },
-                {
-                  text: '报告管理',
-                  // i18n: '',
-                  icon: 'anticon-file-excel',
-                  link: '/audit-rectify/report-info',
-                  // acl: [],
-                },
-              ],
+              icon: 'anticon-file-excel',
+              link: '/audit-rectify/template-info',
+              // children: [
+              //   {
+              //     text: '模板管理',
+              //     // i18n: '',
+              //     icon: 'anticon-file-excel',
+              //     link: '/audit-rectify/template-info',
+              //     // acl: [],
+              //   },
+              //   {
+              //     text: '报告管理',
+              //     // i18n: '',
+              //     icon: 'anticon-file-excel',
+              //     link: '/audit-rectify/report-info',
+              //     // acl: [],
+              //   },
+              // ],
               // acl: [],
             },
             {
