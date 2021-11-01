@@ -179,8 +179,10 @@ export class RectifyChildIssueDetailComponent implements OnInit {
   edit(item: RectifyProblemDTO, isWatch: boolean): void {
     this.isWatch = isWatch;
     this.currentItem = this.initProblemDTO(item);
-    this.currentItem.auditPostId = this.problemItem.auditPost.id;
-    this.currentItem.parentId = this.problemItem.id;
+    if (this.problemItem && this.problemItem.auditPost) {
+      this.currentItem.auditPostId = this.problemItem.auditPost.id;
+      this.currentItem.parentId = this.problemItem.id;
+    }
     if (!item) {
       this.currentItem.sendStatus = 'NOT_ISSUED';
       this.currentItem.transferStatus = 'NOT_HANDED_OVER';

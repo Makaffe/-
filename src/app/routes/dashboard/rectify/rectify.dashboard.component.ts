@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { STColumn } from '@delon/abc';
+import { RectifyProblemDTO } from 'src/app/components/rectify-issue/model/rectify-problem-dto';
+import { RectifyIssueSplitComponent } from 'src/app/components/rectify-issue/rectify-issue-split.component';
 import { IssueAssignFormComponent } from './issue-assign-form/issue-assign-form.component';
 export interface TreeNodeInterface {
   id: number;
@@ -20,6 +22,9 @@ export interface TreeNodeInterface {
 export class RectifyDashboardComponent implements OnInit {
   @ViewChild('issueAssignFormComponent', { static: false })
   issueAssignFormComponent: IssueAssignFormComponent;
+
+  @ViewChild('rectifyIssueSplitComponent', { static: false })
+  rectifyIssueSplitComponent: RectifyIssueSplitComponent;
 
   /**
    * 左边宽度
@@ -339,8 +344,12 @@ export class RectifyDashboardComponent implements OnInit {
     });
   }
 
-  assignIssue() {
-    this.issueAssignFormComponent.edit();
+  /**
+   * 拆分
+   * @param item 整改问题数据
+   */
+  splitIssue(item: RectifyProblemDTO) {
+    this.rectifyIssueSplitComponent.edit(item, false);
   }
 
   workbench() {

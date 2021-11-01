@@ -133,7 +133,13 @@
     <nz-form-item>
       <nz-form-label nzSpan="4">备注</nz-form-label>
       <nz-form-control nzSpan="20">
-        <input nz-input name="remark" [(ngModel)]="proposalTemplateTypeDTO.remark" />
+        <textarea
+          nz-input
+          rows="5"
+          name="remark"
+          [(ngModel)]="proposalTemplateTypeDTO.remark"
+          maxlength="1000"
+        ></textarea>
       </nz-form-control>
     </nz-form-item>
   </form>

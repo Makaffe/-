@@ -8,7 +8,7 @@ import { StatisticsAnalysisDeatilComponent } from '../statistics-analysis-detail
   // tslint:disable-next-line:component-selector
   selector: 'statistics-analysis-rectify-department',
   templateUrl: './statistics-analysis-rectify-department.component.html',
-  styles: []
+  styles: [],
 })
 export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
   @ViewChild('statisticsAnalysisDeatilComponent', { static: false })
@@ -67,7 +67,7 @@ export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
       id: '10',
       departmentName: '部门十',
       amount: 1,
-    }
+    },
   ];
 
   columns: STColumn[] = [
@@ -134,6 +134,7 @@ export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
     ],
     yAxis: [
       {
+        name: '个数',
         type: 'value',
         axisLabel: {
           formatter: '{value}',
@@ -186,7 +187,7 @@ export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
       // right: 0,
       width: '90%',
       height: '100',
-      data: ['部门一', '部门二', '部门三', '部门四', '部门五']
+      data: ['部门一', '部门二', '部门三', '部门四', '部门五'],
     },
     grid: {
       left: '3%',
@@ -239,29 +240,32 @@ export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
   option2 = {
     tooltip: {
       trigger: 'axis',
-      axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-        type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-      }
+      axisPointer: {
+        // 坐标轴指示器，坐标轴触发有效
+        type: 'shadow', // 默认为直线，可选为：'line' | 'shadow'
+      },
     },
     xAxis: {
       type: 'category',
       triggerEvent: 'true',
-      data: ['部门一', '部门二', '部门三', '部门四', '部门五', '部门六', '部门七']
+      data: ['部门一', '部门二', '部门三', '部门四', '部门五', '部门六', '部门七'],
     },
     yAxis: {
       name: '单位（元）',
-      type: 'value'
+      type: 'value',
     },
-    series: [{
-      data: [120, 200, 150, 80, 70, 110, 130],
-      type: 'bar',
-      barWidth: '50'
-    }]
+    series: [
+      {
+        data: [120, 200, 150, 80, 70, 110, 130],
+        type: 'bar',
+        barWidth: '50',
+      },
+    ],
   };
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   /**
    * 部门整改情况图表 y轴名称点击事件
@@ -272,7 +276,6 @@ export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
     } else if ($event.componentType === 'series') {
       this.statisticsAnalysisDeatilComponent.showModal();
     }
-
   }
 
   /**
@@ -289,8 +292,7 @@ export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
   /**
    * 部门问题数量 legend点击事件
    */
-  departmentProblemNumber($event) {
-  }
+  departmentProblemNumber($event) {}
 
   /**
    * ３年多发问题数量部门排行TOP10  表格事件

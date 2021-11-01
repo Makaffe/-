@@ -152,7 +152,6 @@ export class StatisticsAnalysisAuditIssueViewComponent implements OnInit {
   //   //     // tslint:disable-next-line:max-line-length
   //   //     handleIcon:
   //   //       // tslint:disable-next-line:max-line-length
-  //   //       'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
   //   //   },
   //   // ],
   //   series: [
@@ -283,7 +282,6 @@ export class StatisticsAnalysisAuditIssueViewComponent implements OnInit {
   //       params.forEach(v => {
   //         console.log(v);
   //         // tslint:disable-next-line:max-line-length
-  //         html += `<div><span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:#0090FF};"></span>${v.seriesName}<span style="color:#FFC005};font-size:18px;font-weight:700">${v.value}</span>`;
   //       });
   //       return html;
   //     },
@@ -341,7 +339,7 @@ export class StatisticsAnalysisAuditIssueViewComponent implements OnInit {
     },
     series: [
       {
-        name: '整改问题数',
+        name: '数量',
         type: 'pie',
         radius: '50%',
         itemStyle: {
@@ -382,9 +380,10 @@ export class StatisticsAnalysisAuditIssueViewComponent implements OnInit {
           },
         },
         data: [
-          { value: 3, name: '整改中' },
-          { value: 4, name: '已逾期' },
-          { value: 3, name: '未处理' },
+          { value: 3, name: '无法整改' },
+          { value: 4, name: '已完成整改' },
+          { value: 3, name: '未开始整改' },
+          { value: 3, name: '整改进行中' },
         ],
       },
     ],
@@ -408,9 +407,8 @@ export class StatisticsAnalysisAuditIssueViewComponent implements OnInit {
     },
     xAxis: [
       {
-        name: '问题个数',
         type: 'category',
-        data: ['整改逾期问题数', '未完成整改问题数', '移交纪检问题数'],
+        data: ['逾期已完成整改', '逾期未完成整改', '移交纪检问题数', '跨年整改问题数量'],
         axisTick: {
           alignWithLabel: true,
         },
@@ -426,7 +424,7 @@ export class StatisticsAnalysisAuditIssueViewComponent implements OnInit {
       {
         type: 'bar',
         barWidth: '40',
-        data: [5, 12, 3],
+        data: [5, 12, 3, 6],
         itemStyle: {
           color(params) {
             const colorList = ['#4572A7', '#AA4643', '#89A54E', '#71588F', '#4198AF', '#DB843D', '#93A9CF'];
@@ -538,7 +536,7 @@ export class StatisticsAnalysisAuditIssueViewComponent implements OnInit {
       ],
     },
     yAxis: {
-      name: '涉及金额（元）',
+      name: '金额（元）',
       type: 'value',
     },
     series: [

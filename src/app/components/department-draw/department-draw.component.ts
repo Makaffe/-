@@ -100,7 +100,7 @@ export class DepartmentDrawComponent implements OnInit {
       xAxis: [
         {
           type: 'category',
-          data: ['整改逾期问题数', '未完成整改问题数', '移交纪检问题数'],
+          data: ['整改逾期未完成', '整改逾期已完成', '移交纪检问题数'],
           axisTick: {
             alignWithLabel: true,
           },
@@ -108,6 +108,7 @@ export class DepartmentDrawComponent implements OnInit {
       ],
       yAxis: [
         {
+          name: '问题数量',
           type: 'value',
         },
       ],

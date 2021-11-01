@@ -53,7 +53,17 @@ export class AdviceTemplateSelectComponent implements OnInit {
   @Input()
   disabled = false;
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  /**
+   * 确认引用
+   */
+  confirmReference() {
+    this.adviceTemplate = this.value;
+    this.adviceTemplateChange.emit(this.adviceTemplate);
+  }
+
+  load() {
     if (this.flag === false) {
       this.templateNodes = [
         {
@@ -74,14 +84,26 @@ export class AdviceTemplateSelectComponent implements OnInit {
           ],
         },
       ];
+    } else {
+      this.templateNodes = [
+        {
+          title: '建议模板类型1',
+          key: '建议模板类型1',
+          selectable: false,
+          children: [
+            {
+              title: '建议模板1',
+              key: '建议模板1',
+              isLeaf: true,
+            },
+            {
+              title: '建议模板2',
+              key: '建议模板2',
+              isLeaf: true,
+            },
+          ],
+        },
+      ];
     }
-  }
-
-  /**
-   * 确认引用
-   */
-  confirmReference() {
-    this.adviceTemplate = this.value;
-    this.adviceTemplateChange.emit(this.adviceTemplate);
   }
 }

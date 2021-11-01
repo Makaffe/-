@@ -20,42 +20,34 @@
             </div>
             <div nz-row>
               <div nz-col nzSpan="8">
-                <p style="font-weight:500;font-size:16px;font-style:normal">已办问题数：
-                </p>
+                <p style="font-weight:500;font-size:16px;font-style:normal">已办问题数：</p>
               </div>
               <div nz-col nzSpan="16">
-                <nz-progress [nzPercent]="25" nz-tooltip nzTitle="25%" [nzFormat]="format1">
-                </nz-progress>
+                <nz-progress [nzPercent]="25" nz-tooltip nzTitle="25%" [nzFormat]="format1"> </nz-progress>
               </div>
             </div>
             <div nz-row>
               <div nz-col nzSpan="8">
-                <p style="font-weight:500;font-size:16px;font-style:normal">待办问题数：
-                </p>
+                <p style="font-weight:500;font-size:16px;font-style:normal">待办问题数：</p>
               </div>
               <div nz-col nzSpan="16">
-                <nz-progress [nzPercent]="50" nz-tooltip nzTitle="50%" [nzFormat]="format2">
-                </nz-progress>
+                <nz-progress [nzPercent]="50" nz-tooltip nzTitle="50%" [nzFormat]="format2"> </nz-progress>
               </div>
             </div>
             <div nz-row>
               <div nz-col nzSpan="8">
-                <p style="font-weight:500;font-size:16px;font-style:normal">已发函问题数：
-                </p>
+                <p style="font-weight:500;font-size:16px;font-style:normal">已发函问题数：</p>
               </div>
               <div nz-col nzSpan="16">
-                <nz-progress [nzPercent]="25" nz-tooltip nzTitle="25%" [nzFormat]="format3">
-                </nz-progress>
+                <nz-progress [nzPercent]="25" nz-tooltip nzTitle="25%" [nzFormat]="format3"> </nz-progress>
               </div>
             </div>
             <div nz-row>
               <div nz-col nzSpan="8">
-                <p style="font-weight:500;font-size:16px;font-style:normal">已处分问题数：
-                </p>
+                <p style="font-weight:500;font-size:16px;font-style:normal">已处分问题数：</p>
               </div>
               <div nz-col nzSpan="16">
-                <nz-progress [nzPercent]="10" nz-tooltip nzTitle="10%" [nzFormat]="format4">
-                </nz-progress>
+                <nz-progress [nzPercent]="10" nz-tooltip nzTitle="10%" [nzFormat]="format4"> </nz-progress>
               </div>
             </div>
           </nz-card>
@@ -68,14 +60,19 @@
             </as-split-area>
             <as-split-area [size]="'*'">
               <div style="height:100%">
-                <nz-table #basicTable [nzData]="messages" [nzShowPagination]="false" [nzFrontPagination]="false"
-                  [nzScroll]="{y: '100%'}">
+                <nz-table
+                  #basicTable
+                  [nzData]="messages"
+                  [nzShowPagination]="false"
+                  [nzFrontPagination]="false"
+                  [nzScroll]="{ y: '100%' }"
+                >
                   <thead></thead>
                   <tbody>
                     <tr *ngFor="let data of basicTable.data; let i = index">
                       <td [ngStyle]="{ 'background-color': i % 2 === 0 ? 'rgb(255, 244, 255)' : 'rgb(233, 255, 220)' }">
                         <span>{{ data.name }}</span>
-                        <nz-badge [nzCount]="10" style="float: right;"></nz-badge>
+                        <nz-badge [nzCount]="data.count" style="float: right;" *ngIf="i === 0 || i === 4"></nz-badge>
                       </td>
                     </tr>
                   </tbody>

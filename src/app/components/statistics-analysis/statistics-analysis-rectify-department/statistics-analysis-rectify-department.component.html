@@ -1,6 +1,6 @@
 <div nz-col style="height:100%;margin-left:10px;margin-top:10px;overflow:scroll;">
   <div nz-row nzJustify="space-around">
-    <nz-card [nzTitle]="'部门整改情况'" [nzExtra]="extraTemplate1">
+    <nz-card [nzTitle]="'部门整改问题情况'" [nzExtra]="extraTemplate1">
       <ng-template #extraTemplate1>
         <nz-form-item>
           <nz-form-label [nzSm]="8">年份</nz-form-label>
@@ -33,8 +33,18 @@
     </div>
     <div nz-col nzSpan="10">
       <nz-card nzTitle="近３年多发问题数量部门排行TOP10">
-        <st #st [data]="tableData" nzSize="middle" [scroll]="{ y: '100%' }" [bordered]="false" [columns]="columns"
-          [rowClickTime]="200" style="height: 400px;cursor:pointer" [page]="page" (change)="change($event)">
+        <st
+          #st
+          [data]="tableData"
+          nzSize="middle"
+          [scroll]="{ y: '100%' }"
+          [bordered]="false"
+          [columns]="columns"
+          [rowClickTime]="200"
+          style="height: 400px;cursor:pointer"
+          [page]="page"
+          (change)="change($event)"
+        >
           <ng-template st-row="number" let-row let-index="index">
             {{ ((st.pi ? st.pi : 1) - 1) * (st.ps ? st.ps : 0) + (index + 1) }}
           </ng-template>
@@ -43,4 +53,7 @@
     </div>
   </div>
 </div>
-<app-statistics-analysis-detail #statisticsAnalysisDeatilComponent [option]="'整改问题'"></app-statistics-analysis-detail>
+<app-statistics-analysis-detail
+  #statisticsAnalysisDeatilComponent
+  [option]="'整改问题'"
+></app-statistics-analysis-detail>

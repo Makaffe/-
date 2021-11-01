@@ -239,12 +239,13 @@ export class AuditorDashboardComponent implements OnInit {
         },
       },
       grid: {
-        left: '3%',
-        right: '4%',
+        // left: '3%',
+        // right: '4%',
         bottom: '3%',
         containLabel: true,
       },
       xAxis: {
+        name: '个数',
         type: 'value',
         boundaryGap: [0, 0.01],
       },

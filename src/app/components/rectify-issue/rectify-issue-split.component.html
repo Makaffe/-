@@ -30,7 +30,7 @@
         <as-split-area [size]="'*'">
           <form nz-form style="padding: 10px;">
             <nz-form-item>
-              <nz-form-label nzSpan="4">所属审计报告</nz-form-label>
+              <nz-form-label nzSpan="4">所属报告</nz-form-label>
               <nz-form-control nzSpan="20">
                 <button
                   nzTooltipTitle="点击查看报告详情"
@@ -39,10 +39,9 @@
                   nz-tooltip
                   nzType="link"
                   style="padding: 0px;"
-                  (click)="watchAuditPost(problemItem?.auditPost.id)"
+                  (click)="watchAuditPost(problemItem?.auditPost?.id)"
                 >
-                  {{ problemItem?.auditPost.name }}
-                  <i nz-icon nzType="eye" nzTheme="twotone"></i>
+                  {{ problemItem?.auditPost?.name }}
                 </button>
               </nz-form-control>
             </nz-form-item>
