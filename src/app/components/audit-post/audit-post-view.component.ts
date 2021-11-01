@@ -12,7 +12,7 @@ export class AuditPostViewComponent implements OnInit {
   @ViewChild('auditPostList', { static: false })
   auditPostList: AuditPostListComponent;
   /**
-   * 喜欢总的审计报告版本
+   * 选择的审计报告类型
    */
   selectedPostType = null;
   /**
@@ -66,7 +66,7 @@ export class AuditPostViewComponent implements OnInit {
   push() {
     this.router.navigate(['/audit-rectify/audit-post-detail'], {
       queryParams: {
-        postTypeId: this.selectedPostType.id,
+        postTypeId: this.selectedPostType.key,
         isWatch: false,
         isEdit: true,
         isNew: true,
@@ -77,7 +77,7 @@ export class AuditPostViewComponent implements OnInit {
 
   search(): void {
     if (this.selectedPostType) {
-      this.filterParams.typeId = this.selectedPostType.id;
+      this.filterParams.typeId = this.selectedPostType.key;
     }
     this.auditPostList.load();
   }
@@ -85,7 +85,7 @@ export class AuditPostViewComponent implements OnInit {
   postTypeChange($event) {
     console.log('=============TYPE CHANGE================');
     console.log($event);
-    this.filterParams.typeId = $event ? $event.id : null;
+    this.filterParams.typeId = $event ? $event.key : null;
     this.auditPostList.load();
   }
 }

@@ -37,8 +37,8 @@
     <a (click)="check(row)">查看</a>
     <ng-container *ngIf="row.auditReportStatus === 'NO_GENERATED'">
       <nz-divider nzType="vertical"></nz-divider>
-      <a (click)="edit(row)">编辑</a>
-      <nz-divider nzType="vertical"></nz-divider>
+      <!-- <a (click)="edit(row)">编辑</a>
+      <nz-divider nzType="vertical"></nz-divider> -->
       <nz-popconfirm [nzTitle]="confirmtittle" (nzOnConfirm)="delete(row)">
         <ng-template #confirmtittle>是否要删除该条数据</ng-template>
         <a nz-popconfirm>删除</a>
