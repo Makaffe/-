@@ -183,12 +183,72 @@ export class RectifyDashboardComponent implements OnInit {
 
   msdData = [
     {
-      id: '1',
-      message: '餐饮费用整改通知',
+      name: '消息1',
+      count: '99',
     },
     {
-      id: '2',
-      message: '餐饮费用整改通知2',
+      name: '消息2',
+      count: '99',
+    },
+    {
+      name: '消息3',
+      count: '99',
+    },
+    {
+      name: '消息4',
+      count: '99',
+    },
+    {
+      name: '消息5',
+      count: '99',
+    },
+    {
+      name: '消息6',
+      count: '99',
+    },
+    {
+      name: '消息7',
+      count: '99',
+    },
+    {
+      name: '消息8',
+      count: '99',
+    },
+    {
+      name: '消息9',
+      count: '99',
+    },
+    {
+      name: '消息10',
+      count: '99',
+    },
+    {
+      name: '消息11',
+      count: '99',
+    },
+    {
+      name: '消息12',
+      count: '99',
+    },
+    {
+      name: '消息13',
+      count: '99',
+    },
+    {
+      name: '消息14',
+      count: '99',
+    },
+    {
+      name: '消息15',
+      count: '99',
+    },
+    {
+      name: '消息3',
+      count: '99',
+    },
+    {
+      name: '消息n',
+      count: '99',
     },
   ];
 
@@ -196,12 +256,14 @@ export class RectifyDashboardComponent implements OnInit {
    * 饼图数据
    */
   optionPie = {
+    color: ['#5470C6', '#91CC75', '#FAC858'],
     title: {},
     tooltip: {
       // trigger: 'item',
     },
     legend: {
-      top: 'top',
+      orient: 'vertical',
+      x: 'right',
     },
     series: [
       {

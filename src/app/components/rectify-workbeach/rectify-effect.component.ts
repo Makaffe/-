@@ -37,6 +37,11 @@ export class RectifyEffectComponent implements OnInit {
   };
 
   /**
+   * 只读
+   */
+  isWatch: boolean;
+
+  /**
    * 弹窗可见性
    */
   isVisible = false;
@@ -81,6 +86,11 @@ export class RectifyEffectComponent implements OnInit {
     this.rectifyMeasureService.findOnePage(this.options, this.rectifyProblemId).subscribe(data => {
       this.listOfData = data.data;
     });
+  }
+
+  edit(isWatch: boolean) {
+    this.isWatch = isWatch;
+    this.isVisible = true;
   }
 
   close() {}

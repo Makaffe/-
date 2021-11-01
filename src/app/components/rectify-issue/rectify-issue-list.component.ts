@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { QueryOptions } from '@mt-framework-ng/core';
 import { RectifyProblemDTO } from './model/rectify-problem-dto';
 import { RectifyIssueOrderComponent } from './rectify-issue-order.component';
@@ -11,7 +12,7 @@ import { RectifyProblemService } from './service/RectifyProblemService';
   styles: [],
 })
 export class RectifyIssueListComponent implements OnInit {
-  constructor(private rectifyProblemService: RectifyProblemService) {}
+  constructor(private rectifyProblemService: RectifyProblemService, private router: Router) {}
 
   @ViewChild('rectifyIssueSplitComponent', { static: false })
   rectifyIssueSplitComponent: RectifyIssueSplitComponent;
@@ -27,6 +28,12 @@ export class RectifyIssueListComponent implements OnInit {
   isAnalysis = false;
 
   /**
+   * 给模态框通知，关闭模态框
+   */
+  @Output()
+  closeModal = new EventEmitter();
+
+  /**
    * 树表格相关参数
    */
   mapOfCheckedId: { [id: string]: boolean } = {};
@@ -34,6 +41,21 @@ export class RectifyIssueListComponent implements OnInit {
     {
       id: '1',
       sendStatus: '未下发',
+      transferStatus: '未移交',
+      auditPost: {
+        name: '审计报告名称',
+      },
+      name: '问题名称',
+      type: '“三重一大”决策管理方面',
+      money: 2758231,
+      rectifyDepartment: '整改部门',
+      aaa: '整改单位',
+      dutyUser: '张伟',
+      children: [],
+    },
+    {
+      id: '2',
+      sendStatus: '已下发',
       transferStatus: '未移交',
       auditPost: {
         name: '审计报告名称',
@@ -181,7 +203,24 @@ export class RectifyIssueListComponent implements OnInit {
    * @param item 整改问题数据
    */
   watch(item: RectifyProblemDTO) {
-    this.rectifyIssueSplitComponent.edit(item, true);
+    if (item.sendStatus === '未下发') {
+      this.rectifyIssueSplitComponent.edit(item, true);
+    } else {
+      if (this.isAnalysis) {
+        this.closeModal.emit('关闭');
+        setTimeout(() => {
+          this.router.navigate(['/audit-rectify/rectify-workbeach'], {
+            // queryParams: { rectifyProblemId: id, isWatch: true },
+            queryParams: { isWatch: true },
+          });
+        }, 500);
+      } else {
+        this.router.navigate(['/audit-rectify/rectify-workbeach'], {
+          // queryParams: { rectifyProblemId: id, isWatch: true },
+          queryParams: { isWatch: true },
+        });
+      }
+    }
   }
 
   /**

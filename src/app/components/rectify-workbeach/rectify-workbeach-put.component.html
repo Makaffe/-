@@ -41,7 +41,9 @@
     </nz-form-item>
 
     <nz-form-item *ngIf="isWatchForTable || create">
-      <nz-form-item *ngIf="create">
+
+
+      <!-- <nz-form-item *ngIf="create">
         <nz-form-label nzSpan="3">批复人</nz-form-label>
         <nz-form-control nzSpan="9">
           <input nz-input name="sss" [value]="'张伟'" readonly />
@@ -51,7 +53,7 @@
         <nz-form-control nzSpan="9">
           <input nz-input name="bbb" [value]="'2021-10-26'" readonly />
         </nz-form-control>
-      </nz-form-item>
+      </nz-form-item> -->
 
       <nz-form-item *ngIf="!create || !isRectify">
         <nz-form-label nzSpan="3">申请人</nz-form-label>
@@ -99,6 +101,18 @@
           <label nz-radio nzValue="A" (click)="agree()">同意</label>
           <label nz-radio nzValue="B" (click)="agree()">不同意</label>
         </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item *ngIf="create">
+      <nz-form-label nzSpan="3">批复人</nz-form-label>
+      <nz-form-control nzSpan="9">
+        <input nz-input name="sss" [value]="'张伟'" readonly />
+      </nz-form-control>
+
+      <nz-form-label nzSpan="3">批复日期</nz-form-label>
+      <nz-form-control nzSpan="9">
+        <input nz-input name="bbb" [value]="'2021-10-26'" readonly />
       </nz-form-control>
     </nz-form-item>
 

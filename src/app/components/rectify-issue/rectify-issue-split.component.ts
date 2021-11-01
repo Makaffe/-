@@ -5,6 +5,7 @@ import {
   EventEmitter,
   HostListener,
   Inject,
+  Input,
   LOCALE_ID,
   OnInit,
   Output,
@@ -280,6 +281,9 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
    * @param isWatch 是否查看
    */
   edit(item: RectifyProblemDTO, isWatch: boolean) {
+    this.setTabContentHeight();
+    console.log(this.height);
+
     this.isWatch = isWatch;
     this.problemItem = ObjectUtil.deepClone(item);
     if (item.children && item.children.length > 0) {
@@ -445,7 +449,7 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.setTabContentHeight();
+    // this.setTabContentHeight();
   }
 
   @HostListener('window:resize', ['$event'])

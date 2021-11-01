@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { NzModalService, NzModalRef } from 'ng-zorro-antd';
 import { RectificationPostListComponent } from '../audit-post/rectification-post-list.component';
 import { RectifyIssueListComponent } from '../rectify-issue/rectify-issue-list.component';
 
@@ -24,9 +25,12 @@ export class StatisticsAnalysisDeatilComponent implements OnInit {
    */
   @Input() option: string;
 
+  @Input() proState: string;
+
   isVisible = false;
 
   constructor() {}
+
   ngOnInit(): void {}
 
   showModal(): void {
@@ -40,7 +44,6 @@ export class StatisticsAnalysisDeatilComponent implements OnInit {
   }
 
   handleCancel(): void {
-    console.log('Button cancel clicked!');
     this.isVisible = false;
   }
 }

@@ -34,7 +34,13 @@
       <i nz-icon nzType="search"></i>
     </ng-template>
     <div style="padding-left: 10px;padding-right: 10px;">
-      <nz-tree [nzData]="nodes" nzShowLine [nzSearchValue]="searchValue" (nzClick)="nzClick($event)"></nz-tree>
+      <nz-tree
+        [nzData]="nodes"
+        nzShowLine
+        [nzSearchValue]="searchValue"
+        (nzClick)="nzClick($event)"
+        nzExpandAll
+      ></nz-tree>
     </div>
   </as-split-area>
 </as-split>
