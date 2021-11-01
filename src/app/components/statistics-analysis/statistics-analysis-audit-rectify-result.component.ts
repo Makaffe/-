@@ -25,9 +25,9 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
         type: 'shadow',
       },
     },
-    title: {
-      text: '整改及时率统计',
-    },
+    // title: {
+    //   text: '整改及时率统计',
+    // },
     xAxis: {
       type: 'category',
       data: ['部门二', '部门三', '部门一', '部门四', '部门五'],
@@ -100,9 +100,6 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
   constructor() {}
 
   money1 = {
-    title: {
-      text: '',
-    },
     tooltip: {
       trigger: 'axis',
     },
@@ -118,7 +115,7 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
     xAxis: {
       type: 'category',
       boundaryGap: false,
-      data: ['0', '2018', '2019', '2020', '2021'],
+      data: ['2018', '2019', '2020', '2021'],
     },
     yAxis: {
       type: 'value',
@@ -166,7 +163,7 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
     xAxis: {
       type: 'category',
       boundaryGap: false,
-      data: ['0', '2018', '2019', '2020', '2021'],
+      data: ['2018', '2019', '2020', '2021'],
     },
     yAxis: {
       type: 'value',
@@ -192,9 +189,9 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
         type: 'shadow',
       },
     },
-    title: {
-      text: '整改完成率统计',
-    },
+    // title: {
+    //   text: '整改完成率统计',
+    // },
     xAxis: {
       type: 'category',
       data: ['部门二', '部门三', '部门一', '部门四', '部门五'],
