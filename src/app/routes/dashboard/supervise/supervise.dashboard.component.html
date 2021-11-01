@@ -10,7 +10,7 @@
         </nz-tab>
       </nz-tabset>
     </as-split-area>
-    <as-split-area class="flex-fixed" [size]="25" class="chart-area" style="background-color: white;margin-left: 10px;">
+    <as-split-area class="flex-fixed" [size]="25" class="chart-area" style="margin-left: 10px;">
       <as-split direction="vertical" unit="pixel" gutterSize="0">
         <as-split-area class="flex-fixed" [size]="80">
           <!-- <div echarts [options]="option" ></div> -->
@@ -60,14 +60,37 @@
             </div>
           </nz-card>
         </as-split-area>
-        <as-split-area [size]="'*'">
-          <st #todoSt [data]="messages" nzSize="middle" [scroll]="{ y: '100%'}" [bordered]="true"
+        <as-split-area [size]="'*'" style=" background-color: white;">
+          <as-split direction="vertical" unit="pixel" gutterSize="0">
+            <as-split-area class="flex-fixed" [size]="40">
+              <div style="font-size: 18px; margin: 5px; ">消息通知</div>
+              <nz-divider></nz-divider>
+            </as-split-area>
+            <as-split-area [size]="'*'">
+              <div style="height:100%">
+                <nz-table #basicTable [nzData]="messages" [nzShowPagination]="false" [nzFrontPagination]="false"
+                  [nzScroll]="{y: '100%'}">
+                  <thead></thead>
+                  <tbody>
+                    <tr *ngFor="let data of basicTable.data; let i = index">
+                      <td [ngStyle]="{ 'background-color': i % 2 === 0 ? 'rgb(255, 244, 255)' : 'rgb(233, 255, 220)' }">
+                        <span>{{ data.name }}</span>
+                        <nz-badge [nzCount]="10" style="float: right;"></nz-badge>
+                      </td>
+                    </tr>
+                  </tbody>
+                </nz-table>
+              </div>
+            </as-split-area>
+          </as-split>
+
+          <!-- <st #todoSt [data]="messages" nzSize="middle" [scroll]="{ y: '100%'}" [bordered]="true"
             [columns]="Reminderscolumns" [rowClickTime]="500" [noResult]="null" [page]="page">
             <ng-template st-row="name" let-row let-index="index">
               <span>{{ row.name }}</span>
               <nz-badge style="cursor:pointer;float: right;" [nzCount]="row.count"></nz-badge>
             </ng-template>
-          </st>
+          </st> -->
         </as-split-area>
       </as-split>
     </as-split-area>
