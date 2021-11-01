@@ -36,17 +36,17 @@ export class StatisticsAnalysisAuditPostViewComponent implements OnInit {
    */
   option1 = {
     color: ['#5470C6', '#91CC75', '#FAC858'],
-    title: {
-      text: '审计报告整改完成情况',
-      subtext: '统计分析',
-      left: 'center',
-    },
+    // title: {
+    //   text: '审计报告整改完成情况',
+    //   subtext: '统计分析',
+    //   left: 'center',
+    // },
     tooltip: {
       trigger: 'item',
     },
     legend: {
       orient: 'vertical',
-      left: 'left',
+      x: 'right',
     },
     series: [
       {
@@ -75,17 +75,17 @@ export class StatisticsAnalysisAuditPostViewComponent implements OnInit {
   option2 = {
     // color: ['#5470C6', '#91CC75', '#FAC858'],
     color: ['#FE6F6F', '#73C0DE', '#FAC858'],
-    title: {
-      text: '审计报告来源',
-      subtext: '统计分析',
-      left: 'center',
-    },
+    // title: {
+    //   text: '审计报告来源',
+    //   subtext: '统计分析',
+    //   left: 'center',
+    // },
     tooltip: {
       trigger: 'item',
     },
     legend: {
       orient: 'vertical',
-      left: 'left',
+      left: 'right',
     },
     series: [
       {
@@ -113,11 +113,11 @@ export class StatisticsAnalysisAuditPostViewComponent implements OnInit {
    */
   option3 = {
     color: ['#5470C6'],
-    title: {
-      text: '审计报告历年变化',
-      subtext: '变化分析',
-      left: 'center',
-    },
+    // title: {
+    //   text: '审计报告历年变化',
+    //   subtext: '变化分析',
+    //   left: 'center',
+    // },
     tooltip: {
       trigger: 'axis',
     },
@@ -144,11 +144,11 @@ export class StatisticsAnalysisAuditPostViewComponent implements OnInit {
     barCategoryGap: '150',
     color: ['#5470C6', '#91CC75', '#FAC858'],
 
-    title: {
-      text: '审计报告整改情况',
-      subtext: '数量分析',
-      left: 'center',
-    },
+    // title: {
+    //   text: '审计报告整改情况',
+    //   subtext: '数量分析',
+    //   left: 'center',
+    // },
     tooltip: {
       trigger: 'axis',
       axisPointer: {
@@ -158,7 +158,7 @@ export class StatisticsAnalysisAuditPostViewComponent implements OnInit {
     },
     legend: {
       orient: 'horizontal',
-      left: 'left',
+      left: 'right',
     },
     grid: {
       left: '3%',
@@ -221,11 +221,11 @@ export class StatisticsAnalysisAuditPostViewComponent implements OnInit {
     barCategoryGap: '150',
     color: ['#FAC858'],
 
-    title: {
-      text: '审计报告涉及金额统计情况',
-      subtext: '金额分析',
-      left: 'center',
-    },
+    // title: {
+    //   text: '审计报告涉及金额统计情况',
+    //   subtext: '金额分析',
+    //   left: 'center',
+    // },
     tooltip: {
       trigger: 'axis',
       axisPointer: {
@@ -269,4 +269,7 @@ export class StatisticsAnalysisAuditPostViewComponent implements OnInit {
     this.option = option;
     this.statisticsAnalysisDeatilComponent.showModal();
   }
+
+  // 日期处理
+  onChangeDateYear(ev: any) {}
 }
