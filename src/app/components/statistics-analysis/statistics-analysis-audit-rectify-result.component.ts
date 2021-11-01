@@ -19,6 +19,12 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
     show: false,
   };
   option01 = {
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'shadow',
+      },
+    },
     title: {
       text: '整改及时率统计',
     },
@@ -93,7 +99,7 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
   ];
   constructor() {}
 
-  zhexian1 = {
+  money1 = {
     title: {
       text: '',
     },
@@ -108,11 +114,6 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
       right: '4%',
       bottom: '3%',
       containLabel: true,
-    },
-    toolbox: {
-      feature: {
-        saveAsImage: {},
-      },
     },
     xAxis: {
       type: 'category',
@@ -146,7 +147,7 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
     ],
   };
 
-  zhexian2 = {
+  money2 = {
     title: {
       text: '',
     },
@@ -161,11 +162,6 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
       right: '4%',
       bottom: '3%',
       containLabel: true,
-    },
-    toolbox: {
-      feature: {
-        saveAsImage: {},
-      },
     },
     xAxis: {
       type: 'category',
@@ -190,6 +186,12 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
   };
 
   option003 = {
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'shadow',
+      },
+    },
     title: {
       text: '整改完成率统计',
     },
