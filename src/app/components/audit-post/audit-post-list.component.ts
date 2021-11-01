@@ -5,6 +5,8 @@ import { ApiPagedData, QueryOptions, TABLE_PARAMETER } from '@mt-framework-ng/co
 import { ObjectUtil } from '@ng-mt-framework/util';
 import { NzMessageService } from 'ng-zorro-antd';
 import { AuditPostDTO } from './model/AuditPostDTO';
+import { AuditReportDTO } from './newmodel/AuditReportDTO';
+import { AuditReportService } from './newservice/AuditReportService';
 import { AuditPostService } from './service/AuditPostService';
 
 const TAG: STColumnTag = {
@@ -19,43 +21,24 @@ const TAG: STColumnTag = {
   styles: [],
 })
 export class AuditPostListComponent implements OnInit {
+  /**
+   * 后台请求表示
+   */
   loading = false;
+
   /**
    * 列表数据
    */
-  tableData: Array<any> = [
-    {
-      auditReportStatus: 'GENERATED',
-      type: '内审报告',
-      name: '审计报告',
-      auditName: '审计单位',
-      auditStartTime: '2021-10-26',
-      auditEndTime: '2021-10-27',
-      probkemAmount: 10,
-    },
-    {
-      auditReportStatus: 'NO_GENERATED',
-      type: '迎审报告',
-      name: '审计报告',
-      auditName: '审计单位',
-      auditStartTime: '2021-10-26',
-      auditEndTime: '2021-10-27',
-      probkemAmount: 10,
-    },
-    {
-      auditReportStatus: 'GENERATING',
-      type: '外聘报告',
-      name: '审计报告',
-      auditName: '审计单位',
-      auditStartTime: '2021-10-26',
-      auditEndTime: '2021-10-27',
-      probkemAmount: 10,
-    },
-  ];
+  tableData: Array<AuditReportDTO> = [];
+
   /**
    * 列表参数
    */
   tableParameter = ObjectUtil.deepClone(TABLE_PARAMETER);
+
+  /**
+   * 列定义
+   */
   columns = [
     { title: '序号', render: 'number', width: '10px', className: 'text-center', type: 'radio' },
     {
@@ -128,7 +111,6 @@ export class AuditPostListComponent implements OnInit {
   /**
    * 查询过滤参数
    */
-
   @Input()
   filterParams: {
     name: string;
@@ -144,19 +126,25 @@ export class AuditPostListComponent implements OnInit {
     typeId: null,
   };
 
-  constructor(private router: Router, private auditPostService: AuditPostService, private msg: NzMessageService) {}
+  constructor(
+    private router: Router,
+    private auditPostService: AuditPostService,
+    private auditReportService: AuditReportService,
+    private msg: NzMessageService,
+  ) {}
 
   ngOnInit() {
-    // this.load();
+    this.load();
   }
 
+  /**
+   * 加载列表数据
+   */
   load(): void {
     this.loading = true;
-    this.auditPostService
+    this.auditReportService
       .findOnePage(
-        this.queryOptions.page,
-        this.queryOptions.size,
-        this.queryOptions.sort,
+        this.queryOptions,
         this.filterParams.typeId,
         this.filterParams.name,
         this.filterParams.auditBeginTime,
@@ -164,7 +152,7 @@ export class AuditPostListComponent implements OnInit {
         this.filterParams.auditUnitName,
       )
       .subscribe({
-        next: (data: ApiPagedData<AuditPostDTO>) => {
+        next: (data: ApiPagedData<AuditReportDTO>) => {
           this.tableData = data.data;
           this.tableParameter.page.total = data.totalRecords;
         },
@@ -175,18 +163,23 @@ export class AuditPostListComponent implements OnInit {
       });
   }
 
-  edit(row): void {
-    this.router.navigate(['/audit-rectify/audit-post-detail'], {
-      queryParams: {
-        postTypeId: null,
-        isWatch: false,
-        isEdit: true,
-        isNew: false,
-        allshow: false,
-        postId: row.id,
-      },
-    });
-  }
+  /**
+   *
+   * @param row 查看和编辑的方法
+   * 编辑已去掉
+   */
+  // edit(row): void {
+  //   this.router.navigate(['/audit-rectify/audit-post-detail'], {
+  //     queryParams: {
+  //       postTypeId: null,
+  //       isWatch: false,
+  //       isEdit: true,
+  //       isNew: false,
+  //       allshow: false,
+  //       postId: row.id,
+  //     },
+  //   });
+  // }
   check(row): void {
     this.router.navigate(['/audit-rectify/audit-post-detail'], {
       queryParams: {
@@ -201,7 +194,7 @@ export class AuditPostListComponent implements OnInit {
   }
 
   delete(row): void {
-    this.auditPostService.delete(row.id).subscribe({
+    this.auditReportService.delete(row.id).subscribe({
       next: () => {
         this.msg.success(`删除成功`);
         this.load();
