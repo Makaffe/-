@@ -83,19 +83,19 @@ export class AuditPostTypeTreeComponent implements OnInit {
   nodes = [
     {
       title: '所有报告',
-      key: '1',
+      key: 'ALL',
       children: [
         {
           title: '内审报告',
-          key: '11',
+          key: 'INTERNAL_AUDIT',
         },
         {
           title: '迎审报告',
-          key: '12',
+          key: 'WELCOME_TRIAL',
         },
         {
           title: '外聘审计报告',
-          key: '13',
+          key: 'EXTERNAL_AUDIT',
         },
       ],
     },
