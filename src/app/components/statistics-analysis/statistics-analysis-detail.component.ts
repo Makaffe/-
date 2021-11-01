@@ -41,9 +41,7 @@ export class StatisticsAnalysisDeatilComponent implements OnInit {
     this.isVisible = false;
   }
 
-  handleCancel(data): void {
-    console.log(data);
-
+  handleCancel(): void {
     this.isVisible = false;
   }
 }
