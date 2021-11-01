@@ -5,6 +5,7 @@ import {
   EventEmitter,
   HostListener,
   Inject,
+  Input,
   LOCALE_ID,
   OnInit,
   Output,

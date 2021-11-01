@@ -34,14 +34,15 @@ export class RectifyDiaryComponent implements OnInit {
 
   // 查询备忘录
   loadData() {
-    this.rectifyProblemService.findMome(this.rectifyProblemId).subscribe(
-      data => {
-        this.memo = data.data;
-        this.isVisible = true;
-      },
-      () => {},
-      () => {},
-    );
+    this.isVisible = true;
+    // this.rectifyProblemService.findMome(this.rectifyProblemId).subscribe(
+    //   data => {
+    //     this.memo = data.data;
+    //     this.isVisible = true;
+    //   },
+    //   () => {},
+    //   () => {},
+    // );
   }
 
   // 保存备忘录

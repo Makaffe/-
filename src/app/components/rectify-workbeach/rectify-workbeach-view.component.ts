@@ -3,6 +3,7 @@ import { Component, Inject, Input, LOCALE_ID, OnInit, ViewChild } from '@angular
 import { ActivatedRoute, Router } from '@angular/router';
 import { CacheService } from '@delon/cache';
 import { QueryOptions } from '@mt-framework-ng/core';
+import { queryParam } from '@mt-insight-ng/insight';
 import { OrganizationService, SystemFileService } from '@ng-mt-framework/api';
 import { TreeUtil } from '@ng-mt-framework/comp';
 import { NzMessageService } from 'ng-zorro-antd';
@@ -82,6 +83,11 @@ export class RectifyWorkbeachViewComponent implements OnInit {
    */
   @Input()
   isRectify = false;
+
+  /**
+   * 判断是否查看，如果是查看，隐藏部分按钮
+   */
+  isWatch = false;
 
   /**
    * 回复判断
@@ -240,7 +246,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // this.resolveQueryParam();
+    this.resolveQueryParam();
     // this.organizationService.getOrganizationTreeOfEmployeeOrUser().subscribe(data => {
     //   this.organizationTree = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
     // });
@@ -299,6 +305,12 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   //     });
   //   });
   // }
+  resolveQueryParam() {
+    this.activatedRoute.queryParams.subscribe(queryParams => {
+      this.isWatch = queryParams.isWatch === 'true' ? true : false;
+      // tslint:disable-next-line:semicolon
+    });
+  }
 
   /**
    * 每页条数改变的回调
@@ -336,7 +348,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
 
   // 跳转整改措施界面
   goRectifyEffect() {
-    this.rectifyEffectComponent.isVisible = true;
+    this.rectifyEffectComponent.edit(this.isWatch);
   }
 
   clickFold() {
