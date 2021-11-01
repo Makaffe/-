@@ -8,7 +8,9 @@ import { StatisticsAnalysisDeatilComponent } from '../statistics-analysis-detail
   // tslint:disable-next-line:component-selector
   selector: 'statistics-analysis-rectify-department',
   templateUrl: './statistics-analysis-rectify-department.component.html',
-  styles: []
+  styles: [` :host ::ng-deep .ant-card-extra{
+    padding: 0;
+  }`]
 })
 export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
   @ViewChild('statisticsAnalysisDeatilComponent', { static: false })
@@ -120,13 +122,14 @@ export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
       data: ['已整改', '整改中', '无法整改'],
     },
     grid: {
-      left: '5px',
-      right: '4%',
+      // left: '5px',
+      // right: '4%',
       bottom: '45px',
       containLabel: true,
     },
     xAxis: [
       {
+        name: '部门',
         type: 'category',
         triggerEvent: 'true',
         data: ['部门一', '部门二', '部门三', '部门四', '部门五', '部门六', '部门七'],
@@ -134,6 +137,7 @@ export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
     ],
     yAxis: [
       {
+        name: '整改问题数（单位：个）',
         type: 'value',
         axisLabel: {
           formatter: '{value}',
@@ -189,17 +193,19 @@ export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
       data: ['部门一', '部门二', '部门三', '部门四', '部门五']
     },
     grid: {
-      left: '3%',
-      right: '4%',
+      // left: '3%',
+      // right: '4%',
       bottom: '3%',
       containLabel: true,
     },
     xAxis: {
+      name: '年份',
       type: 'category',
       boundaryGap: false,
       data: ['2017', '2018', '2019', '2020', '2021'],
     },
     yAxis: {
+      name: '问题数量（单位：个）',
       type: 'value',
       // boundaryGap: [0, '100%'],
     },
@@ -244,12 +250,13 @@ export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
       }
     },
     xAxis: {
+      name: '部门',
       type: 'category',
       triggerEvent: 'true',
       data: ['部门一', '部门二', '部门三', '部门四', '部门五', '部门六', '部门七']
     },
     yAxis: {
-      name: '单位（元）',
+      name: '涉及金额（单位：元）',
       type: 'value'
     },
     series: [{
