@@ -118,6 +118,7 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
       data: ['2018', '2019', '2020', '2021'],
     },
     yAxis: {
+      name: '金额（元）',
       type: 'value',
     },
     series: [
@@ -166,6 +167,7 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
       data: ['2018', '2019', '2020', '2021'],
     },
     yAxis: {
+      name: '个数',
       type: 'value',
     },
     series: [
@@ -206,7 +208,7 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
     },
     series: [
       {
-        data: [200, 165, 100, 75, 16],
+        data: [100, 65, 50, 40, 30],
         type: 'bar',
         itemStyle: {
           normal: {

@@ -29,7 +29,35 @@ export class AuditPostListComponent implements OnInit {
   /**
    * 列表数据
    */
-  tableData: Array<AuditReportDTO> = [];
+  tableData: Array<any> = [
+    {
+      auditReportStatus: 'GENERATED',
+      type: '内审报告',
+      name: '审计报告',
+      auditName: '审计单位',
+      auditStartTime: '2021-10-26',
+      auditEndTime: '2021-10-27',
+      probkemAmount: 10,
+    },
+    {
+      auditReportStatus: 'NO_GENERATED',
+      type: '迎审报告',
+      name: '审计报告',
+      auditName: '审计单位',
+      auditStartTime: '2021-10-26',
+      auditEndTime: '2021-10-27',
+      probkemAmount: 10,
+    },
+    {
+      auditReportStatus: 'GENERATING',
+      type: '外聘报告',
+      name: '审计报告',
+      auditName: '审计单位',
+      auditStartTime: '2021-10-26',
+      auditEndTime: '2021-10-27',
+      probkemAmount: 10,
+    },
+  ];
 
   /**
    * 列表参数
@@ -134,7 +162,7 @@ export class AuditPostListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.load();
+    // this.load();
   }
 
   /**

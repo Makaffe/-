@@ -1,15 +1,28 @@
-<nz-modal [(nzVisible)]="isVisible" [nzTitle]="'问题下发'" [nzMaskClosable]="false" (nzOnCancel)="handleCancel()"
-  [nzFooter]="rectifyIssueOrderFooter" [nzStyle]="{ top: '65px' }" nzWidth="900" [nzBodyStyle]="{
+<nz-modal
+  [(nzVisible)]="isVisible"
+  [nzTitle]="'问题下发'"
+  [nzMaskClosable]="false"
+  (nzOnCancel)="handleCancel()"
+  [nzFooter]="rectifyIssueOrderFooter"
+  [nzStyle]="{ top: '65px' }"
+  nzWidth="900"
+  [nzBodyStyle]="{
     'min-height': '300px',
     'overflow-x': 'hidden',
     padding: '24px 24px 0 24px'
-  }">
+  }"
+>
   <form nz-form>
     <nz-form-item>
       <nz-form-label nzSpan="4">发送对象</nz-form-label>
       <nz-form-control nzSpan="20">
-        <nz-table #basicTable [nzData]="listOfData" [nzShowPagination]="false" nzBordered="true"
-          [nzScroll]="{ y: '100%' }">
+        <nz-table
+          #basicTable
+          [nzData]="listOfData"
+          [nzShowPagination]="false"
+          nzBordered="true"
+          [nzScroll]="{ y: '100%' }"
+        >
           <thead>
             <tr>
               <th nzWidth="50px">序号</th>

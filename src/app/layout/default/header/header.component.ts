@@ -53,7 +53,7 @@ export class HeaderComponent implements OnInit {
   }
 
   /**
-   * 打开我的待办
+   * 打开消息通知
    */
   returnMyTodo() {
     this.starupService.load().then(() => this.router.navigate(['/rectify-sys/rectify-sys-dashboard']));

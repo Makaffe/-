@@ -52,6 +52,7 @@ export class StatisticsBrokenLineComponent implements OnInit {
         data: ['2017', '2018', '2019', '2020', '2021'],
       },
       yAxis: {
+        name: '问题个数',
         type: 'value',
       },
       series,

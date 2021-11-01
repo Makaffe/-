@@ -105,9 +105,9 @@
                   nz-tooltip
                   nzType="link"
                   style="padding: 0px;"
-                  (click)="watchAuditPost(problemItem?.auditPost.id)"
+                  (click)="watchAuditPost(problemItem?.auditPost?.id)"
                 >
-                  {{ problemItem?.auditPost.name }}
+                  {{ problemItem?.auditPost?.name }}
                   <i nz-icon nzType="eye" nzTheme="twotone"></i>
                 </button>
               </nz-form-control>

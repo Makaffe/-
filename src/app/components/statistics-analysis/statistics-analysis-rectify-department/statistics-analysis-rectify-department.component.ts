@@ -141,7 +141,7 @@ export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
     ],
     yAxis: [
       {
-        name: '整改问题数（单位：个）',
+        name: '数量',
         type: 'value',
         axisLabel: {
           formatter: '{value}',
@@ -261,7 +261,7 @@ export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
       data: ['部门一', '部门二', '部门三', '部门四', '部门五', '部门六', '部门七'],
     },
     yAxis: {
-      name: '涉及金额（单位：元）',
+      name: '金额（元）',
       type: 'value',
     },
     series: [

@@ -100,7 +100,7 @@ export class DepartmentDrawComponent implements OnInit {
       xAxis: [
         {
           type: 'category',
-          data: ['整改逾期问题数', '未完成整改问题数', '移交纪检问题数'],
+          data: ['整改逾期未完成', '整改逾期已完成', '移交纪检问题数', '跨年整改问题数'],
           axisTick: {
             alignWithLabel: true,
           },
@@ -108,6 +108,7 @@ export class DepartmentDrawComponent implements OnInit {
       ],
       yAxis: [
         {
+          name: '问题数量',
           type: 'value',
         },
       ],
@@ -115,7 +116,7 @@ export class DepartmentDrawComponent implements OnInit {
         {
           type: 'bar',
           barWidth: '40',
-          data: [15, 12, 3],
+          data: [15, 12, 6, 5],
           itemStyle: {
             color(params) {
               return colorList[params.dataIndex % colorList.length];
@@ -139,6 +140,7 @@ export class DepartmentDrawComponent implements OnInit {
         data: ['2017', '2018', '2019', '2020', '2021'],
       },
       yAxis: {
+        name: '问题数量',
         type: 'value',
       },
       series: [
@@ -218,12 +220,13 @@ export class DepartmentDrawComponent implements OnInit {
         },
       },
       grid: {
-        left: '3%',
-        right: '4%',
+        // left: '3%',
+        // right: '4%',
         bottom: '3%',
         containLabel: true,
       },
       xAxis: {
+        name: '数量',
         type: 'value',
         boundaryGap: [0, 0.01],
       },
@@ -273,6 +276,7 @@ export class DepartmentDrawComponent implements OnInit {
       ],
       yAxis: [
         {
+          name: '问题数量',
           type: 'value',
         },
       ],
@@ -362,7 +366,7 @@ export class DepartmentDrawComponent implements OnInit {
         },
       ],
       yAxis: {
-        name: '单位（元）',
+        name: '金额（元）',
         type: 'value',
       },
       series: [

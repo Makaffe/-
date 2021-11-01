@@ -50,27 +50,27 @@ export interface AuditReportDTO {
   /**
    * 创建数据的用户ID，系统根据token自动填写
    */
-  createUser: UserBaseDTO;
+  createUser?: UserBaseDTO;
 
   /**
    * 创建数据的时间，系统根据服务器时间自动填写
    */
-  createdTime: string;
+  createdTime?: string;
 
   /**
    * 最后修改者的ID，系统根据token自动填写
    */
-  lastModifyUser: UserBaseDTO;
+  lastModifyUser?: UserBaseDTO;
 
   /**
    * 最后的修收时间，系统根据服务器时间自动填写
    */
-  lastModifiedTime: string;
+  lastModifiedTime?: string;
 
   /**
    * 数据过滤路径，系统自动填写
    */
-  filterPath: string;
+  filterPath?: string;
 
   /**
    * 审计报告类型

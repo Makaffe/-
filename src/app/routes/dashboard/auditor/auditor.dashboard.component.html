@@ -57,7 +57,7 @@
           </nz-card>
         </div>
         <div nz-col nzSpan="8">
-          <nz-card [nzTitle]="'我的待办'">
+          <nz-card [nzTitle]="'消息通知'">
             <nz-table
               #basicTable
               [nzData]="msdData"
@@ -71,7 +71,7 @@
                 <tr *ngFor="let data of basicTable.data; let i = index">
                   <td [ngStyle]="{ 'background-color': i % 2 === 0 ? 'rgb(255, 244, 255)' : 'rgb(233, 255, 220)' }">
                     <span>{{ data.name }}</span>
-                    <nz-badge [nzCount]="data.count" style="float: right;"></nz-badge>
+                    <nz-badge [nzCount]="data.count" style="float: right;" *ngIf="i === 0"></nz-badge>
                   </td>
                 </tr>
               </tbody>

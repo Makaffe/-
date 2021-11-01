@@ -1,11 +1,23 @@
-<nz-modal [(nzVisible)]="isVisible" [nzMaskClosable]="false" (nzOnCancel)="handleCancel()" [nzFooter]="footer"
-  [nzStyle]="{ top: '45px' }" nzWidth="85%" [nzBodyStyle]="{
+<nz-modal
+  [(nzVisible)]="isVisible"
+  [nzMaskClosable]="false"
+  (nzOnCancel)="handleCancel()"
+  [nzFooter]="footer"
+  [nzStyle]="{ top: '45px' }"
+  nzWidth="85%"
+  [nzBodyStyle]="{
     height: height ? height : '800px',
     'overflow-x': 'hidden',
     padding: '25px 25px 0 25px'
-  }">
-  <as-split direction="horizontal" unit="percent" [useTransition]="true" gutterSize="5"
-    (dragEnd)="dragEnd($event.sizes)">
+  }"
+>
+  <as-split
+    direction="horizontal"
+    unit="percent"
+    [useTransition]="true"
+    gutterSize="5"
+    (dragEnd)="dragEnd($event.sizes)"
+  >
     <as-split-area [(size)]="leftSize" minSize="0" maxSize="50" style="background-color: white;">
       <as-split direction="vertical" unit="pixel" gutterSize="0">
         <as-split-area class="flex-fixed" [size]="40">
@@ -18,12 +30,18 @@
         <as-split-area [size]="'*'">
           <form nz-form style="padding: 10px;">
             <nz-form-item>
-              <nz-form-label nzSpan="4">所属审计报告</nz-form-label>
+              <nz-form-label nzSpan="4">所属报告</nz-form-label>
               <nz-form-control nzSpan="20">
-                <button nzTooltipTitle="点击查看报告详情" nzTooltipPlacement="bottom" nz-button nz-tooltip nzType="link"
-                  style="padding: 0px;" (click)="watchAuditPost(problemItem?.auditPost.id)">
-                  {{ problemItem?.auditPost.name }}
-                  <i nz-icon nzType="eye" nzTheme="twotone"></i>
+                <button
+                  nzTooltipTitle="点击查看报告详情"
+                  nzTooltipPlacement="bottom"
+                  nz-button
+                  nz-tooltip
+                  nzType="link"
+                  style="padding: 0px;"
+                  (click)="watchAuditPost(problemItem?.auditPost?.id)"
+                >
+                  {{ problemItem?.auditPost?.name }}
                 </button>
               </nz-form-control>
             </nz-form-item>
@@ -36,8 +54,12 @@
             <nz-form-item>
               <nz-form-label nzSpan="4">问题类型</nz-form-label>
               <nz-form-control nzSpan="20">
-                <input nz-input name="type" [value]="problemItem?.type | dictTransform: 'PROBLEM_TYPE' | async"
-                  readonly />
+                <input
+                  nz-input
+                  name="type"
+                  [value]="problemItem?.type | dictTransform: 'PROBLEM_TYPE' | async"
+                  readonly
+                />
               </nz-form-control>
             </nz-form-item>
             <nz-form-item>
@@ -68,20 +90,37 @@
       <as-split direction="vertical" unit="pixel" gutterSize="0">
         <as-split-area class="flex-fixed" [size]="40">
           <nz-divider></nz-divider>
-          <button [nzTooltipTitle]="leftSize === 0 ? '显示问题详情' : '隐藏问题详情'" nzTooltipPlacement="bottom" nz-button
-            nz-tooltip nzType="link" nzSize="large" (click)="fold()">
-            <i nz-icon [nzType]="leftSize === 0 ? 'right-circle' : 'left-circle'" nzTheme="twotone"></i></button><span
-            style="font-size: 18px;">问题信息补充与问题拆分</span>
+          <button
+            [nzTooltipTitle]="leftSize === 0 ? '显示问题详情' : '隐藏问题详情'"
+            nzTooltipPlacement="bottom"
+            nz-button
+            nz-tooltip
+            nzType="link"
+            nzSize="large"
+            (click)="fold()"
+          >
+            <i nz-icon [nzType]="leftSize === 0 ? 'right-circle' : 'left-circle'" nzTheme="twotone"></i></button
+          ><span style="font-size: 18px;">问题信息补充与问题拆分</span>
           <nz-divider></nz-divider>
         </as-split-area>
         <as-split-area [size]="'*'">
           <form nz-form #form="ngForm" style="padding: 10px;">
             <nz-form-item>
               <nz-form-label [nzSpan]="4" nzFor="zgzzfzr" nzRequired>整改跟踪负责人</nz-form-label>
-              <nz-form-control [nzSpan]="8"
-                [nzValidateStatus]="zgzzfzr.invalid && (zgzzfzr.dirty || zgzzfzr.touched) ? 'error' : ''">
-                <nz-select name="zgzzfzr" [(ngModel)]="currentItem.zgzzfzr" style="width: 100%;" nzShowSearch="true"
-                  nzAllowClear="true" #zgzzfzr="ngModel" required [disabled]="isWatch">
+              <nz-form-control
+                [nzSpan]="8"
+                [nzValidateStatus]="zgzzfzr.invalid && (zgzzfzr.dirty || zgzzfzr.touched) ? 'error' : ''"
+              >
+                <nz-select
+                  name="zgzzfzr"
+                  [(ngModel)]="currentItem.zgzzfzr"
+                  style="width: 100%;"
+                  nzShowSearch="true"
+                  nzAllowClear="true"
+                  #zgzzfzr="ngModel"
+                  required
+                  [disabled]="isWatch"
+                >
                   <nz-option *ngFor="let option of dutyUserList" [nzLabel]="option.name" [nzValue]="option.id">
                   </nz-option>
                 </nz-select>
@@ -91,16 +130,26 @@
               </nz-form-control>
 
               <nz-form-label [nzSpan]="4" nzFor="rectifyDepartmentId" nzRequired>整改负责人</nz-form-label>
-              <nz-form-control [nzSpan]="8" [nzValidateStatus]="
+              <nz-form-control
+                [nzSpan]="8"
+                [nzValidateStatus]="
                   rectifyDepartmentId.invalid && (rectifyDepartmentId.dirty || rectifyDepartmentId.touched)
                     ? 'error'
                     : ''
-                ">
-                <nz-cascader [nzOptions]="options" [(ngModel)]="values" [disabled]="isWatch"
-                  #rectifyDepartmentId="ngModel" required name="rectifyDepartmentId">
+                "
+              >
+                <nz-cascader
+                  [nzOptions]="options"
+                  [(ngModel)]="values"
+                  [disabled]="isWatch"
+                  #rectifyDepartmentId="ngModel"
+                  required
+                  name="rectifyDepartmentId"
+                >
                 </nz-cascader>
                 <nz-form-explain
-                  *ngIf="rectifyDepartmentId.invalid && (rectifyDepartmentId.dirty || rectifyDepartmentId.touched)">
+                  *ngIf="rectifyDepartmentId.invalid && (rectifyDepartmentId.dirty || rectifyDepartmentId.touched)"
+                >
                   请选择整改负责人
                 </nz-form-explain>
               </nz-form-control>
@@ -109,16 +158,31 @@
             <nz-form-item>
               <nz-form-label [nzSpan]="4" nzFor="zgjzsj">整改截止时间</nz-form-label>
               <nz-form-control [nzSpan]="8">
-                <nz-date-picker [nzFormat]="'yyyy-MM-dd'" name="zgjzsj" [(ngModel)]="currentItem.zgjzsj"
-                  [nzPlaceHolder]="''" [disabled]="isWatch">
+                <nz-date-picker
+                  [nzFormat]="'yyyy-MM-dd'"
+                  name="zgjzsj"
+                  [(ngModel)]="currentItem.zgjzsj"
+                  [nzPlaceHolder]="''"
+                  [disabled]="isWatch"
+                >
                 </nz-date-picker>
               </nz-form-control>
 
               <nz-form-label [nzSpan]="4" nzFor="sjje" nzRequired>涉及金额(元)</nz-form-label>
-              <nz-form-control [nzSpan]="8"
-                [nzValidateStatus]="sjje.invalid && (sjje.dirty || sjje.touched) ? 'error' : ''">
-                <nz-input-number class="input-number" name="sjje" [nzMin]="0" [nzPrecision]="2"
-                  [(ngModel)]="currentItem.sjje" required #sjje="ngModel" [disabled]="isWatch"></nz-input-number>
+              <nz-form-control
+                [nzSpan]="8"
+                [nzValidateStatus]="sjje.invalid && (sjje.dirty || sjje.touched) ? 'error' : ''"
+              >
+                <nz-input-number
+                  class="input-number"
+                  name="sjje"
+                  [nzMin]="0"
+                  [nzPrecision]="2"
+                  [(ngModel)]="currentItem.sjje"
+                  required
+                  #sjje="ngModel"
+                  [disabled]="isWatch"
+                ></nz-input-number>
                 <nz-form-explain *ngIf="sjje.invalid && (sjje.dirty || sjje.touched)">
                   请填写涉及金额
                 </nz-form-explain>
@@ -127,10 +191,19 @@
 
             <nz-form-item>
               <nz-form-label nzSpan="4" nzRequired>问题描述</nz-form-label>
-              <nz-form-control nzSpan="20"
-                [nzValidateStatus]="remark.invalid && (remark.dirty || remark.touched) ? 'error' : ''">
-                <textarea nz-input name="remark" [(ngModel)]="currentItem.remark" rows="5" required [readOnly]="isWatch"
-                  #remark="ngModel"></textarea>
+              <nz-form-control
+                nzSpan="20"
+                [nzValidateStatus]="remark.invalid && (remark.dirty || remark.touched) ? 'error' : ''"
+              >
+                <textarea
+                  nz-input
+                  name="remark"
+                  [(ngModel)]="currentItem.remark"
+                  rows="5"
+                  required
+                  [readOnly]="isWatch"
+                  #remark="ngModel"
+                ></textarea>
                 <nz-form-explain *ngIf="remark.invalid && (remark.dirty || remark.touched)">
                   请填写问题描述
                 </nz-form-explain>
@@ -148,15 +221,28 @@
             <nz-form-item>
               <nz-form-label nzSpan="4">审计建议</nz-form-label>
               <nz-form-control nzSpan="20">
-                <textarea nz-input name="advice" [(ngModel)]="currentItem.advice" rows="5"
-                  [readOnly]="isWatch"></textarea>
+                <textarea
+                  nz-input
+                  name="advice"
+                  [(ngModel)]="currentItem.advice"
+                  rows="5"
+                  [readOnly]="isWatch"
+                ></textarea>
               </nz-form-control>
             </nz-form-item>
 
             <nz-form-item>
-              <nz-table #childrenTable nzBordered [nzData]="childrenProblemList" [nzScroll]="{ y: '100%' }"
-                [nzShowPagination]="false" [nzNoResult]="null" [nzSize]="'middle'" style="padding-left: 0;"
-                nzTitle="子问题列表">
+              <nz-table
+                #childrenTable
+                nzBordered
+                [nzData]="childrenProblemList"
+                [nzScroll]="{ y: '100%' }"
+                [nzShowPagination]="false"
+                [nzNoResult]="null"
+                [nzSize]="'middle'"
+                style="padding-left: 0;"
+                nzTitle="子问题列表"
+              >
                 <thead>
                   <tr>
                     <th nzWidth="50px" nzAlign="center">序号</th>
@@ -214,8 +300,11 @@
 </nz-modal>
 
 <!--子问题详情组件 -->
-<app-rectify-child-issue-detail #rectifyChildIssueDetailComponent [problemItem]="problemItem"
-  (dataChange)="getChildrenProblem($event)">
+<app-rectify-child-issue-detail
+  #rectifyChildIssueDetailComponent
+  [problemItem]="problemItem"
+  (dataChange)="getChildrenProblem($event)"
+>
 </app-rectify-child-issue-detail>
 
 <!-- 审计报告查看组件 -->

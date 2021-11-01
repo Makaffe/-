@@ -126,6 +126,7 @@ export class StatisticsAnalysisAuditPostViewComponent implements OnInit {
       data: ['2018', '2019', '2020', '2021'],
     },
     yAxis: {
+      name: '个数',
       data: [0, 5, 10, 15, 20],
       type: 'value',
     },
@@ -142,7 +143,7 @@ export class StatisticsAnalysisAuditPostViewComponent implements OnInit {
    */
   option4 = {
     barCategoryGap: '150',
-    color: ['#5470C6', '#91CC75', '#FAC858'],
+    color: ['#5470C6', '#91CC75', '#FAC858', '#FE6F6F'],
 
     // title: {
     //   text: '审计报告整改情况',
@@ -167,7 +168,7 @@ export class StatisticsAnalysisAuditPostViewComponent implements OnInit {
       containLabel: true,
     },
     yAxis: {
-      name: '审计报告总数',
+      name: '问题整改数',
       type: 'value',
     },
     xAxis: {
@@ -211,6 +212,18 @@ export class StatisticsAnalysisAuditPostViewComponent implements OnInit {
         },
         data: [90, 80, 66, 57, 49, 24, 10],
       },
+      {
+        name: '未开始整改',
+        type: 'bar',
+        stack: 'total',
+        label: {
+          show: true,
+        },
+        emphasis: {
+          focus: 'series',
+        },
+        data: [3, 3, 2, 4, 5, 6, 4],
+      },
     ],
   };
 
@@ -248,7 +261,7 @@ export class StatisticsAnalysisAuditPostViewComponent implements OnInit {
       data: ['审计报告1', '审计报告2', '审计报告3', '审计报告4', '审计报告5', '审计报告6', '审计报告7'],
     },
     yAxis: {
-      name: '单位（元）',
+      name: '金额（元）',
       type: 'value',
     },
     series: [
