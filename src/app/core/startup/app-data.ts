@@ -29,7 +29,7 @@ export const APP_DATA = {
               // acl: [],
             },
             {
-              text: '整改台账管理',
+              text: '整改台账',
               link: '/audit-rectify/rectification-post',
               i18n: '',
               // acl: [],
@@ -49,7 +49,7 @@ export const APP_DATA = {
               // acl: [],
             },
             {
-              text: '整改跟踪台账',
+              text: '整改跟踪',
               link: '/audit-rectify/rectify-track',
               i18n: '',
               // acl: [],
