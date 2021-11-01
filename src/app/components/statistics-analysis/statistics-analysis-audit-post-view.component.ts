@@ -186,7 +186,7 @@ export class StatisticsAnalysisAuditPostViewComponent implements OnInit {
         emphasis: {
           focus: 'series',
         },
-        data: [5, 8, 7, 4, 6, 8, 2],
+        data: [30, 12, 10, 8, 6, 4, 2],
       },
       {
         name: '已整改',
@@ -198,7 +198,7 @@ export class StatisticsAnalysisAuditPostViewComponent implements OnInit {
         emphasis: {
           focus: 'series',
         },
-        data: [4, 3, 5, 4, 3, 5, 3],
+        data: [60, 56, 51, 42, 38, 25, 10],
       },
       {
         name: '无法整改',
@@ -210,7 +210,7 @@ export class StatisticsAnalysisAuditPostViewComponent implements OnInit {
         emphasis: {
           focus: 'series',
         },
-        data: [3, 3, 2, 4, 5, 6, 4],
+        data: [90, 80, 66, 57, 49, 24, 10],
       },
       {
         name: '未开始整改',
@@ -266,7 +266,7 @@ export class StatisticsAnalysisAuditPostViewComponent implements OnInit {
     },
     series: [
       {
-        data: [10000, 15000, 50000, 40000, 30000, 20000, 40000],
+        data: [40000, 32000, 25000, 20000, 15000, 10000, 5000],
         type: 'bar',
         label: {
           show: true,

@@ -25,9 +25,9 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
         type: 'shadow',
       },
     },
-    title: {
-      text: '整改及时率统计',
-    },
+    // title: {
+    //   text: '整改及时率统计',
+    // },
     xAxis: {
       type: 'category',
       data: ['部门二', '部门三', '部门一', '部门四', '部门五'],
@@ -42,7 +42,7 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
     },
     series: [
       {
-        data: [80, 60, 55, 38, 29],
+        data: [100, 60, 55, 38, 29],
         type: 'bar',
         itemStyle: {
           normal: {
@@ -100,9 +100,6 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
   constructor() {}
 
   money1 = {
-    title: {
-      text: '',
-    },
     tooltip: {
       trigger: 'axis',
     },
@@ -118,9 +115,10 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
     xAxis: {
       type: 'category',
       boundaryGap: false,
-      data: ['0', '2018', '2019', '2020', '2021'],
+      data: ['2018', '2019', '2020', '2021'],
     },
     yAxis: {
+      name: '金额（元）',
       type: 'value',
     },
     series: [
@@ -166,9 +164,10 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
     xAxis: {
       type: 'category',
       boundaryGap: false,
-      data: ['0', '2018', '2019', '2020', '2021'],
+      data: ['2018', '2019', '2020', '2021'],
     },
     yAxis: {
+      name: '个数',
       type: 'value',
     },
     series: [
@@ -192,9 +191,9 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
         type: 'shadow',
       },
     },
-    title: {
-      text: '整改完成率统计',
-    },
+    // title: {
+    //   text: '整改完成率统计',
+    // },
     xAxis: {
       type: 'category',
       data: ['部门二', '部门三', '部门一', '部门四', '部门五'],
@@ -209,12 +208,13 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
     },
     series: [
       {
-        data: [20, 65, 45, 75, 16],
+        data: [100, 65, 50, 40, 30],
         type: 'bar',
         itemStyle: {
           normal: {
-            color: function(params) {
-              var colorList = ['#c23531', '#2f4', '#61a', '#d48265', '#91c7ac', '#749f83', '#00CA69'];
+            color(params) {
+              // tslint:disable-next-line:prefer-const
+              const colorList = ['#c23531', '#2f4', '#61a', '#d48265', '#91c7ac', '#749f83', '#00CA69'];
               return colorList[params.dataIndex];
             },
           },

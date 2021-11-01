@@ -8,7 +8,13 @@ import { StatisticsAnalysisDeatilComponent } from '../statistics-analysis-detail
   // tslint:disable-next-line:component-selector
   selector: 'statistics-analysis-rectify-department',
   templateUrl: './statistics-analysis-rectify-department.component.html',
-  styles: [],
+  styles: [
+    `
+      :host ::ng-deep .ant-card-extra {
+        padding: 0;
+      }
+    `,
+  ],
 })
 export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
   @ViewChild('statisticsAnalysisDeatilComponent', { static: false })
@@ -120,13 +126,14 @@ export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
       data: ['已整改', '整改中', '无法整改'],
     },
     grid: {
-      left: '5px',
-      right: '4%',
+      // left: '5px',
+      // right: '4%',
       bottom: '45px',
       containLabel: true,
     },
     xAxis: [
       {
+        name: '部门',
         type: 'category',
         triggerEvent: 'true',
         data: ['部门一', '部门二', '部门三', '部门四', '部门五', '部门六', '部门七'],
@@ -134,7 +141,7 @@ export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
     ],
     yAxis: [
       {
-        name: '个数',
+        name: '数量',
         type: 'value',
         axisLabel: {
           formatter: '{value}',
@@ -157,14 +164,14 @@ export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
         type: 'bar',
         stack: '饱和度',
         color: '#98d87d',
-        data: [30, 18, 11, 23, 29, 33, 30],
+        data: [30, 25, 15, 9, 12, 13, 2],
       },
       {
         name: '整改中',
         type: 'bar',
         stack: '饱和度',
         color: '#49a9ee',
-        data: [20, 18, 19, 23, 29, 33, 31],
+        data: [50, 62, 50, 40, 25, 28, 25],
       },
       {
         name: '无法整改',
@@ -172,7 +179,7 @@ export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
         stack: '饱和度',
         color: '#ffd86e',
         barMaxWidth: 50, // 柱子的宽度
-        data: [21, 11, 23, 15, 30, 23, 10],
+        data: [61, 18, 23, 15, 23, 11, 10],
       },
     ],
   };
@@ -190,17 +197,19 @@ export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
       data: ['部门一', '部门二', '部门三', '部门四', '部门五'],
     },
     grid: {
-      left: '3%',
-      right: '4%',
+      // left: '3%',
+      // right: '4%',
       bottom: '3%',
       containLabel: true,
     },
     xAxis: {
+      name: '年份',
       type: 'category',
       boundaryGap: false,
       data: ['2017', '2018', '2019', '2020', '2021'],
     },
     yAxis: {
+      name: '问题数量（单位：个）',
       type: 'value',
       // boundaryGap: [0, '100%'],
     },
@@ -246,17 +255,18 @@ export class StatisticsAnalysisRectifyDepartmentComponent implements OnInit {
       },
     },
     xAxis: {
+      name: '部门',
       type: 'category',
       triggerEvent: 'true',
       data: ['部门一', '部门二', '部门三', '部门四', '部门五', '部门六', '部门七'],
     },
     yAxis: {
-      name: '单位（元）',
+      name: '金额（元）',
       type: 'value',
     },
     series: [
       {
-        data: [120, 200, 150, 80, 70, 110, 130],
+        data: [230, 200, 189, 140, 125, 110, 80],
         type: 'bar',
         barWidth: '50',
       },

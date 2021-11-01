@@ -424,7 +424,7 @@ export class StatisticsAnalysisAuditIssueViewComponent implements OnInit {
       {
         type: 'bar',
         barWidth: '40',
-        data: [5, 12, 3, 6],
+        data: [12, 6, 5, 3],
         itemStyle: {
           color(params) {
             const colorList = ['#4572A7', '#AA4643', '#89A54E', '#71588F', '#4198AF', '#DB843D', '#93A9CF'];
@@ -473,7 +473,7 @@ export class StatisticsAnalysisAuditIssueViewComponent implements OnInit {
     },
     series: [
       {
-        data: [10, 30, 12, 14, 21, 8, 19, 10, 15, 30, 12, 14, 21, 8, 19, 10],
+        data: [30, 30, 21, 21, 19, 18, 15, 12, 11, 10, 8, 8, 7, 5, 2, 1],
         type: 'bar',
         itemStyle: {
           normal: {
@@ -541,7 +541,7 @@ export class StatisticsAnalysisAuditIssueViewComponent implements OnInit {
     },
     series: [
       {
-        data: [10, 30, 12, 14, 21, 8, 19, 10, 15, 30, 12, 14, 21, 8, 19, 10],
+        data: [100, 80, 75, 75, 72, 70, 68, 65, 62, 60, 59, 55, 40, 38, 35, 20],
         type: 'bar',
         itemStyle: {
           normal: {

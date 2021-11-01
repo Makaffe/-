@@ -79,8 +79,25 @@ export class OaTemplateViewComponent implements OnInit {
    */
   leftSize = this.LEFT_WIDTH;
 
-  nodes = [];
-
+  nodes = [
+    {
+      title: 'OA消息模板',
+      key: '建议模板类型1',
+      selectable: false,
+      children: [
+        {
+          title: '问题下发模板',
+          key: '问题下发模板',
+          isLeaf: true,
+        },
+        {
+          title: '催办通知模板',
+          key: '催办通知模板',
+          isLeaf: true,
+        },
+      ],
+    },
+  ];
   // 搜索内容
   templateName: '';
   templateContent: '';
@@ -104,22 +121,22 @@ export class OaTemplateViewComponent implements OnInit {
       this.selectedNode = event.node.origin;
       this.selectedNodeChange.emit(this.selectedNode);
       this.typeId = this.selectedNode.id;
-      this.loadList(this.typeId);
+      // this.loadList(this.typeId);
     } else {
       this.selectedNode = null;
       this.selectNodeEvent.emit(this.selectedNode);
       this.selectedNodeChange.emit(this.selectedNode);
-      this.loadAll();
+      // this.loadAll();
     }
   }
 
   loadTree() {
-    this.nodes = [];
-    this.oASendTemplateTypeService.findAllUsingGET().subscribe(data => {
-      if (data) {
-        this.nodes = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
-      }
-    });
+    // this.nodes = [];
+    // this.oASendTemplateTypeService.findAllUsingGET().subscribe(data => {
+    //   if (data) {
+    //     this.nodes = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
+    //   }
+    // });
   }
 
   editNode(created: boolean, item?: any) {

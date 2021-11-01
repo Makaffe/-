@@ -29,7 +29,7 @@ export const APP_DATA = {
               // acl: [],
             },
             {
-              text: '整改台账管理',
+              text: '整改台账',
               link: '/audit-rectify/rectification-post',
               i18n: '',
               // acl: [],
@@ -49,7 +49,7 @@ export const APP_DATA = {
               // acl: [],
             },
             {
-              text: '整改跟踪台账',
+              text: '整改跟踪',
               link: '/audit-rectify/rectify-track',
               i18n: '',
               // acl: [],
@@ -75,25 +75,26 @@ export const APP_DATA = {
               // acl: [],
             },
             {
-              text: '文书模板',
-              link: '',
+              text: '报告模板',
               i18n: '',
-              children: [
-                {
-                  text: '模板管理',
-                  // i18n: '',
-                  icon: 'anticon-file-excel',
-                  link: '/audit-rectify/template-info',
-                  // acl: [],
-                },
-                {
-                  text: '报告管理',
-                  // i18n: '',
-                  icon: 'anticon-file-excel',
-                  link: '/audit-rectify/report-info',
-                  // acl: [],
-                },
-              ],
+              icon: 'anticon-file-excel',
+              link: '/audit-rectify/template-info',
+              // children: [
+              //   {
+              //     text: '模板管理',
+              //     // i18n: '',
+              //     icon: 'anticon-file-excel',
+              //     link: '/audit-rectify/template-info',
+              //     // acl: [],
+              //   },
+              //   {
+              //     text: '报告管理',
+              //     // i18n: '',
+              //     icon: 'anticon-file-excel',
+              //     link: '/audit-rectify/report-info',
+              //     // acl: [],
+              //   },
+              // ],
               // acl: [],
             },
             {

@@ -73,7 +73,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   rectifyTimeLineComponent: RectifyTimeLineComponent;
 
   /**
-   * 反馈提醒组件
+   * 催办通知醒组件
    */
   @ViewChild('rectifyFeedbackRemindComponent', { static: false })
   rectifyFeedbackRemindComponent: RectifyFeedbackRemindComponent;
@@ -128,9 +128,11 @@ export class RectifyWorkbeachViewComponent implements OnInit {
     id: '1',
     sendStatus: '已下发',
     transferStatus: '未移交',
-    auditPost: { name: '审计报告' },
+    auditPost: '审计报告',
     name: '餐饮费用超过规定标准',
     type: '',
+    remark: '',
+    advice: '',
     rectifyDepartment: { name: '自然资源局' },
     dutyUser: { name: '李名' },
     rectifyCount: 1,
@@ -154,14 +156,14 @@ export class RectifyWorkbeachViewComponent implements OnInit {
    */
   loading = false;
 
-  LEFT_WIDTH = 0;
+  LEFT_WIDTH = 25;
 
   /**
    * 左侧树宽度
    */
   leftSize = this.LEFT_WIDTH;
 
-  RIGHT_WIDTH = 100;
+  RIGHT_WIDTH = 75;
 
   /**
    * 右侧树冠宽
@@ -169,7 +171,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   rightSize = this.RIGHT_WIDTH;
 
   // 时间轴按钮样式
-  timeLineButtonType = 'right';
+  timeLineButtonType = 'left';
 
   /**
    * 整改部门树
@@ -221,7 +223,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
       isLeaf: false,
       children: [
         { title: '整改问题催办模板', key: '建议模板2', isLeaf: true },
-        { title: '问题下发通知模板', key: '建议模板2', isLeaf: true },
+        { title: '问题下发通知模板', key: '建议模板3', isLeaf: true },
       ],
     },
   ];
