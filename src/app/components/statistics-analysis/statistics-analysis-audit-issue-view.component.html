@@ -202,12 +202,7 @@
     </nz-card>
   </div>
 </div> -->
-<as-split
-  direction="vertical"
-  unit="pixel"
-  gutterSize="0"
-  style="margin: 5px;background-color: white; overflow-y:scroll;"
->
+<as-split direction="vertical" unit="pixel" gutterSize="0" style="margin-left: 10px;overflow-y:scroll;">
   <as-split-area class="flex-fixed" [size]="40">
     <div style="padding-top: 10px;padding-right: 20px;text-align: right;">
       <nz-form-item>
@@ -219,9 +214,9 @@
     </div>
   </as-split-area>
   <as-split-area [size]="'*'">
-    <div nz-row style="height:600px">
+    <div nz-row>
       <div nz-col nzSpan="10">
-        <div style="text-align: center;">
+        <!-- <div style="text-align: center;">
           <font style="font-size: 18px;font-weight: bold;">审计问题类型</font>
         </div>
         <div
@@ -231,14 +226,37 @@
           [theme]="'macarons'"
           [options]="optionHotWord"
           (chartClick)="onChartClickPie($event)"
-        ></div>
+        ></div> -->
+        <nz-card nzTitle="审计问题类型" style="margin-right:10px">
+          <div
+            class="chart"
+            echarts
+            [theme]="'macarons'"
+            [options]="optionHotWord"
+            (chartClick)="onChartClickPie($event)"
+          ></div>
+        </nz-card>
       </div>
 
-      <div nz-col nzSpan="12">
-        <div style="text-align: center;">
+      <div nz-col nzSpan="14">
+        <!-- <div style="text-align: center;">
           <font style="font-size: 18px;font-weight: bold;">整改情况统计</font>
-        </div>
-        <div nz-row style="height:360px;margin-top: -40px;">
+        </div> -->
+        <nz-card nzTitle="问题数据历史变化" [nzExtra]="extraTemplate">
+          <!-- <div nz-row style="margin-top: -25px;width: 930px;"> -->
+          <div nz-row>
+            <!-- <div style="height:360px" class="chart" echarts [theme]="'macarons'" [options]="optionCreaseLine"></div> -->
+            <div class="chart" echarts [theme]="'macarons'" [options]="optionCreaseLine"></div>
+            <!-- (chartClick)="onChartClickCreaseLin($event)" -->
+          </div>
+        </nz-card>
+        <ng-template #extraTemplate>
+          <button nz-button nzType="link" (click)="onChartClickCreaseLin($event)">
+            查看所有问题数据
+          </button>
+        </ng-template>
+
+        <!-- <div nz-row style="height:360px;margin-top: -40px;">
           <div nz-col nzSpan="10" style="margin-bottom: -30px;">
             <div
               style="height:360px"
@@ -263,16 +281,35 @@
               查看所有问题数据
             </button>
           </div>
-        </div>
-        <div nz-row style="height:360px;margin-top: -25px;width: 930px;">
+        </div> -->
+        <!-- <div nz-row style="height:360px;margin-top: -25px;width: 930px;">
           <div style="height:360px" class="chart" echarts [theme]="'macarons'" [options]="optionCreaseLine"></div>
-          <!-- (chartClick)="onChartClickCreaseLin($event)" -->
-        </div>
+           (chartClick)="onChartClickCreaseLin($event)" 
+        </div> -->
       </div>
     </div>
-    <div style="margin-top: 50px;" echarts [options]="optionColumnarPS1" (chartClick)="onChartClickPie($event)"></div>
+    <nz-card nzTitle="审计问题情况">
+      <div nz-col nzSpan="10" style="margin-bottom: -30px;">
+        <div
+          class="chart"
+          echarts
+          [theme]="'macarons'"
+          [options]="optionPie"
+          (chartClick)="onChartClickPie($event)"
+        ></div>
+      </div>
+      <div nz-col nzSpan="14" style="margin-bottom: -5px;">
+        <div echarts [options]="optionColumnarPS" (chartClick)="onChartClickPie($event)"></div>
+      </div>
+    </nz-card>
 
-    <div echarts [options]="optionColumnarPS2" (chartClick)="onChartClickPie($event)"></div>
+    <nz-card nzTitle="各类问题数量">
+      <div echarts [options]="optionColumnarPS1" (chartClick)="onChartClickPie($event)"></div>
+    </nz-card>
+
+    <nz-card nzTitle="问题类型设计金额">
+      <div echarts [options]="optionColumnarPS2" (chartClick)="onChartClickPie($event)"></div>
+    </nz-card>
   </as-split-area>
 </as-split>
 

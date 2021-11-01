@@ -335,6 +335,10 @@ export class StatisticsAnalysisAuditIssueViewComponent implements OnInit {
       trigger: 'item',
       formatter: '{a} <br/>{b} : {c} ({d}%)',
     },
+    legend: {
+      orient: 'vertical',
+      left: 'left',
+    },
     series: [
       {
         name: '整改问题数',
@@ -378,7 +382,6 @@ export class StatisticsAnalysisAuditIssueViewComponent implements OnInit {
           },
         },
         data: [
-          { value: 5, name: '问题总数' },
           { value: 3, name: '整改中' },
           { value: 4, name: '已逾期' },
           { value: 3, name: '未处理' },
@@ -405,6 +408,7 @@ export class StatisticsAnalysisAuditIssueViewComponent implements OnInit {
     },
     xAxis: [
       {
+        name: '问题个数',
         type: 'category',
         data: ['整改逾期问题数', '未完成整改问题数', '移交纪检问题数'],
         axisTick: {
@@ -414,6 +418,7 @@ export class StatisticsAnalysisAuditIssueViewComponent implements OnInit {
     ],
     yAxis: [
       {
+        name: '问题个数',
         type: 'value',
       },
     ],
@@ -437,7 +442,7 @@ export class StatisticsAnalysisAuditIssueViewComponent implements OnInit {
    */
   optionColumnarPS1 = {
     title: {
-      text: '各类问题数量',
+      // text: '各类问题数量',
       left: 'center',
     },
     tooltip: {
@@ -465,6 +470,7 @@ export class StatisticsAnalysisAuditIssueViewComponent implements OnInit {
       ],
     },
     yAxis: {
+      name: '问题个数',
       type: 'value',
     },
     series: [
@@ -504,7 +510,7 @@ export class StatisticsAnalysisAuditIssueViewComponent implements OnInit {
    */
   optionColumnarPS2 = {
     title: {
-      text: '问题类型涉及金额',
+      // text: '问题类型涉及金额',
       left: 'center',
     },
     tooltip: {
@@ -532,6 +538,7 @@ export class StatisticsAnalysisAuditIssueViewComponent implements OnInit {
       ],
     },
     yAxis: {
+      name: '涉及金额（元）',
       type: 'value',
     },
     series: [
@@ -582,6 +589,7 @@ export class StatisticsAnalysisAuditIssueViewComponent implements OnInit {
       data: ['2017', '2018', '2019', '2020', '2021'],
     },
     yAxis: {
+      name: '问题个数',
       type: 'value',
     },
     series: [

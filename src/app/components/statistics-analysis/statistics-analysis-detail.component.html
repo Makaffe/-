@@ -10,6 +10,10 @@
     <app-rectification-post-list #rectificationPostListComponent></app-rectification-post-list>
   </div>
   <div *ngIf="option === '整改问题'" style="height: 600px;">
-    <app-rectify-issue-list #rectifyIssueListComponent [isAnalysis]="true"></app-rectify-issue-list>
+    <app-rectify-issue-list
+      #rectifyIssueListComponent
+      [isAnalysis]="true"
+      (closeModal)="handleCancel($event)"
+    ></app-rectify-issue-list>
   </div>
 </nz-modal>
