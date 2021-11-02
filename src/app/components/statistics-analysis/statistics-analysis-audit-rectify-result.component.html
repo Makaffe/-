@@ -15,90 +15,98 @@
   </as-split-area>
   <as-split-area [size]="'*'">
     <div nz-row>
-      <div nz-row nzJustify="space-between">
-        <div nz-col nzSpan="8">
-          <nz-card [nzTitle]="'整改完成率统计'" style="margin-right:10px">
-            <div class="chart" echarts [theme]="'macarons'" [options]="option003"></div>
-          </nz-card>
-        </div>
-        <div nz-col nzSpan="8">
-          <nz-card [nzTitle]="'整改及时率统计'" style="margin-right:10px">
-            <div class="chart" echarts [theme]="'macarons'" [options]="option01"></div>
-          </nz-card>
-        </div>
-        <div nz-col nzSpan="8">
-          <nz-card [nzTitle]="'资金整改成果'">
-            <div class="chart" echarts [theme]="'macarons'" [options]="money1"></div>
-          </nz-card>
-        </div>
-      </div>
-    </div>
-    <div nz-row>
-      <div nz-row nzJustify="space-between">
-        <div nz-col nzSpan="16">
-          <nz-card nzTitle="整改反馈分析" [nzExtra]="extraTemplate" style="margin-right:10px">
-            <ng-template #extraTemplate>
-              <nz-form-item nzFlex>
-                <nz-form-label [nzSm]="10" [nzXs]="24">分析部门</nz-form-label>
-                <nz-form-control [nzSm]="16" [nzXs]="24">
-                  <nz-select nzAllowClear style="width: 180px;">
-                    <nz-option nzValue="部门1" nzLabel="部门1"></nz-option>
-                    <nz-option nzValue="部门2" nzLabel="部门2"></nz-option>
-                  </nz-select>
-                </nz-form-control>
-              </nz-form-item>
-            </ng-template>
+      <div nz-col nzSpan="16">
+        <div nz-col nzSpan="24">
+          <div nz-row nzJustify="space-between">
+            <div nz-col nzSpan="12">
+              <nz-card [nzTitle]="'整改完成率统计'" style="margin-right:10px ;" class="c1">
+                <div class="chart" echarts [theme]="'macarons'" [options]="option003"></div>
+              </nz-card>
+            </div>
+            <div nz-col nzSpan="12">
+              <nz-card [nzTitle]="'整改及时率统计'" style="margin-right:10px;" class="c2">
+                <div class="chart" echarts [theme]="'macarons'" [options]="option01"></div>
+              </nz-card>
+            </div>
+          </div>
+          <div nz-row>
+            <div nz-row nzJustify="space-between">
+              <div nz-col nzSpan="24">
+                <nz-card nzTitle="整改反馈分析" [nzExtra]="extraTemplate" style="margin-right:10px;" class="c3"
+                  >
+                  <ng-template #extraTemplate>
+                    <nz-form-item nzFlex>
+                      <nz-form-label [nzSm]="10" [nzXs]="24">分析部门</nz-form-label>
+                      <nz-form-control [nzSm]="16" [nzXs]="24">
+                        <nz-select nzAllowClear style="width: 180px;">
+                          <nz-option nzValue="部门1" nzLabel="部门1"></nz-option>
+                          <nz-option nzValue="部门2" nzLabel="部门2"></nz-option>
+                        </nz-select>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </ng-template>
+                  <div nz-row>
+                    <div nz-col nzSpan="8">
+                      <div nz-col>整改提醒次数</div>
+                      <div nz-col>
+                        <h1>1200</h1>
+                      </div>
+                      <div nz-col>
+                        <i nz-icon [nzType]="'caret-up'" style="font-size: 16px; color: rgb(26, 241, 80);"></i>
 
-            <div nz-row>
-              <div nz-col nzSpan="8">
-                <div nz-col>整改提醒次数</div>
-                <div nz-col>
-                  <h1>1200</h1>
-                </div>
-                <div nz-col>
-                  <i nz-icon [nzType]="'caret-up'" style="font-size: 16px; color: rgb(26, 241, 80);"></i>
-
-                  &nbsp;26% 同比上升
-                </div>
-                <div echarts [options]="optionData1" style="margin-left: -100px;margin-right: -100px;"></div>
-              </div>
-              <div nz-col nzSpan="8">
-                <div nz-col>审计人员回复次数</div>
-                <div nz-col>
-                  <h1>680</h1>
-                </div>
-                <div nz-col>
-                  <i nz-icon [nzType]="'caret-up'" style="font-size: 16px; color: rgb(26, 241, 80);"></i>
-
-                  &nbsp;26% 同比上升
-                </div>
-                <div echarts [options]="optionData2" style="margin-left: -100px;margin-right: -100px;"></div>
-              </div>
-              <div nz-col nzSpan="8">
-                <div nz-col>整改部门反馈次数</div>
-                <div nz-col>
-                  <h1>16324</h1>
-                </div>
-                <div nz-col>
-                  <i nz-icon [nzType]="'caret-down'" style="font-size: 16px; color: rgb(236, 13, 13);"></i>
-
-                  &nbsp;10% 同比下降
-                </div>
-                <div echarts [options]="optionData3" style="margin-left: -100px;"></div>
+                        &nbsp;26% 同比上升
+                      </div>
+                      <div echarts [options]="optionData1" style="margin-left: -100px;margin-right: -100px;"></div>
+                    </div>
+                    <div nz-col nzSpan="8">
+                      <div nz-col>审计人员回复次数</div>
+                      <div nz-col>
+                        <h1>680</h1>
+                      </div>
+                      <div nz-col>
+                        <i nz-icon [nzType]="'caret-up'" style="font-size: 16px; color: rgb(26, 241, 80);"></i>
+                        &nbsp;26% 同比上升
+                      </div>
+                      <div echarts [options]="optionData2" style="margin-left: -100px;margin-right: -100px;"></div>
+                    </div>
+                    <div nz-col nzSpan="8">
+                      <div nz-col>整改部门反馈次数</div>
+                      <div nz-col>
+                        <h1>16324</h1>
+                      </div>
+                      <div nz-col>
+                        <i nz-icon [nzType]="'caret-down'" style="font-size: 16px; color: rgb(236, 13, 13);"></i>
+                        &nbsp;10% 同比下降
+                      </div>
+                      <div echarts [options]="optionData3" style="margin-left: -120px;"></div>
+                    </div>
+                  </div>
+                </nz-card>
               </div>
             </div>
-          </nz-card>
+          </div>
         </div>
-        <div nz-col nzSpan="8">
-          <nz-card [nzTitle]="title">
-            <ng-template #title>
-              <div style="margin-top: 10px;margin-bottom: 10px;">
-                <font style="font-size: 16px;">管理整改成果</font>
-              </div>
-            </ng-template>
-            <div echarts [options]="money2" style="height: 485px;"></div>
-          </nz-card>
-        </div>
+      </div>
+      <div nz-col nzSpan="8">
+        <nz-card [nzTitle]="'资金整改成果'" [nzBodyStyle]="{'heght':'400px' }" class="c4">
+          <div class="chart" echarts [theme]="'macarons'" style="height: 100%;" [options]="money1"></div>
+        </nz-card>
+        <nz-card [nzTitle]="title" [nzBodyStyle]="{'heght':'400px' }" class="c5">
+          <ng-template #title>
+            <div style="margin-top: 10px;margin-bottom: 10px;">
+              <font style="font-size: 16px;">管理整改成果</font>
+            </div>
+          </ng-template>
+          <div echarts [options]="money2" style="height: 100%;"></div>
+        </nz-card>
+        <nz-card [nzTitle]="title" [nzBodyStyle]="{'heght':'400px' }" class="c6">
+          <ng-template #title>
+            <div style="margin-top: 10px;margin-bottom: 10px;">
+              <font style="font-size: 16px;">审计意见采纳情况</font>
+            </div>
+          </ng-template>
+          <div echarts [options]="money3" style="height: 100%;"></div>
+        </nz-card>
       </div>
     </div>
   </as-split-area>
