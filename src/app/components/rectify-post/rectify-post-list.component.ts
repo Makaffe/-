@@ -7,6 +7,7 @@ import { ObjectUtil } from '@ng-mt-framework/util';
 import { NzMessageService } from 'ng-zorro-antd';
 import { Subscription } from 'rxjs';
 import { Broadcaster } from 'src/app/matech/service/broadcaster';
+import { RectificationReportDetailDTO } from './model/RectificationReportDetailDTO';
 import { RectificationReportDTO } from './model/RectificationReportDTO';
 import { RectificationReportTypeDTO } from './model/RectificationReportTypeDTO';
 import { RectifyPostDetailComponent } from './rectify-post-detail.component';
@@ -53,7 +54,7 @@ export class RectifyPostListComponent implements OnInit {
   /**
    * 列表数据
    */
-  tableData: Array<any> = [];
+  tableData: Array<RectificationReportDetailDTO> = [];
 
   /**
    * 当前单选框选中的数据
@@ -65,7 +66,7 @@ export class RectifyPostListComponent implements OnInit {
    * 单选框选中事件
    */
   @Output()
-  selectedDataChange = new EventEmitter<RectificationReportDTO>();
+  selectedDataChange = new EventEmitter<RectificationReportDetailDTO>();
 
 
   /**
@@ -99,7 +100,7 @@ export class RectifyPostListComponent implements OnInit {
     },
     {
       title: '报告类型',
-      index: 'reportType',
+      index: 'rectificationReportType.name',
       width: '20px',
       type: 'tag',
       className: 'text-center',
@@ -150,63 +151,61 @@ export class RectifyPostListComponent implements OnInit {
       auditStartTime,
       auditEndTime
     ).subscribe(data => {
+      this.setColums();
       data.data.forEach(item => {
         // 整改统计时间
         let auditTime = '';
+        let year = '';
         if (item.auditStartTime && item.auditEndTime) {
           auditTime = formatDate(item.auditStartTime, 'yyyy-MM-dd', 'ZH') + '~' + formatDate(item.auditEndTime, 'yyyy-MM-dd', 'ZH');
+          year = formatDate(item.auditStartTime, 'yyyy', 'ZH');
         }
         Object.assign(item, { auditTime });
+        Object.assign(item, { year });
       });
-      // this.tableData = data.data;
-      // this.tableParameter.page.total = data.totalRecords;
-      // this.tableParameter.pi = data.pageNo + 1;
-      if (this.currentClickNode && this.currentClickNode.id) {
-        if (this.currentClickNode.name === '按审计报告') {
-          this.columns[4] = {
-            title: '审计报告',
-            index: 'auditReport',
-            width: '25px',
-            sort: this.tableParameter.sortDef,
-            className: 'text-center',
-          };
-        } else if (this.currentClickNode.name === '按整改部门') {
-          this.columns[4] = {
-            title: '整改部门',
-            index: 'rectifyDepartment',
-            width: '25px',
-            sort: this.tableParameter.sortDef,
-            className: 'text-center',
-          };
-        } else if (this.currentClickNode.name === '按时间区间') {
-          this.columns[4] = {
-            title: '整改统计时间',
-            index: 'auditTime',
-            width: '25px',
-            sort: this.tableParameter.sortDef,
-            className: 'text-center',
-          };
-        }
-        this.columns = [...this.columns];
-        const reportType = this.currentClickNode.name;
-        this.tableData = [
-          {
-            id: '1', name: '财政支出报告',
-            reportType,
-            year: '2021',
-            auditTime: '2021-2-4~2021-9-4',
-            auditReport: '财务报告',
-            rectifyDepartment: '财务部'
-          }
-        ];
-      }
-
+      this.tableData = data.data;
+      this.tableParameter.page.total = data.totalRecords;
+      this.tableParameter.pi = data.pageNo + 1;
     }, null, () => { this.loading = false; });
+  }
+
+  /**
+   * 根据左边树类型设置列表 的colum
+   */
+  setColums() {
+    if (this.currentClickNode && this.currentClickNode.id) {
+      if (this.currentClickNode.name === '按审计报告') {
+        this.columns[4] = {
+          title: '审计报告',
+          index: 'auditReport',
+          width: '25px',
+          sort: this.tableParameter.sortDef,
+          className: 'text-center',
+        };
+      } else if (this.currentClickNode.name === '按整改部门') {
+        this.columns[4] = {
+          title: '整改部门',
+          index: 'rectifyDepartment',
+          width: '25px',
+          sort: this.tableParameter.sortDef,
+          className: 'text-center',
+        };
+      } else if (this.currentClickNode.name === '按时间区间') {
+        this.columns[4] = {
+          title: '整改统计时间',
+          index: 'auditTime',
+          width: '25px',
+          sort: this.tableParameter.sortDef,
+          className: 'text-center',
+        };
+      }
+      this.columns = [...this.columns];
+    }
   }
   /**
    * 查看，编辑整改报告
    */
-  edit(row: RectificationReportDTO, isWatch: boolean, rectificationReportTypeId?: string): void {
+  edit(row: RectificationReportDetailDTO, isWatch: boolean, rectificationReportTypeId?: string): void {
     this.rectifyPostDetailComponent.openModal(row, isWatch, rectificationReportTypeId);
   }
 

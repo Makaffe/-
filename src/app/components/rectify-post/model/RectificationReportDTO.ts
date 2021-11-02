@@ -12,7 +12,6 @@ export class RectificationReportDTO {
     this.name = item && item.name ? item.name : null;
     this.auditStartTime = item && item.auditStartTime ? item.auditStartTime : null;
     this.auditEndTime = item && item.auditEndTime ? item.auditEndTime : null;
-    this.auditReportStatus = item && item.auditReportStatus ? item.auditReportStatus : null;
     this.templateFile = item && item.templateFile ? item.templateFile : null;
     this.templateFileId = item && item.templateFileId ? item.templateFileId : null;
     this.reportFile = item && item.reportFile ? item.reportFile : null;
@@ -42,11 +41,6 @@ export class RectificationReportDTO {
    * 整改统计结束时间
    */
   auditEndTime: string;
-
-  /**
-   * 状态
-   */
-  auditReportStatus: string;
 
   /**
    * 关联文书模板

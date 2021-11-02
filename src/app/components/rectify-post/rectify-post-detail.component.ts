@@ -5,6 +5,9 @@ import { Router } from '@angular/router';
 import { _HttpClient } from '@delon/theme';
 import { FormUtil } from '@mt-framework-ng/util';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
+import { AuditPostDTO } from '../audit-post/model/AuditPostDTO';
+import { AuditPostService } from '../audit-post/service/AuditPostService';
+import { RectificationReportDetailDTO } from './model/RectificationReportDetailDTO';
 import { RectificationReportDTO } from './model/RectificationReportDTO';
 import { RectificationReportTypeDTO } from './model/RectificationReportTypeDTO';
 import { RectificationReportService } from './service/RectificationReportService';
@@ -36,9 +39,14 @@ export class RectifyPostDetailComponent implements OnInit {
   dataChange = new EventEmitter<any>();
 
   /**
+   * 审计报告下拉
+   */
+  auditReportList: Array<AuditPostDTO>;
+
+  /**
    * 当前编辑对象
    */
-  currentItem: any = {};
+  currentItem: RectificationReportDetailDTO = new RectificationReportDetailDTO();
 
   /**
    * 当前左侧树点击的节点
@@ -50,7 +58,7 @@ export class RectifyPostDetailComponent implements OnInit {
    *  组件是否可见
    */
   isVisible = false;
-  unit = null;
+
   /**
    * 整改统计时间
    */
@@ -88,16 +96,30 @@ export class RectifyPostDetailComponent implements OnInit {
    */
   value = null;
 
+  /**
+   * 整改单位
+   */
+  Unit = null;
+  /**
+   * 整改部门
+   */
+  rectifyDepartment = null;
   constructor(
     private rectificationReportService: RectificationReportService,
     private msg: NzMessageService,
     private router: Router,
     private modalService: NzModalService,
     private http: _HttpClient,
+    private auditPostService: AuditPostService
   ) {
   }
 
   ngOnInit() {
+    // 加载审计报告下拉
+    this.auditPostService.findAll().subscribe(list => {
+      this.auditReportList = list;
+    });
+    // 加载报告模板目录
     this.http.get<any>('/api/comm/categories/tree/SPECIAL_REPORT?searchType=0&keyword=&isSearchResource=FALSE').subscribe(data => {
       this.categoryFold = data;
       this.tramsform(this.categoryFold, 100);
@@ -139,6 +161,7 @@ export class RectifyPostDetailComponent implements OnInit {
    * 完成
    */
   save(): void {
+    console.log(this.Unit);
     if (!FormUtil.validateForm(this.form.form)) {
       this.msg.warning(`请填写所有星号信息!`);
       return;
@@ -151,7 +174,8 @@ export class RectifyPostDetailComponent implements OnInit {
       ? this.currentItem.rectificationReportType.id : this.currentItem.rectificationReportTypeId;
     // 生成文档的存储目录id
     const reportCategoryId = this.value ? this.allCategoryFold.filter(row => row.key === this.value)[0].id : null;
-
+    // 这里的汇报规则还需要改 先测试
+    this.currentItem.summaryRules = this.currentClickNode && this.currentClickNode.name === '按时间区间' ? 'ALL' : null;
     // 修改
     if (this.currentItem && this.currentItem.id) {
       this.rectificationReportService.update(this.currentItem.id, this.currentItem).subscribe(() => {
@@ -161,7 +185,6 @@ export class RectifyPostDetailComponent implements OnInit {
       }, null, () => { this.loading = false; });
       // 新增
     } else {
-      this.currentItem.auditReportStatus = 'NO_CREATE';
       this.rectificationReportService.create(this.currentItem).subscribe(() => {
         this.msg.success('新增成功!');
         this.handleCancel();
@@ -191,14 +214,15 @@ export class RectifyPostDetailComponent implements OnInit {
   /**
    * 打开弹窗
    */
-  openModal(item: RectificationReportDTO, isWatch: boolean = false, rectificationReportTypeId?: string) {
-    this.currentItem = new RectificationReportDTO(item);
+  openModal(item: RectificationReportDetailDTO, isWatch: boolean = false, rectificationReportTypeId?: string) {
+    this.currentItem = new RectificationReportDetailDTO(item);
     this.currentItem.rectificationReportTypeId = rectificationReportTypeId
       ? rectificationReportTypeId : this.currentItem.rectificationReportTypeId;
     this.auditTime = this.currentItem.auditStartTime && this.currentItem.auditEndTime ? [
       formatDate(this.currentItem.auditStartTime, 'yyyy-MM-dd', 'ZH'),
       formatDate(this.currentItem.auditEndTime, 'yyyy-MM-dd', 'ZH')
     ] : [];
+    console.log(this.currentItem);
     this.isWatch = isWatch;
     this.isVisible = true;
   }
@@ -216,12 +240,5 @@ export class RectifyPostDetailComponent implements OnInit {
    */
   tagClick() {
     // this.router.navigate([`/insight/special-report/template-edit/${this.currentItem.templateFile.id}`]);
-  }
-
-  /**
-   * 整改单位选择下列选中事件
-   */
-  unitOnSelect($event) {
-    console.log('danwei', $event);
   }
 }

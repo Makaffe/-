@@ -37,6 +37,8 @@
       <th nzWidth="150px">整改拟完成时间</th>
       <th nzWidth="150px">最近一次反馈时间</th>
       <th nzWidth="150px">下一次反馈时间</th>
+      <th nzWidth="150px">整改部门已读时间</th>
+      <th nzWidth="150px">纪检部门已读时间</th>
       <th nzWidth="200px" nzAlign="center" nzRight="0px">操作</th>
     </tr>
   </thead>
@@ -82,6 +84,8 @@
           <td nzAlign="center">{{ item.lastModifiedTime }}</td>
           <td nzAlign="center">{{ item.latelyFeedbackTime }}</td>
           <td nzAlign="center">{{ item.nextFeedbackTime }}</td>
+          <td nzAlign="center">{{ item.rectifyDepartmentAlread }}</td>
+          <td nzAlign="center">{{ item.superviseDepartmentAlread }}</td>
           <td nzRight="0px">
             <button nz-button nzType="link" (click)="goWorkBeach(item.id)" style="padding: 0;">进入工作台</button>
             <nz-divider nzType="vertical"></nz-divider>

@@ -319,8 +319,8 @@
                 <ng-template #totalTemplate let-total> 共 {{ pageInfo.totalRecords }} 条 </ng-template>
                 <thead>
                   <tr>
-                    <th nzShowExpand nzWidth="80px">按钮</th>
-                    <th nzWidth="90px" [nzAlign]="'center'">措施状态</th>
+                    <th nzShowExpand nzWidth="80px" nzLeft="0px">按钮</th>
+                    <th nzWidth="90px" [nzAlign]="'center'" nzLeft="80px">措施状态</th>
                     <th nzWidth="200px">措施类型</th>
                     <th>整改措施</th>
                     <th nzWidth="200px">整改进度</th>
@@ -329,19 +329,19 @@
                     <!-- <th nzWidth="140px" [nzAlign]="'center'" *ngIf="!isRectify">整改截止时间</th> -->
                     <th nzWidth="80px" [nzAlign]="'center'">剩余天数</th>
                     <!-- <th nzWidth="180px" [nzAlign]="'center'" *ngIf="!isRectify">整改结果</th> -->
-                    <th nzWidth="180px" [nzAlign]="'center'">操作</th>
+                    <th nzWidth="180px" [nzAlign]="'center'" nzRight="0px">操作</th>
                   </tr>
                 </thead>
                 <tbody>
                   <ng-template ngFor let-data [ngForOf]="nzTable.data">
                     <tr>
                       <td nzWidth="80px" nzShowExpand [(nzExpand)]="mapOfExpandData[data.id]"
-                        (nzExpandChange)="changeReadStates(data)">
+                        (nzExpandChange)="changeReadStates(data)" nzLeft="0px">
                         <nz-badge [nzCount]="data.notReadNum" *ngIf="data.notReadNum !== 0">
                           <font style="color:white;">''</font>
                         </nz-badge>
                       </td>
-                      <td nzWidth="90px" [nzAlign]="'center'">
+                      <td nzWidth="90px" [nzAlign]="'center'"  nzLeft="80px">
                         <nz-tag [nzColor]="'#2db7f5'" *ngIf="data.measureStatus === 'RECTIFY_CENTRE'">整改中</nz-tag>
                         <nz-tag [nzColor]="'#87d068'" *ngIf="data.measureStatus === 'COMPLETED'">已完成</nz-tag>
                         <nz-tag [nzColor]="'#FF4500'" *ngIf="data.measureStatus === 'OVERDUE'">已逾期</nz-tag>
@@ -372,7 +372,7 @@
                         }}</td> -->
                       <td nzWidth="50px" [nzAlign]="'right'">10</td>
 
-                      <td nzWidth="180px" [nzAlign]="'center'">
+                      <td nzWidth="180px" [nzAlign]="'center'" nzRight="0px">
                         <div *ngIf="!isRectify">
                           <button nz-button nzType="link" [disabled]="data.measureStatus === 'COMPLETED'"
                             (click)="chageRectifyProgress(data.id, null, 'COMPLETED')" style="padding: 0;">

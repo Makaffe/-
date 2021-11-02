@@ -1,19 +1,8 @@
-<as-split
-  direction="horizontal"
-  unit="pixel"
-  [useTransition]="true"
-  gutterSize="3"
-  (gutterClick)="leftSize = leftSize == 0 ? LEFT_WIDTH : 0"
->
+<as-split direction="horizontal" unit="pixel" [useTransition]="true" gutterSize="3"
+  (gutterClick)="leftSize = leftSize == 0 ? LEFT_WIDTH : 0">
   <!-- 左侧审计知识树 -->
-  <as-split-area
-    [size]="300"
-    minSize="180"
-    maxSize="300"
-    class="app-audit-tree app-audit-tree-left"
-    class="bg-white"
-    style="padding:10px 10px 0 10px"
-  >
+  <as-split-area [size]="300" minSize="180" maxSize="300" class="app-audit-tree app-audit-tree-left" class="bg-white"
+    style="padding:10px 10px 0 10px">
     <rectify-post-type-tree (selectNodeEvent)="selectNode($event)"></rectify-post-type-tree>
   </as-split-area>
   <!--右侧编辑区-->
@@ -50,11 +39,8 @@
                   </nz-form-control>
                 </nz-form-item>
               </div>
-              <div
-                nz-col
-                [nzSpan]="6"
-                *ngIf="currentClickNode.name !== '按审计报告' && currentClickNode.name !== '按整改部门'"
-              >
+              <div nz-col [nzSpan]="6"
+                *ngIf="!currentClickNode||currentClickNode.name !== '按审计报告' && currentClickNode.name !== '按整改部门'">
                 <nz-form-item style="justify-content: start;">
                   <nz-form-label [nzSpan]="8">统计时间</nz-form-label>
                   <nz-form-control [nzSpan]="16">
@@ -62,7 +48,7 @@
                   </nz-form-control>
                 </nz-form-item>
               </div>
-              <div nz-col [nzSpan]="6" *ngIf="currentClickNode.name === '按审计报告'">
+              <div nz-col [nzSpan]="6" *ngIf="currentClickNode&&currentClickNode.name === '按审计报告'">
                 <nz-form-item style="justify-content: start;">
                   <nz-form-label [nzSpan]="8">审计报告</nz-form-label>
                   <nz-form-control [nzSpan]="16">
@@ -70,7 +56,7 @@
                   </nz-form-control>
                 </nz-form-item>
               </div>
-              <div nz-col [nzSpan]="8" *ngIf="currentClickNode.name === '按整改部门'">
+              <div nz-col [nzSpan]="8" *ngIf="currentClickNode&&currentClickNode.name === '按整改部门'">
                 <nz-form-item style="justify-content: start;">
                   <nz-form-label [nzSpan]="6">整改部门</nz-form-label>
                   <nz-form-control [nzSpan]="9">
@@ -104,12 +90,8 @@
         </div>
       </as-split-area>
       <as-split-area [size]="'*'">
-        <rectify-post-list
-          [filter]="filter"
-          [(selectedData)]="selectedData"
-          [currentClickNode]="currentClickNode"
-          #rectifyPostListComponent
-        >
+        <rectify-post-list [filter]="filter" [(selectedData)]="selectedData" [currentClickNode]="currentClickNode"
+          #rectifyPostListComponent>
         </rectify-post-list>
       </as-split-area>
     </as-split>
