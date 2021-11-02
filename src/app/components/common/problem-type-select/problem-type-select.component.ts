@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TreeUtil } from '@ng-mt-framework/comp';
 import { ProblemTypeService } from './ProblemTypeService.service';
@@ -15,11 +15,16 @@ import { ProblemTypeService } from './ProblemTypeService.service';
   ],
 })
 export class ProblemTypeSelectComponent implements OnInit {
+  expandKeys = ['100', '1001'];
   /**
    * 字典Code
    */
   @Input()
   dictCode: string = null;
+
+  @Output()
+  typeId: any;
+  MaintypeId: any;
 
   /**
    * 提示
@@ -28,9 +33,29 @@ export class ProblemTypeSelectComponent implements OnInit {
   placeHolder = '';
 
   value: string;
-  nodes = [];
+  nodes = [
+    {
+      title: 'parent 1',
+      key: '100',
+      children: [
+        {
+          title: 'parent 1-0',
+          key: '1001',
+          children: [
+            { title: 'leaf 1-0-0', key: '10010', isLeaf: true },
+            { title: 'leaf 1-0-1', key: '10011', isLeaf: true },
+          ],
+        },
+        {
+          title: 'parent 1-1',
+          key: '1002',
+          children: [{ title: 'leaf 1-1-0', key: '10020', isLeaf: true }],
+        },
+      ],
+    },
+  ];
 
-  onChange($event: string): void {
+  onChange($event): void {
     console.log($event);
   }
 
