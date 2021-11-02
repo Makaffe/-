@@ -22,6 +22,8 @@
   <thead>
     <tr>
       <th nzWidth="100px" nzLeft="0px" nzAlign="center">序号</th>
+      <th nzWidth="150px">整改部门已读时间</th>
+      <th nzWidth="150px">纪检部门已读时间</th>
       <th nzWidth="100px" nzAlign="center">下发状态</th>
       <th nzWidth="100px" nzAlign="center">移交状态</th>
       <th nzWidth="150px">审计报告名称</th>
@@ -37,8 +39,6 @@
       <th nzWidth="150px">整改拟完成时间</th>
       <th nzWidth="150px">最近一次反馈时间</th>
       <th nzWidth="150px">下一次反馈时间</th>
-      <th nzWidth="150px">整改部门已读时间</th>
-      <th nzWidth="150px">纪检部门已读时间</th>
       <th nzWidth="200px" nzAlign="center" nzRight="0px">操作</th>
     </tr>
   </thead>
@@ -59,6 +59,8 @@
           <td [nzIndentSize]="item.level * 20" *ngIf="item.level === 1" nzLeft="0px">
             {{ item.level === 0 ? i + 1 : i + 1 + '-' + ci }}
           </td>
+          <td nzAlign="center">{{ item.rectifyDepartmentAlread }}</td>
+          <td nzAlign="center">{{ item.superviseDepartmentAlread }}</td>
           <td nzAlign="center">
             <nz-tag *ngIf="item.sendStatus === '未下发'" [nzColor]="'#A4A4A4'">未下发</nz-tag>
             <nz-tag *ngIf="item.sendStatus === '下发中'" [nzColor]="'#FFBF00'">下发中</nz-tag>
@@ -84,8 +86,6 @@
           <td nzAlign="center">{{ item.lastModifiedTime }}</td>
           <td nzAlign="center">{{ item.latelyFeedbackTime }}</td>
           <td nzAlign="center">{{ item.nextFeedbackTime }}</td>
-          <td nzAlign="center">{{ item.rectifyDepartmentAlread }}</td>
-          <td nzAlign="center">{{ item.superviseDepartmentAlread }}</td>
           <td nzRight="0px">
             <button nz-button nzType="link" (click)="goWorkBeach(item.id)" style="padding: 0;">进入工作台</button>
             <nz-divider nzType="vertical"></nz-divider>
