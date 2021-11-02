@@ -1,0 +1,54 @@
+<nz-modal
+  [(nzVisible)]="isVisible"
+  [nzTitle]="'批量自动提醒设置'"
+  [nzMaskClosable]="false"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzStyle]="{ top: '65px' }"
+  nzWidth="1050"
+  [nzBodyStyle]="{
+    'overflow-y': 'auto',
+    'overflow-x': 'hidden',
+    padding: '24px'
+  }"
+>
+  <form nz-form #form="ngForm">
+    <nz-form-item>
+      <nz-form-label nzSpan="5">整改截止时间</nz-form-label>
+      <nz-form-control nzSpan="7">
+        <nz-date-picker [(ngModel)]="date"></nz-date-picker>
+      </nz-form-control>
+      <nz-form-item>
+        <nz-form-label nzSpan="5">整改反馈频率</nz-form-label>
+        <nz-form-control nzSpan="7">
+          <nz-input-number style="width:50%" [(ngModel)]="demoValue" [nzMin]="0" [nzStep]="1"> </nz-input-number>
+          <nz-select style="width:50%" [(ngModel)]="rectifyBackFeedHzUnit" [nzAllowClear]="true">
+            <nz-option nzValue="day" nzLabel="日"></nz-option>
+            <nz-option nzValue="week" nzLabel="周"></nz-option>
+            <nz-option nzValue="month" nzLabel="月"></nz-option>
+            <nz-option nzValue="year" nzLabel="年"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzSpan="5" [nzNoColon]="true">截止日期前</nz-form-label>
+        <nz-form-control nzSpan="6">
+          <nz-input-number [(ngModel)]="day"></nz-input-number>
+        </nz-form-control>
+        <nz-form-label nzSpan="1" [nzNoColon]="true">天</nz-form-label>
+        <nz-form-label nzSpan="5" [nzNoColon]="true">自动使用</nz-form-label>
+        <nz-form-control nzSpan="5">
+          <nz-tree-select
+            [nzNodes]="nodes"
+            nzShowSearch
+            nzDefaultExpandAll
+            [(ngModel)]="templateValue"
+            (ngModelChange)="templateChange($event)"
+          >
+          </nz-tree-select>
+        </nz-form-control>
+        <nz-form-label nzSpan="2" [nzNoColon]="true">发送提醒</nz-form-label>
+      </nz-form-item>
+    </nz-form-item>
+  </form>
+</nz-modal>

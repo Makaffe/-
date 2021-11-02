@@ -133,6 +133,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
     type: '',
     remark: '',
     advice: '',
+    opinion: '',
     rectifyDepartment: { name: '自然资源局' },
     dutyUser: { name: '李名' },
     rectifyCount: 1,

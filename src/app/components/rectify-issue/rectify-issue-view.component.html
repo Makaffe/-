@@ -132,6 +132,9 @@
         >
           移交纪检
         </button>
+        <button nz-button nzType="primary" style="margin-left: 20px;" (click)="notice()" [disabled]="disabledButton(2)">
+          自动提醒
+        </button>
       </div>
     </div>
   </as-split-area>
@@ -140,3 +143,5 @@
     </app-rectify-issue-list>
   </as-split-area>
 </as-split>
+
+<app-rectify-issue-notice #rectifyIssueNoticeComponent></app-rectify-issue-notice>
