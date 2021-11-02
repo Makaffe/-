@@ -5,6 +5,7 @@ import { AttachListModule } from '../common/attach/attach-list.module';
 import { AuditPostWatchComponent } from './audit-post-watch.component';
 import { RectifyChildIssueDetailComponent } from './rectify-child-issue-detail.component';
 import { RectifyIssueListComponent } from './rectify-issue-list.component';
+import { RectifyIssueNoticeComponent } from './rectify-issue-notice.component';
 import { RectifyIssueOrderComponent } from './rectify-issue-order.component';
 import { RectifyIssueSplitComponent } from './rectify-issue-split.component';
 import { RectifyIssueTransferComponent } from './rectify-issue-transfer.component';
@@ -18,6 +19,7 @@ const COMPONENTS = [
   RectifyIssueOrderComponent,
   RectifyChildIssueDetailComponent,
   AuditPostWatchComponent,
+  RectifyIssueNoticeComponent,
 ];
 @NgModule({
   imports: [CommonModule, SharedModule, AttachListModule],

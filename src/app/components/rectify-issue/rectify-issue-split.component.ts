@@ -46,6 +46,7 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
     dutyUserId: null,
     zgjzsj: null,
     sjje: 123,
+    opinion: '问题意见问题意见',
     remark: '问题描述问题描述问题描述问题描述',
     advice: '问题建议问题建议',
   };
