@@ -38,17 +38,27 @@
       <nz-form-control nzSpan="6">
         <nz-input-number [nzDisabled]="isWatch"></nz-input-number>
       </nz-form-control>
+      <nz-form-label nzSpan="5">整改效益提升（元）</nz-form-label>
+      <nz-form-control nzSpan="6">
+        <nz-input-number [nzDisabled]="isWatch"></nz-input-number>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
       <nz-form-label nzSpan="5">整改提出管理建议（条）</nz-form-label>
+      <nz-form-control nzSpan="6">
+        <input nz-input [readOnly]="isWatch" />
+      </nz-form-control>
+      <nz-form-label nzSpan="5">整改后完善的制度（条）</nz-form-label>
       <nz-form-control nzSpan="6">
         <input nz-input [readOnly]="isWatch" />
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label nzSpan="5">整改效益提升（元）</nz-form-label>
+      <nz-form-label nzSpan="5">审计建议（条）</nz-form-label>
       <nz-form-control nzSpan="6">
-        <nz-input-number [nzDisabled]="isWatch"></nz-input-number>
+        <input nz-input [readOnly]="isWatch" />
       </nz-form-control>
-      <nz-form-label nzSpan="5">整改后完善的制度（条）</nz-form-label>
+      <nz-form-label nzSpan="5">审计意见（条）</nz-form-label>
       <nz-form-control nzSpan="6">
         <input nz-input [readOnly]="isWatch" />
       </nz-form-control>

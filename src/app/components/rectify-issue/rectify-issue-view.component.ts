@@ -3,6 +3,7 @@ import { TreeUtil } from '@mt-framework-ng/util';
 import { OrganizationService } from '@ng-mt-framework/api';
 import { RectifyProblemDTO } from './model/rectify-problem-dto';
 import { RectifyIssueListComponent } from './rectify-issue-list.component';
+import { RectifyIssueNoticeComponent } from './rectify-issue-notice.component';
 
 @Component({
   selector: 'app-rectify-issue-view',
@@ -17,6 +18,8 @@ export class RectifyIssueViewComponent implements OnInit {
    */
   @ViewChild('rectifyIssueListComponent', { static: false })
   rectifyIssueListComponent: RectifyIssueListComponent;
+  @ViewChild('rectifyIssueNoticeComponent', { static: false })
+  rectifyIssueNoticeComponent: RectifyIssueNoticeComponent;
 
   /**
    * 过滤参数
@@ -190,4 +193,11 @@ export class RectifyIssueViewComponent implements OnInit {
     return endValue.getTime() <= new Date(this.params.importAuditPostStartTime).getTime();
     // tslint:disable-next-line: semicolon
   };
+
+  /**
+   * 自动提醒模态框
+   */
+  notice() {
+    this.rectifyIssueNoticeComponent.isVisible = true;
+  }
 }

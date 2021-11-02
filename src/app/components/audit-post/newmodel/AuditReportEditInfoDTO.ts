@@ -1,3 +1,7 @@
+import { RectifyProblemDTO } from '@mt-rectify-framework/comp/rectify-issue';
+import { SystemFileDTO } from '@ng-mt-framework/api';
+import { RectifyProblemEditInfoDTO } from './RectifyProblemEditInfoDTO';
+
 /**
  * 增加或修改审计报告信息基础信息 DTO
  * @Author 111
@@ -47,7 +51,7 @@ export interface AuditReportEditInfoDTO {
   /**
    * 审计报告类型id
    */
-  auditReportTypeId: string;
+  auditReportType: string;
 
   /**
    * 关联的报告附件Id
@@ -58,4 +62,19 @@ export interface AuditReportEditInfoDTO {
    * 关联的附件编码集合信息
    */
   attachFileIds: Array<string>;
+
+  /**
+   * 关联的报告附件信息
+   */
+  reportFile?: SystemFileDTO;
+
+  /**
+   * 关联的附件信息
+   */
+  attachFiles?: Array<SystemFileDTO>;
+
+  /**
+   * 关联问题数据集合
+   */
+  rectifyProblems?: Array<RectifyProblemEditInfoDTO>;
 }
