@@ -4,8 +4,9 @@
   [nzDefaultExpandAll]="'true'"
   [nzNodes]="nodes"
   nzShowSearch
-  nzPlaceHolder="请选择问题类型"
-  [(ngModel)]="value"
+  [nzPlaceHolder]="placeHolder"
+  [(ngModel)]="type"
   (ngModelChange)="onChange($event)"
+  [nzDisabled]="disabled"
 >
 </nz-tree-select>
