@@ -254,6 +254,12 @@ export const APP_DATA = {
                   i18n: 'menu.menu.management',
                   // acl: ['CONFIGURATION_CREATE', 'CONFIGURATION_UPDATE', 'CONFIGURATION_DELETE'],
                 },
+                {
+                  text: '问题类型管理',
+                  link: '/audit-rectify/problem-type',
+                  i18n: 'menu.menu.problemType',
+                  // acl: ['CONFIGURATION_CREATE', 'CONFIGURATION_UPDATE', 'CONFIGURATION_DELETE'],
+                },
               ],
             },
             {

@@ -70,7 +70,7 @@ export class AuditReportService {
    * @param sort 排序字段, 例如：字段1,asc,字段2,desc
    * @param page 页号，从0开始
    * @param size 每页纪录条数
-   * @param typeId 报告类型
+   * @param type 报告类型
    * @param name 报告名称
    * @param auditBeginTime 审计开始日期(yyyy-MM-dd)
    * @param auditEndTime 审计结束日期(yyyy-MM-dd)
@@ -79,7 +79,7 @@ export class AuditReportService {
    */
   findOnePage(
     option: QueryOptions,
-    typeId?: string,
+    type?: string,
     name?: string,
     auditBeginTime?: string,
     auditEndTime?: string,
@@ -87,7 +87,7 @@ export class AuditReportService {
   ): Observable<PageDataDTO<AuditReportDTO>> {
     const params = {};
     Object.assign(params, option);
-    Object.assign(params, typeId ? { typeId } : {});
+    Object.assign(params, type ? { type } : {});
     Object.assign(params, name ? { name } : {});
     Object.assign(params, auditBeginTime ? { auditBeginTime } : {});
     Object.assign(params, auditEndTime ? { auditEndTime } : {});

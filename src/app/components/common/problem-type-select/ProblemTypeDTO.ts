@@ -21,5 +21,5 @@ export interface ProblemTypeDTO {
 
   parent?: ProblemTypeDTO;
 
-  children?: ProblemTypeDTO;
+  children?: null;
 }
