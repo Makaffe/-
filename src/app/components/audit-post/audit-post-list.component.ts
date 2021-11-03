@@ -89,8 +89,7 @@ export class AuditPostListComponent implements OnInit {
     },
     {
       title: '审计问题数',
-      render: 'problemAmount',
-      index: 'problemAmount',
+      index: 'problemCount',
       width: '40px',
       sort: this.tableParameter.sortDef,
       className: 'text-left',
@@ -129,7 +128,7 @@ export class AuditPostListComponent implements OnInit {
   constructor(private router: Router, private auditReportService: AuditReportService, private msg: NzMessageService) {}
 
   ngOnInit() {
-    // this.load();
+    this.load();
   }
 
   /**
@@ -137,6 +136,7 @@ export class AuditPostListComponent implements OnInit {
    */
   load(): void {
     this.loading = true;
+    console.log(this.filterParams);
     this.auditReportService
       .findOnePage(
         this.queryOptions,

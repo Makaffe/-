@@ -36,7 +36,7 @@ const COMMPONENTS = [
   IssueAssignTableComponent,
   SuperviseProcessFormComponent,
   SuperviseWaitTabComponent,
-  SuperviseFinishTabComponent
+  SuperviseFinishTabComponent,
 ];
 @NgModule({
   declarations: [...COMMPONENTS],

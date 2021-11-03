@@ -727,7 +727,7 @@ export class AuditPostDetailComponent implements OnInit {
   /**
    * 查看和编辑传递过来的id
    */
-  postId = '';
+  postId: string;
 
   /**
    * 问题类型map
@@ -1095,7 +1095,8 @@ export class AuditPostDetailComponent implements OnInit {
    * @param treeNode treeNode
    */
   getProblemType(treeNode: NzTreeNode) {
-    if (!treeNode.origin.parent && treeNode.origin.parent != null) {
+    console.log(treeNode);
+    if (treeNode.origin.parent && treeNode.origin.parent != null) {
       this.paramsItem.mainType = treeNode.origin.parent.id;
       this.paramsItem.rectifyProblemTypeId = treeNode.origin.id;
     } else {
@@ -1141,6 +1142,17 @@ export class AuditPostDetailComponent implements OnInit {
     }
   }
 
+  read() {
+    this.auditReportService.findById(this.postId).subscribe(data => {
+      this.currentItem = data;
+      this.dateRange = [new Date(data.auditStartTime), new Date(data.auditEndTime)];
+      this.listOfData = data.rectifyProblems;
+      // tslint:disable-next-line:semicolon
+    });
+
+    this.show = true;
+  }
+
   ngOnInit(): void {
     this.loadProblemTypeTree();
     this.activatedRoute.queryParams.subscribe(data => {
@@ -1149,13 +1161,11 @@ export class AuditPostDetailComponent implements OnInit {
       this.postId = data.postId;
     });
 
-    // if(this.postId){
-    // this.auditReportService.findById(this.postId).subscribe(data => {
-    //   this.currentItem = data;
-    // })
-    // }else{
-    //   this.currentItem = this.initAuditReport();
-    // }
+    if (this.postId) {
+      this.read();
+    } else {
+      this.currentItem = this.initAuditReport();
+    }
     this.currentItem = this.initAuditReport();
   }
 }

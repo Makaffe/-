@@ -25,7 +25,7 @@ export class RectifyProblemDTO {
   /**
    * 涉及金额
    */
-  money?: string;
+  money?: number;
 
   /**
    * 创建数据的用户ID，系统根据token自动填写
