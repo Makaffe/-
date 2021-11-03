@@ -105,9 +105,9 @@
                   nz-tooltip
                   nzType="link"
                   style="padding: 0px;"
-                  (click)="watchAuditPost(problemItem?.auditPost?.id)"
+                  (click)="watchAuditPost(problemItem?.auditReport?.id)"
                 >
-                  {{ problemItem?.auditPost?.name }}
+                  {{ problemItem?.auditReport?.name }}
                   <i nz-icon nzType="eye" nzTheme="twotone"></i>
                 </button>
               </nz-form-control>
@@ -124,7 +124,7 @@
                 <input
                   nz-input
                   name="type"
-                  [value]="problemItem?.type | dictTransform: 'PROBLEM_TYPE' | async"
+                  [value]="problemItem?.rectifyProblemType?.name"
                   readonly
                 />
               </nz-form-control>

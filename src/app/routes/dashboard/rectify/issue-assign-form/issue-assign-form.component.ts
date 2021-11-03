@@ -184,7 +184,7 @@ export class IssueAssignFormComponent implements OnInit {
       return;
     }
     this.loading = true;
-    this.rectifyProblemService.rectifyProblemSplit(this.problemItem.id, this.childrenProblemList).subscribe(
+    this.rectifyProblemService.rectifyProblemSplit(this.problemItem, this.childrenProblemList).subscribe(
       () => {
         this.msg.success('问题拆分成功！');
         this.notification.emit();
@@ -246,13 +246,12 @@ export class IssueAssignFormComponent implements OnInit {
       id: item ? item.id : null,
       uuid: item ? (item.uuid ? item.uuid : UUID.generate()) : UUID.generate(),
       name: item ? item.name : null,
-      type: item ? item.type : null,
       remark: item ? item.remark : null,
       advice: item ? item.advice : null,
       source: item ? item.source : null,
       sendStatus: item ? item.sendStatus : null,
       trackStatus: item ? item.trackStatus : null,
-      auditPostId: item ? (item.auditPost ? item.auditPost.id : null) : null,
+      auditReportId: item ? (item.auditReport ? item.auditReport.id : null) : null,
       transferStatus: item ? item.transferStatus : null,
       oaSendCase: item ? item.oaSendCase : false,
       rectifyDepartment: item ? item.rectifyDepartment : null,

@@ -16,9 +16,9 @@ export class RectifyProblemService {
   /**
    * API请求URL
    */
-  private static URL = '/api/rectify-problem';
+  private static URL = '/api/rectify/problem';
 
-  constructor(private http: _HttpClient) {}
+  constructor(private http: _HttpClient) { }
 
   /**
    * 分页查询整改问题
@@ -45,17 +45,20 @@ export class RectifyProblemService {
     Object.assign(params, sendStatus ? { sendStatus } : {});
     Object.assign(params, transferStatus ? { transferStatus } : {});
 
-    return this.http.get<ApiPagedData<RectifyProblemDTO>>(`${RectifyProblemService.URL}`, params);
+    return this.http.get<ApiPagedData<RectifyProblemDTO>>(`${RectifyProblemService.URL}/findOnePage`, params);
   }
 
   /**
    * 拆分问题
-   * @param parentId 父问题id
+   * @param parent 父问题
    * @param children 子问题列表
    *
    */
-  rectifyProblemSplit(parentId: string, children: Array<RectifyProblemDTO>): Observable<Array<RectifyProblemDTO>> {
-    return this.http.post<Array<RectifyProblemDTO>>(`${RectifyProblemService.URL}/split/${parentId}`, children);
+  rectifyProblemSplit(parent: RectifyProblemDTO, children: Array<RectifyProblemDTO>): Observable<Array<RectifyProblemDTO>> {
+    const params = {};
+    Object.assign(params, parent ? { parent } : {});
+    Object.assign(params, children ? { children } : {});
+    return this.http.post<Array<RectifyProblemDTO>>(`${RectifyProblemService.URL}/rectifyProblemSplit`, params);
   }
 
   /**
