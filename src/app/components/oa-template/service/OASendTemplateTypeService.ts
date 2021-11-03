@@ -15,7 +15,7 @@ export class OASendTemplateTypeService {
   /**
    * API请求URL
    */
-  private static URL = '/api/oasend-template-type/';
+  private static URL = '/api/oasend/template/type/';
 
   constructor(private http: _HttpClient) {}
 
@@ -25,7 +25,7 @@ export class OASendTemplateTypeService {
    *
    */
   addUsingPOST(oASendTemplateTypeEditInfoDTO?: OASendTemplateTypeEditInfoDTO): Observable<OASendTemplateTypeDTO> {
-    return this.http.post<OASendTemplateTypeDTO>(`${OASendTemplateTypeService.URL}add`, oASendTemplateTypeEditInfoDTO);
+    return this.http.post<OASendTemplateTypeDTO>(`${OASendTemplateTypeService.URL}/create`, oASendTemplateTypeEditInfoDTO);
   }
 
   /**
@@ -33,7 +33,7 @@ export class OASendTemplateTypeService {
    *
    */
   findAllUsingGET(): Observable<Array<OASendTemplateTypeDTO>> {
-    return this.http.get<Array<OASendTemplateTypeDTO>>(`${OASendTemplateTypeService.URL}all`);
+    return this.http.get<Array<OASendTemplateTypeDTO>>(`${OASendTemplateTypeService.URL}/findAll`);
   }
 
   /**
@@ -42,7 +42,7 @@ export class OASendTemplateTypeService {
    *
    */
   deleteUsingDELETE(id: string): Observable<any> {
-    return this.http.delete<any>(`${OASendTemplateTypeService.URL}delete/${id}`);
+    return this.http.delete<any>(`${OASendTemplateTypeService.URL}/delete/${id}`);
   }
 
   /**
@@ -64,6 +64,6 @@ export class OASendTemplateTypeService {
     id: string,
     oaSendTemplateTypeEditInfoDTO?: OASendTemplateTypeEditInfoDTO,
   ): Observable<OASendTemplateTypeDTO> {
-    return this.http.put<OASendTemplateTypeDTO>(`${OASendTemplateTypeService.URL}${id}`, oaSendTemplateTypeEditInfoDTO);
+    return this.http.put<OASendTemplateTypeDTO>(`${OASendTemplateTypeService.URL}/update/${id}`, oaSendTemplateTypeEditInfoDTO);
   }
 }

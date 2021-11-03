@@ -20,10 +20,19 @@ export class OaTemplateViewComponent implements OnInit {
   @ViewChild('form', { static: false })
   form: NgForm;
 
+  /**
+   * 搜索节点
+   */
   searchValue = '';
 
+  /**
+   * 弹窗是否可见
+   */
   isVisible = false;
 
+  /**
+   * 上级节点的名字
+   */
   parentName = '';
 
   /**
@@ -31,20 +40,15 @@ export class OaTemplateViewComponent implements OnInit {
    * @param 节点点击事件 发送审计知识类型节点Id
    */
   @Output()
-  selectNodeEvent = new EventEmitter<any>();
+  selectNodeEvent = new EventEmitter<OASendTemplateTypeDTO>();
   /**
-   * 当前选中审计知识类型节点Id
+   * 当前选中OA节点
    */
-  @Input()
   selectedNode: any = null;
-  @Output()
-  selectedNodeChange = new EventEmitter<any>();
-  /**
-   * 当前选中审计知识类型所属分类
-   */
-  @Input()
-  knowledgeType = 'LAW';
 
+  /**
+   * 监测列表数据的更改
+   */
   @Output()
   notification = new EventEmitter();
 
@@ -57,6 +61,7 @@ export class OaTemplateViewComponent implements OnInit {
    * 类型ID
    */
   typeId: string;
+
   /**
    * 右键存放节点
    */
@@ -72,6 +77,9 @@ export class OaTemplateViewComponent implements OnInit {
    */
   LEFT_WIDTH = 300;
 
+  /**
+   * 弹窗数据
+   */
   currentItem: OASendTemplateTypeDTO = this.initDTO();
 
   /**
@@ -79,64 +87,68 @@ export class OaTemplateViewComponent implements OnInit {
    */
   leftSize = this.LEFT_WIDTH;
 
-  nodes = [
-    {
-      title: 'OA消息模板',
-      key: '建议模板类型1',
-      selectable: false,
-      children: [
-        {
-          title: '问题下发模板',
-          key: '问题下发模板',
-          isLeaf: true,
-        },
-        {
-          title: '催办通知模板',
-          key: '催办通知模板',
-          isLeaf: true,
-        },
-      ],
-    },
-  ];
+  /**
+   * 获取左侧树节点
+   */
+  nodes = [];
+
   // 搜索内容
-  templateName: '';
-  templateContent: '';
+  templateName: null;
+  templateContent: null;
 
   constructor(private oASendTemplateTypeService: OASendTemplateTypeService, private msg: NzMessageService) {}
 
+  /**
+   * 初始化时加载数
+   */
   ngOnInit() {
     this.loadTree();
   }
-  nzSearch($event) {}
 
+  /**
+   *
+   * @param item 右侧表格的新增
+   */
   create(item: any) {
     this.currentItem = this.initDTO(item);
     this.oaTemplateListComponent.oaTemplateDetailComponent.edit(item, true);
+    this.oaTemplateListComponent.loadAll();
   }
 
+  /**
+   * 点击事件方法
+   * @param event 获取的点击节点
+   */
   nzClick(event: any) {
     if (event.keys && event.keys.length > 0) {
+      console.log(event);
       this.selectedNode = event.node.origin;
       this.selectNodeEvent.emit(this.selectedNode);
-      this.selectedNode = event.node.origin;
-      this.selectedNodeChange.emit(this.selectedNode);
-      this.typeId = this.selectedNode.id;
+      this.oaTemplateListComponent.selectedNode = this.selectedNode;
+      this.oaTemplateListComponent.load(this.selectedNode.id);
       // this.loadList(this.typeId);
     } else {
       this.selectedNode = null;
+      this.oaTemplateListComponent.selectedNode = this.selectedNode;
       this.selectNodeEvent.emit(this.selectedNode);
-      this.selectedNodeChange.emit(this.selectedNode);
+      this.oaTemplateListComponent.load();
       // this.loadAll();
     }
   }
 
+  /**
+   * 加载左侧节点
+   */
   loadTree() {
-    // this.nodes = [];
-    // this.oASendTemplateTypeService.findAllUsingGET().subscribe(data => {
-    //   if (data) {
-    //     this.nodes = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
-    //   }
-    // });
+    this.oASendTemplateTypeService.findAllUsingGET().subscribe(data => {
+      console.log(data);
+
+      if (data) {
+        this.selectedNode = null;
+
+        this.nodes = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
+      }
+    });
   }
 
   editNode(created: boolean, item?: any) {
@@ -161,6 +173,10 @@ export class OaTemplateViewComponent implements OnInit {
     this.isVisible = true;
   }
 
+  /**
+   * 删除节点
+   * @param item 传入需要删除节点的位置参数
+   */
   deleteNode(item) {
     this.oASendTemplateTypeService.deleteUsingDELETE(item.id).subscribe(() => {
       this.msg.success('删除成功!');
@@ -216,20 +232,26 @@ export class OaTemplateViewComponent implements OnInit {
   }
 
   loadList(id?: string) {
-    if (this.selectedNode) {
-      if (id) {
-        this.oaTemplateListComponent.load(id, this.templateName, this.templateContent);
-      } else {
-        this.oaTemplateListComponent.load(this.typeId, this.templateName, this.templateContent);
-      }
-    } else {
-      this.loadAll();
-    }
+    // if (this.selectedNode) {
+    //   if (id) {
+    //     this.oaTemplateListComponent.load(id, this.templateName, this.templateContent);
+
+
+    //   } else {
+    //     this.oaTemplateListComponent.load(this.typeId, this.templateName, this.templateContent);
+
+    //   }
+    // } else {
+    //   this.loadAll();
+    // }
+
+    this.oaTemplateListComponent.load(id, this.templateName, this.templateContent);
   }
 
   clear() {
-    this.templateName = '';
-    this.templateContent = '';
+    this.templateName = null;
+    this.templateContent = null;
+    this.oaTemplateListComponent.loadAll();
   }
   /**
    * 验证表单
@@ -239,6 +261,6 @@ export class OaTemplateViewComponent implements OnInit {
   }
 
   loadAll() {
-    this.oaTemplateListComponent.loadAll(this.templateName, this.templateContent);
+    this.oaTemplateListComponent.load(this.templateName, this.templateContent);
   }
 }
