@@ -5,6 +5,7 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { __spread } from 'tslib';
 import { OASendTemplateDTO } from './model/OASendTemplateDTO';
 import { OASendTemplateEditInfoDTO } from './model/OASendTemplateEditInfoDTO';
+import { OASendTemplateTypeDTO } from './model/OASendTemplateTypeDTO';
 import { OaTemplateDetailComponent } from './oa-template-detail.component';
 import { OASendTemplateService } from './service/OASendTemplateService';
 
@@ -26,8 +27,13 @@ export class OaTemplateListComponent implements OnInit {
   /**
    * 记录类型id
    */
-
   typeId: string;
+
+  /**
+   * 当前选中节点Id
+   */
+  selectedNode: OASendTemplateTypeDTO = null;
+
   /**
    * 列表参数
    */
@@ -41,7 +47,7 @@ export class OaTemplateListComponent implements OnInit {
   /**
    * 分页参数
    */
-  private options: QueryOptions = {
+  QueryOptions = {
     page: 0,
     size: 20,
     sort: 'id,desc',
@@ -82,6 +88,8 @@ export class OaTemplateListComponent implements OnInit {
     }
   }
 
+  nodeChange($event: OASendTemplateTypeDTO): void {}
+
   deleteData(item: OASendTemplateEditInfoDTO) {
     this.oASendTemplateService.deleteUsingDELETE(item.id).subscribe(() => {
       this.msg.success('删除成功');
@@ -89,27 +97,37 @@ export class OaTemplateListComponent implements OnInit {
     });
   }
 
-  load(typeId: string, templateName?: string, templateContent?: string) {
+  load(typeId?: string, templateName?: string, templateContent?: string) {
     this.loading = true;
-    this.oASendTemplateService.findOnePageUsingGET(this.options, typeId, templateName, templateContent).subscribe(
-      data => {
-        if (data) {
-          this.tableData = data.data;
-          this.tableData = __spread(this.tableData);
-          this.TABLE_PARAMETER.page.total = data.totalRecords;
-          this.TABLE_PARAMETER.pi = data.pageNo + 1;
-          this.typeId = typeId;
-        }
-      },
-      null,
-      () => (this.loading = false),
-    );
+    // tslint:disable-next-line:max-line-length
+    this.oASendTemplateService
+      .findOnePageUsingGET(
+        this.QueryOptions.sort,
+        this.QueryOptions.page,
+        this.QueryOptions.size,
+        this.selectedNode ? this.selectedNode.id : null,
+        templateName,
+        templateContent,
+      )
+      .subscribe(
+        data => {
+          if (data) {
+            this.typeId = typeId;
+            this.tableData = data.data;
+            this.TABLE_PARAMETER.page.total = data.totalRecords;
+            this.TABLE_PARAMETER.pi = data.pageNo + 1;
+          }
+        },
+        null,
+        () => (this.loading = false),
+      );
   }
 
   loadAll(templateName?: string, templateContent?: string) {
     this.loading = true;
     this.oASendTemplateService.findAllUsingGET(templateContent, templateName).subscribe(
       data => {
+        console.log(data);
         if (data) {
           this.tableData = data;
         }

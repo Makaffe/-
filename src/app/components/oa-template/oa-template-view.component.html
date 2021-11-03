@@ -12,7 +12,7 @@
         <span><strong style="font-size: 20px;">发文类型</strong></span>
       </div>
       <div nz-col [nzSpan]="12" class="tree-top-btn">
-        <button nz-button (click)="editNode(true, selectedNode)">
+        <button nz-button (click)="editNode(true, selectedNode)" nz-tooltip nzTooltipTitle="新增节点">
           <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
         </button>
         <button
@@ -24,9 +24,9 @@
         >
           <i nz-icon nzType="edit" nzTheme="outline"></i>
         </button>
-        <nz-popconfirm (nzOnConfirm)="deleteNode(selectedNode)" [nzTitle]="'是否要删除该发文类型？'">
-          <button nz-button class="mb-sm" nz-popconfirm [disabled]="!selectedNode" nz-tooltip nzTooltipTitle="删除节点">
-            <i nz-icon type="delete" theme="outline"></i>
+        <nz-popconfirm (nzOnConfirm)="deleteNode(selectedNode)" [nzTitle]="'是否要删除该发文类型？'" >
+          <button nz-button class="mb-sm"  nz-tooltip  nzTooltipTitle="删除节点"  nz-popconfirm [disabled]="!selectedNode" >
+            <i nz-icon type="delete" theme="outline" ></i>
           </button>
         </nz-popconfirm>
       </div>
@@ -76,7 +76,7 @@
                         type="text"
                         name="content"
                         placeholder="请输入搜索模板内容"
-                        [(ngModel)]="templateContent"
+                        [(ngModel)]=" templateContent"
                       />
                     </nz-form-control>
                   </nz-form-item>

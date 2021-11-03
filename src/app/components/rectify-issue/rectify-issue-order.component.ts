@@ -48,30 +48,13 @@ export class RectifyIssueOrderComponent implements OnInit {
    */
   content: string;
 
-  templateNodes = [
-    {
-      title: 'OA消息模板',
-      key: '建议模板类型1',
-      selectable: false,
-      children: [
-        {
-          title: '问题下发模板',
-          key: '问题下发模板',
-          isLeaf: true,
-        },
-        {
-          title: '催办通知模板',
-          key: '催办通知模板',
-          isLeaf: true,
-        },
-      ],
-    },
-  ];
+
+  templateNodes = [];
 
   /**
    * 分页参数
    */
-  private options: QueryOptions = {
+  QueryOptions: any = {
     page: 0,
     size: 20,
     sort: 'id,desc',
@@ -175,7 +158,8 @@ export class RectifyIssueOrderComponent implements OnInit {
    * 点击后触发
    */
   onChange($event: string) {
-    this.oaSendTemplateService.findOnePageUsingGET(this.options, $event).subscribe(
+    this.oaSendTemplateService.findOnePageUsingGET(this.QueryOptions.sort, this.QueryOptions.page,
+       this.QueryOptions.size, $event).subscribe(
       data => {
         if (data) {
           this.tableData = data.data;

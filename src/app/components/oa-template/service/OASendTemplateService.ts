@@ -27,7 +27,7 @@ export class OASendTemplateService {
    *
    */
   addUsingPOST(oaSendTemplateEditInfoDTO?: OASendTemplateEditInfoDTO): Observable<OASendTemplateDTO> {
-    return this.http.post<OASendTemplateDTO>(`${OASendTemplateService.URL}/add`, oaSendTemplateEditInfoDTO);
+    return this.http.post<OASendTemplateDTO>(`${OASendTemplateService.URL}/create`, oaSendTemplateEditInfoDTO);
   }
 
   /**
@@ -41,7 +41,7 @@ export class OASendTemplateService {
     Object.assign(params, content ? { content } : {});
     Object.assign(params, name ? { name } : {});
 
-    return this.http.get<Array<OASendTemplateDTO>>(`${OASendTemplateService.URL}/all`, params);
+    return this.http.get<Array<OASendTemplateDTO>>(`${OASendTemplateService.URL}/findAll`, params);
   }
 
   /**
@@ -63,13 +63,17 @@ export class OASendTemplateService {
    *
    */
   findOnePageUsingGET(
-    options: QueryOptions,
-    typeId: string,
+    sort: string,
+    page: number,
+    size: number,
+    typeId?: string,
     name?: string,
     content?: string,
   ): Observable<PageDataDTO<OASendTemplateDTO>> {
     const params = {};
-    Object.assign(params, options);
+    Object.assign(params,  {sort});
+    Object.assign(params,  {page});
+    Object.assign(params,  {size});
     Object.assign(params, typeId ? { typeId } : {});
     Object.assign(params, name ? { name } : {});
     Object.assign(params, content ? { content } : {});
@@ -93,6 +97,6 @@ export class OASendTemplateService {
    *
    */
   updateUsingPUT(id: string, oASendTemplateEditInfoDTO?: OASendTemplateEditInfoDTO): Observable<OASendTemplateDTO> {
-    return this.http.put<OASendTemplateDTO>(`${OASendTemplateService.URL}/${id}`, oASendTemplateEditInfoDTO);
+    return this.http.put<OASendTemplateDTO>(`${OASendTemplateService.URL}/update/${id}`, oASendTemplateEditInfoDTO);
   }
 }

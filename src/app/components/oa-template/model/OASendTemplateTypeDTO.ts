@@ -1,5 +1,6 @@
 import { UserBaseDTO } from '@ng-mt-framework/api';
 import { OASendTemplateDTO } from './OASendTemplateDTO';
+import { OASendTemplateTypeBaseDTO } from './OASendTemplateTypeBaseDTO';
 
 /**
  * OA发文模板类型信息 DTO
@@ -7,6 +8,12 @@ import { OASendTemplateDTO } from './OASendTemplateDTO';
  * @Date 2021/10/13
  */
 export interface OASendTemplateTypeDTO {
+
+  /**
+   * 子集
+   */
+  children: [];
+
   /**
    * 对象ID，新增时应当为null, 系统会自动生成
    */
@@ -57,7 +64,7 @@ export interface OASendTemplateTypeDTO {
    */
   oaSendTemplates: Array<OASendTemplateDTO>;
 
-  parent?: OASendTemplateTypeDTO;
+  parent?: OASendTemplateTypeBaseDTO;
 
   parentId: string;
 }
