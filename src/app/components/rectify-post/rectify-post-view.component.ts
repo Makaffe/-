@@ -131,7 +131,6 @@ export class RectifyPostViewComponent implements OnInit {
         this.selectedData.name,
         true
       ).subscribe(data => {
-        data.auditReportStatus = 'CREATED';
         data.rectificationReportTypeId = data.rectificationReportType.id;
         data.templateFileId = data.templateFile.id;
         this.rectificationReportService.update(data.id, data).subscribe(() => {

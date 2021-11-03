@@ -80,6 +80,12 @@
                 <textarea nz-input name="remark" [value]="problemItem?.advice" readonly rows="9"></textarea>
               </nz-form-control>
             </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSpan]="4">审计意见</nz-form-label>
+              <nz-form-control [nzSpan]="20">
+                <textarea readOnly nz-input name="opinion" [value]="problemItem?.opinion" rows="9"></textarea>
+              </nz-form-control>
+            </nz-form-item>
             <!-- <app-attach-list [show]="false" #attachListComponent [TBHeight]="'300px'"> </app-attach-list> -->
           </form>
         </as-split-area>
@@ -225,6 +231,19 @@
                   nz-input
                   name="advice"
                   [(ngModel)]="currentItem.advice"
+                  rows="5"
+                  [readOnly]="isWatch"
+                ></textarea>
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label nzSpan="4">审计意见</nz-form-label>
+              <nz-form-control nzSpan="20">
+                <textarea
+                  nz-input
+                  name="opinion"
+                  [(ngModel)]="currentItem.opinion"
                   rows="5"
                   [readOnly]="isWatch"
                 ></textarea>

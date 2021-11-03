@@ -43,6 +43,11 @@ export class RectifyProblemDTO {
   advice?: string;
 
   /**
+   * 审计意见
+   */
+  opinion?: string;
+
+  /**
    * 创建数据的时间，系统根据服务器时间自动填写
    */
   createdTime?: string;

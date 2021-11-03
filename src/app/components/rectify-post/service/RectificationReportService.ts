@@ -2,7 +2,7 @@
 import { _HttpClient } from '@delon/theme';
 import { ApiPagedData } from '@mt-framework-ng/core';
 import { Observable } from 'rxjs/internal/Observable';
-import { RectificationReportDTO } from '../model/RectificationReportDTO';
+import { RectificationReportDetailDTO } from '../model/RectificationReportDetailDTO';
 @Injectable({
   providedIn: 'root',
 })
@@ -15,7 +15,7 @@ export class RectificationReportService {
   /**
    * API请求URL
    */
-  private static URL = '/api/rectificationReport';
+  private static URL = '/api/rectificationReportDetail';
 
   constructor(private http: _HttpClient) { }
 
@@ -26,11 +26,11 @@ export class RectificationReportService {
    *
    */
   create(
-    dto: RectificationReportDTO,
+    dto: RectificationReportDetailDTO,
 
-  ): Observable<RectificationReportDTO> {
+  ): Observable<RectificationReportDetailDTO> {
 
-    return this.http.post<RectificationReportDTO>(`${RectificationReportService.URL}/create`, dto);
+    return this.http.post<RectificationReportDetailDTO>(`${RectificationReportService.URL}/create`, dto);
   }
 
   /**
@@ -52,9 +52,9 @@ export class RectificationReportService {
    */
   findAll(
 
-  ): Observable<Array<RectificationReportDTO>> {
+  ): Observable<Array<RectificationReportDetailDTO>> {
 
-    return this.http.get<Array<RectificationReportDTO>>(`${RectificationReportService.URL}/findAll`);
+    return this.http.get<Array<RectificationReportDetailDTO>>(`${RectificationReportService.URL}/findAll`);
   }
 
   /**
@@ -77,7 +77,7 @@ export class RectificationReportService {
     auditStartTime?: string,
     auditEndTime?: string,
 
-  ): Observable<ApiPagedData<RectificationReportDTO>> {
+  ): Observable<ApiPagedData<RectificationReportDetailDTO>> {
     const params = {};
     Object.assign(params, { page });
     Object.assign(params, size ? { size } : {});
@@ -87,7 +87,7 @@ export class RectificationReportService {
     Object.assign(params, auditStartTime ? { auditStartTime } : {});
     Object.assign(params, auditEndTime ? { auditEndTime } : {});
 
-    return this.http.get<ApiPagedData<RectificationReportDTO>>(`${RectificationReportService.URL}/findOngPage`, params);
+    return this.http.get<ApiPagedData<RectificationReportDetailDTO>>(`${RectificationReportService.URL}/findOngPage`, params);
   }
 
   /**
@@ -98,11 +98,11 @@ export class RectificationReportService {
    */
   update(
     id: string,
-    dto: RectificationReportDTO,
+    dto: RectificationReportDetailDTO,
 
-  ): Observable<RectificationReportDTO> {
+  ): Observable<RectificationReportDetailDTO> {
 
-    return this.http.put<RectificationReportDTO>(`${RectificationReportService.URL}/update/${id} `, dto);
+    return this.http.put<RectificationReportDetailDTO>(`${RectificationReportService.URL}/update/${id} `, dto);
   }
 
   /**
@@ -113,9 +113,9 @@ export class RectificationReportService {
   findById(
     id: string,
 
-  ): Observable<RectificationReportDTO> {
+  ): Observable<RectificationReportDetailDTO> {
 
-    return this.http.get<RectificationReportDTO>(`${RectificationReportService.URL}/${id}`);
+    return this.http.get<RectificationReportDetailDTO>(`${RectificationReportService.URL}/${id}`);
   }
 
   /**
@@ -128,13 +128,13 @@ export class RectificationReportService {
     reportName?: string,
     isClearHistory?: boolean,
 
-  ): Observable<RectificationReportDTO> {
+  ): Observable<RectificationReportDetailDTO> {
     const params = {};
     Object.assign(params, rectificationReportId ? { rectificationReportId } : {});
     Object.assign(params, tmpId ? { tmpId } : {});
     Object.assign(params, reportCategoryId ? { reportCategoryId } : {});
     Object.assign(params, reportName ? { reportName } : {});
     Object.assign(params, isClearHistory ? { isClearHistory } : {});
-    return this.http.get<RectificationReportDTO>(`${RectificationReportService.URL}/generateReport`, params);
+    return this.http.get<RectificationReportDetailDTO>(`${RectificationReportService.URL}/generateReport`, params);
   }
 }

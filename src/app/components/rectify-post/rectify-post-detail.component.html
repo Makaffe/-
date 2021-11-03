@@ -19,7 +19,36 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item
-      *ngIf="currentItem&&currentItem.id&&currentItem.reportType==='按审计报告'||currentClickNode&&currentClickNode.name==='按时间区间'">
+      *ngIf="currentItem&&currentItem.id&&currentItem.rectificationReportType.name==='按审计报告'||currentClickNode&&currentClickNode.name==='按审计报告'">
+      <nz-form-label nzSpan="4" nzRequired>审计报告</nz-form-label>
+      <nz-form-control nzSpan="20">
+        <nz-select [nzDisabled]="isWatch" nzPlaceHolder="请选择审计报告">
+          <nz-option *ngFor="let apl of auditReportList" nzLabel="apl.name" [nzValue]="apl.id"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <ng-container
+      *ngIf="currentItem&&currentItem.id&&currentItem.rectificationReportType.name==='按整改部门'||currentClickNode&&currentClickNode.name==='按整改部门'">
+      <nz-form-item>
+        <nz-form-label nzSpan="4" nzRequired>整改单位</nz-form-label>
+        <nz-form-control nzSpan="20">
+          <mt-organization-select required [disabled]="isWatch" [multiSelect]="false" name="rectifyUnit"
+            [(ngModel)]="Unit" placeHolder="请选择整改单位" organizationType="UNIT">
+          </mt-organization-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzSpan="4">整改部门</nz-form-label>
+        <nz-form-control nzSpan="20">
+          <mt-organization-select [disabled]="isWatch" [multiSelect]="false" name="rectifyDepartment"
+            [(ngModel)]="rectifyDepartment" [parentId]="Unit?Unit[0].id:null" placeHolder="请选择整改部门"
+            organizationType="DEPARTMENT">
+          </mt-organization-select>
+        </nz-form-control>
+      </nz-form-item>
+    </ng-container>
+    <nz-form-item
+      *ngIf="currentItem&&currentItem.id&&currentItem.rectificationReportType.name!=='按审计报告'||currentClickNode&&currentClickNode.name!=='按审计报告'">
       <nz-form-label nzSpan="4" nzRequired>整改统计时间</nz-form-label>
       <nz-form-control nzSpan="20"
         [nzValidateStatus]="rectifyTime.invalid && (rectifyTime.dirty || rectifyTime.touched) ? 'error' : ''">
@@ -31,32 +60,7 @@
         </nz-form-explain>
       </nz-form-control>
     </nz-form-item>
-    <nz-form-item
-      *ngIf="currentItem&&currentItem.id&&currentItem.reportType==='按审计报告'||currentClickNode&&currentClickNode.name==='按审计报告'">
-      <nz-form-label nzSpan="4" nzRequired>审计报告</nz-form-label>
-      <nz-form-control nzSpan="20">
-        <nz-select [nzDisabled]="isWatch" nzPlaceHolder="请选择审计报告">
-        </nz-select>
-      </nz-form-control>
-    </nz-form-item>
-    <ng-container
-      *ngIf="currentItem&&currentItem.id&&currentItem.reportType==='按整改部门'||currentClickNode&&currentClickNode.name==='按整改部门'">
-      <nz-form-item>
-        <nz-form-label nzSpan="4" nzRequired>整改单位</nz-form-label>
-        <nz-form-control nzSpan="20">
-          <mt-organization-select required [disabled]="isWatch" placeHolder="请选择整改单位" organizationType="UNIT">
-          </mt-organization-select>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label nzSpan="4">整改部门</nz-form-label>
-        <nz-form-control nzSpan="20">
-          <mt-organization-select required [disabled]="isWatch" placeHolder="请选择整改部门" organizationType="DEPARTMENT">
-          </mt-organization-select>
-        </nz-form-control>
-      </nz-form-item>
-    </ng-container>
-    <nz-form-item *ngIf="currentItem&&currentItem.templateFile">
+    <!-- <nz-form-item *ngIf="currentItem&&currentItem.templateFile">
       <nz-form-label nzSpan="4" nzRequired>报告存储目录</nz-form-label>
       <nz-form-control nzSpan="20"
         [nzValidateStatus]="categoryId.invalid && (categoryId.dirty || categoryId.touched) ? 'error' : ''">
@@ -67,7 +71,7 @@
           选择模板后要选择报告的存储目录
         </nz-form-explain>
       </nz-form-control>
-    </nz-form-item>
+    </nz-form-item> -->
     <!-- <nz-form-item>
       <nz-form-label nzSpan="4">统计</nz-form-label>
       <nz-form-control nzSpan="20">

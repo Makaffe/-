@@ -26,7 +26,7 @@ export class RectifyTrackListComponent implements OnInit {
     private msg: NzMessageService,
     private rectifyProblemService: RectifyProblemService,
     private organizationService: OrganizationService,
-  ) {}
+  ) { }
 
   /**
    * 表格title
@@ -59,6 +59,8 @@ export class RectifyTrackListComponent implements OnInit {
       lastModifiedTime: '2021-12-10',
       latelyFeedbackTime: '2021-11-10',
       nextFeedbackTime: '2021-11-30',
+      rectifyDepartmentAlread: '2021-12-1',
+      superviseDepartmentAlread: '2021-12-3',
       rectifyPassPercent: '20',
     },
     {
@@ -75,6 +77,8 @@ export class RectifyTrackListComponent implements OnInit {
       lastModifiedTime: '2021-12-10',
       latelyFeedbackTime: '2021-11-10',
       nextFeedbackTime: '2021-11-30',
+      rectifyDepartmentAlread: '2021-12-1',
+      superviseDepartmentAlread: '2021-12-3',
       rectifyPassPercent: '20',
     },
   ];
@@ -178,7 +182,7 @@ export class RectifyTrackListComponent implements OnInit {
             });
           }
         },
-        () => {},
+        () => { },
         () => {
           this.mapOfCheckedId = {};
           this.checkboxDatas = [];

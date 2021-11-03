@@ -16,7 +16,7 @@ export class AuditPostService {
   /**
    * API请求URL
    */
-  private static URL = '/api/audit-post';
+  private static URL = '/api/audit/report';
 
   constructor(private http: _HttpClient) {}
 
@@ -50,7 +50,7 @@ export class AuditPostService {
     Object.assign(params, auditBeginTime ? { auditBeginTime } : {});
     Object.assign(params, auditEndTime ? { auditEndTime } : {});
     Object.assign(params, auditUnitName ? { auditUnitName } : {});
-    return this.http.get<Array<AuditPostDTO>>(`${AuditPostService.URL}/all`, params);
+    return this.http.get<Array<AuditPostDTO>>(`${AuditPostService.URL}/findAll`, params);
   }
 
   /**

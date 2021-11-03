@@ -1,3 +1,4 @@
+import { RectifyProblemDTO } from '@mt-rectify-framework/comp/rectify-issue';
 import { SystemFileDTO, UserBaseDTO } from '@ng-mt-framework/api';
 import { AuditReportTypeBaseDTO } from './AuditReportTypeBaseDTO';
 
@@ -75,15 +76,17 @@ export interface AuditReportDTO {
   /**
    * 审计报告类型
    */
-  auditReportType: AuditReportTypeBaseDTO;
+  auditReportType: string;
 
   /**
    * 关联的报告附件信息
    */
-  reportFile: SystemFileDTO;
+  reportFile?: SystemFileDTO;
 
   /**
    * 关联的附件信息
    */
-  attachFiles: Array<SystemFileDTO>;
+  attachFiles?: Array<SystemFileDTO>;
+
+  rectifyProblems?: RectifyProblemDTO[];
 }

@@ -4,7 +4,7 @@ import * as echarts from 'echarts';
 @Component({
   selector: 'app-statistics-analysis-audit-rectify-result',
   templateUrl: './statistics-analysis-audit-rectify-result.component.html',
-  styles: [],
+  styleUrls: ['./statistics-analysis-audit-rectify-result.component.less'],
 })
 export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
   /**
@@ -46,7 +46,7 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
         type: 'bar',
         itemStyle: {
           normal: {
-            color: function(params) {
+            color: function (params) {
               var colorList = ['#61a', '#c23531', '#91c7ac', '#2f4', '#d48265', '#749f83', '#00CA69'];
               return colorList[params.dataIndex];
             },
@@ -97,13 +97,18 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
       width: '25%',
     },
   ];
-  constructor() {}
+  constructor() { }
 
   money1 = {
     tooltip: {
       trigger: 'axis',
     },
     legend: {
+      // type: 'scroll',
+      // orient: 'horizontal',
+      // // right: 0,
+      // width: '95%',
+      // height: '100',
       data: ['审计挽回资金', '上缴（追回）资金', '财务处理资金', '管理效益提升'],
     },
     grid: {
@@ -167,7 +172,7 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
       data: ['2018', '2019', '2020', '2021'],
     },
     yAxis: {
-      name: '个数',
+      name: '条数',
       type: 'value',
     },
     series: [
@@ -183,7 +188,44 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
       },
     ],
   };
-
+  money3 = {
+    title: {
+      text: '',
+    },
+    tooltip: {
+      trigger: 'axis',
+    },
+    legend: {
+      data: ['提出审计意见', '提出审计建议'],
+    },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true,
+    },
+    xAxis: {
+      type: 'category',
+      boundaryGap: false,
+      data: ['2018', '2019', '2020', '2021'],
+    },
+    yAxis: {
+      name: '条数',
+      type: 'value',
+    },
+    series: [
+      {
+        name: '提出审计意见',
+        type: 'line',
+        data: [12, 13, 10, 13],
+      },
+      {
+        name: '提出审计建议',
+        type: 'line',
+        data: [22, 18, 19, 23],
+      },
+    ],
+  };
   option003 = {
     tooltip: {
       trigger: 'axis',
@@ -206,6 +248,12 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
         formatter: '{value} %',
       },
     },
+    // grid: {
+    //   // left: '3%',
+    //   // right: '4%',
+    //   top: '20%',
+    //   containLabel: true,
+    // },
     series: [
       {
         data: [100, 65, 50, 40, 30],
@@ -384,12 +432,12 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
     this.optionData1 = {
       backgroundColor: '#fff',
       color,
-      grid: {
-        top: 100,
-        left: 100,
-        right: 100,
-        bottom: 100,
-      },
+      // grid: {
+      //   top: 100,
+      //   left: 100,
+      //   right: 100,
+      //   bottom: 100,
+      // },
       legend: {
         icon: 'rect',
         itemHeight: 12,
@@ -477,12 +525,12 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
     this.optionData2 = {
       backgroundColor: '#fff',
       color,
-      grid: {
-        top: 100,
-        left: 100,
-        right: 100,
-        bottom: 100,
-      },
+      // grid: {
+      //   top: 100,
+      //   left: 100,
+      //   right: 100,
+      //   bottom: 100,
+      // },
       legend: {
         icon: 'rect',
         itemHeight: 12,
@@ -570,12 +618,12 @@ export class StatisticsAnalysisAuditRectifyResultComponent implements OnInit {
     this.optionData3 = {
       backgroundColor: '#fff',
       color,
-      grid: {
-        top: 100,
-        left: 100,
-        right: 100,
-        bottom: 100,
-      },
+      // grid: {
+      //   top: 100,
+      //   left: 100,
+      //   right: 100,
+      //   bottom: 100,
+      // },
       legend: {
         icon: 'rect',
         itemHeight: 12,

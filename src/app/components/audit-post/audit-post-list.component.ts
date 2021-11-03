@@ -80,7 +80,7 @@ export class AuditPostListComponent implements OnInit {
     },
     {
       title: '审计报告来源',
-      index: 'type',
+      index: 'auditReportSource',
       width: '40px',
       sort: this.tableParameter.sortDef,
       className: 'text-center',
