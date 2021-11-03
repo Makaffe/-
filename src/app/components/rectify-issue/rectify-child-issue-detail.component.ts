@@ -6,6 +6,8 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { TreeUtil } from '@mt-framework-ng/util';
 import { OrganizationService, UserService } from '@ng-mt-framework/api';
 import { RectifyProblemDTO } from './model/rectify-problem-dto';
+import { ProblemTypeDTO } from '../common/problem-type-select/ProblemTypeDTO';
+import { ProblemTypeService } from '../common/problem-type-select/ProblemTypeService.service';
 
 @Component({
   selector: 'app-rectify-child-issue-detail',
@@ -33,7 +35,7 @@ export class RectifyChildIssueDetailComponent implements OnInit {
   /**
    * 当前编辑对象
    */
-  currentItem: RectifyProblemDTO = this.initProblemDTO();
+  currentItem: RectifyProblemDTO = new RectifyProblemDTO();
 
   /**
    * 整改部门树
@@ -60,81 +62,30 @@ export class RectifyChildIssueDetailComponent implements OnInit {
    */
   isWatch = false;
 
-  /**
-   * 整改对象列表
-   */
-  options = [
-    {
-      value: '整改单位1',
-      label: '整改单位1',
-      children: [
-        {
-          value: '整改部门1',
-          label: '整改部门1',
-          children: [
-            {
-              value: '张伟',
-              label: '张伟',
-              isLeaf: true,
-            },
-            {
-              value: '李琦',
-              label: '李琦',
-              isLeaf: true,
-            },
-          ],
-        },
-        {
-          value: '整改部门2',
-          label: '整改部门2',
-          children: [
-            {
-              value: '刘烨',
-              label: '刘烨',
-              isLeaf: true,
-            },
-            {
-              value: '王菲',
-              label: '王菲',
-              isLeaf: true,
-            },
-          ],
-        },
-      ],
-    },
-    {
-      value: '整改单位2',
-      label: '整改单位2',
-      children: [
-        {
-          value: '整改部门3',
-          label: '整改部门3',
-          children: [
-            {
-              value: '汪峰',
-              label: '汪峰',
-              isLeaf: true,
-            },
-          ],
-        },
-      ],
-    },
-  ];
 
   /**
    * 选择的整改对象
    */
   values: string[] | null = null;
 
+  problemTypeList: Array<ProblemTypeDTO> = [];
+
   constructor(
     private msg: NzMessageService,
     private organizationService: OrganizationService,
     private userService: UserService,
-  ) {}
+    private problemTypeService: ProblemTypeService,
+  ) { }
 
   ngOnInit() {
-    this.organizationService.getOrganizationTreeOfEmployeeOrUser().subscribe(data => {
-      this.organizationTree = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
+    // 加载整改负责人级联选择
+    this.organizationService.findUserTree().subscribe(data => {
+      this.fomatCascadeData(data);
+      this.organizationTree = [...data];
+    });
+    // 加载问题类型下拉
+    this.problemTypeService.findAllUsingGET().subscribe(data => {
+      this.problemTypeList = data;
     });
     this.userService.findAll().subscribe(data => {
       if (data) {
@@ -178,9 +129,9 @@ export class RectifyChildIssueDetailComponent implements OnInit {
    */
   edit(item: RectifyProblemDTO, isWatch: boolean): void {
     this.isWatch = isWatch;
-    this.currentItem = this.initProblemDTO(item);
-    if (this.problemItem && this.problemItem.auditPost) {
-      this.currentItem.auditPostId = this.problemItem.auditPost.id;
+    this.currentItem = new RectifyProblemDTO(item);
+    if (this.problemItem && this.problemItem.auditReport) {
+      this.currentItem.auditReportId = this.problemItem.auditReport.id;
       this.currentItem.parentId = this.problemItem.id;
     }
     if (!item) {
@@ -193,47 +144,18 @@ export class RectifyChildIssueDetailComponent implements OnInit {
   }
 
   /**
-   * 初始化dto
-   * @param item 数据源dto
+   * 格式成级联选择数据
    */
-  initProblemDTO(item?: RectifyProblemDTO): RectifyProblemDTO {
-    return {
-      id: item ? item.id : null,
-      uuid: item ? (item.uuid ? item.uuid : UUID.generate()) : UUID.generate(),
-      name: item ? item.name : null,
-      type: item ? item.type : null,
-      remark: item ? item.remark : null,
-      advice: item ? item.advice : null,
-      source: item ? item.source : null,
-      sendStatus: item ? item.sendStatus : null,
-      trackStatus: item ? item.trackStatus : null,
-      auditPostId: item ? (item.auditPost ? item.auditPost.id : null) : null,
-      transferStatus: item ? item.transferStatus : null,
-      oaSendCase: item ? item.oaSendCase : false,
-      rectifyDepartment: item ? item.rectifyDepartment : null,
-      rectifyDepartmentId: item
-        ? item.rectifyDepartmentId
-          ? item.rectifyDepartmentId
-          : item.rectifyDepartment
-          ? item.rectifyDepartment.id
-          : null
-        : null,
-      dutyUser: item ? item.dutyUser : null,
-      dutyUserId: item ? (item.dutyUserId ? item.dutyUserId : item.dutyUser ? item.dutyUser.id : null) : null,
-      oaSendTime: item ? item.oaSendTime : null,
-      transferTime: item ? item.transferTime : null,
-      transferCase: item ? item.transferCase : false,
-      rectifyEndTime: item ? item.rectifyEndTime : null,
-      rectifyCompleteTime: item ? item.rectifyCompleteTime : null,
-      rectifyBackFeedHz: item ? item.rectifyBackFeedHz : null,
-      rectifyBackFeedHzUnit: item ? item.rectifyBackFeedHzUnit : null,
-      rectifyProgress: item ? item.rectifyProgress : null,
-      memo: item ? item.memo : null,
-      parentId: item ? (item.parent ? item.parent.id : null) : null,
-      children: [],
-      zgdw: item ? item.zgdw : null,
-      sjje: item ? item.sjje : null,
-      zgjzsj: item ? item.zgjzsj : null,
-    };
+  fomatCascadeData(data?: Array<any>) {
+    data.forEach(item => {
+      item.value = item.id;
+      item.label = item.name;
+      item.children = item.userBaseDTOS && item.userBaseDTOS.length > 0 ? item.userBaseDTOS : item.children;
+      if (item && item.children && item.children.length > 0) {
+        this.fomatCascadeData(item.children);
+      } else if (!item.organizationType) {
+        item.isLeaf = true;
+      }
+    });
   }
 }

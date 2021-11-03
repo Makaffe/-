@@ -2,12 +2,12 @@ import { formatDate } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { STChange, STColumnTag } from '@delon/abc';
+import { _HttpClient } from '@delon/theme';
 import { QueryOptions, TABLE_PARAMETER } from '@mt-framework-ng/core';
 import { ObjectUtil } from '@ng-mt-framework/util';
 import { NzMessageService } from 'ng-zorro-antd';
 import { Subscription } from 'rxjs';
 import { Broadcaster } from 'src/app/matech/service/broadcaster';
-import { RectificationReportDetailDTO } from './model/RectificationReportDetailDTO';
 import { RectificationReportDTO } from './model/RectificationReportDTO';
 import { RectificationReportTypeDTO } from './model/RectificationReportTypeDTO';
 import { RectifyPostDetailComponent } from './rectify-post-detail.component';
@@ -38,6 +38,7 @@ export class RectifyPostListComponent implements OnInit {
   filter = {
     name: null,
     auditTime: null,
+    year: null
   };
 
   /**
@@ -54,7 +55,7 @@ export class RectifyPostListComponent implements OnInit {
   /**
    * 列表数据
    */
-  tableData: Array<RectificationReportDetailDTO> = [];
+  tableData: Array<RectificationReportDTO> = [];
 
   /**
    * 当前单选框选中的数据
@@ -66,7 +67,7 @@ export class RectifyPostListComponent implements OnInit {
    * 单选框选中事件
    */
   @Output()
-  selectedDataChange = new EventEmitter<RectificationReportDetailDTO>();
+  selectedDataChange = new EventEmitter<RectificationReportDTO>();
 
 
   /**
@@ -152,10 +153,13 @@ export class RectifyPostListComponent implements OnInit {
       auditEndTime
     ).subscribe(data => {
       this.setColums();
+      data.data = this.filter.year ?
+        data.data.filter(item => formatDate(item.auditStartTime, 'yyyy', 'ZH') === formatDate(this.filter.year, 'yyyy', 'ZH')) : data.data;
       data.data.forEach(item => {
         // 整改统计时间
         let auditTime = '';
         let year = '';
+        year = formatDate(item.createdTime, 'yyyy', 'ZH');
         if (item.auditStartTime && item.auditEndTime) {
           auditTime = formatDate(item.auditStartTime, 'yyyy-MM-dd', 'ZH') + '~' + formatDate(item.auditEndTime, 'yyyy-MM-dd', 'ZH');
           year = formatDate(item.auditStartTime, 'yyyy', 'ZH');
@@ -205,7 +209,7 @@ export class RectifyPostListComponent implements OnInit {
   /**
    * 查看，编辑整改报告
    */
-  edit(row: RectificationReportDetailDTO, isWatch: boolean, rectificationReportTypeId?: string): void {
+  edit(row: RectificationReportDTO, isWatch: boolean, rectificationReportTypeId?: string): void {
     this.rectifyPostDetailComponent.openModal(row, isWatch, rectificationReportTypeId);
   }
 

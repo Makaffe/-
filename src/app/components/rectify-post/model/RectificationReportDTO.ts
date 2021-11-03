@@ -19,6 +19,8 @@ export class RectificationReportDTO {
     this.rectificationReportType = item && item.rectificationReportType ? item.rectificationReportType : null;
     this.rectificationReportTypeId = item && item.rectificationReportTypeId ? item.rectificationReportTypeId : null;
     this.categoryId = item && item.categoryId ? item.categoryId : null;
+    this.summaryRules = item && item.summaryRules ? item.summaryRules : null;
+    this.reportData = item && item.reportData ? item.reportData : null;
   }
 
 
@@ -31,6 +33,16 @@ export class RectificationReportDTO {
    * 名称
    */
   name: string;
+
+  /**
+   * 汇总规则
+   */
+  summaryRules: 'ALL' | 'UNIT' | 'DEPARTMENT' | 'REPORT';
+
+  /**
+   * 数据id-整改单位、整改报告等id
+   */
+  rectificationReportDetailIds?: Array<string>;
 
   /**
    * 整改统计开始时间
@@ -77,4 +89,6 @@ export class RectificationReportDTO {
    */
   categoryId?: string;
 
+  createdTime?: string;
+  reportData?: any;
 }

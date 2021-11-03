@@ -12,7 +12,7 @@ import { RectifyProblemService } from './service/RectifyProblemService';
   styles: [],
 })
 export class RectifyIssueListComponent implements OnInit {
-  constructor(private rectifyProblemService: RectifyProblemService, private router: Router) {}
+  constructor(private rectifyProblemService: RectifyProblemService, private router: Router) { }
 
   @ViewChild('rectifyIssueSplitComponent', { static: false })
   rectifyIssueSplitComponent: RectifyIssueSplitComponent;
@@ -37,38 +37,11 @@ export class RectifyIssueListComponent implements OnInit {
    * 树表格相关参数
    */
   mapOfCheckedId: { [id: string]: boolean } = {};
-  listOfMapData = [
-    {
-      id: '1',
-      sendStatus: '未下发',
-      transferStatus: '未移交',
-      auditPost: {
-        name: '审计报告名称',
-      },
-      name: '问题名称',
-      type: '“三重一大”决策管理方面',
-      money: 2758231,
-      rectifyDepartment: '整改部门',
-      aaa: '整改单位',
-      dutyUser: '张伟',
-      children: [],
-    },
-    {
-      id: '2',
-      sendStatus: '已下发',
-      transferStatus: '未移交',
-      auditPost: {
-        name: '审计报告名称',
-      },
-      name: '问题名称',
-      type: '“三重一大”决策管理方面',
-      money: 2758231,
-      rectifyDepartment: '整改部门',
-      aaa: '整改单位',
-      dutyUser: '张伟',
-      children: [],
-    },
-  ];
+  /**
+   * 列表数据
+   */
+  listOfMapData: Array<RectifyProblemDTO> = [];
+
   mapOfExpandedData: { [id: string]: any[] } = {};
 
   /**
@@ -118,46 +91,46 @@ export class RectifyIssueListComponent implements OnInit {
   checkboxData = [];
 
   ngOnInit(): void {
-    // this.load();
-    this.listOfMapData.forEach(item => {
-      this.mapOfExpandedData[item.id] = this.convertTreeToList(item);
-    });
+    this.load();
+    // this.listOfMapData.forEach(item => {
+    //   this.mapOfExpandedData[item.id] = this.convertTreeToList(item);
+    // });
   }
 
   /**
    * 加载表格数据
    */
   load() {
-    // this.loading = true;
-    // this.rectifyProblemService
-    //   .findOnePage(
-    //     this.queryOptions,
-    //     this.params.rectifyProblemName,
-    //     this.params.rectifyDepartmentId,
-    //     this.params.sendStatus,
-    //     this.params.transferStatus,
-    //   )
-    //   .subscribe(
-    //     data => {
-    //       if (data) {
-    //         this.listOfMapData = data.data;
-    //         this.pageInfo.pageNo = data.pageNo + 1;
-    //         this.pageInfo.pageSize = data.pageSize;
-    //         this.pageInfo.totalPages = data.totalPages;
-    //         this.pageInfo.totalRecords = Number(data.totalRecords);
-    //         this.listOfMapData.forEach(item => {
-    //           this.mapOfExpandedData[item.id] = this.convertTreeToList(item);
-    //         });
-    //       }
-    //     },
-    //     () => {},
-    //     () => {
-    //       this.mapOfCheckedId = {};
-    //       this.checkboxData = [];
-    //       this.checkboxChange.emit([]);
-    //       this.loading = false;
-    //     },
-    //   );
+    this.loading = true;
+    this.rectifyProblemService
+      .findOnePage(
+        this.queryOptions,
+        this.params.rectifyProblemName,
+        this.params.rectifyDepartmentId,
+        this.params.sendStatus,
+        this.params.transferStatus,
+      )
+      .subscribe(
+        data => {
+          if (data) {
+            this.listOfMapData = data.data;
+            this.pageInfo.pageNo = data.pageNo + 1;
+            this.pageInfo.pageSize = data.pageSize;
+            this.pageInfo.totalPages = data.totalPages;
+            this.pageInfo.totalRecords = Number(data.totalRecords);
+            this.listOfMapData.forEach(item => {
+              this.mapOfExpandedData[item.id] = this.convertTreeToList(item);
+            });
+          }
+        },
+        () => { },
+        () => {
+          this.mapOfCheckedId = {};
+          this.checkboxData = [];
+          this.checkboxChange.emit([]);
+          this.loading = false;
+        },
+      );
   }
 
   /**
