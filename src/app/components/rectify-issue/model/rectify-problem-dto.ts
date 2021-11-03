@@ -29,7 +29,8 @@ export class RectifyProblemDTO {
     this.autoReminderTemple = item && item.autoReminderTemple ? item.autoReminderTemple : null;
     this.auditOpinion = item && item.auditOpinion ? item.auditOpinion : null;
     this.rectifyDepartmentReadTime = item && item.rectifyDepartmentReadTime ? item.rectifyDepartmentReadTime : null;
-    this.disciplineInspectionReadTime = item && item.disciplineInspectionReadTime ? item.disciplineInspectionReadTime : null;
+    this.disciplineInspectionReadTime =
+      item && item.disciplineInspectionReadTime ? item.disciplineInspectionReadTime : null;
     this.auditReport = item && item.auditReport ? item.auditReport : null;
     this.rectifyUnit = item && item.rectifyUnit ? item.rectifyUnit : null;
     this.opinion = item && item.opinion ? item.opinion : null;
@@ -140,7 +141,7 @@ export class RectifyProblemDTO {
   /**
    * 自动催办节点（在下次反馈前多少天进行自动提示催办）
    */
-  autoReminderDay?: string;
+  autoReminderDay?: number;
 
   /**
    * 自动催办节点（在下次反馈前多少天进行自动提示催办）
@@ -187,12 +188,10 @@ export class RectifyProblemDTO {
    */
   lastModifyUser?: UserBaseDTO;
 
-
   /**
    * 最后的修收时间，系统根据服务器时间自动填写
    */
   lastModifiedTime?: string;
-
 
   /**
    * 数据过滤路径，系统自动填写
@@ -249,7 +248,6 @@ export class RectifyProblemDTO {
    * 移交情况
    */
   transferCase?: boolean;
-
 
   /**
    * 整改拟完成时间
