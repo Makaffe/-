@@ -48,7 +48,6 @@ const routes = [
         loadChildren: './rectify/audit-rectify/audit-rectify.module#AuditRectifyModule',
         data: { reuse: true },
       },
-
     ],
   },
 

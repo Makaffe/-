@@ -78,7 +78,7 @@ export class RectifyProblemDTO {
   /**
    * 涉及金额
    */
-  money?: string;
+  money?: number;
 
   /**
    * 是否问题主干：用于区分问题主干与拆分 （从报告新增中添加的数据 默认 true） 拆分新增的数据默认 false
