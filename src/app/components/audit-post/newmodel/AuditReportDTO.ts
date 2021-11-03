@@ -11,42 +11,42 @@ export interface AuditReportDTO {
   /**
    * 对象ID，新增时应当为null, 系统会自动生成
    */
-  id: string;
+  id?: string;
 
   /**
    * 审计单位名称
    */
-  auditName: string;
+  auditName?: string;
 
   /**
    * 报告名称
    */
-  name: string;
+  name?: string;
 
   /**
    * 审计开始时间
    */
-  auditStartTime: string;
+  auditStartTime?: string;
 
   /**
    * 审计结束时间
    */
-  auditEndTime: string;
+  auditEndTime?: string;
 
   /**
    * 报告来源, 字典取值：取值标记(key)  MRF_REPORT_SOURCE
    */
-  reportSource: string;
+  reportSource?: string;
 
   /**
    * 审计报告状态
    */
-  auditReportStatus: string;
+  auditReportStatus?: string;
 
   /**
-   * 被审对象: 审计报告中时文本描述，到具体问题清单中进行单位部门关联
+   * 被审对象?: 审计报告中时文本描述，到具体问题清单中进行单位部门关联
    */
-  auditTarget: string;
+  auditTarget?: string;
 
   /**
    * 创建数据的用户ID，系统根据token自动填写
@@ -76,7 +76,7 @@ export interface AuditReportDTO {
   /**
    * 审计报告类型
    */
-  auditReportType: string;
+  auditReportType?: string;
 
   /**
    * 关联的报告附件信息

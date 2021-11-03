@@ -20,15 +20,20 @@
   <ng-template st-row="number" let-row let-index="index">
     {{ ((st.pi ? st.pi : 1) - 1) * (st.ps ? st.ps : 0) + (index + 1) }}
   </ng-template>
+  <ng-template st-row="auditReportType" let-row let-index="index">
+    <span *ngIf="row.auditReportType === 'WELCOME_TRIAL'">迎审报告</span>
+    <span *ngIf="row.auditReportType === 'EXTERNAL_AUDIT'">外聘审计</span>
+    <span *ngIf="row.auditReportType === 'INTERNAL_AUDIT'">内部审计报告</span>
+  </ng-template>
   <ng-template st-row="auditStartTime" let-row let-index="index">
     {{ row.auditStartTime | date: 'yyyy-MM-dd' }}
   </ng-template>
   <ng-template st-row="auditEndTime" let-row let-index="index">
     {{ row.auditEndTime | date: 'yyyy-MM-dd' }}
   </ng-template>
-  <!-- <ng-template st-row="probkemAmount" let-row let-index="index">
+  <ng-template st-row="probkemAmount" let-row let-index="index">
     {{ row.rectifyProblems && row.rectifyProblems.length > 0 ? row.rectifyProblems.length : 0 }}
-  </ng-template> -->
+  </ng-template>
   <ng-template st-row="state" let-row let-index="index">
     {{ row.state | date: 'yyyy-MM-dd' }}
     <nz-tag [nzColor]="row.state === '已处理' ? '#008cec' : '#d7d7d7'">{{ row.state }}</nz-tag>

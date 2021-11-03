@@ -1,72 +1,59 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { TreeUtil } from '@ng-mt-framework/comp';
-import { ProblemTypeService } from './ProblemTypeService.service';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { NzTreeSelectComponent } from 'ng-zorro-antd';
 @Component({
   selector: 'app-problem-type-select',
   templateUrl: './problem-type-select.component.html',
   styles: [],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: ProblemTypeSelectComponent,
-      multi: true,
-    },
-  ],
 })
 export class ProblemTypeSelectComponent implements OnInit {
-  expandKeys = ['100', '1001'];
   /**
-   * 字典Code
+   * 树选择component
    */
-  @Input()
-  dictCode: string = null;
+  @ViewChild('problemtypeselect', { static: false })
+  problemtypeselect: NzTreeSelectComponent;
 
+  /**
+   * 双向绑定value
+   */
   @Output()
-  typeId: any;
-  MaintypeId: any;
+  type = null;
+
+  /**
+   * Output事件，用于该组件的双向绑定
+   */
+  @Output()
+  typeChange = new EventEmitter<any>();
 
   /**
    * 提示
    */
   @Input()
-  placeHolder = '';
+  placeHolder = '请选择问题类型';
 
-  value: string;
-  nodes = [
-    {
-      title: 'parent 1',
-      key: '100',
-      children: [
-        {
-          title: 'parent 1-0',
-          key: '1001',
-          children: [
-            { title: 'leaf 1-0-0', key: '10010', isLeaf: true },
-            { title: 'leaf 1-0-1', key: '10011', isLeaf: true },
-          ],
-        },
-        {
-          title: 'parent 1-1',
-          key: '1002',
-          children: [{ title: 'leaf 1-1-0', key: '10020', isLeaf: true }],
-        },
-      ],
-    },
-  ];
+  /**
+   * 是否禁用
+   */
+  @Input()
+  disabled = false;
 
-  onChange($event): void {
-    console.log($event);
+  /**
+   * 树
+   */
+  @Input()
+  nodes = [];
+
+  /**
+   * 树点击
+   * @param event treenode
+   */
+  onChange(event: any): void {
+    const treeNodeList = this.problemtypeselect.getSelectedNodeList();
+    if (treeNodeList.length > 0) {
+      this.typeChange.emit(treeNodeList[0]);
+    }
   }
 
-  ngOnInit(): void {
-    // this.nodes = [];
-    // this.problemTypeService.findAllUsingGET().subscribe(data => {
-    //   if (data) {
-    //     this.nodes = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
-    //   }
-    // });
-  }
+  ngOnInit(): void {}
 
-  constructor(private problemTypeService: ProblemTypeService) {}
+  constructor() {}
 }

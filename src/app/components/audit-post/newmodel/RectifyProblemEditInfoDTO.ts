@@ -3,32 +3,32 @@
  * @Author 88
  * @Date 2021/11/2
  */
-// tslint:disable-next-line:class-name
+// tslint?:disable-next-line?:class-name
 export interface RectifyProblemEditInfoDTO {
   /**
    * 对象ID，新增时应当为null, 系统会自动生成
    */
-  id: string;
+  id?: string;
 
   /**
    * 问题名称
    */
-  name: string;
+  name?: string;
 
   /**
    * 一级问题类型 ：便于分类统计 问题类型，字典（PROBLEM_TYPE）
    */
-  mainType: string;
+  mainType?: string;
 
   /**
    * 问题类型，字典（PROBLEM_TYPE）
    */
-  type: string;
+  rectifyProblemTypeId?: string;
 
   /**
    * 审计意见
    */
-  opinion: string;
+  opinion?: string;
 
   /**
    * 是否问题主干：用于区分问题主干与拆分
@@ -43,12 +43,12 @@ export interface RectifyProblemEditInfoDTO {
   /**
    * 问题来源
    */
-  source: string;
+  source?: string;
 
   /**
    * 下发状态，枚举
    */
-  sendStatus: string;
+  sendStatus?: string;
 
   /**
    * 跟踪状态，枚举
@@ -58,7 +58,7 @@ export interface RectifyProblemEditInfoDTO {
   /**
    * 移交状态，枚举
    */
-  transferStatus: string;
+  transferStatus?: string;
 
   /**
    * OA发送情况
@@ -108,17 +108,17 @@ export interface RectifyProblemEditInfoDTO {
   /**
    * 涉及金额
    */
-  money: number;
+  money?: number;
 
   /**
    * 审计建议,CLOB存储
    */
-  advice: string;
+  advice?: string;
 
   /**
    * 问题描述,CLOB存储
    */
-  description: string;
+  description?: string;
 
   /**
    * 备忘录,CLOB存储
@@ -148,27 +148,27 @@ export interface RectifyProblemEditInfoDTO {
   /**
    * 审计报告id
    */
-  auditReportId: string;
+  auditReportId?: string;
 
   /**
    * 整改单位编码
    */
-  rectifyUnitId: string;
+  rectifyUnitId?: string;
 
   /**
    * 整改部门编码
    */
-  rectifyDepartmentId: string;
+  rectifyDepartmentId?: string;
 
   /**
    * 审计负责人(监督人)
    */
-  auditUserId: string;
+  auditUserId?: string;
 
   /**
    * 整改责任人
    */
-  dutyUserId: string;
+  dutyUserId?: string;
 
   /**
    * 父id

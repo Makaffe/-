@@ -235,7 +235,7 @@
               <tr *ngFor="let data of columnTable.data; let i = index">
                 <td>{{ i + 1 }}</td>
                 <td>{{ data?.name }}</td>
-                <td>{{ data?.type | dictTransform: 'PROBLEM_TYPE' | async }}</td>
+                <td>{{ convertProblemType(data.type) }}</td>
                 <!-- <td>{{ convertOrganization(data?.rectifyDepartmentId) }}</td>
                 <td>{{ convertdutyUser(data?.dutyUserId) }}</td> -->
                 <td>{{ data.advice }}</td>
@@ -314,13 +314,14 @@
         </app-dict-select> -->
         <app-problem-type-select
           required
-          [dictCode]="'PROBLEM_TYPE'"
           nzAllowClear
           [placeHolder]="'请选择问题类型'"
           #problemType="ngModel"
           name="problemType"
-          [(ngModel)]="paramsItem.type"
+          [nodes]="problemTypeNodes"
+          [(ngModel)]="paramsItem.rectifyProblemTypeId"
           [disabled]="false"
+          (typeChange)="getProblemType($event)"
         ></app-problem-type-select>
         <nz-form-explain *ngIf="problemType.invalid && (problemType.dirty || problemType.touched)">
           请填写问题类型
