@@ -42,17 +42,17 @@ export class RectifyMeasureComponent implements OnInit {
     this.isVisible = false;
   }
 
-  edit(item: RectifyMeasureDTO) {
-    // if (item && item.rectifyCompleteTime) {
-    //   this.date = this.formatDate(item.rectifyCompleteTime);
-    // }
-    // this.rectifyMeasure = this.initItem(item);
-    // if (this.rectifyMeasure.measureStatus === null) {
-    //   this.rectifyMeasure.measureStatus = 'NOT_SUBMITTED';
-    //   this.rectifyMeasure.rectifyProgress = 0;
-    // }
-    // this.rectifyMeasure.rectifyProblemId = '404664016171044864';
-    // this.isVisible = true;
+  edit(rectifyProblemId: string, item: RectifyMeasureDTO) {
+    if (item && item.rectifyStartTime) {
+      this.date = this.formatDate(item.rectifyStartTime);
+    }
+    this.rectifyMeasure = this.initItem(item);
+    if (this.rectifyMeasure.measureStatus === null) {
+      this.rectifyMeasure.measureStatus = 'NOT_SUBMITTED';
+      this.rectifyMeasure.rectifyProgress = 0;
+    }
+    this.rectifyMeasure.rectifyProblemId = '404664016171044864';
+    this.isVisible = true;
   }
 
   /**
@@ -61,6 +61,45 @@ export class RectifyMeasureComponent implements OnInit {
   initItem(item?: RectifyMeasureDTO): RectifyMeasureDTO {
     return {
       id: item && item.id ? item.id : null,
+      //     measureStatus?: string;
+
+      // /**
+      //  * 措施类型
+      //  */
+      // measureType?: string;
+
+      // /**
+      //  * 整改措施内容
+      //  */
+      // measureContent?: string;
+
+      // /**
+      //  * 整改拟完成时间
+      //  */
+      // rectifyEndTime?: string;
+
+      // /**
+      //  * 整改拟开始时间
+      //  */
+      // rectifyStartTime?: string;
+
+      // /**
+      //  * 整改进度
+      //  */
+      // rectifyProgress?: number;
+
+      // /**
+      //  * 关联文件
+      //  */
+      // attachFiles?: Array<SystemFileDTO>;
+
+      // /**
+      //  * 未阅读信息数
+      //  */
+
+      // rectifyProblemId?: string;
+
+      // attachFileIds?: Array<string>;
     };
   }
 
