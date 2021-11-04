@@ -26,7 +26,7 @@ export class RectifyTrackListComponent implements OnInit {
     private msg: NzMessageService,
     private rectifyProblemService: RectifyProblemService,
     private organizationService: OrganizationService,
-  ) { }
+  ) {}
 
   /**
    * 表格title
@@ -43,57 +43,8 @@ export class RectifyTrackListComponent implements OnInit {
   /**
    * 树表格相关参数
    */
-  mapOfCheckedId: { [id: string]: boolean } = {};
-  listOfMapData = [
-    {
-      id: '1',
-      sendStatus: '已下发',
-      transferStatus: '未移交',
-      auditPost: { name: '审计报告' },
-      name: '餐饮费用超过规定标准',
-      type: '',
-      rectifyDepartment: { name: '自然资源局' },
-      dutyUser: { name: '李名' },
-      rectifyCount: 1,
-      rectifyEndTime: '2021-12-13',
-      lastModifiedTime: '2021-12-10',
-      latelyFeedbackTime: '2021-11-10',
-      nextFeedbackTime: '2021-11-30',
-      rectifyDepartmentAlread: '2021-12-1',
-      superviseDepartmentAlread: '2021-12-3',
-      rectifyPassPercent: '20',
-    },
-    {
-      id: '2',
-      sendStatus: '已下发',
-      transferStatus: '已移交',
-      auditPost: { name: '审计报告' },
-      name: '餐饮费用超过规定标准',
-      type: '',
-      rectifyDepartment: { name: '自然资源局' },
-      dutyUser: { name: '李名' },
-      rectifyCount: 1,
-      rectifyEndTime: '2021-12-13',
-      lastModifiedTime: '2021-12-10',
-      latelyFeedbackTime: '2021-11-10',
-      nextFeedbackTime: '2021-11-30',
-      rectifyDepartmentAlread: '2021-12-1',
-      superviseDepartmentAlread: '2021-12-3',
-      rectifyPassPercent: '20',
-    },
-  ];
+  listOfMapData = [];
   mapOfExpandedData: { [id: string]: any[] } = {};
-
-  /**
-   * checkbox的Output
-   */
-  @Output()
-  checkboxChange = new EventEmitter();
-
-  /**
-   * checkbox选中的数据
-   */
-  checkboxDatas = [];
 
   @Output()
   tableOperations = new EventEmitter<any>();
@@ -147,7 +98,7 @@ export class RectifyTrackListComponent implements OnInit {
   };
 
   ngOnInit() {
-    // this.load();
+    this.load();
     this.listOfMapData.forEach(item => {
       this.mapOfExpandedData[item.id] = this.convertTreeToList(item);
     });
@@ -172,7 +123,7 @@ export class RectifyTrackListComponent implements OnInit {
       .subscribe(
         data => {
           if (data) {
-            // this.listOfMapData = data.data;
+            this.listOfMapData = data.data;
             this.pageInfo.pageNo = data.pageNo + 1;
             this.pageInfo.pageSize = data.pageSize;
             this.pageInfo.totalPages = data.totalPages;
@@ -182,28 +133,11 @@ export class RectifyTrackListComponent implements OnInit {
             });
           }
         },
-        () => { },
+        () => {},
         () => {
-          this.mapOfCheckedId = {};
-          this.checkboxDatas = [];
-          this.checkboxChange.emit([]);
           this.loading = false;
         },
       );
-  }
-
-  /**
-   * 选中checkbox方法
-   * @param item 参数
-   * @param isCheck 是否选中
-   */
-  checked(item: RectifyTrackDTO, isCheck: boolean) {
-    if (isCheck) {
-      this.checkboxDatas.push(item);
-    } else {
-      this.checkboxDatas = this.checkboxDatas.filter(problem => problem.id !== item.id);
-    }
-    this.checkboxChange.emit(this.checkboxDatas);
   }
 
   /**

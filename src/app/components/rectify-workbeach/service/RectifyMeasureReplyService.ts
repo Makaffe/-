@@ -2,14 +2,13 @@
 import { _HttpClient } from '@delon/theme';
 import { Observable } from 'rxjs/internal/Observable';
 import { RectifyMeasureReplyDTO } from '../model/RectifyMeasureReplyDTO';
-import { RectifyMeasureReplyEditInfoDTO } from '../model/RectifyMeasureReplyEditInfoDTO';
 @Injectable({
   providedIn: 'root',
 })
 /**
  * 整改措施回复 Service
  * @Author chenzhongde
- * @Date 2021/10/15
+ * @Date 2021/11/4
  */
 export class RectifyMeasureReplyService {
   /**
@@ -21,22 +20,14 @@ export class RectifyMeasureReplyService {
 
   /**
    * 新增整改措施回复
-   * @param rectifyMeasureReplyEditInfoDTO  整改措施回复DTO
+   * @param rectifyMeasureReplyEditInfoDTO 整改措施回复DTO
    *
    */
-  add(rectifyMeasureReplyEditInfoDTO?: RectifyMeasureReplyEditInfoDTO): Observable<RectifyMeasureReplyDTO> {
+  create(rectifyMeasureReplyEditInfoDTO?: RectifyMeasureReplyDTO): Observable<RectifyMeasureReplyDTO> {
     return this.http.post<RectifyMeasureReplyDTO>(
-      `${RectifyMeasureReplyService.URL}/add`,
+      `${RectifyMeasureReplyService.URL}/create`,
       rectifyMeasureReplyEditInfoDTO,
     );
-  }
-
-  /**
-   * 查询所有整改措施回复数据
-   *
-   */
-  findAll(): Observable<Array<RectifyMeasureReplyDTO>> {
-    return this.http.get<Array<RectifyMeasureReplyDTO>>(`${RectifyMeasureReplyService.URL}/all`);
   }
 
   /**
@@ -49,12 +40,11 @@ export class RectifyMeasureReplyService {
   }
 
   /**
-   * 根据ID查询整改措施回复数据
-   * @param id 整改措施回复ID
+   * 查询所有整改措施回复数据
    *
    */
-  findById(id: string): Observable<RectifyMeasureReplyDTO> {
-    return this.http.get<RectifyMeasureReplyDTO>(`${RectifyMeasureReplyService.URL}/${id}`);
+  findAll(): Observable<Array<RectifyMeasureReplyDTO>> {
+    return this.http.get<Array<RectifyMeasureReplyDTO>>(`${RectifyMeasureReplyService.URL}/findAll`);
   }
 
   /**
@@ -63,13 +53,19 @@ export class RectifyMeasureReplyService {
    * @param rectifyMeasureReplyEditInfoDTO 整改措施回复DTO
    *
    */
-  update(
-    id: string,
-    rectifyMeasureReplyEditInfoDTO?: RectifyMeasureReplyEditInfoDTO,
-  ): Observable<RectifyMeasureReplyDTO> {
+  update(id: string, rectifyMeasureReplyEditInfoDTO?: RectifyMeasureReplyDTO): Observable<RectifyMeasureReplyDTO> {
     return this.http.put<RectifyMeasureReplyDTO>(
-      `${RectifyMeasureReplyService.URL}/${id}`,
+      `${RectifyMeasureReplyService.URL}/update/${id}`,
       rectifyMeasureReplyEditInfoDTO,
     );
+  }
+
+  /**
+   * 根据ID查询整改措施回复数据
+   * @param id 整改措施回复ID
+   *
+   */
+  findById(id: string): Observable<RectifyMeasureReplyDTO> {
+    return this.http.get<RectifyMeasureReplyDTO>(`${RectifyMeasureReplyService.URL}`);
   }
 }
