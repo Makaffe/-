@@ -25,12 +25,7 @@ export class RectifyIssueTransferComponent implements OnInit {
   /**
    * 只读
    */
-  isReadOnly: any;
-
-  /**
-   * 只读
-   */
-  createDate: any;
+  readOnly = false;
 
   /**
    * 文件
@@ -47,10 +42,7 @@ export class RectifyIssueTransferComponent implements OnInit {
    */
   loading = false;
 
-  ngOnInit() {
-    this.isReadOnly = false;
-    this.createDate = true;
-  }
+  ngOnInit() {}
 
   /**
    * 关闭

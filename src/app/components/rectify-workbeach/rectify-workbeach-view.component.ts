@@ -441,13 +441,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   transfer(turnOver: boolean) {
     const arr = [];
     arr.push(this.rectifyTrack);
-    if (turnOver) {
-      this.rectifyIssueTransferComponent.isReadOnly = true;
-      this.rectifyIssueTransferComponent.createDate = false;
-    } else {
-      this.rectifyIssueTransferComponent.isReadOnly = false;
-      this.rectifyIssueTransferComponent.createDate = true;
-    }
+    this.rectifyIssueTransferComponent.readOnly = turnOver;
     this.rectifyIssueTransferComponent.edit(arr);
   }
 
@@ -496,7 +490,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
    * 延期申请记录
    */
   applicationRecord() {
-    this.rectifyWorkbeachTableComponent.Open('批复人');
+    this.rectifyWorkbeachTableComponent.Open();
   }
 
   /**
@@ -504,7 +498,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
    * 批不批准延期审批记录
    */
   delayApprove() {
-    this.rectifyWorkbeachTableComponent.Open('申请人');
+    this.rectifyWorkbeachTableComponent.Open();
   }
 
   /**

@@ -120,15 +120,17 @@ export class AuditPostTypeTreeComponent implements OnInit {
   }
 
   nzClick(event: any) {
-    if (event.keys && event.keys.length > 0) {
-      this.selectedNode = event.node.origin;
-      this.selectNodeEvent.emit(this.selectedNode);
-      this.selectedNode = event.node.origin;
-      this.selectedNodeChange.emit(this.selectedNode);
-    } else {
-      this.selectedNode = null;
-      this.selectNodeEvent.emit(this.selectedNode);
-      this.selectedNodeChange.emit(this.selectedNode);
+    if (event.keys[0] !== 'ALL') {
+      if (event.keys && event.keys.length > 0) {
+        this.selectedNode = event.node.origin;
+        this.selectNodeEvent.emit(this.selectedNode);
+        this.selectedNode = event.node.origin;
+        this.selectedNodeChange.emit(this.selectedNode);
+      } else {
+        this.selectedNode = null;
+        this.selectNodeEvent.emit(this.selectedNode);
+        this.selectedNodeChange.emit(this.selectedNode);
+      }
     }
   }
 

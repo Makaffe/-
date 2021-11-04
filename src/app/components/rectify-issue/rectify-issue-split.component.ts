@@ -105,7 +105,7 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
   /**
    * 当前整改问题对象(父问题)
    */
-  problemItem: RectifyProblemDTO = null;
+  problemItem: RectifyProblemDTO = new RectifyProblemDTO();
 
   /**
    * 整改部门树
@@ -121,6 +121,11 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
    * 整改负责人列表
    */
   dutyUserList = [];
+
+  /**
+   * 整改负责人/从组织到人 id数组
+   */
+  dutyUserIds = [];
 
   /**
    * 整改负责人map
@@ -144,11 +149,11 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     // 加载整改负责人级联选择
     this.organizationService.findUserTree().subscribe(data => {
-      this.fomatCascadeData(data);
-      this.organizationTree = [...data];
+      let CascadeData = [];
+      CascadeData = this.fomatCascadeData(data);
+      this.organizationTree = CascadeData;
     });
     this.userService.findAll().subscribe(data => {
-      console.log('userlist', data);
       if (data) {
         this.dutyUserList = data;
         this.dutyUserList.forEach(user => {
@@ -161,7 +166,9 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
   /**
    * 格式成级联选择数据
    */
-  fomatCascadeData(data?: Array<any>) {
+  fomatCascadeData(data?: Array<any>): Array<RectifyProblemDTO> {
+    data = data.filter((row) => row.id > 0);
+    data = [...data];
     data.forEach(item => {
       item.value = item.id;
       item.label = item.name;
@@ -172,6 +179,7 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
         item.isLeaf = true;
       }
     });
+    return [...data];
   }
   /**
    * 关闭
@@ -198,9 +206,25 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
       return;
     }
     this.loading = true;
-    this.rectifyProblemService.rectifyProblemSplit(this.problemItem, this.childrenProblemList).subscribe(
+    if (this.childrenProblemList.length === 0 || !this.childrenProblemList[this.childrenProblemList.length - 1].id
+      || this.childrenProblemList[this.childrenProblemList.length - 1].id !== this.currentItem.id) {
+      this.currentItem.rectifyDepartmentId = this.dutyUserIds[this.dutyUserIds.length - 2];
+      this.currentItem.rectifyProblemTypeId = this.currentItem.rectifyProblemType ? this.currentItem.rectifyProblemType.id : null;
+      this.currentItem.rectifyUnitId = this.dutyUserIds[this.dutyUserIds.length - 3];
+      this.currentItem.dutyUserId = this.dutyUserIds[this.dutyUserIds.length - 1];
+      this.currentItem.mainType = this.currentItem.rectifyProblemType && this.currentItem.rectifyProblemType.parent
+        ? this.currentItem.rectifyProblemType.parent.id : this.currentItem.rectifyProblemTypeId;
+      if (this.childrenProblemList.length > 0) {
+        this.childrenProblemList.forEach(item => {
+          item.auditUserId = this.currentItem.auditUserId;
+        });
+      }
+      this.childrenProblemList.push(this.currentItem);
+    }
+    this.rectifyProblemService.rectifyProblemSplit([...this.childrenProblemList]).subscribe(
       () => {
         this.msg.success('问题拆分成功！');
+        this.childrenProblemList = [];
         this.notification.emit();
         this.handleCancel();
       },
@@ -221,12 +245,18 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
     this.isWatch = isWatch;
     this.problemItem = new RectifyProblemDTO(item);
     this.currentItem = new RectifyProblemDTO(item);
+    console.log('this.currentItem', this.currentItem);
+    this.dutyUserIds = [this.currentItem.rectifyUnitId, this.currentItem.rectifyDepartmentId, this.currentItem.dutyUserId];
     if (item.children && item.children.length > 0) {
       item.children.forEach(problem => {
+        problem.uuid = problem.uuid
+          ? problem.uuid : this.childrenProblemList.length > 0
+            ? this.childrenProblemList[this.childrenProblemList.length - 1].uuid + 1 : '1';
         this.childrenProblemList.push(new RectifyProblemDTO(problem));
         this.childrenProblemList = [...this.childrenProblemList];
       });
     }
+    console.log('initlist', this.childrenProblemList);
     this.isVisible = true;
   }
 
@@ -259,7 +289,6 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
    * @returns 整改负责人name
    */
   convertDutyUser(ids: Array<string>) {
-    console.log('id', ids);
     if (ids && ids.length > 0) {
       return this.dutyUserMap.get(ids[ids.length - 1]);
     }
@@ -281,9 +310,15 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
    * @param childrenProblem 子问题
    */
   getChildrenProblem(childrenProblem: RectifyProblemDTO) {
-    const index = this.childrenProblemList.findIndex(data => data.id === childrenProblem.id);
+    childrenProblem.uuid = childrenProblem.uuid
+      ? childrenProblem.uuid : this.childrenProblemList.length > 0
+        ? this.childrenProblemList[this.childrenProblemList.length - 1].uuid + 1 : '1';
+    const index = this.childrenProblemList.findIndex(data => data.uuid === childrenProblem.uuid);
     if (index > -1) {
       this.childrenProblemList[index] = childrenProblem;
+    } else if (this.childrenProblemList.length > 0
+      && this.childrenProblemList[this.childrenProblemList.length - 1].id === this.currentItem.id) {
+      this.childrenProblemList[this.childrenProblemList.length - 1] = childrenProblem;
     } else {
       this.childrenProblemList.push(childrenProblem);
     }

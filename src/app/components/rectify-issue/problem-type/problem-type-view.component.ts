@@ -80,18 +80,6 @@ export class ProblemTypeViewComponent implements OnInit {
     this.problemTypeDetailComponent.edit();
   }
 
-  change() {}
-
-  convertStatus() {}
-
-  start($event: any) {}
-
-  editDoc($event: any) {}
-
-  deleteDoc($event: any) {}
-
-  watch($event: any) {}
-
   search() {
     this.loadTableData();
   }

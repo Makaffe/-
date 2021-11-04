@@ -2,18 +2,19 @@ import { DatePipe, formatDate } from '@angular/common';
 import { Component, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
 import { OrganizationService } from '@ng-mt-framework/api';
 import { TreeUtil } from '@ng-mt-framework/comp';
-import { RectifyIssueTransferComponent } from '../rectify-issue/rectify-issue-transfer.component';
 import { RectifyTrackListComponent } from './rectify-track-list.component';
 
 @Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'rectify-track-view',
+  selector: 'app-rectify-track-view',
   templateUrl: './rectify-track-view.component.html',
   styles: [],
 })
 export class RectifyTrackViewComponent implements OnInit {
-  @ViewChild('rectifyTrackList', { static: false })
-  rectifyTrackList: RectifyTrackListComponent;
+  /**
+   * 列表组件
+   */
+  @ViewChild('rectifyTrackListComponent', { static: false })
+  rectifyTrackListComponent: RectifyTrackListComponent;
 
   /**
    * 时间
@@ -24,11 +25,12 @@ export class RectifyTrackViewComponent implements OnInit {
    * 日期格式化
    */
   dateFormat = 'yyyy/MM/dd';
+
   /**
    *
    * 查询参数
    */
-  params = this.initParams();
+  filter = this.initFilter();
 
   /**
    * 整改部门树
@@ -39,6 +41,10 @@ export class RectifyTrackViewComponent implements OnInit {
    * 下发状态
    */
   sendStatusList = [
+    {
+      label: '未下发',
+      value: 'NOT_ISSUED',
+    },
     {
       label: '下发中',
       value: 'ISSUING',
@@ -61,19 +67,22 @@ export class RectifyTrackViewComponent implements OnInit {
     });
   }
 
-  initParams() {
+  /**
+   * 初始化查询参数
+   */
+  initFilter() {
     return {
-      auditPostName: null, // 报告名称
-      improtAuditPostStartTime: null, // 导入报告开始时间
-      improtAuditPostEndTime: null, // 导入报告开始时间
-      problemType: null, // 问题类型
-      problemName: null, // 问题名称
-      isDistribute: null, // 是否已分配
-      isSend: null, // 是否已下发
+      reportName: null,
       rectifyProblemName: null,
+      rectifyUnitId: null,
       rectifyDepartmentId: null,
-      sendStatus: null,
+      rectifyUserId: null,
+      sendStatus: [],
       transferStatus: null,
+      trackStatus: null,
+      startTime: null,
+      endTime: null,
+      dutyUserId: null,
     };
   }
 
@@ -86,24 +95,24 @@ export class RectifyTrackViewComponent implements OnInit {
   }
 
   search(): void {
-    this.rectifyTrackList.load();
+    this.rectifyTrackListComponent.load();
   }
 
   /**
    * 清空查询条件
    */
   clear() {
-    this.params = this.initParams();
+    this.filter = this.initFilter();
   }
 
   /**
    * 禁用开始时间
    */
   disabledStartDate = (startValue: Date): boolean => {
-    if (!startValue || !this.params.improtAuditPostEndTime) {
+    if (!startValue || !this.filter.endTime) {
       return false;
     }
-    return startValue.getTime() > new Date(this.params.improtAuditPostEndTime).getTime();
+    return startValue.getTime() > new Date(this.filter.endTime).getTime();
     // tslint:disable-next-line:semicolon
   };
 
@@ -111,10 +120,10 @@ export class RectifyTrackViewComponent implements OnInit {
    * 禁用结束时间
    */
   disabledEndDate = (endValue: Date): boolean => {
-    if (!endValue || !this.params.improtAuditPostStartTime) {
+    if (!endValue || !this.filter.startTime) {
       return false;
     }
-    return endValue.getTime() <= new Date(this.params.improtAuditPostStartTime).getTime();
+    return endValue.getTime() <= new Date(this.filter.startTime).getTime();
     // tslint:disable-next-line:semicolon
   };
 }

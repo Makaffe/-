@@ -73,7 +73,9 @@
                   </td>
                   <td>{{ item.remark }}</td>
                   <td>
-                    <button nz-button nzType="link" (click)="edit(item, false, true)">新增</button>
+                    <button nz-button nzType="link" (click)="edit(item, false, true)" *ngIf="item.level === 0">
+                      新增
+                    </button>
                     <nz-divider nzType="vertical"></nz-divider>
                     <button nz-button nzType="link" (click)="edit(item, false, false)">编辑</button>
                     <nz-divider nzType="vertical"></nz-divider>

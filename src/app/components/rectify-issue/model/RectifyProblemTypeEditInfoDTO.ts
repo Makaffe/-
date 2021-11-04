@@ -19,4 +19,9 @@ export interface RectifyProblemTypeEditInfoDTO {
    * 父id
    */
   parentId?: string;
+
+  /**
+   * 父
+   */
+  parent?: RectifyProblemTypeEditInfoDTO;
 }
