@@ -216,7 +216,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
     private organizationService: OrganizationService,
     private cacheService: CacheService,
     @Inject(LOCALE_ID) private locale: string,
-  ) {}
+  ) { }
 
   ngOnInit() {
     // 加载整改负责人级联选择
@@ -242,7 +242,9 @@ export class RectifyWorkbeachViewComponent implements OnInit {
       this.date = this.formatDate(data.rectifyCompleteTime);
     });
   }
+  loadData() {
 
+  }
   // 获取整改措施数据
   loadMeasureData() {
     this.loading = true;
@@ -265,8 +267,8 @@ export class RectifyWorkbeachViewComponent implements OnInit {
             this.loading = false;
           }
         },
-        () => {},
-        () => {},
+        () => { },
+        () => { },
       );
   }
 
@@ -338,8 +340,8 @@ export class RectifyWorkbeachViewComponent implements OnInit {
           this.loadMeasureData();
         }
       },
-      () => {},
-      () => {},
+      () => { },
+      () => { },
     );
   }
 
@@ -408,7 +410,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
     this.rectifyMeasureComponent.edit(item ? item.id : this.searchParam.rectifyProblemId, item);
   }
 
-  create() {}
+  create() { }
 
   // 查看
   watch(item: RectifyMeasureDTO) {
@@ -446,7 +448,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   }
 
   // 修改整改问题整改频率与截至时间
-  saveProblem() {}
+  saveProblem() { }
 
   // 隐藏或展示时间轴
   hideTimeLine() {
@@ -475,7 +477,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
     }
   }
 
-  onChangeStates(id: string): void {}
+  onChangeStates(id: string): void { }
 
   /**
    * 整改部门进去
@@ -529,7 +531,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   /**
    * 模板值处理
    */
-  templateChange(eve: any) {}
+  templateChange(eve: any) { }
 
   /**
    * 反馈提醒
