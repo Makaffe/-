@@ -14,43 +14,21 @@ export class SuperviseWaitTabComponent implements OnInit {
   constructor(private transferInfoService: TransferInfoService) {}
 
   mapOfExpandedData: { [id: string]: any[] } = {};
-  listOfMapData: any[] = [
-    {
-      id: 1,
-      status: '未处理',
-      source: '审计报告',
-      problemName: '有关于财政的',
-      type: '财政收入',
-      rectifyDepartment: '财务部',
-      leader: '郭鑫',
-      time: '2021-1-4',
-      reason: '主要因为不太规范',
-      children: [
-        {
-          id: 11,
-          status: '未处理',
-          source: '审计报告',
-          problemName: '有关于财政的',
-          type: '财政收入',
-          rectifyDepartment: '财务部',
-          leader: '郭鑫',
-          time: '2021-1-4',
-          reason: '主要因为不太规范',
-        },
-      ],
-    },
-    {
-      id: 2,
-      status: '未处理',
-      source: '审计报告',
-      problemName: '有关于财政的',
-      type: '财政收入',
-      rectifyDepartment: '财务部',
-      leader: '郭鑫',
-      time: '2021-1-4',
-      reason: '主要因为不太规范',
-    },
-  ];
+  listOfMapData: any[] = [];
+
+  pageOption = {
+    page: 0,
+    size: 20,
+    sort: 'id,desc',
+  };
+
+  filter = {
+    rectifyProblemName: '',
+    transferDisposeStatus: '',
+    rectifyDepartmentId: '',
+    startTime: '',
+    endTime: '',
+  };
 
   ngOnInit() {
     this.loadTableData();
@@ -108,8 +86,8 @@ export class SuperviseWaitTabComponent implements OnInit {
   }
 
   loadTableData() {
-    this.transferInfoService.findAll().subscribe(data => {
-      this.listOfMapData = data;
+    this.transferInfoService.findOnePage(this.pageOption).subscribe(data => {
+      this.listOfMapData = data.data;
       this.listOfMapData.forEach(item => {
         this.mapOfExpandedData[item.id] = this.convertTreeToList(item);
       });

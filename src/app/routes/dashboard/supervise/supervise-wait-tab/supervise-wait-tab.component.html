@@ -7,7 +7,9 @@
           <div nz-col [nzSpan]="5">
             <nz-form-item>
               <nz-form-label nzSpan="10">整改问题</nz-form-label>
-              <nz-form-control nzSpan="14"><input nz-input/></nz-form-control>
+              <nz-form-control nzSpan="14"
+                ><input nz-input name="rectifyProblemName" [(ngModel)]="filter.rectifyProblemName"
+              /></nz-form-control>
             </nz-form-item>
           </div>
           <div nz-col [nzSpan]="5">
