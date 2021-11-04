@@ -1150,7 +1150,11 @@ export class AuditPostDetailComponent implements OnInit {
       this.currentItem = data;
       this.dateRange = [new Date(data.auditStartTime), new Date(data.auditEndTime)];
       this.listOfData = data.rectifyProblems;
-      this.fileList[0] = data.reportFile;
+
+      if (data.reportFile) {
+        data.reportFile.name = data.reportFile.originalName;
+        this.fileList = [data.reportFile];
+      }
       // tslint:disable-next-line:semicolon
     });
 

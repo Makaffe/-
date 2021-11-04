@@ -78,13 +78,13 @@
         </thead>
         <tbody>
           <ng-container *ngFor="let data of expandTable.data; let i = index">
-            <ng-container *ngFor="let item of mapOfExpandedData[data.key]; let ci = index">
+            <ng-container *ngFor="let item of mapOfExpandedData[data.id]; let ci = index">
               <tr *ngIf="(item.parent && item.parent.expand) || !item.parent">
                 <td
                   [nzIndentSize]="item.level * 20"
                   [nzShowExpand]="!!item.children"
                   [(nzExpand)]="item.expand"
-                  (nzExpandChange)="collapse(mapOfExpandedData[data.key], item, $event)"
+                  (nzExpandChange)="collapse(mapOfExpandedData[data.id], item, $event)"
                   nzAlign="center"
                 >
                   {{ item.level === 0 ? i + 1 : i + 1 + '-' + ci }}
@@ -98,7 +98,7 @@
                 <td nzAlign="center">{{ item.time }}</td>
                 <td nzAlign="center">{{ item.reason }}</td>
                 <td nzRight="0">
-                  <a (click)="process()">处理</a>
+                  <a (click)="process(item)">处理</a>
                   <nz-divider nzType="vertical"></nz-divider>
                   <a (click)="show()">查看</a>
                 </td>
@@ -111,4 +111,4 @@
     </div>
   </as-split-area>
 </as-split>
-<supervise-process-form #superviseProcessFormComponent></supervise-process-form>
+<supervise-process-form #superviseProcessFormComponent (notication)="loadTableData()"></supervise-process-form>
