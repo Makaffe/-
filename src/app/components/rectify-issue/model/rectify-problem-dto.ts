@@ -1,6 +1,5 @@
 import { SystemFileDTO } from '@mt-framework-ng/core';
 import { OrganizationDTO, UserBaseDTO, UserDTO } from '@ng-mt-framework/api';
-import { AuditPostDTO } from '../../audit-post/model/AuditPostDTO';
 import { AuditReportDTO } from '../../audit-post/newmodel/AuditReportDTO';
 
 /**
@@ -318,8 +317,4 @@ export class RectifyProblemDTO {
   selectedRectifyDepartment?: OrganizationDTO[];
 
   selectedRectifyPeople?: UserDTO[];
-
-  zgdw?: any;
-  sjje?: any;
-  zgjzsj?: any;
 }
