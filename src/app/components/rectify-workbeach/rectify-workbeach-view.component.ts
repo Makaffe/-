@@ -500,13 +500,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   transfer(turnOver: boolean) {
     const arr = [];
     arr.push(this.rectifyTrack);
-    if (turnOver) {
-      this.rectifyIssueTransferComponent.isReadOnly = true;
-      this.rectifyIssueTransferComponent.createDate = false;
-    } else {
-      this.rectifyIssueTransferComponent.isReadOnly = false;
-      this.rectifyIssueTransferComponent.createDate = true;
-    }
+    this.rectifyIssueTransferComponent.readOnly = turnOver;
     this.rectifyIssueTransferComponent.edit(arr);
   }
 
