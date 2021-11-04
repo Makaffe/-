@@ -2,15 +2,13 @@ import { Component, Inject, Input, LOCALE_ID, OnInit, ViewChild } from '@angular
 import { STColumn, STColumnTag, STComponent } from '@delon/abc';
 import { TABLE_PARAMETER } from '@ng-mt-framework/comp';
 import { ObjectUtil } from '@ng-mt-framework/util';
+import { RectifyProblemDelayApplyDTO } from './model/RectifyProblemDelayApplyDTO.';
+import { RectifyProblemDelayApplyEditInfoDTO } from './model/RectifyProblemDelayApplyEditInfoDTO';
 import { RectifyWorkbeachPutComponent } from './rectify-workbeach-put.component';
+import { RectifyProblemDelayApplyService } from './service/RectifyProblemDelayApplyService';
+import { Status } from './status';
 
-const TAG: STColumnTag = {
-  1: { text: '通过', color: 'green' },
-  2: { text: '错误', color: 'red' },
-  3: { text: '进行中', color: 'blue' },
-  4: { text: '通过中', color: '' },
-  5: { text: '警告', color: 'orange' },
-};
+
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'rectify-workbeach-table',
@@ -18,6 +16,8 @@ const TAG: STColumnTag = {
   styles: [],
 })
 export class RectifyWorkbeachTableComponent implements OnInit {
+
+  constructor(private rectifyProblemDelayApplyService: RectifyProblemDelayApplyService) {}
   loading = false;
 
   /**
@@ -32,41 +32,61 @@ export class RectifyWorkbeachTableComponent implements OnInit {
   @ViewChild('st', { static: false })
   st: STComponent;
 
+  TAG: STColumnTag = Status.TAG;
+
   /**
    * 列表参数
    */
   tableParameter = ObjectUtil.deepClone(TABLE_PARAMETER);
 
   /**
+   * 显示申请人
+   */
+  showCreateUserName = null;
+
+  /**
+   * 显示批复人
+   */
+  showReplyUserName = null;
+
+  /**
+   * 列表数据
+   */
+   tableData: RectifyProblemDelayApplyDTO = null;
+
+
+   /**
+    * 审批过后查看按钮不显示
+    */
+   showButton = null;
+
+  /**
    * 控制弹窗是否弹出
    */
   isVisible = false;
-
-
 
   /**
    * 接收数据
    */
   approvingData = [];
 
-  constructor() {}
-
   /**
    * 列定义
    */
   columns: STColumn[] = [
-    { title: '序号', render: 'number', width: '80px', className: 'text-center' },
+    { title: '序号', render: 'number', width: '90px', className: 'text-center' },
     {
       title: '状态',
       index: 'status',
       width: '100px',
       className: 'text-center',
       type: 'tag',
-      tag: TAG,
+      tag: this.TAG,
     },
     {
       title: '延期截止日期',
-      index: 'time2',
+      //render: 'effectiveDate',
+      index: 'delayEndTime',
       width: '140px',
       className: 'text-center',
       sort: this.tableParameter.sortDef,
@@ -78,36 +98,21 @@ export class RectifyWorkbeachTableComponent implements OnInit {
       className: 'text-center',
       sort: this.tableParameter.sortDef,
     },
-    { title: '批复人', index: 'name1', width: '100px' },
-    { title: '批复日期', index: 'time', width: '140px', className: 'text-center', sort: this.tableParameter.sortDef },
-    { title: '申请人', index: 'name2', width: '100px' },
-    { title: '申请日期', index: 'time2', width: '140px', className: 'text-center', sort: this.tableParameter.sortDef },
-    { title: '操作', render: 'operations', width: '80px', className: 'text-center' },
+    { title: '批复人', index: 'replyUser.name', width: '100px' },
+    { title: '批复日期', index: 'replyTime', width: '140px', className: 'text-center', sort: this.tableParameter.sortDef },
+    { title: '申请人', index: 'createUser.name', width: '100px' },
+    { title: '申请日期', index: 'createdTime', width: '140px', className: 'text-center', sort: this.tableParameter.sortDef },
+    { title: '操作', render: 'operations', width: '150px', className: 'text-center' },
   ];
 
   /**
    * 对应的列表中表的数据
    */
-  listOfData = [
-    {
-      id: '1',
-      status: '4',
-      time: '2021-10-26',
-      name1: '张伟',
-      name2: '张有山',
-      time2: '2021-10-26',
-      endTime: '2021-10-26',
-    },
-    {
-      id: 'r1',
-      status: '1',
-      time: '2021-11-18',
-      name1: '刘壮实',
-      name2: '邓莉屏',
-      time2: '2021-10-26',
-      endTime: '2021-11-18',
-    },
-  ];
+  listOfData = [];
+
+  currentItem: null;
+
+  current: RectifyProblemDelayApplyEditInfoDTO;
 
   handleCancel() {
     this.isVisible = false;
@@ -124,32 +129,63 @@ export class RectifyWorkbeachTableComponent implements OnInit {
   /**
    * 打开列表弹窗
    */
-  Open(title: string) {
-    this.columns.forEach(colums => {
-      if (colums.index === 'name') {
-        colums.title = title;
-      }
-    });
-
-    this.isShowData();
-    this.st.resetColumns({ columns: this.columns, emitReload: true });
+  Open() {
+    this.load();
     this.isVisible = true;
   }
 
-  saveData() {
+  /**
+   * 加载列表数据
+   */
+   load() {
+    this.loading = true;
+    this.rectifyProblemDelayApplyService.findAll().subscribe( data => {
+      this.tableData = data;
+
+      // this.showReplyUserName = this.tableData && this.tableData.replyUser.name ? this.tableData.replyUser.name : null;
+      // this.showCreateUserName = this.tableData && this.tableData.createUser.name ? this.tableData.createUser.name : null;
+
+      if (this.tableData.status === 'PASS ') {
+        this.showButton = true;
+      }
+
+      console.log(this.tableData);
+      console.log(data);
+    },
+    null,
+    () => (this.loading = false),
+    );
+  }
+
+  saveData(item: RectifyProblemDelayApplyEditInfoDTO) {
     this.isVisible = false;
+
+    // this.rectifyProblemDelayApplyService.updateProblem(item.id, item).subscribe( data => {
+    //   console.log(data);
+    // });
+
   }
 
   /**
    * 查看
    */
-  watch() {
+  watch(item: RectifyProblemDelayApplyDTO) {
     this.rectifyWorkbeachPutComponent.isWatchForTable = true;
+
+    if (item) {
+      console.log(item.id);
+      this.rectifyWorkbeachPutComponent.problems(item.id);
+    }
+
+    //isRectify == true 是 部门
+    //isRectify == false 是 人员
+
     this.rectifyWorkbeachPutComponent.create = true;
-    this.rectifyWorkbeachPutComponent.currentItem.closingDate = new Date();
+
     this.rectifyWorkbeachPutComponent.isVisible = true;
     //this.rectifyWorkbeachPutComponent.access = true;
     this.rectifyWorkbeachPutComponent.isable = true;
+
   }
 
   /**
@@ -160,4 +196,34 @@ export class RectifyWorkbeachTableComponent implements OnInit {
     this.listOfData[0].time = '';
     this.rectifyWorkbeachPutComponent.access = true;
   }
+
+  /**
+   * 弹窗列表显示数据
+   */
+  tableList() {
+    console.log(this.current.id);
+    this.rectifyProblemDelayApplyService.delayedRectification(this.current.id).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  change(item: RectifyProblemDelayApplyEditInfoDTO) {
+    this.rectifyWorkbeachPutComponent.create = false;
+    this.rectifyWorkbeachPutComponent.isable = false;
+    this.rectifyWorkbeachPutComponent.isRectify = true;
+
+    this.rectifyWorkbeachPutComponent.isVisible = true;
+    this.rectifyWorkbeachPutComponent.problems(item.id, item);
+
+
+  }
+
+  delect(item: RectifyProblemDelayApplyDTO) {
+    console.log(item.id);
+    this.rectifyProblemDelayApplyService.delete(item.id).subscribe( () => {
+      this.load();
+    });
+  }
+
+
 }

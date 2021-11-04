@@ -11,10 +11,12 @@ export class RectifyProblemDTO {
   constructor(item?: RectifyProblemDTO) {
     this.id = item && item.id ? item.id : null;
     this.name = item && item.name ? item.name : null;
-    this.mainType = item && item.mainType ? item.mainType : null;
+    this.mainType = item && item.rectifyProblemType && item.rectifyProblemType.parent
+      ? item.rectifyProblemType.parent.id : item && item.rectifyProblemType
+        ? item.rectifyProblemType.id : null;
     this.money = item && item.money ? item.money : null;
-    this.isTrunk = item && item.isTrunk ? item.isTrunk : null;
-    this.multipleYearRectify = item && item.multipleYearRectify ? item.multipleYearRectify : null;
+    this.isTrunk = item && item.isTrunk ? item.isTrunk : false;
+    this.multipleYearRectify = item && item.multipleYearRectify ? item.multipleYearRectify : false;
     this.source = item && item.source ? item.source : null;
     this.sendStatus = item && item.sendStatus ? item.sendStatus : null;
     this.trackStatus = item && item.trackStatus ? item.trackStatus : null;
@@ -22,7 +24,7 @@ export class RectifyProblemDTO {
     this.advice = item && item.advice ? item.advice : null;
     this.description = item && item.description ? item.description : null;
     this.memorandum = item && item.memorandum ? item.memorandum : null;
-    this.noRectifyStatus = item && item.noRectifyStatus ? item.noRectifyStatus : null;
+    this.noRectifyStatus = item && item.noRectifyStatus ? item.noRectifyStatus : false;
     this.noRectifyReason = item && item.noRectifyReason ? item.noRectifyReason : null;
     this.autoReminderDay = item && item.autoReminderDay ? item.autoReminderDay : null;
     this.autoReminderTemple = item && item.autoReminderTemple ? item.autoReminderTemple : null;
@@ -31,10 +33,11 @@ export class RectifyProblemDTO {
     this.disciplineInspectionReadTime =
       item && item.disciplineInspectionReadTime ? item.disciplineInspectionReadTime : null;
     this.auditReport = item && item.auditReport ? item.auditReport : null;
+    this.auditReportId = item && item.auditReport ? item.auditReport.id : null;
     this.rectifyUnit = item && item.rectifyUnit ? item.rectifyUnit : null;
-    this.opinion = item && item.opinion ? item.opinion : null;
+    this.auditOpinion = item && item.auditOpinion ? item.auditOpinion : null;
     this.transferStatus = item && item.transferStatus ? item.transferStatus : null;
-    this.oaSendCase = item && item.oaSendCase ? item.oaSendCase : null;
+    this.oaSendCase = item && item.oaSendCase ? item.oaSendCase : false;
     this.rectifyDepartment = item && item.rectifyDepartment ? item.rectifyDepartment : null;
     this.auditUser = item && item.auditUser ? item.auditUser : null;
     this.dutyUser = item && item.dutyUser ? item.dutyUser : null;
@@ -42,7 +45,7 @@ export class RectifyProblemDTO {
     this.transferTime = item && item.transferTime ? item.transferTime : null;
     this.rectifyStartTime = item && item.rectifyStartTime ? item.rectifyStartTime : null;
     this.rectifyEndTime = item && item.rectifyEndTime ? item.rectifyEndTime : null;
-    this.transferCase = item && item.transferCase ? item.transferCase : null;
+    this.transferCase = item && item.transferCase ? item.transferCase : false;
     this.rectifyCompleteTime = item && item.rectifyCompleteTime ? item.rectifyCompleteTime : null;
     this.rectifyBackFeedHz = item && item.rectifyBackFeedHz ? item.rectifyBackFeedHz : null;
     this.rectifyProgress = item && item.rectifyProgress ? item.rectifyProgress : null;
@@ -57,8 +60,12 @@ export class RectifyProblemDTO {
     this.noRectifyAttachFiles = item && item.noRectifyAttachFiles ? item.noRectifyAttachFiles : [];
     this.selectedRectifyDepartment = item && item.selectedRectifyDepartment ? item.selectedRectifyDepartment : [];
     this.selectedRectifyPeople = item && item.selectedRectifyPeople ? item.selectedRectifyPeople : [];
-    this.auditUserId = item && item.auditUserId ? item.auditUserId : null;
-    this.dutyUserId = item && item.dutyUserId ? item.dutyUserId : null;
+    this.auditUserId = item && item.auditUser ? item.auditUser.id : null;
+    this.dutyUserId = item && item.dutyUser ? item.dutyUser.id : null;
+    this.rectifyProblemTypeId = item && item.rectifyProblemType ? item.rectifyProblemType.Id : null;
+    this.rectifyUnitId = item && item.rectifyUnit ? item.rectifyUnit.id : null;
+    this.rectifyDepartmentId = item && item.rectifyDepartment ? item.rectifyDepartment.id : null;
+    this.parentId = item && item.parent ? item.parent.id : null;
   }
   /**
    * 对象ID，新增时应当为null, 系统会自动生成
@@ -172,10 +179,6 @@ export class RectifyProblemDTO {
    */
   rectifyUnit?: any;
 
-  /**
-   * 审计意见
-   */
-  opinion?: string;
 
   /**
    * 创建数据的时间，系统根据服务器时间自动填写
@@ -317,4 +320,10 @@ export class RectifyProblemDTO {
   selectedRectifyDepartment?: OrganizationDTO[];
 
   selectedRectifyPeople?: UserDTO[];
+  rectifyUnitId?: string;
+  rectifyProblemTypeId?: string;
+
+  zgdw?: any;
+  sjje?: any;
+  zgjzsj?: any;
 }

@@ -48,6 +48,16 @@ export interface RectifyEffectDTO extends AbstractBaseEntity {
   efficiencyGainsAmount?: number;
 
   /**
+   * 审计建议（条）
+   */
+  adviceCount?: number;
+
+  /**
+   * 审计意见（条）
+   */
+  auditOpinionCount?: number;
+
+  /**
    * 状态
    */
   status?: string;

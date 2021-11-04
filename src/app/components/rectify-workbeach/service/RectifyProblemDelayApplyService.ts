@@ -1,10 +1,13 @@
-﻿import { Injectable } from '@angular/core';
+
+import { Injectable } from '@angular/core';
 import { _HttpClient } from '@delon/theme';
-import { Observable } from 'rxjs/internal/Observable';
-import { RectifyProblemDelayApplyDTO } from '../model/RectifyProblemDelayApplyDTO';
+import { Observable } from 'rxjs';
+import { RectifyProblemDelayApplyDTO } from '../model/RectifyProblemDelayApplyDTO.';
+import { RectifyProblemDelayApplyEditInfoDTO } from '../model/RectifyProblemDelayApplyEditInfoDTO';
 @Injectable({
   providedIn: 'root',
 })
+
 /**
  * 整改问题延期申请 Service
  * @Author chenzhongde
@@ -19,18 +22,23 @@ export class RectifyProblemDelayApplyService {
   constructor(private http: _HttpClient) {}
 
   /**
-   * 新增整改问题延期申请信息
-   * @param dto 待整改问题延期申请信息
-   *
+   * 获取单一整改问题延期申请信息
    */
-  create(dto: RectifyProblemDelayApplyDTO): Observable<RectifyProblemDelayApplyDTO> {
-    return this.http.post<RectifyProblemDelayApplyDTO>(`${RectifyProblemDelayApplyService.URL}/create`, dto);
+  delayedRectification(id: string): Observable<any> {
+    const prams = {};
+    Object.assign(prams, {id});
+    return this.http.get<any>(`${RectifyProblemDelayApplyService.URL}/${id}`);
+  }
+
+  /**
+   * 新增整改问题延期申请信息
+   */
+  addDelayRectify(dto: RectifyProblemDelayApplyEditInfoDTO): Observable<any> {
+    return this.http.post<any>(`${RectifyProblemDelayApplyService.URL}/create`, dto);
   }
 
   /**
    * 删除整改问题延期申请信息
-   * @param id 待删除整改问题延期申请编码
-   *
    */
   delete(id: string): Observable<any> {
     return this.http.delete<any>(`${RectifyProblemDelayApplyService.URL}/delete/${id}`);
@@ -38,39 +46,24 @@ export class RectifyProblemDelayApplyService {
 
   /**
    * 获取所有整改问题延期申请信息
-   *
    */
-  findAll(): Observable<Array<RectifyProblemDelayApplyDTO>> {
-    return this.http.get<Array<RectifyProblemDelayApplyDTO>>(`${RectifyProblemDelayApplyService.URL}/findAll`);
+  findAll(): Observable<RectifyProblemDelayApplyDTO> {
+    return this.http.get<RectifyProblemDelayApplyDTO>(`${RectifyProblemDelayApplyService.URL}/findAll`);
   }
 
   /**
    * 获取所有整改问题延期申请信息
-   * @param rectifyProblemId 整改问题编码
-   *
    */
-  findByRectifyProblemDelayApplyById(rectifyProblemId: string): Observable<Array<RectifyProblemDelayApplyDTO>> {
-    return this.http.get<Array<RectifyProblemDelayApplyDTO>>(
-      `${RectifyProblemDelayApplyService.URL}/findByRectifyProblemDelayApplyById/${rectifyProblemId}`,
-    );
+  findByRectifyProblem(rectifyProblemId: string): Observable<Array<RectifyProblemDelayApplyDTO>> {
+
+    // tslint:disable-next-line:max-line-length
+    return this.http.get<Array<RectifyProblemDelayApplyDTO>>(`${RectifyProblemDelayApplyService.URL}/findByRectifyProblemDelayApplyById/${rectifyProblemId}`);
   }
 
   /**
    * 修改整改问题延期申请信息
-   * @param id 待修改整改问题延期申请编码
-   * @param dto 修改后的整改问题延期申请信息
-   *
    */
-  update(id: string, dto: RectifyProblemDelayApplyDTO): Observable<RectifyProblemDelayApplyDTO> {
-    return this.http.put<RectifyProblemDelayApplyDTO>(`${RectifyProblemDelayApplyService.URL}/update/${id}`, dto);
-  }
-
-  /**
-   * 获取单一整改问题延期申请信息
-   * @param id 待查询整改问题延期申请编码
-   *
-   */
-  findById(id: string): Observable<RectifyProblemDelayApplyDTO> {
-    return this.http.get<RectifyProblemDelayApplyDTO>(`${RectifyProblemDelayApplyService.URL}`);
-  }
+   updateProblem(id: string, dto: RectifyProblemDelayApplyEditInfoDTO): Observable<RectifyProblemDelayApplyDTO> {
+     return this.http.put<RectifyProblemDelayApplyDTO>(`${RectifyProblemDelayApplyService.URL}/update/${id}`, dto);
+   }
 }
