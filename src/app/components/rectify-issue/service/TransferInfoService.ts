@@ -46,8 +46,17 @@ export class TransferInfoService {
   }
 
   /**
+   * 根据整改问题id,获取单一整改问题移交信息
+   * @param rectifyProblemId 整改问题id
+   *
+   */
+  findByRectifyProblemId(rectifyProblemId: string): Observable<TransferInfoDTO> {
+    return this.http.get<TransferInfoDTO>(`${TransferInfoService.URL}/findByRectifyProblemId/${rectifyProblemId}`);
+  }
+
+  /**
    * 获取所有整改问题延期申请信息
-   * @param rectifyProblemId 整改问题编码
+   * @param rectifyProblemId 整改问题id
    *
    */
   findByTransferInfoById(rectifyProblemId: string): Observable<Array<TransferInfoDTO>> {

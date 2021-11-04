@@ -13,7 +13,7 @@
     'padding-bottom': '0px'
   }"
 >
-  <form nz-form>
+  <form nz-form #form>
     <nz-form-item>
       <nz-form-label nzSpan="4">移交内容</nz-form-label>
       <nz-form-control nzSpan="20">
@@ -34,36 +34,28 @@
     <nz-form-item>
       <nz-form-label nzSpan="4">移交原因</nz-form-label>
       <nz-form-control nzSpan="20">
-        <!-- <nz-select [nzDisabled]="readOnly"></nz-select> -->
-        <textarea rows="5" nz-input [readonly]="readOnly"></textarea>
+        <textarea
+          rows="5"
+          nz-input
+          [readonly]="readOnly"
+          [(ngModel)]="currentItem.transferCause"
+          name="transferCause"
+        ></textarea>
       </nz-form-control>
     </nz-form-item>
-    <!-- <nz-form-item>
-      <nz-form-label nzSpan="4">移交附件</nz-form-label>
-      <nz-form-control nzSpan="20">
-        <nz-form-control nzSpan="20">
-          <app-attach-list [show]="true" [(attachFiles)]="systemFiles" #attachListComponent
-            [fileType]="'TRANSFER_RESALE_FILE'">
-          </app-attach-list>
-        </nz-form-control>
-      </nz-form-control>
-    </nz-form-item> -->
 
     <nz-form-item *ngIf="readOnly">
       <nz-form-label nzSpan="4">纪检处理结果</nz-form-label>
       <nz-form-control nzSpan="20">
-        <textarea rows="5" nz-input [readOnly]="readOnly"></textarea>
+        <textarea
+          rows="5"
+          nz-input
+          [readOnly]="readOnly"
+          [(ngModel)]="currentItem.processingResults"
+          name="processingResults"
+        ></textarea>
       </nz-form-control>
     </nz-form-item>
-    <!-- 
-    <nz-form-item>
-      <nz-form-label nzSpan="4">处理结果文件</nz-form-label>
-      <nz-form-control nzSpan="20">
-        <app-attach-list [show]="true" [(attachFiles)]="systemFiles" #attachListComponent
-          [fileType]="'TRANSFER_RESALE_FILE'">
-        </app-attach-list>
-      </nz-form-control>
-    </nz-form-item> -->
   </form>
   <ng-template #rectifyIssueSplitFooter>
     <button nz-button nzType="default" (click)="handleCancel()">取消</button>

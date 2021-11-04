@@ -76,10 +76,14 @@ export class RectifyProblemService {
   /**
    * 移交纪检
    * @param ids 整改问题ids
+   * @param transferCause 问题移交原因
    *
    */
-  rectifyProblemTransfer(ids: Array<string>): Observable<Array<RectifyProblemDTO>> {
-    return this.http.put<Array<RectifyProblemDTO>>(`${RectifyProblemService.URL}/rectifyProblemTransfer`, ids);
+  rectifyProblemTransfer(ids: Array<string>, transferCause: string): Observable<Array<RectifyProblemDTO>> {
+    return this.http.put<Array<RectifyProblemDTO>>(
+      `${RectifyProblemService.URL}/rectifyProblemTransfer?transferCause=${transferCause}`,
+      ids,
+    );
   }
 
   /**
