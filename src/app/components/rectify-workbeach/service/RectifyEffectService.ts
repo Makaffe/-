@@ -49,10 +49,8 @@ export class RectifyEffectService {
    * @param rectifyProblemId 整改问题编码
    *
    */
-  findByRectifyEffectById(rectifyProblemId: string): Observable<Array<RectifyEffectDTO>> {
-    return this.http.get<Array<RectifyEffectDTO>>(
-      `${RectifyEffectService.URL}/findByRectifyEffectById/${rectifyProblemId}`,
-    );
+  findByRectifyEffectById(rectifyProblemId: string): Observable<RectifyEffectDTO> {
+    return this.http.get<RectifyEffectDTO>(`${RectifyEffectService.URL}/findByRectifyEffectById/${rectifyProblemId}`);
   }
 
   /**
