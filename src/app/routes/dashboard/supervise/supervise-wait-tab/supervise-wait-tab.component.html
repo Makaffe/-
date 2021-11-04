@@ -16,7 +16,7 @@
             <nz-form-item>
               <nz-form-label nzSpan="6">时间</nz-form-label>
               <nz-form-control nzSpan="18">
-                <nz-range-picker></nz-range-picker>
+                <nz-range-picker name="rangeDate" [(ngModel)]="rangeDate"></nz-range-picker>
               </nz-form-control>
             </nz-form-item>
           </div>
@@ -24,7 +24,7 @@
             <nz-form-item>
               <nz-form-label nzSpan="6">状态</nz-form-label>
               <nz-form-control nzSpan="18">
-                <nz-select nzAllowClear>
+                <nz-select nzAllowClear [(ngModel)]="filter.transferDisposeStatus" name="transferDisposeStatus">
                   <nz-option nzValue="已处理" nzLabel="已处理"></nz-option>
                   <nz-option nzValue="未处理" nzLabel="未处理"></nz-option>
                 </nz-select>
@@ -35,7 +35,7 @@
             <nz-form-item>
               <nz-form-label nzSpan="9">整改部门</nz-form-label>
               <nz-form-control nzSpan="15">
-                <nz-select nzAllowClear>
+                <nz-select nzAllowClear [(ngModel)]="filter.rectifyDepartmentId">
                   <nz-option nzValue="部门一" nzLabel="部门一"></nz-option>
                   <nz-option nzValue="部门二" nzLabel="部门二"></nz-option>
                 </nz-select>
@@ -44,7 +44,9 @@
           </div>
           <div nz-col [nzSpan]="5">
             <button nz-button nzType="default"><i nz-icon nzType="reload" nzTheme="outline"></i>重置</button>
-            <button nz-button nzType="primary"><i nz-icon nzType="search" nzTheme="outline"></i>查找</button>
+            <button nz-button nzType="primary" (click)="loadTableData()">
+              <i nz-icon nzType="search" nzTheme="outline"></i>查找
+            </button>
           </div>
         </div>
       </form>
