@@ -47,7 +47,7 @@
             nz-input
             autocomplete="off"
             name="parentId"
-            [(ngModel)]="currentItem.parentId"
+            [(ngModel)]="parentName"
             placeholder="请填写"
             #parentId="ngModel"
             required
@@ -62,11 +62,8 @@
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label [nzSpan]="3" nzRequired>备注</nz-form-label>
-      <nz-form-control
-        [nzSpan]="21"
-        [nzValidateStatus]="remark.invalid && (remark.dirty || remark.touched) ? 'error' : ''"
-      >
+      <nz-form-label [nzSpan]="3">备注</nz-form-label>
+      <nz-form-control [nzSpan]="21">
         <textarea
           rows="4"
           [readOnly]="isWatch"
@@ -75,9 +72,6 @@
           name="remark"
           #remark="ngModel"
         ></textarea>
-        <nz-form-explain *ngIf="remark.invalid && (remark.dirty || remark.touched)">
-          请填写名称
-        </nz-form-explain>
       </nz-form-control>
     </nz-form-item>
   </form>

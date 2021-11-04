@@ -44,9 +44,10 @@
           <nz-upload
             nzAction=""
             [nzCustomRequest]="customReq"
-            [nzFileList]="fileList"
+            [(nzFileList)]="fileList"
+            [nzShowUploadList]="'true'"
             nzMultiple
-            [nzShowUploadList]="true"
+            [nzShowButton]="!isWatch"
             [nzFilter]="filters"
             (nzChange)="handleChange($event)"
             [nzPreview]="previewFile"
@@ -303,17 +304,6 @@
           rectifyProblemTypeId.invalid && (rectifyProblemTypeId.dirty || rectifyProblemTypeId.touched) ? 'error' : ''
         "
       >
-        <!-- <app-dict-select
-          required
-          [dictCode]="'PROBLEM_TYPE'"
-          nzAllowClear
-          [placeHolder]="'请选择问题类型'"
-          #problemType="ngModel"
-          name="problemType"
-          [(ngModel)]="paramsItem.type"
-          [disabled]="false"
-        >
-        </app-dict-select> -->
         <app-problem-type-select
           required
           nzAllowClear
@@ -369,6 +359,18 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
+      <nz-form-label [nzSpan]="3">审计意见</nz-form-label>
+      <nz-form-control [nzSpan]="19">
+        <textarea
+          [readOnly]="isWatch"
+          nz-input
+          name="paramsItem.opinion"
+          [(ngModel)]="paramsItem.opinion"
+          rows="6"
+        ></textarea>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
       <nz-form-label nzSpan="3">引用建议模版</nz-form-label>
       <nz-form-control nzSpan="8">
         <app-advice-template-select [(adviceTemplate)]="paramsItem.advice" [disabled]="isWatch">
@@ -383,18 +385,6 @@
           nz-input
           name="paramsItem.advice"
           [(ngModel)]="paramsItem.advice"
-          rows="6"
-        ></textarea>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="3">审计意见</nz-form-label>
-      <nz-form-control [nzSpan]="19">
-        <textarea
-          [readOnly]="isWatch"
-          nz-input
-          name="paramsItem.opinion"
-          [(ngModel)]="paramsItem.opinion"
           rows="6"
         ></textarea>
       </nz-form-control>
