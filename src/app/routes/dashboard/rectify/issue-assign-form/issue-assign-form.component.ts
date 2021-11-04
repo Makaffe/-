@@ -184,7 +184,7 @@ export class IssueAssignFormComponent implements OnInit {
       return;
     }
     this.loading = true;
-    this.rectifyProblemService.rectifyProblemSplit(this.problemItem, this.childrenProblemList).subscribe(
+    this.rectifyProblemService.rectifyProblemSplit(this.childrenProblemList).subscribe(
       () => {
         this.msg.success('问题拆分成功！');
         this.notification.emit();
