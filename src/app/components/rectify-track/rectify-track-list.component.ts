@@ -29,12 +29,6 @@ export class RectifyTrackListComponent implements OnInit {
   ) {}
 
   /**
-   * 表格title
-   */
-  @Input()
-  title = '';
-
-  /**
    * 表格高度
    */
   @Input()
@@ -46,20 +40,22 @@ export class RectifyTrackListComponent implements OnInit {
   listOfMapData = [];
   mapOfExpandedData: { [id: string]: any[] } = {};
 
-  @Output()
-  tableOperations = new EventEmitter<any>();
-
   /**
    * 搜索条件
    */
   @Input()
   filter = {
+    reportName: null,
     rectifyProblemName: null,
+    rectifyUnitId: null,
     rectifyDepartmentId: null,
-    sendStatus: null,
+    rectifyUserId: null,
+    sendStatus: [],
     transferStatus: null,
+    trackStatus: null,
     startTime: null,
     endTime: null,
+    dutyUserId: null,
   };
 
   /**
@@ -84,7 +80,7 @@ export class RectifyTrackListComponent implements OnInit {
   queryOptions: QueryOptions = {
     page: 0,
     size: 20,
-    sort: 'id,desc',
+    sort: 'sendStatus,asc',
   };
 
   /**
@@ -99,9 +95,6 @@ export class RectifyTrackListComponent implements OnInit {
 
   ngOnInit() {
     this.load();
-    this.listOfMapData.forEach(item => {
-      this.mapOfExpandedData[item.id] = this.convertTreeToList(item);
-    });
   }
 
   /**
@@ -111,14 +104,19 @@ export class RectifyTrackListComponent implements OnInit {
   load() {
     this.loading = true;
     this.rectifyProblemService
-      .findOnePageUsingGET(
+      .findOnePage2Track(
         this.queryOptions,
+        this.filter.reportName,
         this.filter.rectifyProblemName,
+        this.filter.rectifyUnitId,
         this.filter.rectifyDepartmentId,
-        this.filter.sendStatus ? this.filter.sendStatus : 'ISSUED',
+        this.filter.rectifyUserId,
+        this.filter.sendStatus.toLocaleString(),
         this.filter.transferStatus,
+        this.filter.trackStatus,
         this.filter.startTime,
         this.filter.endTime,
+        this.filter.dutyUserId,
       )
       .subscribe(
         data => {
@@ -142,6 +140,7 @@ export class RectifyTrackListComponent implements OnInit {
 
   /**
    * 每页条数改变的回调
+   * @param pageSize 每页显示条数
    */
   pageSizeChange(pageSize: number) {
     this.queryOptions.size = pageSize;
@@ -149,7 +148,8 @@ export class RectifyTrackListComponent implements OnInit {
   }
 
   /**
-   * 	页码改变的回调
+   * 页码改变的回调
+   * @param pageIndex 页码
    */
   pageIndexChange(pageIndex: number) {
     this.queryOptions.page = pageIndex - 1;
@@ -198,28 +198,21 @@ export class RectifyTrackListComponent implements OnInit {
     }
   }
 
-  checkTransferResult() {
-    this.router.navigate(['/audit-rectify/transfer-result']);
-  }
-  // 跳转工作台
-  goWorkBeach(id: string) {
+  /**
+   * 跳转到工作台
+   * @param id 整改跟踪问题id
+   */
+  goWorkBench(id: string) {
     this.router.navigate(['/audit-rectify/rectify-workbeach'], { queryParams: { rectifyProblemId: id } });
   }
 
   /**
    * 移交纪检
+   * @param item 整改跟踪数据
+   * @param readOnly 是否只读
    */
-  transfer(item: any, isLook: boolean) {
-    const arr = [];
-    arr.push(item);
-    if (isLook) {
-      this.rectifyIssueTransferComponent.isReadOnly = true;
-      this.rectifyIssueTransferComponent.createDate = false;
-    } else {
-      this.rectifyIssueTransferComponent.isReadOnly = false;
-      this.rectifyIssueTransferComponent.createDate = true;
-    }
-
-    this.rectifyIssueTransferComponent.edit(arr);
+  transfer(item: RectifyTrackDTO, readOnly: boolean) {
+    this.rectifyIssueTransferComponent.readOnly = readOnly;
+    this.rectifyIssueTransferComponent.edit([item]);
   }
 }

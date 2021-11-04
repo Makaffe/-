@@ -179,7 +179,7 @@ export class RectifyProblemSwitchComponent implements OnInit {
   load() {
     this.loading = true;
     this.rectifyProblemService
-      .findOnePageUsingGET(
+      .findOnePage2Track(
         this.queryOptions,
         this.params.rectifyProblemName,
         this.params.rectifyDepartmentId,
