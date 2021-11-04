@@ -14,6 +14,7 @@ import { AuditPostViewComponent } from 'src/app/components/audit-post/audit-post
 import { RectificationPostComponent } from 'src/app/components/audit-post/rectification-post.component';
 import { DepartmentDrawComponent } from 'src/app/components/department-draw/department-draw.component';
 import { OaTemplateViewComponent } from 'src/app/components/oa-template/oa-template-view.component';
+import { ProblemTypeViewComponent } from 'src/app/components/rectify-issue/problem-type/problem-type-view.component';
 import { RectifyIssueViewComponent } from 'src/app/components/rectify-issue/rectify-issue-view.component';
 import { RectifyPostViewComponent } from 'src/app/components/rectify-post/rectify-post-view.component';
 import { RectifyTrackViewComponent } from 'src/app/components/rectify-track/rectify-track-view.component';
@@ -51,6 +52,13 @@ const routes: Routes = [
     path: 'rectify-issue',
     component: RectifyIssueViewComponent,
     data: { title: '整改问题', reuse: true },
+  },
+  {
+    path: 'problem-type',
+    component: ProblemTypeViewComponent,
+    data: {
+      title: '问题类型管理',
+    },
   },
   {
     path: 'rectify-track',

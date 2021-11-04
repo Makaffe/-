@@ -119,9 +119,9 @@
 >
   <form nz-form #form="ngForm">
     <nz-form-item>
-      <nz-form-label nzSpan="4">模板类型</nz-form-label>
+      <nz-form-label nzSpan="4" nzRequired>模板类型</nz-form-label>
       <nz-form-control nzSpan="20"
-        ><input nz-input name="name" [(ngModel)]="proposalTemplateTypeDTO.name" />
+        ><input nz-input name="name" [(ngModel)]="proposalTemplateTypeDTO.name" required/>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>

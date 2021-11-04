@@ -20,6 +20,6 @@ export class ProblemTypeService {
    *
    */
   findAllUsingGET(): Observable<Array<ProblemTypeDTO>> {
-    return this.http.get<Array<ProblemTypeDTO>>(`${ProblemTypeService.URL}/all`);
+    return this.http.get<Array<ProblemTypeDTO>>(`${ProblemTypeService.URL}/findAll`);
   }
 }

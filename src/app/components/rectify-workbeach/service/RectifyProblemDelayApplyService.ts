@@ -1,15 +1,17 @@
+
 import { Injectable } from '@angular/core';
 import { _HttpClient } from '@delon/theme';
 import { Observable } from 'rxjs';
 import { RectifyProblemDelayApplyDTO } from '../model/RectifyProblemDelayApplyDTO.';
 import { RectifyProblemDelayApplyEditInfoDTO } from '../model/RectifyProblemDelayApplyEditInfoDTO';
-
 @Injectable({
   providedIn: 'root',
 })
 
 /**
- * 整改问题延期申请服务方法
+ * 整改问题延期申请 Service
+ * @Author chenzhongde
+ * @Date 2021/11/3
  */
 export class RectifyProblemDelayApplyService {
   /**

@@ -1,23 +1,19 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { NzMessageService, UploadFile, UploadFilter, UploadXHRArgs } from 'ng-zorro-antd';
-import { Observable, Observer } from 'rxjs';
-import { RectifyProblemDTO } from '../rectify-issue/model/rectify-problem-dto';
-import UUID from 'uuidjs';
-import { NgForm } from '@angular/forms';
-import { FormUtil, TreeUtil } from '@mt-framework-ng/util';
-import { AuditPostDTO } from './model/AuditPostDTO';
-import { OrganizationService, SystemFileService, UserDTO, UserService } from '@ng-mt-framework/api';
-import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import { AuditPostService } from './service/AuditPostService';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ReuseTabService } from '@delon/abc';
-import { Broadcaster } from 'src/app/matech/service/broadcaster';
+import { FormUtil, TreeUtil } from '@mt-framework-ng/util';
+import { SystemFileService } from '@ng-mt-framework/api';
+import { NzMessageService, NzTreeNode, UploadFile, UploadFilter, UploadXHRArgs } from 'ng-zorro-antd';
+import { Observable, Observer } from 'rxjs';
+import UUID from 'uuidjs';
 import { AttachListComponent } from '../common/attach/attach-list.component';
-import { DictSelectComponent } from '../common/dict-select/dict-select.component';
-import { AuditReportService } from './newservice/AuditReportService';
-import { AuditReportDTO } from './newmodel/AuditReportDTO';
+import { ProblemTypeService } from '../common/problem-type-select/ProblemTypeService.service';
+import { RectifyProblemDTO } from '../rectify-issue/model/rectify-problem-dto';
 import { AuditReportEditInfoDTO } from './newmodel/AuditReportEditInfoDTO';
 import { RectifyProblemEditInfoDTO } from './newmodel/RectifyProblemEditInfoDTO';
+import { AuditReportService } from './newservice/AuditReportService';
 @Component({
   selector: 'app-audit-post-detail',
   templateUrl: './audit-post-detail.component.html',
@@ -611,17 +607,14 @@ import { RectifyProblemEditInfoDTO } from './newmodel/RectifyProblemEditInfoDTO'
 // }
 export class AuditPostDetailComponent implements OnInit {
   constructor(
-    private broadcaster: Broadcaster,
     private msg: NzMessageService,
     private systemFileService: SystemFileService,
     private activatedRoute: ActivatedRoute,
     private datePipe: DatePipe,
-    private auditPostsService: AuditPostService,
     private auditReportService: AuditReportService,
     private reuseTabService: ReuseTabService,
     private router: Router,
-    private organizationService: OrganizationService,
-    private userService: UserService,
+    private problemTypeService: ProblemTypeService,
   ) {}
   @ViewChild('auditPostForm', { static: true })
   auditPostForm: NgForm;
@@ -725,6 +718,22 @@ export class AuditPostDetailComponent implements OnInit {
    *
    */
   auditReportType = '';
+
+  /**
+   * 问题类型树
+   */
+  problemTypeNodes = [];
+
+  /**
+   * 查看和编辑传递过来的id
+   */
+  postId: string;
+
+  /**
+   * 问题类型map
+   */
+  problemTypeMap: Map<string, string> = new Map<string, string>();
+
   /**
    *
    * @param item 审计报告函数
@@ -742,7 +751,7 @@ export class AuditPostDetailComponent implements OnInit {
       auditTarget: item ? item.auditTarget : null,
       auditReportType: this.auditReportType ? this.auditReportType : null,
       reportFileId: item ? item.reportFileId : null,
-      attachFileIds: item ? item.attachFileIds : null,
+      attachFileIds: item ? item.attachFileIds : [],
       reportFile: item ? item.reportFile : null,
       attachFiles: item ? item.attachFiles : [],
       rectifyProblems: item ? item.rectifyProblems : [],
@@ -945,7 +954,16 @@ export class AuditPostDetailComponent implements OnInit {
    *  添加问题
    */
   addProblem(): void {
+    if (this.fileList.length === 0) {
+      this.msg.warning('请先上传报告并读取');
+      return;
+    }
+    if (!FormUtil.validateForm(this.auditPostForm.form)) {
+      this.msg.warning(`请补全报告基本信息`);
+      return;
+    }
     this.paramsItem = this.initProblem();
+    this.paramsItem.source = this.currentItem.name;
     this.isVisabled = true;
     this.listOfData = [...this.listOfData];
   }
@@ -980,7 +998,7 @@ export class AuditPostDetailComponent implements OnInit {
       id: item ? item.name : null,
       name: item ? item.name : null,
       mainType: item ? item.mainType : null,
-      type: item ? item.type : null,
+      rectifyProblemTypeId: item ? item.rectifyProblemTypeId : null,
       money: item ? item.money : null,
       description: item ? item.description : null,
       opinion: item ? item.opinion : null,
@@ -989,11 +1007,17 @@ export class AuditPostDetailComponent implements OnInit {
       rectifyUnitId: item ? item.rectifyUnitId : null,
       dutyUserId: item ? item.dutyUserId : null,
       auditUserId: item ? item.auditUserId : null,
+      noRectifyStatus: false,
+      multipleYearRectify: false,
+      isTrunk: true,
+      // sendStatus: '未下发',
+      // trackStatus: '未整改',
+      oaSendCase: false,
+      transferCase: false,
       advice: item ? item.advice : null,
       source: item ? item.source : this.currentItem.name,
       uuid: item ? item.uuid : UUID.generate(),
-      sendStatus: 'NOT_ISSUED',
-      transferStatus: 'NOT_HANDED_OVER',
+      // transferStatus: '未移交',
     };
   }
 
@@ -1053,9 +1077,10 @@ export class AuditPostDetailComponent implements OnInit {
     console.log('done');
     if (!this.currentItem.id) {
       this.currentItem.auditReportStatus = 'NO_GENERATED';
-    }
-    if (!this.currentItem.id) {
       this.currentItem.rectifyProblems = this.listOfData;
+      for (const file of this.currentItem.attachFiles) {
+        this.currentItem.attachFileIds.push(file.id);
+      }
       this.auditReportService.create(this.currentItem).subscribe({
         next: data => {
           // this.updateCurrentItem(data);
@@ -1068,11 +1093,83 @@ export class AuditPostDetailComponent implements OnInit {
     }
   }
 
+  /**
+   * 获取选中的问题类型
+   * @param treeNode treeNode
+   */
+  getProblemType(treeNode: NzTreeNode) {
+    console.log(treeNode);
+    if (treeNode.origin.parent && treeNode.origin.parent != null) {
+      this.paramsItem.mainType = treeNode.origin.parent.id;
+      this.paramsItem.rectifyProblemTypeId = treeNode.origin.id;
+    } else {
+      this.paramsItem.mainType = treeNode.origin.id;
+      this.paramsItem.rectifyProblemTypeId = treeNode.origin.id;
+    }
+  }
+
+  /**
+   * 获取问题树
+   */
+  loadProblemTypeTree() {
+    this.problemTypeService.findAllUsingGET().subscribe(data => {
+      if (data) {
+        this.problemTypeMap.clear();
+        this.problemTypeNodes = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
+        this.recursionpPoblemTypeTree(data);
+      }
+    });
+  }
+
+  /**
+   * 递归problemTypeTree设置problemTypeMap用于方便回显
+   * @param problemTypeTree 问题类型树
+   */
+  recursionpPoblemTypeTree(problemTypeTree: Array<any>) {
+    problemTypeTree.forEach(problemType => {
+      this.problemTypeMap.set(problemType.id, problemType.name);
+      if (problemType.children && problemType.children.length > 0) {
+        this.recursionpPoblemTypeTree(problemType.children);
+      }
+    });
+  }
+
+  /**
+   * 问题类型回显
+   * @param id 问题类型id
+   * @returns 问题类型name
+   */
+  convertProblemType(id: string) {
+    if (id) {
+      return this.problemTypeMap.get(id);
+    }
+  }
+
+  read() {
+    this.auditReportService.findById(this.postId).subscribe(data => {
+      this.currentItem = data;
+      this.dateRange = [new Date(data.auditStartTime), new Date(data.auditEndTime)];
+      this.listOfData = data.rectifyProblems;
+      this.fileList[0] = data.reportFile;
+      // tslint:disable-next-line:semicolon
+    });
+
+    this.show = true;
+  }
+
   ngOnInit(): void {
+    this.loadProblemTypeTree();
     this.activatedRoute.queryParams.subscribe(data => {
       this.isWatch = data.isWatch === 'true';
       this.auditReportType = data.postTypeId;
+      this.postId = data.postId;
     });
-    this.currentItem = this.initAuditReport();
+
+    if (this.postId) {
+      this.read();
+    } else {
+      this.currentItem = this.initAuditReport();
+    }
+    // this.currentItem = this.initAuditReport();
   }
 }

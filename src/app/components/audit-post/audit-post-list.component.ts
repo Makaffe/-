@@ -29,35 +29,7 @@ export class AuditPostListComponent implements OnInit {
   /**
    * 列表数据
    */
-  tableData: Array<any> = [
-    {
-      auditReportStatus: 'GENERATED',
-      type: '内审报告',
-      name: '审计报告',
-      auditName: '审计单位',
-      auditStartTime: '2021-10-26',
-      auditEndTime: '2021-10-27',
-      probkemAmount: 10,
-    },
-    {
-      auditReportStatus: 'NO_GENERATED',
-      type: '迎审报告',
-      name: '审计报告',
-      auditName: '审计单位',
-      auditStartTime: '2021-10-26',
-      auditEndTime: '2021-10-27',
-      probkemAmount: 10,
-    },
-    {
-      auditReportStatus: 'GENERATING',
-      type: '外聘报告',
-      name: '审计报告',
-      auditName: '审计单位',
-      auditStartTime: '2021-10-26',
-      auditEndTime: '2021-10-27',
-      probkemAmount: 10,
-    },
-  ];
+  tableData: Array<any> = [];
 
   /**
    * 列表参数
@@ -80,7 +52,7 @@ export class AuditPostListComponent implements OnInit {
     },
     {
       title: '审计报告来源',
-      index: 'auditReportSource',
+      render: 'auditReportType',
       width: '40px',
       sort: this.tableParameter.sortDef,
       className: 'text-center',
@@ -117,8 +89,7 @@ export class AuditPostListComponent implements OnInit {
     },
     {
       title: '审计问题数',
-      render: 'probkemAmount',
-      index: 'probkemAmount',
+      index: 'problemCount',
       width: '40px',
       sort: this.tableParameter.sortDef,
       className: 'text-left',
@@ -154,15 +125,10 @@ export class AuditPostListComponent implements OnInit {
     typeId: null,
   };
 
-  constructor(
-    private router: Router,
-    private auditPostService: AuditPostService,
-    private auditReportService: AuditReportService,
-    private msg: NzMessageService,
-  ) {}
+  constructor(private router: Router, private auditReportService: AuditReportService, private msg: NzMessageService) {}
 
   ngOnInit() {
-    // this.load();
+    this.load();
   }
 
   /**
@@ -170,6 +136,7 @@ export class AuditPostListComponent implements OnInit {
    */
   load(): void {
     this.loading = true;
+    console.log(this.filterParams);
     this.auditReportService
       .findOnePage(
         this.queryOptions,

@@ -30,6 +30,7 @@ export const I18N_DATA = {
   'menu.menu.management': '菜单管理',
   'menu.syncad.unit-dept-emp': '同步单位部门员工',
   'menu.syncad.out-emp': '同步离职退休员工',
+  'menu.menu.problemType': '问题类型管理',
 
   // --------------------自定义名称-------------------
   'custom.department': '部门', // 自定义部门名称，根据各系统需求自定义名称

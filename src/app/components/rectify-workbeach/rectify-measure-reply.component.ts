@@ -1,7 +1,6 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd';
-import { RectifyProblemService } from '../rectify-issue/service/RectifyProblemService';
-import { RectifyMeasureReplyEditInfoDTO } from './model/RectifyMeasureReplyEditInfoDTO';
+import { RectifyMeasureReplyDTO } from './model/RectifyMeasureReplyDTO';
 import { RectifyMeasureReplyService } from './service/RectifyMeasureReplyService';
 import { RectifyMeasureService } from './service/RectifyMeasureService';
 
@@ -41,31 +40,31 @@ export class RectifyMeasureReplyComponent implements OnInit {
 
   // 保存措施回复
   save() {
-    this.handleCancel();
-    this.rectifyMeasureReplyService.add(this.rectifyMeasureReply).subscribe(
-      data => {
-        this.msg.success('保存成功！');
-        this.handleCancel();
-        this.changeReadStatus();
-      },
-      () => {},
-      () => {},
-    );
+    // this.handleCancel();
+    // this.rectifyMeasureReplyService.add(this.rectifyMeasureReply).subscribe(
+    //   data => {
+    //     this.msg.success('保存成功！');
+    //     this.handleCancel();
+    //     this.changeReadStatus();
+    //   },
+    //   () => {},
+    //   () => {},
+    // );
   }
 
   // 改变阅读状态
   changeReadStatus() {
-    this.rectifyMeasureService.changeReadStatus(this.rectifyMeasureReply.rectifyMeasureId).subscribe(
-      data => {
-        this.handleCancel();
-        this.saveRectifyMeasureReply.emit();
-      },
-      () => {},
-      () => {},
-    );
+    // this.rectifyMeasureService.changeReadStatus(this.rectifyMeasureReply.rectifyMeasureId).subscribe(
+    //   data => {
+    //     this.handleCancel();
+    //     this.saveRectifyMeasureReply.emit();
+    //   },
+    //   () => {},
+    //   () => {},
+    // );
   }
 
-  initParams(): RectifyMeasureReplyEditInfoDTO {
+  initParams(): RectifyMeasureReplyDTO {
     return {
       replyContent: null,
       rectifyMeasureId: null,

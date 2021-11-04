@@ -8,3 +8,6 @@ export * from './rectify-issue-transfer.component';
 export * from './audit-post-watch.component';
 export * from './service/RectifyProblemService';
 export * from './model/rectify-problem-dto';
+export * from './problem-type/problem-type-view.component';
+export * from './model/RectifyProblemTypeDTO';
+export * from './model/RectifyProblemTypeEditInfoDTO';

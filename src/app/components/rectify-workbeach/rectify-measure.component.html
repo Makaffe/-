@@ -1,21 +1,35 @@
-<nz-modal [(nzVisible)]="isVisible&&!isFile" [nzMaskClosable]="false" (nzOnCancel)="handleCancel()"
-  [nzFooter]="formFooter0" nzWidth="1050" [nzTitle]="'整改措施详情'" [nzStyle]="{ top: '65px' }" [nzBodyStyle]="{
+<nz-modal
+  [(nzVisible)]="isVisible && !isFile"
+  [nzMaskClosable]="false"
+  (nzOnCancel)="handleCancel()"
+  [nzFooter]="formFooter0"
+  nzWidth="1050"
+  [nzTitle]="'整改措施详情'"
+  [nzStyle]="{ top: '65px' }"
+  [nzBodyStyle]="{
     'max-height': '455px',
     'min-height': '250px',
     'overflow-y': 'auto',
     'overflow-x': 'hidden',
     padding: '24px 24px 0 24px'
-  }">
-
-
+  }"
+>
   <form #formInfo="ngForm" nz-form>
-
     <nz-form-item>
       <nz-form-label [nzSpan]="4" nzRequired>整改措施</nz-form-label>
-      <nz-form-control [nzSpan]="20"
-        [nzValidateStatus]="measureContent.invalid && (measureContent.dirty || measureContent.touched) ? 'error' : ''">
-        <textarea rows="3" nz-input name="measureContent" [(ngModel)]="rectifyMeasure.measureContent"
-          #measureContent="ngModel" [readOnly]="isWatch" required></textarea>
+      <nz-form-control
+        [nzSpan]="20"
+        [nzValidateStatus]="measureContent.invalid && (measureContent.dirty || measureContent.touched) ? 'error' : ''"
+      >
+        <textarea
+          rows="3"
+          nz-input
+          name="measureContent"
+          [(ngModel)]="rectifyMeasure.measureContent"
+          #measureContent="ngModel"
+          [readOnly]="isWatch"
+          required
+        ></textarea>
         <nz-form-explain *ngIf="measureContent.invalid && (measureContent.dirty || measureContent.touched)">
           请填写整改措施
         </nz-form-explain>
@@ -24,10 +38,19 @@
 
     <nz-form-item>
       <nz-form-label [nzSpan]="4" nzRequired>措施类型</nz-form-label>
-      <nz-form-control [nzSpan]="8"
-        [nzValidateStatus]="measureType.invalid && (measureType.dirty || measureType.touched) ? 'error' : ''">
-        <nz-select name="measureType" [(ngModel)]="rectifyMeasure.measureType" #measureType="ngModel" nzShowSearch
-          nzAllowClear [nzDisabled]="isWatch" required>
+      <nz-form-control
+        [nzSpan]="8"
+        [nzValidateStatus]="measureType.invalid && (measureType.dirty || measureType.touched) ? 'error' : ''"
+      >
+        <nz-select
+          name="measureType"
+          [(ngModel)]="rectifyMeasure.measureType"
+          #measureType="ngModel"
+          nzShowSearch
+          nzAllowClear
+          [nzDisabled]="isWatch"
+          required
+        >
           <nz-option *ngFor="let measureType of measureTypes" [nzLabel]="measureType.name" [nzValue]="measureType.id">
           </nz-option>
         </nz-select>
@@ -37,12 +60,23 @@
       </nz-form-control>
 
       <nz-form-label [nzSpan]="4" nzRequired>拟整改时间</nz-form-label>
-      <nz-form-control [nzSpan]="8"
-        [nzValidateStatus]="rectifyCompleteTime.invalid && (rectifyCompleteTime.dirty || rectifyCompleteTime.touched) ? 'error' : ''">
-        <nz-range-picker name="rectifyCompleteTime" [(ngModel)]="date" (ngModelChange)="onChangeRectifyEndTime($event)"
-          #rectifyCompleteTime="ngModel" [nzDisabled]="isWatch" required></nz-range-picker>
+      <nz-form-control
+        [nzSpan]="8"
+        [nzValidateStatus]="
+          rectifyCompleteTime.invalid && (rectifyCompleteTime.dirty || rectifyCompleteTime.touched) ? 'error' : ''
+        "
+      >
+        <nz-range-picker
+          name="rectifyCompleteTime"
+          [(ngModel)]="date"
+          (ngModelChange)="onChangeRectifyEndTime($event)"
+          #rectifyCompleteTime="ngModel"
+          [nzDisabled]="isWatch"
+          required
+        ></nz-range-picker>
         <nz-form-explain
-          *ngIf="rectifyCompleteTime.invalid && (rectifyCompleteTime.dirty || rectifyCompleteTime.touched)">
+          *ngIf="rectifyCompleteTime.invalid && (rectifyCompleteTime.dirty || rectifyCompleteTime.touched)"
+        >
           请选择拟整改时间
         </nz-form-explain>
       </nz-form-control>
@@ -51,13 +85,9 @@
     <nz-form-item>
       <nz-form-label [nzSpan]="4">相关附件</nz-form-label>
       <nz-form-control [nzSpan]="20" style="margin: 0px 0 5px 0">
-        <app-attach-list [show]="!isWatch" [(attachFiles)]="rectifyMeasure.systemFiles" #attachListComponent
-          [fileType]="'RECTIFY_MEASURE_FILE'">
-        </app-attach-list>
+        <app-attach-list [show]="!isWatch" #attachListComponent [fileType]="'RECTIFY_MEASURE_FILE'"> </app-attach-list>
       </nz-form-control>
-
     </nz-form-item>
-
   </form>
 
   <ng-template #formFooter0>
@@ -68,17 +98,23 @@
   </ng-template>
 </nz-modal>
 
-<nz-modal [(nzVisible)]="isVisible && isFile" [nzMaskClosable]="false" (nzOnCancel)="handleCancel()"
-  [nzFooter]="formFooter1" nzWidth="1050" [nzTitle]="'附件详情'" [nzStyle]="{ top: '65px' }" [nzBodyStyle]="{
+<nz-modal
+  [(nzVisible)]="isVisible && isFile"
+  [nzMaskClosable]="false"
+  (nzOnCancel)="handleCancel()"
+  [nzFooter]="formFooter1"
+  nzWidth="1050"
+  [nzTitle]="'附件详情'"
+  [nzStyle]="{ top: '65px' }"
+  [nzBodyStyle]="{
     'max-height': '455px',
     'min-height': '250px',
     'overflow-y': 'auto',
     'overflow-x': 'hidden',
     padding: '24px 24px 0 24px'
-  }">
-  <app-attach-list [show]="!isWatch" [(attachFiles)]="rectifyMeasure.systemFiles" #attachListComponent
-    [fileType]="'RECTIFY_MEASURE_FILE'">
-  </app-attach-list>
+  }"
+>
+  <app-attach-list [show]="!isWatch" #attachListComponent [fileType]="'RECTIFY_MEASURE_FILE'"> </app-attach-list>
   <ng-template #formFooter1>
     <button nz-button nzType="default" (click)="handleCancel()">取消</button>
     <button nz-button nzType="primary" (click)="save()" *ngIf="!isWatch">

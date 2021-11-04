@@ -3,16 +3,13 @@ import { Component, Inject, Input, LOCALE_ID, OnInit, ViewChild } from '@angular
 import { ActivatedRoute, Router } from '@angular/router';
 import { CacheService } from '@delon/cache';
 import { QueryOptions } from '@mt-framework-ng/core';
-import { queryParam } from '@mt-insight-ng/insight';
 import { OrganizationService, SystemFileService } from '@ng-mt-framework/api';
-import { TreeUtil } from '@ng-mt-framework/comp';
 import { NzMessageService } from 'ng-zorro-antd';
 import { RectifyIssueTransferComponent } from '../rectify-issue/rectify-issue-transfer.component';
 import { RectifyProblemService } from '../rectify-issue/service/RectifyProblemService';
 import { RectifyTrackDTO } from '../rectify-track/model/RectifyTrackDTO';
 import { ChangeMsOrRp } from './model/ChangeMsOrRp';
 import { RectifyMeasureDTO } from './model/RectifyMeasureDTO';
-import { RectifyMeasureEditInfoDTO } from './model/RectifyMeasureEditInfoDTO';
 import { RectifyDiaryComponent } from './rectify-diary.component';
 import { RectifyEffectComponent } from './rectify-effect.component';
 import { RectifyFeedbackRemindComponent } from './rectify-feedback-remind.component';
@@ -422,17 +419,17 @@ export class RectifyWorkbeachViewComponent implements OnInit {
 
   // 删除
   delete(rectifyMeasureDTO: RectifyMeasureDTO) {
-    rectifyMeasureDTO.systemFiles.forEach(systemFile => {
-      this.systemFileService.deleteFileById(systemFile.id).subscribe();
-    });
-    this.rectifyMeasureService.delete(rectifyMeasureDTO.id).subscribe(data => {
-      this.msg.success('删除整改措施数据成功！');
-      this.loadData();
-    });
+    // rectifyMeasureDTO.systemFiles.forEach(systemFile => {
+    //   this.systemFileService.deleteFileById(systemFile.id).subscribe();
+    // });
+    // this.rectifyMeasureService.delete(rectifyMeasureDTO.id).subscribe(data => {
+    //   this.msg.success('删除整改措施数据成功！');
+    //   this.loadData();
+    // });
   }
 
   // 更新或新增
-  update(item?: RectifyMeasureEditInfoDTO, isFile?: boolean, lookFile?: boolean) {
+  update(item?: RectifyMeasureDTO, isFile?: boolean, lookFile?: boolean) {
     if (isFile) {
       this.rectifyMeasureComponent.isFile = true;
       this.rectifyMeasureComponent.isWatch = lookFile;
@@ -446,7 +443,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   create() {}
 
   // 查看
-  watch(item: RectifyMeasureEditInfoDTO) {
+  watch(item: RectifyMeasureDTO) {
     this.rectifyMeasureComponent.isWatch = true;
     this.rectifyMeasureComponent.isFile = false;
     this.rectifyMeasureComponent.edit(item);
@@ -460,14 +457,14 @@ export class RectifyWorkbeachViewComponent implements OnInit {
 
   // 修改阅读状态
   changeReadStates(data: any) {
-    if (data.notReadNum !== 0) {
-      this.rectifyMeasureService.changeReadStatus(data.id).subscribe(
-        () => {},
-        () => {},
-        () => {},
-      );
-      data.notReadNum = 0;
-    }
+    // if (data.notReadNum !== 0) {
+    //   this.rectifyMeasureService.changeReadStatus(data.id).subscribe(
+    //     () => {},
+    //     () => {},
+    //     () => {},
+    //   );
+    //   data.notReadNum = 0;
+    // }
   }
 
   // 初始化整改跟踪
@@ -503,13 +500,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   transfer(turnOver: boolean) {
     const arr = [];
     arr.push(this.rectifyTrack);
-    if (turnOver) {
-      this.rectifyIssueTransferComponent.isReadOnly = true;
-      this.rectifyIssueTransferComponent.createDate = false;
-    } else {
-      this.rectifyIssueTransferComponent.isReadOnly = false;
-      this.rectifyIssueTransferComponent.createDate = true;
-    }
+    this.rectifyIssueTransferComponent.readOnly = turnOver;
     this.rectifyIssueTransferComponent.edit(arr);
   }
 
@@ -590,7 +581,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   lookFile(systemFiles: any) {
     this.rectifyMeasureComponent.isWatch = true;
     this.rectifyMeasureComponent.isFile = true;
-    this.rectifyMeasureComponent.rectifyMeasure.systemFiles = systemFiles;
+    // this.rectifyMeasureComponent.rectifyMeasure.systemFiles = systemFiles;
     this.rectifyMeasureComponent.isVisible = true;
   }
 

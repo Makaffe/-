@@ -44,7 +44,7 @@ export interface AuditReportDTO {
   auditReportStatus: string;
 
   /**
-   * 被审对象: 审计报告中时文本描述，到具体问题清单中进行单位部门关联
+   * 被审对象?: 审计报告中时文本描述，到具体问题清单中进行单位部门关联
    */
   auditTarget: string;
 
@@ -81,12 +81,23 @@ export interface AuditReportDTO {
   /**
    * 关联的报告附件信息
    */
-  reportFile?: SystemFileDTO;
+  reportFile: SystemFileDTO;
 
   /**
    * 关联的附件信息
    */
-  attachFiles?: Array<SystemFileDTO>;
+  attachFiles: Array<SystemFileDTO>;
 
-  rectifyProblems?: RectifyProblemDTO[];
+  rectifyProblems: RectifyProblemDTO[];
+
+  /**
+   * reportFileId, attachFileIds
+   * 关联报告的ID
+   */
+  reportFileId: string;
+
+  /**
+   * 关联附件的id
+   */
+  attachFileIds: Array<string>;
 }

@@ -95,6 +95,10 @@ export class AdviceTemplateViewComponent implements OnInit {
    * 新增建议模板类型
    */
   add() {
+    if (!this.proposalTemplateTypeDTO.name) {
+      this.msg.warning('请填写模板类型名称！');
+      return;
+    }
     this.loading = true;
     if (this.proposalTemplateTypeDTO.id) {
       this.proposalTemplateTypeDTO.parentId = this.proposalTemplateTypeDTO.parent ? this.proposalTemplateTypeDTO.parent.id : null;

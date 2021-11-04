@@ -53,7 +53,7 @@
             <div nzSpan="9" nz-col *ngIf="isRectify" style="margin-left: 14px;">
               <div style="position: absolute;right: 0px;">
                 &nbsp;
-                <button
+                <!-- <button
                   nz-button
                   nzType="danger"
                   nzDanger
@@ -61,7 +61,7 @@
                   *ngIf="'未移交' === rectifyTrack.transferStatus && !isWatch"
                 >
                   移交纪检
-                </button>
+                </button> -->
                 <button
                   nz-button
                   nzType="danger"
@@ -85,7 +85,7 @@
                   催办通知
                 </button>
                 <button nz-button nzType="primary" (click)="goRectifyEffect()">整改成效</button>
-                <!-- <button
+                <button
                   nz-button
                   nzType="danger"
                   nzDanger
@@ -93,7 +93,7 @@
                   *ngIf="'未移交' === rectifyTrack.transferStatus && !isWatch"
                 >
                   移交纪检
-                </button> -->
+                </button>
                 <button
                   nz-button
                   nzType="danger"
@@ -422,13 +422,18 @@
                 <tbody>
                   <ng-template ngFor let-data [ngForOf]="nzTable.data">
                     <tr>
-                      <td nzWidth="80px" nzShowExpand [(nzExpand)]="mapOfExpandData[data.id]"
-                        (nzExpandChange)="changeReadStates(data)" nzLeft="0px">
+                      <td
+                        nzWidth="80px"
+                        nzShowExpand
+                        [(nzExpand)]="mapOfExpandData[data.id]"
+                        (nzExpandChange)="changeReadStates(data)"
+                        nzLeft="0px"
+                      >
                         <nz-badge [nzCount]="data.notReadNum" *ngIf="data.notReadNum !== 0">
                           <font style="color:white;">''</font>
                         </nz-badge>
                       </td>
-                      <td nzWidth="90px" [nzAlign]="'center'"  nzLeft="80px">
+                      <td nzWidth="90px" [nzAlign]="'center'" nzLeft="80px">
                         <nz-tag [nzColor]="'#2db7f5'" *ngIf="data.measureStatus === 'RECTIFY_CENTRE'">整改中</nz-tag>
                         <nz-tag [nzColor]="'#87d068'" *ngIf="data.measureStatus === 'COMPLETED'">已完成</nz-tag>
                         <nz-tag [nzColor]="'#FF4500'" *ngIf="data.measureStatus === 'OVERDUE'">已逾期</nz-tag>

@@ -1,12 +1,9 @@
-import { NgModule, Component } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import {
-  DictionaryViewComponent,
-  MenuViewComponent,
-  DistrictViewComponent,
-  ConfigurationViewComponent,
-} from '@ng-mt-framework/comp';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import { ACLGuard } from '@delon/acl';
+import {
+  ConfigurationViewComponent, DictionaryViewComponent, DistrictViewComponent, MenuViewComponent
+} from '@ng-mt-framework/comp';
 const routes: Routes = [
   {
     path: 'dictionaries',
