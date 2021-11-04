@@ -11,9 +11,9 @@ import UUID from 'uuidjs';
 import { AttachListComponent } from '../common/attach/attach-list.component';
 import { ProblemTypeService } from '../common/problem-type-select/ProblemTypeService.service';
 import { RectifyProblemDTO } from '../rectify-issue/model/rectify-problem-dto';
-import { AuditReportEditInfoDTO } from './newmodel/AuditReportEditInfoDTO';
-import { RectifyProblemEditInfoDTO } from './newmodel/RectifyProblemEditInfoDTO';
-import { AuditReportService } from './newservice/AuditReportService';
+import { AuditReportEditInfoDTO } from './model/AuditReportEditInfoDTO';
+import { RectifyProblemEditInfoDTO } from './model/RectifyProblemEditInfoDTO';
+import { AuditReportService } from './service/AuditReportService';
 @Component({
   selector: 'app-audit-post-detail',
   templateUrl: './audit-post-detail.component.html',
@@ -751,7 +751,7 @@ export class AuditPostDetailComponent implements OnInit {
       auditTarget: item ? item.auditTarget : null,
       auditReportType: this.auditReportType ? this.auditReportType : null,
       reportFileId: item ? item.reportFileId : null,
-      attachFileIds: item ? item.attachFileIds : null,
+      attachFileIds: item ? item.attachFileIds : [],
       reportFile: item ? item.reportFile : null,
       attachFiles: item ? item.attachFiles : [],
       rectifyProblems: item ? item.rectifyProblems : [],
@@ -1078,6 +1078,9 @@ export class AuditPostDetailComponent implements OnInit {
     if (!this.currentItem.id) {
       this.currentItem.auditReportStatus = 'NO_GENERATED';
       this.currentItem.rectifyProblems = this.listOfData;
+      for (const file of this.currentItem.attachFiles) {
+        this.currentItem.attachFileIds.push(file.id);
+      }
       this.auditReportService.create(this.currentItem).subscribe({
         next: data => {
           // this.updateCurrentItem(data);
@@ -1147,6 +1150,7 @@ export class AuditPostDetailComponent implements OnInit {
       this.currentItem = data;
       this.dateRange = [new Date(data.auditStartTime), new Date(data.auditEndTime)];
       this.listOfData = data.rectifyProblems;
+      this.fileList[0] = data.reportFile;
       // tslint:disable-next-line:semicolon
     });
 
@@ -1166,6 +1170,6 @@ export class AuditPostDetailComponent implements OnInit {
     } else {
       this.currentItem = this.initAuditReport();
     }
-    this.currentItem = this.initAuditReport();
+    // this.currentItem = this.initAuditReport();
   }
 }
