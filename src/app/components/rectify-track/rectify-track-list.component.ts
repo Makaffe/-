@@ -7,6 +7,7 @@ import { ObjectUtil } from '@ng-mt-framework/util';
 import { NzMessageService } from 'ng-zorro-antd';
 import { RectifyIssueTransferComponent } from '../rectify-issue/rectify-issue-transfer.component';
 import { RectifyProblemService } from '../rectify-issue/service/RectifyProblemService';
+import { TransferInfoService } from '../rectify-issue/service/TransferInfoService';
 import { RectifyTrackDTO } from './model/RectifyTrackDTO';
 
 @Component({
@@ -25,7 +26,7 @@ export class RectifyTrackListComponent implements OnInit {
     private router: Router,
     private msg: NzMessageService,
     private rectifyProblemService: RectifyProblemService,
-    private organizationService: OrganizationService,
+    private transferInfoService: TransferInfoService,
   ) {}
 
   /**
@@ -212,7 +213,16 @@ export class RectifyTrackListComponent implements OnInit {
    * @param readOnly 是否只读
    */
   transfer(item: RectifyTrackDTO, readOnly: boolean) {
-    this.rectifyIssueTransferComponent.readOnly = readOnly;
-    this.rectifyIssueTransferComponent.edit([item]);
+    if (readOnly) {
+      this.transferInfoService.findByRectifyProblemId(item.id).subscribe(data => {
+        this.rectifyIssueTransferComponent.currentItem = this.rectifyIssueTransferComponent.initItem(data);
+        this.rectifyIssueTransferComponent.readOnly = readOnly;
+        this.rectifyIssueTransferComponent.edit([item]);
+      });
+    } else {
+      this.rectifyIssueTransferComponent.currentItem = this.rectifyIssueTransferComponent.initItem(null);
+      this.rectifyIssueTransferComponent.readOnly = readOnly;
+      this.rectifyIssueTransferComponent.edit([item]);
+    }
   }
 }
