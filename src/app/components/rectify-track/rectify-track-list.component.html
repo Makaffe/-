@@ -15,18 +15,17 @@
   [nzFrontPagination]="false"
   [nzPageSizeOptions]="[20, 35, 50, 100]"
   nzBordered="true"
-  [nzTitle]="title"
   [ngStyle]="{ height: tableHeight }"
 >
   <ng-template #totalTemplate let-total> 共 {{ pageInfo.totalRecords }} 条 </ng-template>
   <thead>
     <tr>
       <th nzWidth="100px" nzLeft="0px" nzAlign="center">序号</th>
-      <th nzWidth="150px">整改部门已读时间</th>
-      <th nzWidth="150px">纪检部门已读时间</th>
+      <th nzWidth="150px">整改部门阅读时间</th>
+      <th nzWidth="150px">纪检部门阅读时间</th>
       <th nzWidth="100px" nzAlign="center">下发状态</th>
       <th nzWidth="100px" nzAlign="center">移交状态</th>
-      <th nzWidth="150px">审计报告名称</th>
+      <th nzWidth="200px">审计报告名称</th>
       <th nzWidth="200px">问题名称</th>
       <th nzWidth="150px">问题类型</th>
       <th nzWidth="150px" nzAlign="right">涉及金额(元)</th>
@@ -35,7 +34,7 @@
       <th nzWidth="150px">整改负责人</th>
       <th nzWidth="150px">整改跟踪负责人</th>
       <th nzWidth="150px" nzAlign="right">已完成整改措施数</th>
-      <th nzWidth="150px">整改截止时间</th>
+      <th nzWidth="150px">整改拟开始时间</th>
       <th nzWidth="150px">整改拟完成时间</th>
       <th nzWidth="150px">最近一次反馈时间</th>
       <th nzWidth="150px">下一次反馈时间</th>
@@ -43,8 +42,8 @@
     </tr>
   </thead>
   <tbody>
-    <ng-container *ngFor="let data of expandTable.data; let i = index">
-      <ng-container *ngFor="let item of mapOfExpandedData[data.id]; let ci = index">
+    <ng-container *ngFor="let data of expandTable.data; let firstIndex = index">
+      <ng-container *ngFor="let item of mapOfExpandedData[data.id]; let secondIndex = index">
         <tr *ngIf="(item.parent && item.parent.expand) || !item.parent">
           <td
             [nzIndentSize]="item.level * 20"
@@ -54,13 +53,13 @@
             *ngIf="item.level === 0"
             nzLeft="0px"
           >
-            {{ item.level === 0 ? i + 1 : i + 1 + '-' + ci }}
+            {{ firstIndex + 1 }}
           </td>
           <td [nzIndentSize]="item.level * 20" *ngIf="item.level === 1" nzLeft="0px">
-            {{ item.level === 0 ? i + 1 : i + 1 + '-' + ci }}
+            {{ firstIndex + 1 + '-' + secondIndex }}
           </td>
-          <td nzAlign="center">{{ item.rectifyDepartmentAlread }}</td>
-          <td nzAlign="center">{{ item.superviseDepartmentAlread }}</td>
+          <td nzAlign="center">{{ item.rectifyDepartmentReadTime | date: 'yyyy-MM-dd' }}</td>
+          <td nzAlign="center">{{ item.disciplineInspectionReadTime | date: 'yyyy-MM-dd' }}</td>
           <td nzAlign="center">
             <nz-tag *ngIf="item.sendStatus === '未下发'" [nzColor]="'#A4A4A4'">未下发</nz-tag>
             <nz-tag *ngIf="item.sendStatus === '下发中'" [nzColor]="'#FFBF00'">下发中</nz-tag>
@@ -71,23 +70,23 @@
             <nz-tag *ngIf="item.transferStatus === '移交中'" [nzColor]="'#FFBF00'">移交中</nz-tag>
             <nz-tag *ngIf="item.transferStatus === '已移交'" [nzColor]="'#04B404'">已移交</nz-tag>
           </td>
-          <td>{{ item?.auditPost?.name }}</td>
-          <td>{{ item.name }}</td>
-          <td>{{ item.type | dictTransform: 'PROBLEM_TYPE' | async }}</td>
-          <td nzAlign="right">{{ 123 | currency: 'CNY':'symbol-narrow' }}</td>
+          <td>{{ item?.auditReport?.name }}</td>
+          <td>{{ item?.name }}</td>
+          <td>{{ item?.rectifyProblemType?.name }}</td>
+          <td nzAlign="right">{{ item?.money | currency: 'CNY':'symbol-narrow' }}</td>
           <td>
-            <nz-progress [nzPercent]="item.rectifyPassPercent"></nz-progress>
+            <nz-progress [nzPercent]="item.rectifyProgress"></nz-progress>
           </td>
-          <td>整改对象</td>
+          <td>{{ item?.rectifyUnit?.name }}</td>
           <td>{{ item?.dutyUser?.name }}</td>
-          <td>整改跟踪负责人</td>
-          <td nzAlign="right">{{ item.rectifyCount }}</td>
-          <td nzAlign="center">{{ item.rectifyEndTime }}</td>
-          <td nzAlign="center">{{ item.lastModifiedTime }}</td>
-          <td nzAlign="center">{{ item.latelyFeedbackTime }}</td>
-          <td nzAlign="center">{{ item.nextFeedbackTime }}</td>
+          <td>{{ item?.auditUser?.name }}</td>
+          <td nzAlign="right">{{ item?.rectifyCount }}</td>
+          <td>{{ item?.rectifyStartTime | date: 'yyyy-MM-dd' }}</td>
+          <td>{{ item?.rectifyEndTime | date: 'yyyy-MM-dd' }}</td>
+          <td>{{ item?.latelyFeedbackTime | date: 'yyyy-MM-dd' }}</td>
+          <td>{{ item?.nextFeedbackTime | date: 'yyyy-MM-dd' }}</td>
           <td nzRight="0px">
-            <button nz-button nzType="link" (click)="goWorkBeach(item.id)" style="padding: 0;">进入工作台</button>
+            <button nz-button nzType="link" (click)="goWorkBench(item.id)" style="padding: 0;">进入工作台</button>
             <nz-divider nzType="vertical"></nz-divider>
             <button
               nz-button
@@ -115,4 +114,4 @@
 </nz-table>
 
 <!-- 移交纪检 -->
-<app-rectify-issue-transfer #rectifyIssueTransferComponent></app-rectify-issue-transfer>
+<app-rectify-issue-transfer #rectifyIssueTransferComponent (notification)="load()"></app-rectify-issue-transfer>

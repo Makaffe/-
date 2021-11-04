@@ -1,6 +1,5 @@
 import { SystemFileDTO } from '@mt-framework-ng/core';
 import { OrganizationDTO, UserBaseDTO, UserDTO } from '@ng-mt-framework/api';
-import { AuditPostDTO } from '../../audit-post/model/AuditPostDTO';
 import { AuditReportDTO } from '../../audit-post/newmodel/AuditReportDTO';
 
 /**

@@ -1,9 +1,8 @@
 import { formatDate } from '@angular/common';
 import { Component, EventEmitter, Inject, LOCALE_ID, OnInit, Output, ViewChild } from '@angular/core';
-import { time } from 'console';
 import { NzMessageService } from 'ng-zorro-antd';
 import { AttachListComponent } from '../common/attach/attach-list.component';
-import { RectifyMeasureEditInfoDTO } from './model/RectifyMeasureEditInfoDTO';
+import { RectifyMeasureDTO } from './model/RectifyMeasureDTO';
 import { RectifyMeasureService } from './service/RectifyMeasureService';
 
 @Component({
@@ -43,33 +42,25 @@ export class RectifyMeasureComponent implements OnInit {
     this.isVisible = false;
   }
 
-  edit(item: RectifyMeasureEditInfoDTO) {
-    if (item && item.rectifyCompleteTime) {
-      this.date = this.formatDate(item.rectifyCompleteTime);
-    }
-
-    this.rectifyMeasure = this.initItem(item);
-    if (this.rectifyMeasure.measureStatus === null) {
-      this.rectifyMeasure.measureStatus = 'NOT_SUBMITTED';
-      this.rectifyMeasure.rectifyProgress = 0;
-    }
-    this.rectifyMeasure.rectifyProblemId = '404664016171044864';
-    this.isVisible = true;
+  edit(item: RectifyMeasureDTO) {
+    // if (item && item.rectifyCompleteTime) {
+    //   this.date = this.formatDate(item.rectifyCompleteTime);
+    // }
+    // this.rectifyMeasure = this.initItem(item);
+    // if (this.rectifyMeasure.measureStatus === null) {
+    //   this.rectifyMeasure.measureStatus = 'NOT_SUBMITTED';
+    //   this.rectifyMeasure.rectifyProgress = 0;
+    // }
+    // this.rectifyMeasure.rectifyProblemId = '404664016171044864';
+    // this.isVisible = true;
   }
 
   /**
    * 初始化项目任务
    */
-  initItem(item?: RectifyMeasureEditInfoDTO): RectifyMeasureEditInfoDTO {
+  initItem(item?: RectifyMeasureDTO): RectifyMeasureDTO {
     return {
       id: item && item.id ? item.id : null,
-      measureStatus: item && item.measureStatus ? item.measureStatus : null,
-      rectifyProgress: item && item.rectifyProgress ? item.rectifyProgress : null,
-      measureType: item && item.measureType ? item.measureType : null,
-      measureContent: item && item.measureContent ? item.measureContent : null,
-      rectifyCompleteTime: item && item.rectifyCompleteTime ? item.rectifyCompleteTime : null,
-      rectifyProblemId: item && item.rectifyProblemId ? item.rectifyProblemId : null,
-      systemFiles: item && item.systemFiles ? item.systemFiles : [],
     };
   }
 
@@ -90,19 +81,19 @@ export class RectifyMeasureComponent implements OnInit {
   }
 
   onChangeRectifyEndTime(date: any) {
-    if (date instanceof Date) {
-      this.rectifyMeasure.rectifyCompleteTime = this.formatDateFun(date);
-    } else {
-      this.rectifyMeasure.rectifyCompleteTime = null;
-    }
+    // if (date instanceof Date) {
+    //   this.rectifyMeasure.rectifyCompleteTime = this.formatDateFun(date);
+    // } else {
+    //   this.rectifyMeasure.rectifyCompleteTime = null;
+    // }
   }
 
   // 保存整改措施
   save() {
-    this.rectifyMeasureService.add(this.rectifyMeasure).subscribe(data => {
-      this.msg.success('保存整改措施数据成功！');
-      this.saveRectifyMeasure.emit();
-      this.handleCancel();
-    });
+    // this.rectifyMeasureService.add(this.rectifyMeasure).subscribe(data => {
+    //   this.msg.success('保存整改措施数据成功！');
+    //   this.saveRectifyMeasure.emit();
+    //   this.handleCancel();
+    // });
   }
 }
