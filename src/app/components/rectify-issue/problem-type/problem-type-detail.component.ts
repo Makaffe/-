@@ -49,6 +49,11 @@ export class ProblemTypeDetailComponent implements OnInit {
   showParent: boolean;
 
   /**
+   * 父节点名称
+   */
+  parentName: string;
+
+  /**
    * 关闭模态框
    */
   handleCancel() {
@@ -64,12 +69,12 @@ export class ProblemTypeDetailComponent implements OnInit {
     if (this.currentItem.id != null) {
       this.rectifyProblemTypeService.update(this.currentItem.id, this.currentItem).subscribe(data => {
         this.notification.emit();
-        this.msg.success('新增成功');
+        this.msg.success('更新成功');
       });
     } else {
       this.rectifyProblemTypeService.create(this.currentItem).subscribe(data => {
         this.notification.emit();
-        this.msg.success('更新成功');
+        this.msg.success('新增成功');
       });
     }
     this.handleCancel();
@@ -82,12 +87,18 @@ export class ProblemTypeDetailComponent implements OnInit {
    */
   edit(item?: RectifyProblemTypeEditInfoDTO, isWatch?: boolean, created?: boolean) {
     if (item) {
+      if (item.parent != null && item.parent) {
+        this.parentName = item.parent.name;
+        this.currentItem.parentId = item.parent.id;
+      } else {
+        this.parentName = item.name;
+      }
       if (created === true) {
         this.currentItem = this.initRectifyProblemType();
+        this.currentItem.parentId = item.id;
       } else {
         this.currentItem = this.initRectifyProblemType(item);
       }
-      this.currentItem.parentId = item.id;
       this.showParent = true;
     } else {
       this.currentItem = this.initRectifyProblemType();
