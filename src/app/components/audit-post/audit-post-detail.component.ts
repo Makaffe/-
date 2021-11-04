@@ -11,9 +11,9 @@ import UUID from 'uuidjs';
 import { AttachListComponent } from '../common/attach/attach-list.component';
 import { ProblemTypeService } from '../common/problem-type-select/ProblemTypeService.service';
 import { RectifyProblemDTO } from '../rectify-issue/model/rectify-problem-dto';
-import { AuditReportEditInfoDTO } from './model/AuditReportEditInfoDTO';
-import { RectifyProblemEditInfoDTO } from './model/RectifyProblemEditInfoDTO';
-import { AuditReportService } from './service/AuditReportService';
+import { AuditReportEditInfoDTO } from './newmodel/AuditReportEditInfoDTO';
+import { RectifyProblemEditInfoDTO } from './newmodel/RectifyProblemEditInfoDTO';
+import { AuditReportService } from './newservice/AuditReportService';
 @Component({
   selector: 'app-audit-post-detail',
   templateUrl: './audit-post-detail.component.html',
