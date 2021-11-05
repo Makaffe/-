@@ -24,7 +24,7 @@ export class RectifyWorkbeachPutComponent implements OnInit {
   };
 
   /**
-   *状态是不是通过
+   * 状态是不是通过
    */
   access = false;
 
@@ -79,7 +79,7 @@ export class RectifyWorkbeachPutComponent implements OnInit {
     lastModifiedTime: null,
     filterPath: null,
     replyUser: null,
-    attachFiles: null,
+    attachFiles: [],
   };
 
   /**
@@ -144,7 +144,6 @@ export class RectifyWorkbeachPutComponent implements OnInit {
 
         this.updateDTO = this.current;
         this.update(this.updateId, this.updateDTO);
-
       }
     } else {
       //人员进来的
@@ -171,7 +170,6 @@ export class RectifyWorkbeachPutComponent implements OnInit {
       this.current = data;
       this.currentReplyName = this.current && this.current.replyUser ? this.current.replyUser.name : null;
       this.currentCreateUserName = this.current && this.current.createUser ? this.current.createUser.name : null;
-
     });
 
     this.updateId = id;
@@ -197,5 +195,4 @@ export class RectifyWorkbeachPutComponent implements OnInit {
       console.log(data);
     });
   }
-
 }

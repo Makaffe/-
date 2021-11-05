@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { TreeUtil } from '@mt-framework-ng/util';
 import { OrganizationService } from '@ng-mt-framework/api';
 import { RectifyProblemDTO } from './model/rectify-problem-dto';
@@ -84,6 +84,18 @@ export class RectifyIssueViewComponent implements OnInit {
    */
   checkboxData = [];
 
+  /**
+   * 是否是工作台里的问题切换
+   */
+  @Input()
+  isProblemSwich = false;
+
+  /**
+   * 工作台问题切换的Output
+   */
+  @Output()
+  problemSwichOutput = new EventEmitter();
+
   ngOnInit() {
     this.organizationService.getOrganizationTreeOfEmployeeOrUser().subscribe(data => {
       this.organizationTree = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
@@ -137,11 +149,12 @@ export class RectifyIssueViewComponent implements OnInit {
   getCheckboxData(data: Array<RectifyProblemDTO>) {
     this.checkboxData = [];
     data.forEach(problem => {
-      if (!problem.children || problem.children.length === 0) {
-        this.checkboxData.push(problem);
-      }
+      this.checkboxData.push(problem);
     });
     this.checkboxData = [...this.checkboxData];
+    if (this.isProblemSwich && this.checkboxData.length > 0) {
+      this.problemSwichOutput.emit(this.checkboxData[0]);
+    }
   }
 
   /**
