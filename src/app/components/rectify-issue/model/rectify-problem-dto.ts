@@ -66,6 +66,8 @@ export class RectifyProblemDTO {
     this.rectifyUnitId = item && item.rectifyUnit ? item.rectifyUnit.id : null;
     this.rectifyDepartmentId = item && item.rectifyDepartment ? item.rectifyDepartment.id : null;
     this.parentId = item && item.parent ? item.parent.id : null;
+    this.dutyUserName = item && item.dutyUserName ? item.dutyUserName : null;
+    this.unitAndDepartment = item && item.unitAndDepartment ? item.unitAndDepartment : null;
   }
   /**
    * 对象ID，新增时应当为null, 系统会自动生成
@@ -322,7 +324,8 @@ export class RectifyProblemDTO {
   selectedRectifyPeople?: UserDTO[];
   rectifyUnitId?: string;
   rectifyProblemTypeId?: string;
-
+  unitAndDepartment?: string;
+  dutyUserName?: string;
   zgdw?: any;
   sjje?: any;
   zgjzsj?: any;

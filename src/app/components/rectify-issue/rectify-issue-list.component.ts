@@ -114,6 +114,7 @@ export class RectifyIssueListComponent implements OnInit {
         data => {
           if (data) {
             this.initDto(data.data);
+            console.log('initlistOfMapData', this.listOfMapData);
             this.listOfMapData = [...data.data];
             this.pageInfo.pageNo = data.pageNo + 1;
             this.pageInfo.pageSize = data.pageSize;
@@ -122,6 +123,7 @@ export class RectifyIssueListComponent implements OnInit {
             this.listOfMapData.forEach(item => {
               this.mapOfExpandedData[item.id] = this.convertTreeToList(item);
             });
+            console.log('listOfMapData', this.listOfMapData);
           }
         },
         () => { },
@@ -139,11 +141,14 @@ export class RectifyIssueListComponent implements OnInit {
    */
   initDto(listData: Array<RectifyProblemDTO>) {
     listData.forEach(item => {
-      let UnitAndDepartment = '';
+      let unitAndDepartment = '';
       if (item.rectifyDepartment && item.rectifyUnit) {
-        UnitAndDepartment = item.rectifyUnit.name + '/' + item.rectifyDepartment.name;
+        unitAndDepartment = item.rectifyUnit.name + '/' + item.rectifyDepartment.name;
       }
-      Object.assign(item, { UnitAndDepartment });
+      Object.assign(item, { unitAndDepartment });
+      if (item.children && item.children.length > 0) {
+        this.initDto(item.children);
+      }
     });
   }
 
@@ -223,6 +228,7 @@ export class RectifyIssueListComponent implements OnInit {
    * @param problems 整改问题数据
    */
   order(problems: Array<RectifyProblemDTO>) {
+    console.log('problems22', problems);
     this.rectifyIssueOrderComponent.edit(problems);
   }
 

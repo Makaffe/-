@@ -47,7 +47,7 @@
           <td>{{ item.name }}</td>
           <td>{{ item.rectifyProblemType.name }}</td>
           <td nzAlign="right">{{ item.money | currency: 'CNY':'symbol-narrow' }}</td>
-          <td>{{item.UnitAndDepartment}}</td>
+          <td>{{item.unitAndDepartment}}</td>
           <td>{{ item.dutyUser?item.dutyUser.name:null }}</td>
           <td nzAlign="center">
             <ng-container *ngIf="!isAnalysis">

@@ -113,6 +113,11 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
   organizationTree = [];
 
   /**
+   * 构建整改单位到人  map
+   */
+  organizationTreeMap: Map<string, string> = new Map<string, string>();
+
+  /**
    * 整改部门map
    */
   organizationMap: Map<string, string> = new Map<string, string>();
@@ -126,11 +131,6 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
    * 整改负责人/从组织到人 id数组
    */
   dutyUserIds = [];
-
-  /**
-   * 整改负责人map
-   */
-  dutyUserMap: Map<string, string> = new Map<string, string>();
 
   /**
    * 选择的整改对象
@@ -156,9 +156,6 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
     this.userService.findAll().subscribe(data => {
       if (data) {
         this.dutyUserList = data;
-        this.dutyUserList.forEach(user => {
-          this.dutyUserMap.set(user.id, user.name);
-        });
       }
     });
   }
@@ -170,6 +167,7 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
     data = data.filter((row) => row.id > 0);
     data = [...data];
     data.forEach(item => {
+      this.organizationTreeMap.set(item.id, item.name);
       item.value = item.id;
       item.label = item.name;
       item.children = item.userBaseDTOS && item.userBaseDTOS.length > 0 ? item.userBaseDTOS : item.children;
@@ -208,6 +206,12 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
     this.loading = true;
     if (this.childrenProblemList.length === 0 || !this.childrenProblemList[this.childrenProblemList.length - 1].id
       || this.childrenProblemList[this.childrenProblemList.length - 1].id !== this.currentItem.id) {
+      this.currentItem.sendStatus = this.currentItem.sendStatus === '已下发'
+        ? 'ISSUED' : this.currentItem.sendStatus === '下发中' ? 'ISSUING' : 'NOT_ISSUED';
+      this.currentItem.transferStatus = this.currentItem.transferStatus === '已移交'
+        ? 'HANDED_OVER' : this.currentItem.transferStatus === '移交中' ? 'HANDING_OVER' : 'NOT_HANDED_OVER';
+      this.currentItem.trackStatus = this.currentItem.trackStatus === '已完成'
+        ? 'COMPLETED' : this.currentItem.trackStatus === '整改中' ? 'RECTIFYING' : 'NOT_RECTIFIED';
       this.currentItem.rectifyDepartmentId = this.dutyUserIds[this.dutyUserIds.length - 2];
       this.currentItem.rectifyProblemTypeId = this.currentItem.rectifyProblemType ? this.currentItem.rectifyProblemType.id : null;
       this.currentItem.rectifyUnitId = this.dutyUserIds[this.dutyUserIds.length - 3];
@@ -241,23 +245,37 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
    * @param isWatch 是否查看
    */
   edit(item: RectifyProblemDTO, isWatch: boolean) {
-    this.setTabContentHeight();
-    this.isWatch = isWatch;
-    this.problemItem = new RectifyProblemDTO(item);
-    this.currentItem = new RectifyProblemDTO(item);
-    console.log('this.currentItem', this.currentItem);
-    this.dutyUserIds = [this.currentItem.rectifyUnitId, this.currentItem.rectifyDepartmentId, this.currentItem.dutyUserId];
-    if (item.children && item.children.length > 0) {
-      item.children.forEach(problem => {
-        problem.uuid = problem.uuid
-          ? problem.uuid : this.childrenProblemList.length > 0
-            ? this.childrenProblemList[this.childrenProblemList.length - 1].uuid + 1 : '1';
-        this.childrenProblemList.push(new RectifyProblemDTO(problem));
-        this.childrenProblemList = [...this.childrenProblemList];
-      });
-    }
-    console.log('initlist', this.childrenProblemList);
-    this.isVisible = true;
+    this.rectifyProblemService.rectifyTrackById(item.id).subscribe(data => {
+      this.setTabContentHeight();
+      this.isWatch = isWatch;
+      this.problemItem = new RectifyProblemDTO(data);
+      this.currentItem = new RectifyProblemDTO(data);
+      this.dutyUserIds = this.currentItem.rectifyUnit && this.currentItem.rectifyDepartment && this.currentItem.dutyUser
+        ? [this.currentItem.rectifyUnit.id, this.currentItem.rectifyDepartment.id, this.currentItem.dutyUser.id] : [];
+      if (data.children && data.children.length > 0) {
+        this.currentItem.children.forEach(problem => {
+          this.rectifyProblemService.rectifyTrackById(problem.id).subscribe(row => {
+            row.rectifyProblemTypeId = row.rectifyProblemType ? row.rectifyProblemType.id : null;
+            row.uuid = row.uuid
+              ? row.uuid : this.childrenProblemList.length > 0
+                ? this.childrenProblemList[this.childrenProblemList.length - 1].uuid + 1 : '1';
+            if (row.rectifyDepartment && row.rectifyUnit) {
+              row.unitAndDepartment = this.organizationTreeMap.get(row.rectifyUnit.id)
+                + '/' + this.organizationTreeMap.get(row.rectifyDepartment.id);
+            }
+            if (row.dutyUser) {
+              row.dutyUserName = this.organizationTreeMap.get(row.dutyUser.id);
+            }
+            this.childrenProblemList.push(new RectifyProblemDTO(row));
+            this.childrenProblemList = [...this.childrenProblemList];
+
+            console.log(this.childrenProblemList);
+          });
+        });
+      }
+      console.log('initlist', this.childrenProblemList);
+      this.isVisible = true;
+    });
   }
 
   /**
@@ -284,32 +302,12 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * 整改负责人name回显
-   * @param id 整改负责人id
-   * @returns 整改负责人name
-   */
-  convertDutyUser(ids: Array<string>) {
-    if (ids && ids.length > 0) {
-      return this.dutyUserMap.get(ids[ids.length - 1]);
-    }
-  }
-
-  /**
-   * 整改部门name回显
-   * @param id 整改部门id
-   * @returns 整改部门name
-   */
-  convertOrganization(id: string) {
-    if (id) {
-      return this.organizationMap.get(id);
-    }
-  }
-
-  /**
    * 获取子问题
    * @param childrenProblem 子问题
    */
   getChildrenProblem(childrenProblem: RectifyProblemDTO) {
+    const unitAndDepartment = childrenProblem.unitAndDepartment;
+    Object.assign(childrenProblem, { unitAndDepartment });
     childrenProblem.uuid = childrenProblem.uuid
       ? childrenProblem.uuid : this.childrenProblemList.length > 0
         ? this.childrenProblemList[this.childrenProblemList.length - 1].uuid + 1 : '1';
@@ -323,6 +321,7 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
       this.childrenProblemList.push(childrenProblem);
     }
     this.childrenProblemList = [...this.childrenProblemList];
+    console.log('ziwentilieb===', this.childrenProblemList);
   }
 
   /**
@@ -367,6 +366,7 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
     this.leftSize = sizes[0];
     this.rightSize = sizes[1];
   }
+
 
   /**
    * 设置设置弹窗高度

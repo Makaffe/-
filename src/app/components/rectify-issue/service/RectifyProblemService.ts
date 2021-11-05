@@ -63,7 +63,7 @@ export class RectifyProblemService {
    *
    */
   rectifyProblemSend(ids: Array<string>): Observable<Array<RectifyProblemDTO>> {
-    return this.http.put<Array<RectifyProblemDTO>>(`${RectifyProblemService.URL}/send`, ids);
+    return this.http.put<Array<RectifyProblemDTO>>(`${RectifyProblemService.URL}/rectifyProblemSend`, ids);
   }
 
   /**
