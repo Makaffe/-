@@ -66,7 +66,7 @@ export class RectifyProblemDTO {
     this.selectedRectifyPeople = item && item.selectedRectifyPeople ? item.selectedRectifyPeople : [];
     this.auditUserId = item && item.auditUser ? item.auditUser.id : null;
     this.dutyUserId = item && item.dutyUser ? item.dutyUser.id : null;
-    this.rectifyProblemTypeId = item && item.rectifyProblemType ? item.rectifyProblemType.Id : null;
+    this.rectifyProblemTypeId = item && item.rectifyProblemType ? item.rectifyProblemType.id : null;
     this.rectifyUnitId = item && item.rectifyUnit ? item.rectifyUnit.id : null;
     this.rectifyDepartmentId = item && item.rectifyDepartment ? item.rectifyDepartment.id : null;
     this.parentId = item && item.parent ? item.parent.id : null;

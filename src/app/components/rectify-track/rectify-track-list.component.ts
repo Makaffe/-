@@ -81,7 +81,7 @@ export class RectifyTrackListComponent implements OnInit {
   queryOptions: QueryOptions = {
     page: 0,
     size: 20,
-    sort: 'sendStatus,asc',
+    sort: 'sendStatus,asc,id,desc',
   };
 
   /**

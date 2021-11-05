@@ -1,22 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { QueryOptions } from '@mt-framework-ng/core';
 import { FormUtil } from '@mt-framework-ng/util';
 import { NzMessageService } from 'ng-zorro-antd';
 import { RectifyEffectDTO } from './model/RectifyEffectDTO';
 import { RectifyEffectService } from './service/RectifyEffectService';
 @Component({
-  // tslint:disable-next-line:component-selector
   selector: 'app-rectify-effect',
   templateUrl: './rectify-effect.component.html',
-  styles: [
-    `
-      tr {
-        background-color: white !important;
-      }
-    `,
-  ],
+  styles: [],
 })
 export class RectifyEffectComponent implements OnInit {
   /**
@@ -24,14 +15,6 @@ export class RectifyEffectComponent implements OnInit {
    */
   @ViewChild('form', { static: false })
   form: NgForm;
-
-  date: Date;
-  // 分页参数
-  private options: QueryOptions = {
-    page: 0,
-    size: 100,
-    sort: 'id,asc',
-  };
 
   /**
    * 只读
@@ -44,44 +27,38 @@ export class RectifyEffectComponent implements OnInit {
   isVisible = false;
 
   /**
-   * 是否为新增
+   * 后台请求标识
    */
-  isCreate = true;
+  loading = false;
 
-  // 整改跟踪dto
+  /**
+   * 整改跟踪dto
+   */
   rectifyEffect = this.initRtParams();
 
-  constructor(
-    private msg: NzMessageService,
-    private activatedRoute: ActivatedRoute,
-    private rectifyEffectService: RectifyEffectService,
-  ) {}
+  constructor(private msg: NzMessageService, private rectifyEffectService: RectifyEffectService) {}
 
   ngOnInit() {}
 
-  // 获取整改问题与整改措施
-  loadData() {
-    if (this.rectifyEffect.rectifyProblemId) {
-      this.rectifyEffectService.findByRectifyEffectById(this.rectifyEffect.rectifyProblemId).subscribe(data => {
-        if (data) {
-          this.rectifyEffect = this.initRtParams(data);
-          this.isCreate = false;
-        } else {
-          this.isCreate = true;
-        }
-        this.isVisible = true;
-      });
-    }
-  }
-
+  /**
+   * 初始化编辑页面
+   * @param isWatch 是否只读
+   * @param rectifyProblemId 整改问题id
+   */
   edit(isWatch: boolean, rectifyProblemId: string) {
-    this.rectifyEffect = this.initRtParams();
-    this.rectifyEffect.rectifyProblemId = rectifyProblemId;
-    this.loadData();
-    this.isWatch = isWatch;
+    this.rectifyEffectService.findByRectifyEffectById(rectifyProblemId).subscribe(data => {
+      this.rectifyEffect = this.initRtParams(data);
+      this.rectifyEffect.rectifyProblemId = rectifyProblemId;
+      this.isVisible = true;
+      this.isWatch = isWatch;
+    });
   }
 
-  // 初始化整改跟踪
+  /**
+   * 初始化整改成效
+   * @param item 整改成效
+   * @returns 整改成效
+   */
   initRtParams(item?: RectifyEffectDTO): RectifyEffectDTO {
     return {
       id: item ? item.id : null,
@@ -116,17 +93,29 @@ export class RectifyEffectComponent implements OnInit {
       this.msg.warning('请补全标星号的必填信息项！');
       return;
     }
-    if (this.isCreate) {
-      this.rectifyEffectService.create(this.rectifyEffect).subscribe(data => {
-        this.msg.success('新增成功！');
-      });
+    if (this.rectifyEffect.id) {
+      this.rectifyEffectService.update(this.rectifyEffect.id, this.rectifyEffect).subscribe(
+        data => {
+          this.msg.success('修改成功！');
+          this.handleCancel();
+        },
+        () => {},
+        () => {
+          this.loading = false;
+        },
+      );
     } else {
-      this.rectifyEffectService.update(this.rectifyEffect.id, this.rectifyEffect).subscribe(data => {
-        this.msg.success('修改成功！');
-      });
+      this.rectifyEffectService.create(this.rectifyEffect).subscribe(
+        data => {
+          this.msg.success('新增成功！');
+          this.handleCancel();
+        },
+        () => {},
+        () => {
+          this.loading = false;
+        },
+      );
     }
-
-    this.handleCancel();
   }
 
   /**

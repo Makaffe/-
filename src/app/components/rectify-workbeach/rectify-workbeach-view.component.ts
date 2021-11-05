@@ -1,15 +1,14 @@
-import { formatDate } from '@angular/common';
-import { Component, Inject, Input, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CacheService } from '@delon/cache';
-import { QueryOptions } from '@mt-framework-ng/core';
-import { TreeUtil } from '@mt-framework-ng/util';
-import { OrganizationService, SystemFileService } from '@ng-mt-framework/api';
+import { QueryOptions, SystemFileDTO } from '@mt-framework-ng/core';
+import { OrganizationService } from '@ng-mt-framework/api';
 import { ObjectUtil } from '@ng-mt-framework/util';
 import { NzMessageService } from 'ng-zorro-antd';
 import { RectifyProblemDTO } from '../rectify-issue/model/rectify-problem-dto';
 import { RectifyIssueTransferComponent } from '../rectify-issue/rectify-issue-transfer.component';
 import { RectifyProblemService } from '../rectify-issue/service/RectifyProblemService';
+import { TransferInfoService } from '../rectify-issue/service/TransferInfoService';
 import { RectifyTrackDTO } from '../rectify-track/model/RectifyTrackDTO';
 import { ChangeMsOrRp } from './model/ChangeMsOrRp';
 import { RectifyMeasureDTO } from './model/RectifyMeasureDTO';
@@ -23,6 +22,7 @@ import { RectifyTimeLineComponent } from './rectify-time-line.component';
 import { RectifyWorkbeachPutComponent } from './rectify-workbeach-put.component';
 import { RectifyWorkbeachTableComponent } from './rectify-workbeach-table.component';
 import { RectifyMeasureService } from './service/RectifyMeasureService';
+import { RectifyProblemUrgeService } from './service/RectifyProblemUrgeService';
 
 @Component({
   selector: 'app-rectify-workbeach-view',
@@ -113,14 +113,14 @@ export class RectifyWorkbeachViewComponent implements OnInit {
    */
   isRectifyMeasureReply = true;
 
-  // 分页参数
+  /**
+   * 分页参数
+   */
   private options: QueryOptions = {
     page: 0,
     size: 20,
     sort: 'id,asc',
   };
-
-  date: Date;
 
   /**
    * 表格分页参数
@@ -132,23 +132,24 @@ export class RectifyWorkbeachViewComponent implements OnInit {
     totalRecords: 20,
   };
 
-  systemFiles = [];
-
-  // 查询参数
+  /**
+   * 查询参数
+   */
   searchParam = this.searchParams();
 
   rectifyEndTime: Date;
 
   changeMsOrRp: ChangeMsOrRp;
 
-  // 整改跟踪dto
-  // rectifyTrack = this.initRtParams();
-  rectifyTrack: any;
+  /**
+   * 整改跟踪DTO
+   */
+  rectifyTrack: RectifyTrackDTO = new RectifyTrackDTO();
 
-  // 折叠与展开
+  /**
+   * 折叠与展开
+   */
   isFold = true;
-
-  demoValue: any;
 
   /**
    * 请求标识
@@ -169,7 +170,9 @@ export class RectifyWorkbeachViewComponent implements OnInit {
    */
   rightSize = this.RIGHT_WIDTH;
 
-  // 时间轴按钮样式
+  /**
+   * 时间轴按钮样式
+   */
   timeLineButtonType = 'left';
 
   mapOfExpandData: { [key: string]: boolean } = {};
@@ -230,16 +233,11 @@ export class RectifyWorkbeachViewComponent implements OnInit {
     private rectifyProblemService: RectifyProblemService,
     private organizationService: OrganizationService,
     private cacheService: CacheService,
-    @Inject(LOCALE_ID) private locale: string,
+    private rectifyProblemUrgeService: RectifyProblemUrgeService,
+    private transferInfoService: TransferInfoService,
   ) {}
 
   ngOnInit() {
-    // 加载整改负责人级联选择
-    this.organizationService.findUserTree().subscribe(data => {
-      this.fomatCascadeData(data);
-      this.organizationTree = [...data];
-    });
-
     if (this.cacheService.get('__user', { mode: 'none' }).userType === 'AUDIT_DEPARTMENT') {
       this.isRectify = false;
     } else {
@@ -250,13 +248,25 @@ export class RectifyWorkbeachViewComponent implements OnInit {
     this.loadMeasureData();
   }
 
-  // 获取整改问题数据
+  /**
+   * 处理路由参数
+   */
+  resolveQueryParam() {
+    this.activatedRoute.queryParams.subscribe(queryParams => {
+      this.isWatch = queryParams.isWatch === 'true' ? true : false;
+      this.searchParam.rectifyProblemId = queryParams.rectifyProblemId;
+    });
+  }
+
+  /**
+   * 获取整改问题数据
+   */
   loadRectifyProblemData() {
     this.rectifyProblemService.rectifyTrackById(this.searchParam.rectifyProblemId).subscribe(data => {
       this.rectifyTrack = new RectifyProblemDTO(data);
-      this.date = this.formatDate(data.rectifyCompleteTime);
     });
   }
+
   loadData() {}
   // 获取整改措施数据
   loadMeasureData() {
@@ -283,32 +293,6 @@ export class RectifyWorkbeachViewComponent implements OnInit {
         () => {},
         () => {},
       );
-  }
-
-  /**
-   * 处理路由参数
-   */
-  // resolveQueryParam() {
-  //   // 处理路由参数
-  //   this.activatedRoute.queryParams.subscribe(queryParams => {
-  //     if (queryParams.isRectify === 'true') {
-  //       this.isRectify = true;
-  //       this.rectifyTrack.id = '404664016171044864';
-  //     } else {
-  //       this.isRectify = false;
-  //       this.rectifyTrack.id = queryParams.rectifyProblemId;
-  //     }
-  //     this.rectifyProblemService.rectifyTrackById(this.rectifyTrack.id).subscribe(data => {
-  //       this.rectifyTrack = data;
-  //       this.date = this.formatDate(data.rectifyEndTime);
-  //     });
-  //   });
-  // }
-  resolveQueryParam() {
-    this.activatedRoute.queryParams.subscribe(queryParams => {
-      this.isWatch = queryParams.isWatch === 'true' ? true : false;
-      this.searchParam.rectifyProblemId = queryParams.rectifyProblemId;
-    });
   }
 
   /**
@@ -376,30 +360,6 @@ export class RectifyWorkbeachViewComponent implements OnInit {
     };
   }
 
-  formatDateFun(date: Date) {
-    if (date) {
-      return formatDate(date, 'yyyy-MM-dd', this.locale);
-    } else {
-      return '';
-    }
-  }
-
-  formatDate(str: string) {
-    if (str) {
-      return new Date(str.replace(/-/g, '/'));
-    } else {
-      return null;
-    }
-  }
-
-  onChangeRectifyEndTime(date: any) {
-    if (date instanceof Date) {
-      this.searchParam.rectifyEndTime = this.formatDateFun(date);
-    } else {
-      this.searchParam.rectifyEndTime = null;
-    }
-  }
-
   // 删除
   delete(rectifyMeasureDTO: RectifyMeasureDTO) {
     // rectifyMeasureDTO.systemFiles.forEach(systemFile => {
@@ -452,12 +412,21 @@ export class RectifyWorkbeachViewComponent implements OnInit {
 
   /**
    * 移交纪检
+   * @param item 整改跟踪数据
+   * @param readOnly 是否只读
    */
-  transfer(turnOver: boolean) {
-    const arr = [];
-    arr.push(this.rectifyTrack);
-    this.rectifyIssueTransferComponent.readOnly = turnOver;
-    this.rectifyIssueTransferComponent.edit(arr);
+  transfer(item: RectifyTrackDTO, readOnly: boolean) {
+    if (readOnly) {
+      this.transferInfoService.findByRectifyProblemId(item.id).subscribe(data => {
+        this.rectifyIssueTransferComponent.currentItem = this.rectifyIssueTransferComponent.initItem(data);
+        this.rectifyIssueTransferComponent.readOnly = readOnly;
+        this.rectifyIssueTransferComponent.edit([item]);
+      });
+    } else {
+      this.rectifyIssueTransferComponent.currentItem = this.rectifyIssueTransferComponent.initItem(null);
+      this.rectifyIssueTransferComponent.readOnly = readOnly;
+      this.rectifyIssueTransferComponent.edit([item]);
+    }
   }
 
   // 隐藏或展示时间轴
@@ -473,17 +442,26 @@ export class RectifyWorkbeachViewComponent implements OnInit {
     }
   }
 
-  // 切换问题
+  /**
+   * 切换问题
+   */
   rectifySwitch() {
-    this.rectifyProblemSwitchComponent.mapOfCheckedId[this.searchParam.rectifyProblemId] = true;
-    this.rectifyProblemSwitchComponent.checkboxData = this.rectifyTrack;
+    this.rectifyProblemSwitchComponent.rectifyIssueViewComponent.rectifyIssueListComponent.mapOfCheckedId[
+      this.rectifyTrack.id
+    ] = true;
+    this.rectifyProblemSwitchComponent.rectifyIssueViewComponent.rectifyIssueListComponent.checkboxData = [
+      this.rectifyTrack,
+    ];
     this.rectifyProblemSwitchComponent.isVisible = true;
   }
 
-  chageRectify(rs: any) {
-    if (rs) {
-      this.rectifyTrack = rs;
-      // this.loadData();
+  /**
+   * 问题切换
+   * @param problem 切换后的问题
+   */
+  chageRectify(problem: RectifyProblemDTO) {
+    if (problem) {
+      this.rectifyTrack = problem;
     }
   }
 
@@ -571,10 +549,9 @@ export class RectifyWorkbeachViewComponent implements OnInit {
    */
   sevaRectifyProblem() {
     const rectifyTrackDTO = ObjectUtil.deepClone(this.rectifyTrack);
-
     if (rectifyTrackDTO.noRectifyAttachFiles && rectifyTrackDTO.noRectifyAttachFiles.length > 0) {
       rectifyTrackDTO.noRectifyAttachFileIds = this.systemFilesToSystemFileIds(rectifyTrackDTO.noRectifyAttachFiles);
-      rectifyTrackDTO.noRectifyAttachFiles = null;
+      rectifyTrackDTO.noRectifyAttachFiles = [];
     }
     this.rectifyProblemService.update(rectifyTrackDTO.id, rectifyTrackDTO).subscribe(data => {
       this.msg.success('保存成功！');
@@ -584,9 +561,10 @@ export class RectifyWorkbeachViewComponent implements OnInit {
 
   /**
    * 获取所有文件id
+   * @param systemFiles 文件数组
+   * @returns systemFileIds
    */
-
-  systemFilesToSystemFileIds(systemFiles: any) {
+  systemFilesToSystemFileIds(systemFiles: Array<SystemFileDTO>) {
     const systemFileIds = [];
     systemFiles.forEach(systemFile => {
       systemFileIds.push(systemFile.id);
@@ -604,6 +582,8 @@ export class RectifyWorkbeachViewComponent implements OnInit {
     if (item && item.rectifyDepartment && item.rectifyUnit) {
       UnitAndDepartment = item.rectifyUnit.name + '/' + item.rectifyDepartment.name;
       return UnitAndDepartment;
+    } else {
+      return '';
     }
   }
 }

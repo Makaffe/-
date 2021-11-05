@@ -1,7 +1,6 @@
-import { SystemFileDTO, UserBaseDTO } from "@ng-mt-framework/api";
+import { SystemFileDTO, UserBaseDTO } from '@ng-mt-framework/api';
 
 export class RectifyProblemDelayApplyDTO {
-
   constructor(item?: RectifyProblemDelayApplyDTO) {
     this.id = item ? this.id : null;
     this.status = item ? this.status : 'DRAFT';
@@ -15,8 +14,7 @@ export class RectifyProblemDelayApplyDTO {
     this.lastModifyUser = item ? this.lastModifyUser : null;
     this.filterPath = item ? this.filterPath : null;
     this.replyUser = item ? this.replyUser : null;
-    this.attachFiles = item ? this.attachFiles : null;
-
+    this.attachFiles = item ? this.attachFiles : [];
   }
 
   /**
@@ -27,56 +25,56 @@ export class RectifyProblemDelayApplyDTO {
   /**
    * 状态
    */
-   status: string;
+  status: string;
 
-   /**
-    * 申请原因
-    */
-    applyReason?: string;
+  /**
+   * 申请原因
+   */
+  applyReason?: string;
 
-    /**
-     * 提交延期截至日期
-     */
-     delayEndTime?: string;
+  /**
+   * 提交延期截至日期
+   */
+  delayEndTime?: string;
 
-     /**
-      * 批复日期
-      */
-      replyTime?: string;
+  /**
+   * 批复日期
+   */
+  replyTime?: string;
 
-      /**
-       * 批复意见
-       */
-       replyComments?: string;
+  /**
+   * 批复意见
+   */
+  replyComments?: string;
 
-       /**
-        * 申请原因
-        */
-        beforeRectifyEndTime?: string;
+  /**
+   * 申请原因
+   */
+  beforeRectifyEndTime?: string;
 
-        createUser: UserBaseDTO;
+  createUser: UserBaseDTO;
 
-        /**
-         * 创建数据的时间，系统根据服务器时间自动填写
-         */
-         createdTime: string;
+  /**
+   * 创建数据的时间，系统根据服务器时间自动填写
+   */
+  createdTime: string;
 
-         lastModifyUser: UserBaseDTO;
+  lastModifyUser: UserBaseDTO;
 
-         /**
-          * 最后的修收时间，系统根据服务器时间自动填写
-          */
-          lastModifiedTime: string;
+  /**
+   * 最后的修收时间，系统根据服务器时间自动填写
+   */
+  lastModifiedTime: string;
 
-          /**
-           * 数据过滤路径，系统自动填写
-           */
-           filterPath: string;
+  /**
+   * 数据过滤路径，系统自动填写
+   */
+  filterPath: string;
 
-           replyUser?: UserBaseDTO;
+  replyUser?: UserBaseDTO;
 
-           /**
-            * 关联附件编码集合
-            */
-            attachFiles?: Array<SystemFileDTO>;
+  /**
+   * 关联附件编码集合
+   */
+  attachFiles?: Array<SystemFileDTO>;
 }
