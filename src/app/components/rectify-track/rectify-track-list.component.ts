@@ -225,4 +225,17 @@ export class RectifyTrackListComponent implements OnInit {
       this.rectifyIssueTransferComponent.edit([item]);
     }
   }
+
+  /**
+   * 整改对象反显
+   * @param item 整改跟踪数据
+   * @returns 单位/部门
+   */
+  convertUnitAndDepartment(item: RectifyTrackDTO) {
+    let UnitAndDepartment = '';
+    if (item && item.rectifyDepartment && item.rectifyUnit) {
+      UnitAndDepartment = item.rectifyUnit.name + '/' + item.rectifyDepartment.name;
+      return UnitAndDepartment;
+    }
+  }
 }

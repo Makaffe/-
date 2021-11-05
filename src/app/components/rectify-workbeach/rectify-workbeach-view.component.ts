@@ -25,33 +25,44 @@ import { RectifyWorkbeachTableComponent } from './rectify-workbeach-table.compon
 import { RectifyMeasureService } from './service/RectifyMeasureService';
 
 @Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'rectify-workbeach-view',
+  selector: 'app-rectify-workbeach-view',
   templateUrl: './rectify-workbeach-view.component.html',
   styles: [],
 })
 export class RectifyWorkbeachViewComponent implements OnInit {
-  // 工作备忘录
+  /**
+   * 工作备忘录组件
+   */
   @ViewChild('rectifyDiaryComponent', { static: false })
   rectifyDiaryComponent: RectifyDiaryComponent;
 
-  // 整改措施
+  /**
+   * 整改措施组件
+   */
   @ViewChild('rectifyMeasureComponent', { static: false })
   rectifyMeasureComponent: RectifyMeasureComponent;
 
-  // 整改措施回复组件
+  /**
+   * 整改措施回复组件
+   */
   @ViewChild('rectifyMeasureReplyComponent', { static: false })
   rectifyMeasureReplyComponent: RectifyMeasureReplyComponent;
 
-  // 移交纪检组件
+  /**
+   * 移交纪检组件
+   */
   @ViewChild('rectifyIssueTransferComponent', { static: false })
   rectifyIssueTransferComponent: RectifyIssueTransferComponent;
 
-  // 整改成效组件
+  /**
+   * 整改成效组件
+   */
   @ViewChild('rectifyEffectComponent', { static: false })
   rectifyEffectComponent: RectifyEffectComponent;
 
-  // 问题切换组件
+  /**
+   * 问题切换组件
+   */
   @ViewChild('rectifyProblemSwitchComponent', { static: false })
   rectifyProblemSwitchComponent: RectifyProblemSwitchComponent;
 
@@ -68,7 +79,10 @@ export class RectifyWorkbeachViewComponent implements OnInit {
    */
   @ViewChild('rectifyWorkbeachTableComponent', { static: false })
   rectifyWorkbeachTableComponent: RectifyWorkbeachTableComponent;
-  // 时间轴组件
+
+  /**
+   * 时间轴组件
+   */
   @ViewChild('rectifyTimeLineComponent', { static: false })
   rectifyTimeLineComponent: RectifyTimeLineComponent;
 
@@ -578,5 +592,18 @@ export class RectifyWorkbeachViewComponent implements OnInit {
       systemFileIds.push(systemFile.id);
     });
     return systemFileIds;
+  }
+
+  /**
+   * 整改对象反显
+   * @param item 整改跟踪数据
+   * @returns 单位/部门
+   */
+  convertUnitAndDepartment(item: RectifyTrackDTO) {
+    let UnitAndDepartment = '';
+    if (item && item.rectifyDepartment && item.rectifyUnit) {
+      UnitAndDepartment = item.rectifyUnit.name + '/' + item.rectifyDepartment.name;
+      return UnitAndDepartment;
+    }
   }
 }
