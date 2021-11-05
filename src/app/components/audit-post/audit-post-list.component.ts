@@ -163,18 +163,18 @@ export class AuditPostListComponent implements OnInit {
    * @param row 查看和编辑的方法
    * 编辑已去掉
    */
-  // edit(row): void {
-  //   this.router.navigate(['/audit-rectify/audit-post-detail'], {
-  //     queryParams: {
-  //       postTypeId: null,
-  //       isWatch: false,
-  //       isEdit: true,
-  //       isNew: false,
-  //       allshow: false,
-  //       postId: row.id,
-  //     },
-  //   });
-  // }
+  edit(row): void {
+    this.router.navigate(['/audit-rectify/audit-post-detail'], {
+      queryParams: {
+        postTypeId: null,
+        isWatch: false,
+        isEdit: true,
+        isNew: false,
+        allshow: false,
+        postId: row.id,
+      },
+    });
+  }
   check(row): void {
     this.router.navigate(['/audit-rectify/audit-post-detail'], {
       queryParams: {
