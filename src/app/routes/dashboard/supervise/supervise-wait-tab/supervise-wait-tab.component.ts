@@ -23,12 +23,18 @@ export class SuperviseWaitTabComponent implements OnInit {
   };
 
   filter = {
+    rectifyProblemId: '',
     rectifyProblemName: '',
     transferDisposeStatus: '',
     rectifyDepartmentId: '',
     startTime: '',
     endTime: '',
   };
+
+  /**
+   * 日期范围
+   */
+  rangeDate = [];
 
   ngOnInit() {
     this.loadTableData();
@@ -86,11 +92,21 @@ export class SuperviseWaitTabComponent implements OnInit {
   }
 
   loadTableData() {
-    this.transferInfoService.findOnePage(this.pageOption).subscribe(data => {
-      this.listOfMapData = data.data;
-      this.listOfMapData.forEach(item => {
-        this.mapOfExpandedData[item.id] = this.convertTreeToList(item);
+    this.transferInfoService
+      .findOnePage(
+        this.pageOption,
+        this.filter.rectifyProblemId,
+        this.filter.rectifyProblemName,
+        this.filter.transferDisposeStatus,
+        this.filter.rectifyDepartmentId,
+        this.filter.startTime,
+        this.filter.endTime,
+      )
+      .subscribe(data => {
+        this.listOfMapData = data.data;
+        this.listOfMapData.forEach(item => {
+          this.mapOfExpandedData[item.id] = this.convertTreeToList(item);
+        });
       });
-    });
   }
 }
