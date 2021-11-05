@@ -93,14 +93,14 @@
                 >
                   {{ item.level === 0 ? i + 1 : i + 1 + '-' + ci }}
                 </td>
-                <td nzAlign="center">{{ item.status }}</td>
-                <td nzAlign="center">{{ item.source }}</td>
-                <td nzAlign="center">{{ item.problemName }}</td>
+                <td nzAlign="center">{{ item.transferDisposeStatus }}</td>
+                <td nzAlign="center">{{ item.rectifyProblem.source }}</td>
+                <td nzAlign="center">{{ item.rectifyProblem.name }}</td>
                 <td nzAlign="center">{{ item.type }}</td>
                 <td nzAlign="center">{{ item.rectifyDepartment }}</td>
                 <td nzAlign="center">{{ item.leader }}</td>
-                <td nzAlign="center">{{ item.time }}</td>
-                <td nzAlign="center">{{ item.reason }}</td>
+                <td nzAlign="center">{{ item.createdTime }}</td>
+                <td nzAlign="center">{{ item.rectifyProblem.transferCause }}</td>
                 <td nzRight="0">
                   <a (click)="process(item)">处理</a>
                   <nz-divider nzType="vertical"></nz-divider>

@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { STColumnTag } from '@delon/abc';
 import { ApiPagedData, QueryOptions, TABLE_PARAMETER } from '@mt-framework-ng/core';
 import { ObjectUtil } from '@ng-mt-framework/util';
 import { NzMessageService } from 'ng-zorro-antd';
+import { AuditPostDetailComponent } from './audit-post-detail.component';
 import { AuditPostDTO } from './model/AuditPostDTO';
 import { AuditReportDTO } from './newmodel/AuditReportDTO';
 import { AuditReportService } from './newservice/AuditReportService';
@@ -54,21 +55,18 @@ export class AuditPostListComponent implements OnInit {
       title: '审计报告来源',
       render: 'auditReportType',
       width: '40px',
-      sort: this.tableParameter.sortDef,
       className: 'text-center',
     },
     {
       title: '审计报告名称',
       index: 'name',
       width: '40px',
-      sort: this.tableParameter.sortDef,
       className: 'text-center',
     },
     {
       title: '审计单位名称',
       index: 'auditName',
       width: '40px',
-      sort: this.tableParameter.sortDef,
       className: 'text-left',
     },
     {
@@ -92,7 +90,7 @@ export class AuditPostListComponent implements OnInit {
       index: 'problemCount',
       width: '40px',
       sort: this.tableParameter.sortDef,
-      className: 'text-left',
+      className: 'text-right',
     },
     { title: '操作', render: 'operations', width: '30px', className: 'text-center', fixed: 'right' },
   ];
@@ -136,7 +134,6 @@ export class AuditPostListComponent implements OnInit {
    */
   load(): void {
     this.loading = true;
-    console.log(this.filterParams);
     this.auditReportService
       .findOnePage(
         this.queryOptions,
@@ -170,7 +167,6 @@ export class AuditPostListComponent implements OnInit {
         isWatch: false,
         isEdit: true,
         isNew: false,
-        allshow: false,
         postId: row.id,
       },
     });
@@ -182,7 +178,6 @@ export class AuditPostListComponent implements OnInit {
         isWatch: true,
         isEdit: false,
         isNew: false,
-        allshow: true,
         postId: row.id,
       },
     });

@@ -269,7 +269,13 @@
     </form>
   </as-split-area>
 </as-split>
-<nz-modal [(nzVisible)]="isVisabled" nzTitle="整改问题清单详情" [nzFooter]="modalFooter" nzWidth="1200px">
+<nz-modal
+  [(nzVisible)]="isVisabled"
+  nzTitle="整改问题清单详情"
+  [nzFooter]="modalFooter"
+  nzWidth="1200px"
+  (nzOnCancel)="handleCancel()"
+>
   <ng-template #modalFooter>
     <button nz-button nzType="default" (click)="handleCancel()">取消</button>
     <button nz-button nzType="primary" (click)="handleOk()" *ngIf="!isWatch">确认</button>
@@ -362,8 +368,8 @@
         <textarea
           [readOnly]="isWatch"
           nz-input
-          name="paramsItem.opinion"
-          [(ngModel)]="paramsItem.opinion"
+          name="paramsItem.auditOpinion"
+          [(ngModel)]="paramsItem.auditOpinion"
           rows="6"
         ></textarea>
       </nz-form-control>
@@ -389,3 +395,4 @@
     </nz-form-item>
   </form>
 </nz-modal>
+<audit-post-list #auditPostListComponent></audit-post-list>

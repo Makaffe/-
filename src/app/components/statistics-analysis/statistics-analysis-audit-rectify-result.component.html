@@ -32,8 +32,7 @@
           <div nz-row>
             <div nz-row nzJustify="space-between">
               <div nz-col nzSpan="24">
-                <nz-card nzTitle="整改反馈分析" [nzExtra]="extraTemplate" style="margin-right:10px;" class="c3"
-                  >
+                <nz-card nzTitle="整改反馈分析" [nzExtra]="extraTemplate" style="margin-right:10px;" class="c3">
                   <ng-template #extraTemplate>
                     <nz-form-item nzFlex>
                       <nz-form-label [nzSm]="10" [nzXs]="24">分析部门</nz-form-label>
@@ -88,10 +87,10 @@
         </div>
       </div>
       <div nz-col nzSpan="8">
-        <nz-card [nzTitle]="'资金整改成果'" [nzBodyStyle]="{'heght':'400px' }" class="c4">
+        <nz-card [nzTitle]="'资金方面整改成果'" [nzBodyStyle]="{ heght: '400px' }" class="c4">
           <div class="chart" echarts [theme]="'macarons'" style="height: 100%;" [options]="money1"></div>
         </nz-card>
-        <nz-card [nzTitle]="title" [nzBodyStyle]="{'heght':'400px' }" class="c5">
+        <nz-card [nzTitle]="title" [nzBodyStyle]="{ heght: '400px' }" class="c5">
           <ng-template #title>
             <div style="margin-top: 10px;margin-bottom: 10px;">
               <font style="font-size: 16px;">管理整改成果</font>
@@ -99,10 +98,10 @@
           </ng-template>
           <div echarts [options]="money2" style="height: 100%;"></div>
         </nz-card>
-        <nz-card [nzTitle]="title" [nzBodyStyle]="{'heght':'400px' }" class="c6">
+        <nz-card [nzTitle]="title" [nzBodyStyle]="{ heght: '400px' }" class="c6">
           <ng-template #title>
             <div style="margin-top: 10px;margin-bottom: 10px;">
-              <font style="font-size: 16px;">审计意见采纳情况</font>
+              <font style="font-size: 16px;">管理方面整改成果</font>
             </div>
           </ng-template>
           <div echarts [options]="money3" style="height: 100%;"></div>

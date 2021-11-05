@@ -28,7 +28,7 @@ export interface RectifyProblemEditInfoDTO {
   /**
    * 审计意见
    */
-  opinion?: string;
+  auditOpinion?: string;
 
   /**
    * 是否问题主干：用于区分问题主干与拆分

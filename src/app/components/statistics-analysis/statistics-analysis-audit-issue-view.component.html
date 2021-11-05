@@ -247,7 +247,7 @@
         <!-- <div style="text-align: center;">
           <font style="font-size: 18px;font-weight: bold;">整改情况统计</font>
         </div> -->
-        <nz-card nzTitle="问题数据历史变化" [nzExtra]="extraTemplate">
+        <nz-card nzTitle="问题数量历史变化" [nzExtra]="extraTemplate">
           <!-- <div nz-row style="margin-top: -25px;width: 930px;"> -->
           <div nz-row>
             <!-- <div style="height:360px" class="chart" echarts [theme]="'macarons'" [options]="optionCreaseLine"></div> -->
@@ -256,7 +256,7 @@
           </div>
         </nz-card>
         <ng-template #extraTemplate>
-          <a (click)="onChartClickCreaseLin($event)">查看所有问题数据</a>
+          <a (click)="onChartClickCreaseLin($event)">查看所有问题数量</a>
         </ng-template>
 
         <!-- <div nz-row style="height:360px;margin-top: -40px;">

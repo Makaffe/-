@@ -91,9 +91,13 @@ export class ProblemTypeDetailComponent implements OnInit {
         this.parentName = item.parent.name;
         this.currentItem.parentId = item.parent.id;
       } else {
-        this.parentName = item.name;
+        if (created) {
+          this.parentName = item.name;
+        } else {
+          this.parentName = '';
+        }
       }
-      if (created === true) {
+      if (created) {
         this.currentItem = this.initRectifyProblemType();
         this.currentItem.parentId = item.id;
       } else {
