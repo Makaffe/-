@@ -194,9 +194,9 @@ export class RectifyTimeLineComponent implements OnInit {
    * 加载时间轴数据
    */
   load() {
-    this.rectifyTimeLineService.queryByRectifyProblemId(this.rectifyProblemId).subscribe(data => {
-      console.log(data);
-    });
+    // this.rectifyTimeLineService.queryByRectifyProblemId(this.rectifyProblemId).subscribe(data => {
+    //   console.log(data);
+    // });
   }
 
   ActiveChange(value: any) {
