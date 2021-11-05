@@ -163,8 +163,8 @@
                       <label nz-radio [nzValue]="false">否</label>
                       <label nz-radio [nzValue]="true">是</label>
                     </nz-radio-group>
-                    <button nz-button nzType="primary" style="float: right;"
-                      *ngIf="rectifyTrack.noRectifyStatus">保存</button>
+                    <button nz-button nzType="primary" style="float: right;" *ngIf="rectifyTrack.noRectifyStatus"
+                      (click)="sevaRectifyProblem()">保存</button>
                   </nz-form-control>
                 </nz-form-item>
               </nz-form-item>
@@ -310,7 +310,7 @@
                 </div>
                 <div nz-col nzSpan="2">
                   <div [ngStyle]="{ position: 'absolute', right: timeLineButtonType === 'right' ? '10px' : '20px' }">
-                    <button nz-button nzType="primary" (click)="saveProblem()">保存</button>
+                    <button nz-button nzType="primary" (click)="sevaRectifyProblem()">保存</button>
                   </div>
                 </div>
                 <div nz-col nzSpan="1"></div>
