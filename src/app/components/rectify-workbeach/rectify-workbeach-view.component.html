@@ -4,52 +4,59 @@
       <div nz-row style=" border:1px solid #a1a0a0;padding-top: 5px;padding-bottom: 5px;">
         <div nz-col>
           <div style="margin-left: 40px;" nz-row nzJustify="space-between">
-            <div nzSpan="3" nz-col *ngIf="!isRectify">
-              <!-- <button nz-button nzType="primary" (click)="clickFold()">
-              <i nz-icon nzType="up" nzTheme="outline" *ngIf="!isFold"></i>
-              <i nz-icon nzType="down" nzTheme="outline" *ngIf="isFold"></i>
-            </button> -->
-              <button nzTooltipPlacement="bottom" nz-button nz-tooltip nzType="link" nzSize="large"
-                style="margin-top: -4px;margin-bottom: -4px;" (click)="clickFold()">
+            <div nzSpan="6" nz-col *ngIf="!isRectify">
+              <button
+                nzTooltipPlacement="bottom"
+                nz-button
+                nz-tooltip
+                nzType="link"
+                nzSize="large"
+                style="margin-top: -4px;margin-bottom: -4px;"
+                (click)="clickFold()"
+              >
                 <i nz-icon [nzType]="isFold ? 'down-circle' : 'up-circle'" nzTheme="twotone"></i>
               </button>
-              <font style="font-size:18px;color:#3399f7"> 整改问题名称</font>
+              <font style="font-size:18px;color:#3399f7">{{ rectifyTrack?.name }}</font>
             </div>
 
             <div nzSpan="6" nz-col *ngIf="isRectify">
-              <!-- <button nz-button nzType="primary" (click)="clickFold()">
-              <i nz-icon nzType="up" nzTheme="outline" *ngIf="!isFold"></i>
-              <i nz-icon nzType="down" nzTheme="outline" *ngIf="isFold"></i>
-            </button> -->
-              <button nzTooltipPlacement="bottom" nz-button nz-tooltip nzType="link" nzSize="large"
-                style="margin-top: -4px;margin-bottom: -4px;" (click)="clickFold()">
+              <button
+                nzTooltipPlacement="bottom"
+                nz-button
+                nz-tooltip
+                nzType="link"
+                nzSize="large"
+                style="margin-top: -4px;margin-bottom: -4px;"
+                (click)="clickFold()"
+              >
                 <i nz-icon [nzType]="isFold ? 'down-circle' : 'up-circle'" nzTheme="twotone"></i>
               </button>
-              <font style="font-size:18px;color:#3399f7"> 整改问题名称</font>
-            </div>
-            <div *ngIf="!isRectify" nzSpan="2" nz-col style="margin-top: 5px;font-size:18px">整改反馈进度:</div>
-            <div *ngIf="!isRectify" nzSpan="4" nz-col style="margin-top: 4px; margin-left:-12px">
-              <nz-progress nzSize="small" [nzPercent]="50" nzStatus="active"></nz-progress>
+              <font style="font-size:18px;color:#3399f7">{{ rectifyTrack?.name }}</font>
             </div>
 
-            <div *ngIf="isRectify" nzSpan="2" nz-col style="margin-top: 5px;font-size:18px">整改反馈进度:</div>
-            <div *ngIf="isRectify" nzSpan="6" nz-col style="margin-top: 4px; margin-left:-12px">
-              <nz-progress nzSize="small" [nzPercent]="50" nzStatus="active"></nz-progress>
-            </div>
-            <div nzSpan="9" nz-col *ngIf="isRectify" style="margin-left: 14px;">
+            <ng-container *ngIf="!isRectify">
+              <div nzSpan="2" nz-col style="margin-top: 5px;font-size:18px">整改反馈进度:</div>
+              <div nzSpan="4" nz-col style="margin-top: 4px; margin-left:-12px">
+                <nz-progress nzSize="small" [nzPercent]="rectifyTrack?.rectifyProgress" nzStatus="active"></nz-progress>
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="isRectify">
+              <div nzSpan="2" nz-col style="margin-top: 5px;font-size:18px">整改反馈进度:</div>
+              <div nzSpan="4" nz-col style="margin-top: 4px; margin-left:-12px">
+                <nz-progress nzSize="small" [nzPercent]="rectifyTrack?.rectifyProgress" nzStatus="active"></nz-progress>
+              </div>
+            </ng-container>
+            <div nzSpan="12" nz-col *ngIf="isRectify">
               <div style="position: absolute;right: 0px;">
                 &nbsp;
-                <!-- <button
+                <button
                   nz-button
                   nzType="danger"
                   nzDanger
-                  (click)="transfer(false)"
-                  *ngIf="'未移交' === rectifyTrack.transferStatus && !isWatch"
+                  (click)="transfer(true)"
+                  *ngIf="'已移交' === rectifyTrack.transferStatus"
                 >
-                  移交纪检
-                </button> -->
-                <button nz-button nzType="danger" nzDanger (click)="transfer(true)"
-                  *ngIf="'已移交' === rectifyTrack.transferStatus">
                   查看移交结果
                 </button>
                 <button nz-button nzType="primary" (click)="rectifySwitch()">切换问题</button>
@@ -59,29 +66,41 @@
                 <button nz-button nzType="primary" (click)="applicationRecord()">延期申请记录</button>
               </div>
             </div>
-            <div nzSpan="14" nz-col *ngIf="!isRectify" style="margin-left: 14px;">
+            <div nzSpan="12" nz-col *ngIf="!isRectify">
               <div style="position: absolute;right: 0px;">
                 &nbsp;
                 <button nz-button nzType="primary" (click)="rectifyFeedbackRemind()" *ngIf="!isWatch">
                   催办通知
                 </button>
                 <button nz-button nzType="primary" (click)="goRectifyEffect()">整改成效</button>
-                <button nz-button nzType="danger" nzDanger (click)="transfer(false)"
-                  *ngIf="!rectifyTrack.transferCase && !isWatch">
+                <button
+                  nz-button
+                  nzType="danger"
+                  nzDanger
+                  (click)="transfer(this.rectifyTrack, false)"
+                  *ngIf="!rectifyTrack.transferCase && !isWatch"
+                >
                   移交纪检
                 </button>
-                <button nz-button nzType="danger" nzDanger (click)="transfer(true)" *ngIf="rectifyTrack.transferCase">
+                <button
+                  nz-button
+                  nzType="danger"
+                  nzDanger
+                  (click)="transfer(this.rectifyTrack, true)"
+                  *ngIf="rectifyTrack.transferCase"
+                >
                   查看移交结果
                 </button>
-                <!-- <button nz-button nzType="danger" nzDanger (click)="transfer(true)"
-                  [disabled]="'已移交'===rectifyTrack.transferStatus">查看移交结果</button> -->
                 <button nz-button nzType="primary" (click)="rectifySwitch()" *ngIf="!isWatch">切换问题</button>
                 <button nz-button nzType="primary" (click)="delayExtension()" *ngIf="!isWatch">
                   <i nz-icon nzType="exclamation-circle" nzTheme="outline" style="color: red;"></i>延期审批
                 </button>
                 <button nz-button nzType="primary" (click)="delayApprove()">延期审批记录</button>
-                <nz-popconfirm [nzTitle]="confirmtittle" (nzOnConfirm)="onChangeStates(rectifyTrack.id)"
-                  style="margin-right: 6px;">
+                <nz-popconfirm
+                  [nzTitle]="confirmtittle"
+                  (nzOnConfirm)="onChangeStates(rectifyTrack.id)"
+                  style="margin-right: 6px;"
+                >
                   <ng-template #confirmtittle>
                     <font color="red">结束整改如果有子问题，那么所有子问题都会结束整改</font>
                     <br />
@@ -95,46 +114,69 @@
           <div nz-row style="margin-top:20px" *ngIf="!isFold">
             <form nz-form>
               <nz-form-item>
-                <nz-form-label nzSpan="2">整改部门</nz-form-label>
+                <nz-form-label nzSpan="2">整改对象</nz-form-label>
                 <nz-form-control nzSpan="5">
-                  <nz-tree-select [nzNodes]="organizationTree" [nzAllowClear]="true" nzDefaultExpandAll nzShowSearch
-                    name="rectifyDepartmentId" [(ngModel)]="rectifyTrack.rectifyDepartment.id"
-                    [nzDropdownStyle]="{ maxHeight: '280px' }" disabled>
-                  </nz-tree-select>
+                  <input nz-input readonly name="unitAndDepartment" [value]="convertUnitAndDepartment(rectifyTrack)" />
                 </nz-form-control>
                 <nz-form-control nzSpan="1"></nz-form-control>
                 <nz-form-label nzSpan="2">整改负责人</nz-form-label>
                 <nz-form-control nzSpan="5">
-                  <input nz-input readonly name="整改负责人" readonly [(ngModel)]="rectifyTrack.dutyUser.name" />
+                  <input nz-input readonly name="dutyUserName" [value]="rectifyTrack?.dutyUser?.name" />
                 </nz-form-control>
                 <nz-form-control nzSpan="1"></nz-form-control>
                 <nz-form-label nzSpan="2">问题类型</nz-form-label>
                 <nz-form-control nzSpan="5">
-                  <input nz-input readonly name="rectifyProblemType" readonly
-                    [(ngModel)]="rectifyTrack.rectifyProblemType.name" />
+                  <input
+                    nz-input
+                    readonly
+                    name="rectifyProblemType"
+                    readonly
+                    [(ngModel)]="rectifyTrack.rectifyProblemType.name"
+                  />
                 </nz-form-control>
               </nz-form-item>
               <nz-form-item>
-                <nz-form-label nzSpan="2">整改截止日期</nz-form-label>
+                <nz-form-label nzSpan="2">整改拟开始时间</nz-form-label>
                 <nz-form-control nzSpan="5">
-                  <nz-date-picker [(ngModel)]="date" name="rectifyEndTime" disabled></nz-date-picker>
+                  <input
+                    nz-input
+                    readonly
+                    name="rectifyStartTime"
+                    [value]="rectifyTrack?.rectifyStartTime | date: 'yyyy-MM-dd'"
+                  />
+                </nz-form-control>
+                <nz-form-control nzSpan="1"></nz-form-control>
+                <nz-form-label nzSpan="2">整改拟完成时间</nz-form-label>
+                <nz-form-control nzSpan="5">
+                  <input
+                    nz-input
+                    readonly
+                    name="rectifyEndTime"
+                    [value]="rectifyTrack?.rectifyEndTime | date: 'yyyy-MM-dd'"
+                  />
                 </nz-form-control>
                 <nz-form-control nzSpan="1"></nz-form-control>
                 <nz-form-label nzSpan="2">涉及金额(元)</nz-form-label>
                 <nz-form-control nzSpan="5">
-                  <input nz-input readonly name="money" readonly [(ngModel)]="rectifyTrack.money" />
+                  <input
+                    nz-input
+                    readonly
+                    name="money"
+                    readonly
+                    [value]="rectifyTrack?.money | currency: 'CNY':'symbol-narrow'"
+                  />
                 </nz-form-control>
               </nz-form-item>
               <nz-form-item>
                 <nz-form-label nzSpan="2">审计报告</nz-form-label>
-                <nz-form-control nzSpan="21"><input nz-input readonly [(ngModel)]="rectifyTrack.auditReport.name"
-                    name="source" />
+                <nz-form-control nzSpan="21"
+                  ><input nz-input readonly [(ngModel)]="rectifyTrack.auditReport.name" name="source" />
                 </nz-form-control>
               </nz-form-item>
               <nz-form-item>
                 <nz-form-label nzSpan="2">问题描述</nz-form-label>
-                <nz-form-control nzSpan="21"><textarea rows="3" nz-input readonly [(ngModel)]="rectifyTrack.description"
-                    name="remark"></textarea>
+                <nz-form-control nzSpan="21"
+                  ><textarea rows="3" nz-input readonly [(ngModel)]="rectifyTrack.description" name="remark"></textarea>
                 </nz-form-control>
               </nz-form-item>
               <nz-form-item>
@@ -146,15 +188,15 @@
               <nz-form-item>
                 <nz-form-label nzSpan="2">审计意见</nz-form-label>
                 <nz-form-control nzSpan="21">
-                  <textarea rows="3" nz-input readonly [(ngModel)]="rectifyTrack.auditOpinion"
-                    name="opinion"></textarea>
+                  <textarea
+                    rows="3"
+                    nz-input
+                    readonly
+                    [(ngModel)]="rectifyTrack.auditOpinion"
+                    name="opinion"
+                  ></textarea>
                 </nz-form-control>
               </nz-form-item>
-              <!-- <nz-form-item *ngIf="isRectify">
-                <nz-form-label nzSpan="2">整改要求</nz-form-label>
-                <nz-form-control nzSpan="21"><textarea rows="3" nz-input readonly name="整改要求"></textarea>
-                </nz-form-control>
-              </nz-form-item> -->
               <nz-form-item>
                 <nz-form-item>
                   <nz-form-label nzSpan="2">是否无法整改</nz-form-label>
@@ -163,22 +205,28 @@
                       <label nz-radio [nzValue]="false">否</label>
                       <label nz-radio [nzValue]="true">是</label>
                     </nz-radio-group>
-                    <button nz-button nzType="primary" style="float: right;"
-                      *ngIf="rectifyTrack.noRectifyStatus">保存</button>
+                    <button nz-button nzType="primary" style="float: right;" (click)="sevaRectifyProblem()">
+                      保存
+                    </button>
                   </nz-form-control>
                 </nz-form-item>
               </nz-form-item>
               <div *ngIf="rectifyTrack.noRectifyStatus">
                 <nz-form-item>
                   <nz-form-label nzSpan="2">无法整改原因</nz-form-label>
-                  <nz-form-control nzSpan="21"> <textarea rows="3" nz-input name="advice"
-                      [(ngModel)]="rectifyTrack.noRectifyReason"></textarea></nz-form-control>
+                  <nz-form-control nzSpan="21">
+                    <textarea rows="3" nz-input name="advice" [(ngModel)]="rectifyTrack.noRectifyReason"></textarea
+                  ></nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
                   <nz-form-label nzSpan="2">无法整改说明材料</nz-form-label>
                   <nz-form-control nzSpan="21">
-                    <app-attach-list [show]="true" [(attachFiles)]="rectifyTrack.noRectifyAttachFiles"
-                      #attachListComponent [fileType]="'RECTIFY_ATTACH_FILE'">
+                    <app-attach-list
+                      [show]="true"
+                      [(attachFiles)]="rectifyTrack.noRectifyAttachFiles"
+                      #attachListComponent
+                      [fileType]="'RECTIFY_ATTACH_FILE'"
+                    >
                     </app-attach-list>
                   </nz-form-control>
                 </nz-form-item>
@@ -215,16 +263,26 @@
           <as-split-area class="flex-fixed" [size]="40">
             <div nz-col>
               <div nz-row>
-                <div nz-col nzSpan="20"
-                  [ngStyle]="{ 'padding-left': timeLineButtonType === 'right' ? '45px' : '25px' }">
-                  <!-- <button nz-button nzType="link" style="float: inherit;" (click)="hideTimeLine()"><i nz-icon
-                      [nzType]="timeLineButtonType" nzTheme="outline"></i></button> -->
-                  <button nzTooltipPlacement="bottom" nz-button nz-tooltip nzType="link" nzSize="large"
-                    style="float: inherit; margin-top: -4px; margin-bottom: -4px;" (click)="hideTimeLine()">
+                <div
+                  nz-col
+                  nzSpan="20"
+                  [ngStyle]="{ 'padding-left': timeLineButtonType === 'right' ? '45px' : '25px' }"
+                >
+                  <button
+                    nzTooltipPlacement="bottom"
+                    nz-button
+                    nz-tooltip
+                    nzType="link"
+                    nzSize="large"
+                    style="float: inherit; margin-top: -4px; margin-bottom: -4px;"
+                    (click)="hideTimeLine()"
+                  >
                     <i nz-icon [nzType]="leftSize === 0 ? 'right-circle' : 'left-circle'" nzTheme="twotone"></i>
                   </button>
                   <div [ngStyle]="{ 'margin-top': '2px' }">
-                    <font style="color:#0000FF; font-size: 18px; text-align: center;" *ngIf="!isRectify">整改反馈情况</font>
+                    <font style="color:#0000FF; font-size: 18px; text-align: center;" *ngIf="!isRectify"
+                      >整改反馈情况</font
+                    >
                     <font style="color:#0000FF; font-size: 18px; text-align: center;" *ngIf="isRectify">整改详情</font>
                   </div>
                 </div>
@@ -250,8 +308,7 @@
                   <nz-form-item>
                     <nz-form-label nzSpan="12">整改截止时间</nz-form-label>
                     <nz-form-control nzSpan="12">
-                      <nz-date-picker [(ngModel)]="rectifyEndTime" (ngModelChange)="onChangeRectifyEndTime($event)">
-                      </nz-date-picker>
+                      <nz-date-picker [(ngModel)]="rectifyEndTime" name="rectifyEndTime"> </nz-date-picker>
                     </nz-form-control>
                   </nz-form-item>
                 </div>
@@ -259,11 +316,18 @@
                   <nz-form-item>
                     <nz-form-label nzSpan="12">整改反馈频率</nz-form-label>
                     <nz-form-control nzSpan="12">
-                      <nz-input-number style="width:50%" [(ngModel)]="rectifyTrack.rectifyBackFeedHz" [nzMin]="0"
-                        [nzStep]="1">
+                      <nz-input-number
+                        style="width:50%"
+                        [(ngModel)]="rectifyTrack.rectifyBackFeedHz"
+                        [nzMin]="0"
+                        [nzStep]="1"
+                      >
                       </nz-input-number>
-                      <nz-select style="width:50%" [(ngModel)]="rectifyTrack.rectifyBackFeedHzUnit"
-                        [nzAllowClear]="true">
+                      <nz-select
+                        style="width:50%"
+                        [(ngModel)]="rectifyTrack.rectifyBackFeedHzUnit"
+                        [nzAllowClear]="true"
+                      >
                         <nz-option nzValue="DAY" nzLabel="日"></nz-option>
                         <nz-option nzValue="WEEK" nzLabel="周"></nz-option>
                         <nz-option nzValue="MONTH" nzLabel="月"></nz-option>
@@ -274,35 +338,28 @@
                   </nz-form-item>
                 </div>
                 <div nz-col nzSpan="11">
-                  <!-- <nz-form-label nzSpan="12">到期前天自动发送</nz-form-label>
-                  <nz-form-control nzSpan="12">
-                    <nz-input-number [(ngModel)]="demoValue" [nzMin]="0" [nzStep]="1" [nzPrecision]="0">
-                    </nz-input-number>
-                  </nz-form-control> -->
-                  <!-- <nz-form-label [nzNoColon]="'true'" nzSpan="5" style="margin-right: -10px;">截至日期前</nz-form-label>
-                  <nz-form-control nzSpan="3">
-                    <nz-input-number [(ngModel)]="demoValue" [nzMin]="0" [nzStep]="1" [nzPrecision]="0">
-                    </nz-input-number>
-                  </nz-form-control>
-                  <nz-form-label nzSpan="5" [nzNoColon]="'true'" style="margin-right: -10px;">天，自动发送</nz-form-label>
-                  <nz-form-control nzSpan="6">
-                    <nz-tree-select style="width: 100%" [nzNodes]="nodes" nzShowSearch nzDefaultExpandAll
-                      [(ngModel)]="templateValue" (ngModelChange)="templateChange($event)">
-                    </nz-tree-select>
-                  </nz-form-control>
-                  <nz-form-label nzSpan="5" [nzNoColon]="true">通知模板发送</nz-form-label> -->
                   <nz-form-item>
                     <nz-form-label nzSpan="6">截止日期前</nz-form-label>
                     <nz-form-control nzSpan="18">
                       <div style="display:inline">
-                        <nz-input-number style="width: 65px" [(ngModel)]="rectifyTrack.autoReminderDay" [nzMin]="0"
-                          [nzStep]="1" [nzPrecision]="0">
+                        <nz-input-number
+                          style="width: 65px"
+                          [(ngModel)]="rectifyTrack.autoReminderDay"
+                          [nzMin]="0"
+                          [nzStep]="1"
+                          [nzPrecision]="0"
+                        >
                         </nz-input-number>
                       </div>
                       <font style="color:black">&nbsp;天，自动使用:&nbsp;</font>
-                      <nz-tree-select [ngStyle]="{ width: timeLineButtonType === 'left' ? '40%' : '50%' }"
-                        [nzNodes]="nodes" nzShowSearch nzDefaultExpandAll [(ngModel)]="rectifyTrack.autoReminderTemple"
-                        (ngModelChange)="templateChange($event)">
+                      <nz-tree-select
+                        [ngStyle]="{ width: timeLineButtonType === 'left' ? '40%' : '50%' }"
+                        [nzNodes]="nodes"
+                        nzShowSearch
+                        nzDefaultExpandAll
+                        [(ngModel)]="rectifyTrack.autoReminderTemple"
+                        (ngModelChange)="templateChange($event)"
+                      >
                       </nz-tree-select>
                       <font style="color:black">&nbsp;模板发送提醒</font>
                     </nz-form-control>
@@ -310,7 +367,7 @@
                 </div>
                 <div nz-col nzSpan="2">
                   <div [ngStyle]="{ position: 'absolute', right: timeLineButtonType === 'right' ? '10px' : '20px' }">
-                    <button nz-button nzType="primary" (click)="saveProblem()">保存</button>
+                    <button nz-button nzType="primary" (click)="sevaRectifyProblem()">保存</button>
                   </div>
                 </div>
                 <div nz-col nzSpan="1"></div>
@@ -320,12 +377,24 @@
 
           <as-split-area [size]="'*'">
             <div style="height:100%">
-              <nz-table #nzTable [nzData]="listOfData" [nzScroll]="{ x: '1500px', y: '240px' }" [nzLoading]="loading"
-                [nzTotal]="pageInfo.totalRecords" [nzPageSize]="pageInfo.pageSize" [nzPageIndex]="pageInfo.pageNo"
-                [nzSize]="'small'" nzShowSizeChanger [nzShowTotal]="totalTemplate"
-                (nzPageSizeChange)="pageSizeChange($event)" (nzPageIndexChange)="pageIndexChange($event)"
-                [nzShowQuickJumper]="true" [nzFrontPagination]="false" [nzPageSizeOptions]="[20, 35, 50, 100]"
-                nzBordered="true">
+              <nz-table
+                #nzTable
+                [nzData]="listOfData"
+                [nzScroll]="{ x: '1500px', y: '240px' }"
+                [nzLoading]="loading"
+                [nzTotal]="pageInfo.totalRecords"
+                [nzPageSize]="pageInfo.pageSize"
+                [nzPageIndex]="pageInfo.pageNo"
+                [nzSize]="'small'"
+                nzShowSizeChanger
+                [nzShowTotal]="totalTemplate"
+                (nzPageSizeChange)="pageSizeChange($event)"
+                (nzPageIndexChange)="pageIndexChange($event)"
+                [nzShowQuickJumper]="true"
+                [nzFrontPagination]="false"
+                [nzPageSizeOptions]="[20, 35, 50, 100]"
+                nzBordered="true"
+              >
                 <ng-template #totalTemplate let-total> 共 {{ pageInfo.totalRecords }} 条 </ng-template>
                 <thead>
                   <tr>
@@ -336,17 +405,20 @@
                     <th nzWidth="200px">整改进度</th>
                     <th nzWidth="100px" [nzAlign]="'left'">附件</th>
                     <th nzWidth="200px" [nzAlign]="'left'">拟整改时间</th>
-                    <!-- <th nzWidth="140px" [nzAlign]="'center'" *ngIf="!isRectify">整改截止时间</th> -->
                     <th nzWidth="80px" [nzAlign]="'center'">剩余天数</th>
-                    <!-- <th nzWidth="180px" [nzAlign]="'center'" *ngIf="!isRectify">整改结果</th> -->
                     <th nzWidth="180px" [nzAlign]="'center'" nzRight="0px">操作</th>
                   </tr>
                 </thead>
                 <tbody>
                   <ng-template ngFor let-data [ngForOf]="nzTable.data">
                     <tr>
-                      <td nzWidth="80px" nzShowExpand [(nzExpand)]="mapOfExpandData[data.id]"
-                        (nzExpandChange)="changeReadStates(data)" nzLeft="0px">
+                      <td
+                        nzWidth="80px"
+                        nzShowExpand
+                        [(nzExpand)]="mapOfExpandData[data.id]"
+                        (nzExpandChange)="changeReadStates(data)"
+                        nzLeft="0px"
+                      >
                         <nz-badge [nzCount]="data.notReadNum" *ngIf="data.notReadNum !== 0">
                           <font style="color:white;">''</font>
                         </nz-badge>
@@ -356,41 +428,58 @@
                         <nz-tag [nzColor]="'#87d068'" *ngIf="data.measureStatus === 'COMPLETED'">已完成</nz-tag>
                         <nz-tag [nzColor]="'#FF4500'" *ngIf="data.measureStatus === 'OVERDUE'">已逾期</nz-tag>
                         <nz-tag [nzColor]="'#808080'" *ngIf="data.measureStatus === 'INVALID'">已失效</nz-tag>
-                        <nz-tag [nzColor]="'#D3D3D3'" *ngIf="data.measureStatus === 'NOT_SUBMITTED' && isRectify">未提交
+                        <nz-tag [nzColor]="'#D3D3D3'" *ngIf="data.measureStatus === 'NOT_SUBMITTED' && isRectify"
+                          >未提交
                         </nz-tag>
                       </td>
                       <td>{{ data.measureType }}</td>
                       <td>{{ data.measureContent }}</td>
                       <td nzWidth="200px">
                         <div style="display: inline-block;width:120px">
-                          <nz-progress [nzPercent]="data.rectifyProgress" nzSize="small" [nzShowInfo]="false"
-                            [nzStrokeWidth]="10">
+                          <nz-progress
+                            [nzPercent]="data.rectifyProgress"
+                            nzSize="small"
+                            [nzShowInfo]="false"
+                            [nzStrokeWidth]="10"
+                          >
                           </nz-progress>
                         </div>
                         <div style="display: inline-block;width: 60px;">&nbsp; {{ data.rectifyProgress }}&nbsp;%</div>
                       </td>
                       <td nzWidth="100px" [nzAlign]="'center'">
-                        <button nz-button nzType="link" [disabled]="data.systemFiles.length < 1"
-                          (click)="update(data, true, true)">
+                        <button
+                          nz-button
+                          nzType="link"
+                          [disabled]="data.systemFiles.length < 1"
+                          (click)="update(data, true, true)"
+                        >
                           查看文件
                         </button>
                       </td>
                       <td nzWidth="200px" [nzAlign]="'left'">
-                        {{ formatDateFun(data.rectifyCompleteTime) }} ~ 2021-12-12
+                        <!-- {{ formatDateFun(data.rectifyCompleteTime) }} ~ 2021-12-12 -->
                       </td>
-                      <!-- <td nzWidth="140px" [nzAlign]="'center'" *ngIf="!isRectify">{{ formatDateFun(data.rectifyEndTime)
-                        }}</td> -->
                       <td nzWidth="50px" [nzAlign]="'right'">10</td>
 
                       <td nzWidth="180px" [nzAlign]="'center'" nzRight="0px">
                         <div *ngIf="!isRectify">
-                          <button nz-button nzType="link" [disabled]="data.measureStatus === 'COMPLETED'"
-                            (click)="chageRectifyProgress(data.id, null, 'COMPLETED')" style="padding: 0;">
+                          <button
+                            nz-button
+                            nzType="link"
+                            [disabled]="data.measureStatus === 'COMPLETED'"
+                            (click)="chageRectifyProgress(data.id, null, 'COMPLETED')"
+                            style="padding: 0;"
+                          >
                             整改完成
                           </button>
                           <nz-divider nzType="vertical"></nz-divider>
-                          <button nz-button nzType="link" [disabled]="data.measureStatus === 'COMPLETED'"
-                            (click)="chageRectifyProgress(data.id, null, 'INVALID')" style="padding: 0;">
+                          <button
+                            nz-button
+                            nzType="link"
+                            [disabled]="data.measureStatus === 'COMPLETED'"
+                            (click)="chageRectifyProgress(data.id, null, 'INVALID')"
+                            style="padding: 0;"
+                          >
                             重新整改
                           </button>
                         </div>
@@ -407,8 +496,10 @@
                           </div>
                           <div *ngIf="data.measureStatus === 'RECTIFY_CENTRE'">
                             <a (click)="watch(data)" *ngIf="data.measureStatus !== 'NOT_SUBMITTED'">查看</a>
-                            <nz-divider nzType="vertical"
-                              *ngIf="data.measureStatus !== 'NOT_SUBMITTED' && data.measureStatus === 'RECTIFY_CENTRE'">
+                            <nz-divider
+                              nzType="vertical"
+                              *ngIf="data.measureStatus !== 'NOT_SUBMITTED' && data.measureStatus === 'RECTIFY_CENTRE'"
+                            >
                             </nz-divider>
                             <a (click)="update(data, true, false)">上传</a>
                             <nz-divider nzType="vertical"></nz-divider>
@@ -424,22 +515,31 @@
                           <div *ngFor="let rectifyMeasureReply of data.rectifyMeasureReplys; let i = index">
                             <div style="color:silver">
                               {{ rectifyMeasureReply.name }}&nbsp;
-                              <button nz-button nzType="link" (click)="lookFile(rectifyMeasureReply.systemFiles)"
-                                *ngIf="rectifyMeasureReply.systemFiles && rectifyMeasureReply.systemFiles.length > 0">
+                              <button
+                                nz-button
+                                nzType="link"
+                                (click)="lookFile(rectifyMeasureReply.systemFiles)"
+                                *ngIf="rectifyMeasureReply.systemFiles && rectifyMeasureReply.systemFiles.length > 0"
+                              >
                                 查看文件
                               </button>
                             </div>
-                            <!-- <div>{{rectifyMeasureReply.roles[0].name}}</div> -->
                             <div style="font-weight: 500;font-size: 18px;">{{ rectifyMeasureReply.replyContent }}</div>
                             <div *ngIf="i === data.rectifyMeasureReplys.length - 1">
-                              <button nz-button nzType="link" *ngIf="isRectifyMeasureReply"
-                                (click)="rectifyMeasureReplyClick(data.id)">
+                              <button
+                                nz-button
+                                nzType="link"
+                                *ngIf="isRectifyMeasureReply"
+                                (click)="rectifyMeasureReplyClick(data.id)"
+                              >
                                 回复
                               </button>
                               <div *ngIf="!isRectifyMeasureReply" style="margin:5px;">
-                                <app-rectify-measure-reply #rectifyMeasureReplyComponent
+                                <app-rectify-measure-reply
+                                  #rectifyMeasureReplyComponent
                                   (saveRectifyMeasureReply)="loadData()"
-                                  (rectifyMeasureReplyBoolean)="clickRectifyMeasureReply()">
+                                  (rectifyMeasureReplyBoolean)="clickRectifyMeasureReply()"
+                                >
                                 </app-rectify-measure-reply>
                               </div>
                             </div>
@@ -448,20 +548,21 @@
 
                         <div *ngIf="!data.rectifyMeasureReplys || data.rectifyMeasureReplys.length < 1">
                           <div class="gutter-example">
-                            <!-- <div>
-                              <font style="color:silver">李明 2021-10-25</font>
-                              <button nz-button nzType="link" (click)="lookFile(data.systemFiles)">查看文件</button>
-                            </div>
-                            <div style="font-weight: 500;font-size: 18px;">关于xxx整改措施补充</div> -->
-                            <button nz-button nzType="link" *ngIf="isRectifyMeasureReply"
+                            <button
+                              nz-button
+                              nzType="link"
+                              *ngIf="isRectifyMeasureReply"
                               (click)="rectifyMeasureReplyClick(data.id)"
-                              [disabled]="data.measureStatus === 'NOT_SUBMITTED'">
+                              [disabled]="data.measureStatus === 'NOT_SUBMITTED'"
+                            >
                               回复
                             </button>
                             <div *ngIf="!isRectifyMeasureReply" style="margin:5px;">
-                              <app-rectify-measure-reply #rectifyMeasureReplyComponent
+                              <app-rectify-measure-reply
+                                #rectifyMeasureReplyComponent
                                 (saveRectifyMeasureReply)="loadData()"
-                                (rectifyMeasureReplyBoolean)="clickRectifyMeasureReply()">
+                                (rectifyMeasureReplyBoolean)="clickRectifyMeasureReply()"
+                              >
                               </app-rectify-measure-reply>
                             </div>
                           </div>
@@ -484,19 +585,19 @@
 <!-- 整改措施 -->
 <app-rectify-measure #rectifyMeasureComponent (saveRectifyMeasure)="loadData()"></app-rectify-measure>
 <!-- 整改措施回复 -->
-
 <!-- 整改部门提交申请请求
   调用弹窗组件 -->
 <app-rectify-workbeach-put #rectifyWorkbeachPutComponent [isRectify]="isRectify"></app-rectify-workbeach-put>
-
 <rectify-workbeach-table #rectifyWorkbeachTableComponent></rectify-workbeach-table>
 <!-- 移交纪检 -->
-<app-rectify-issue-transfer #rectifyIssueTransferComponent></app-rectify-issue-transfer>
+<app-rectify-issue-transfer
+  #rectifyIssueTransferComponent
+  (notification)="loadRectifyProblemData()"
+></app-rectify-issue-transfer>
 <!-- 整改成效 -->
 <app-rectify-effect #rectifyEffectComponent></app-rectify-effect>
 <!-- 整改问题切换 -->
-<app-rectify-problem-switch #rectifyProblemSwitchComponent (rectifyProblem)="chageRectify($event)">
+<app-rectify-problem-switch #rectifyProblemSwitchComponent (rectifyProblemChange)="chageRectify($event)">
 </app-rectify-problem-switch>
-
 <!-- 催办通知组件 -->
 <app-rectify-feedback-remind #rectifyFeedbackRemindComponent></app-rectify-feedback-remind>

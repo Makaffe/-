@@ -53,7 +53,7 @@ export class RectifyProblemService {
    * @param children 子问题列表 把父问题放到最后
    *
    */
-  rectifyProblemSplit( children: Array<RectifyProblemDTO>): Observable<Array<RectifyProblemDTO>> {
+  rectifyProblemSplit(children: Array<RectifyProblemDTO>): Observable<Array<RectifyProblemDTO>> {
     return this.http.post<Array<RectifyProblemDTO>>(`${RectifyProblemService.URL}/rectifyProblemSplit`, children);
   }
 
@@ -63,7 +63,7 @@ export class RectifyProblemService {
    *
    */
   rectifyProblemSend(ids: Array<string>): Observable<Array<RectifyProblemDTO>> {
-    return this.http.put<Array<RectifyProblemDTO>>(`${RectifyProblemService.URL}/send`, ids);
+    return this.http.put<Array<RectifyProblemDTO>>(`${RectifyProblemService.URL}/rectifyProblemSend`, ids);
   }
 
   /**
@@ -152,5 +152,14 @@ export class RectifyProblemService {
    */
   rectifyTrackById(id: string): Observable<RectifyTrackDTO> {
     return this.http.get<RectifyTrackDTO>(`${RectifyProblemService.URL}/rectify/track/${id}`);
+  }
+
+  /**
+   * 根据id修改整改问题信息
+   * @param id 整改问题id
+   *
+   */
+  update(id: string, rectifyTrack: RectifyTrackDTO): Observable<RectifyTrackDTO> {
+    return this.http.post<RectifyTrackDTO>(`${RectifyProblemService.URL}/update/${id}`, rectifyTrack);
   }
 }

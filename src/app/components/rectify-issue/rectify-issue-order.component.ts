@@ -20,7 +20,7 @@ export class RectifyIssueOrderComponent implements OnInit {
     private oaSendTemplateService: OASendTemplateService,
     private msg: NzMessageService,
     private oASendTemplateTypeService: OASendTemplateTypeService,
-  ) {}
+  ) { }
 
   /**
    * 数据改变通知事件
@@ -117,17 +117,14 @@ export class RectifyIssueOrderComponent implements OnInit {
    */
   save() {
     this.loading = true;
-    const ids = [];
-    this.listOfData.forEach(data => {
-      ids.push(data.id);
-    });
+    const ids = this.listOfData.map(item => item.id);
     this.rectifyProblemService.rectifyProblemSend(ids).subscribe(
       data => {
         this.msg.success('问题下发成功！');
         this.notification.emit();
         this.handleCancel();
       },
-      () => {},
+      () => { },
       () => {
         this.loading = false;
       },
@@ -140,13 +137,16 @@ export class RectifyIssueOrderComponent implements OnInit {
    *
    */
   edit(problems: Array<RectifyProblemDTO>) {
+    console.log(problems);
     problems.forEach(problem => {
       this.listOfData.push({
         id: problem.id,
-        rectifyDepartment: problem.rectifyDepartment,
-        dutyUser: problem.dutyUser,
+        rectifyDepartment: problem.rectifyDepartment && problem.rectifyUnit
+          ? problem.rectifyUnit.name + '/' + problem.rectifyDepartment.name : null,
+        dutyUser: problem.dutyUser ? problem.dutyUser.name : null,
       });
     });
+    console.log(this.listOfData);
     this.listOfData = [...this.listOfData];
     this.isVisible = true;
   }
@@ -159,17 +159,17 @@ export class RectifyIssueOrderComponent implements OnInit {
    */
   onChange($event: string) {
     this.oaSendTemplateService.findOnePageUsingGET(this.QueryOptions.sort, this.QueryOptions.page,
-       this.QueryOptions.size, $event).subscribe(
-      data => {
-        if (data) {
-          this.tableData = data.data;
-          this.tableData = [...this.tableData];
-          this.tableParameter.page.total = data.totalRecords;
-          this.tableParameter.pi = data.pageNo + 1;
-        }
-      },
-      null,
-      () => (this.loading = false),
-    );
+      this.QueryOptions.size, $event).subscribe(
+        data => {
+          if (data) {
+            this.tableData = data.data;
+            this.tableData = [...this.tableData];
+            this.tableParameter.page.total = data.totalRecords;
+            this.tableParameter.pi = data.pageNo + 1;
+          }
+        },
+        null,
+        () => (this.loading = false),
+      );
   }
 }

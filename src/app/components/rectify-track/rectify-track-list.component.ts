@@ -81,7 +81,7 @@ export class RectifyTrackListComponent implements OnInit {
   queryOptions: QueryOptions = {
     page: 0,
     size: 20,
-    sort: 'sendStatus,asc',
+    sort: 'sendStatus,asc,id,desc',
   };
 
   /**
@@ -223,6 +223,19 @@ export class RectifyTrackListComponent implements OnInit {
       this.rectifyIssueTransferComponent.currentItem = this.rectifyIssueTransferComponent.initItem(null);
       this.rectifyIssueTransferComponent.readOnly = readOnly;
       this.rectifyIssueTransferComponent.edit([item]);
+    }
+  }
+
+  /**
+   * 整改对象反显
+   * @param item 整改跟踪数据
+   * @returns 单位/部门
+   */
+  convertUnitAndDepartment(item: RectifyTrackDTO) {
+    let UnitAndDepartment = '';
+    if (item && item.rectifyDepartment && item.rectifyUnit) {
+      UnitAndDepartment = item.rectifyUnit.name + '/' + item.rectifyDepartment.name;
+      return UnitAndDepartment;
     }
   }
 }
