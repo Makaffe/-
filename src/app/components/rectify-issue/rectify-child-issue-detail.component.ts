@@ -80,8 +80,9 @@ export class RectifyChildIssueDetailComponent implements OnInit {
   ngOnInit() {
     // 加载整改负责人级联选择
     this.organizationService.findUserTree().subscribe(data => {
-      this.fomatCascadeData(data);
-      this.organizationTree = [...data];
+      let CascadeData = [];
+      CascadeData = this.fomatCascadeData(data);
+      this.organizationTree = CascadeData;
     });
     // 加载问题类型下拉
     this.problemTypeService.findAllUsingGET().subscribe(data => {
@@ -110,6 +111,13 @@ export class RectifyChildIssueDetailComponent implements OnInit {
       this.msg.warning('请补全标星号的必填信息项！');
       return;
     }
+    this.currentItem.isTrunk = false;
+    this.currentItem.rectifyProblemTypeId = this.currentItem.rectifyProblemType ? this.currentItem.rectifyProblemType.id : null;
+    this.currentItem.mainType = this.currentItem.rectifyProblemType && this.currentItem.rectifyProblemType.parent
+      ? this.currentItem.rectifyProblemType.parent.id : this.currentItem.rectifyProblemTypeId;
+    this.currentItem.rectifyUnitId = this.currentItem.dutyUserId[this.currentItem.dutyUserId.length - 3];
+    this.currentItem.rectifyDepartmentId = this.currentItem.dutyUserId[this.currentItem.dutyUserId.length - 2];
+    this.currentItem.dutyUserId = this.currentItem.dutyUserId[this.currentItem.dutyUserId.length - 1];
     this.dataChange.emit(ObjectUtil.deepClone(this.currentItem));
     this.msg.success('操作成功！');
     this.handleCancel();
@@ -138,15 +146,21 @@ export class RectifyChildIssueDetailComponent implements OnInit {
       this.currentItem.sendStatus = 'NOT_ISSUED';
       this.currentItem.transferStatus = 'NOT_HANDED_OVER';
       this.currentItem.trackStatus = 'NOT_RECTIFIED';
+      this.currentItem.noRectifyStatus = false;
+      this.currentItem.multipleYearRectify = false;
+      this.currentItem.oaSendCase = false;
       this.currentItem.source = this.problemItem.source;
     }
     this.isVisible = true;
   }
 
+
   /**
    * 格式成级联选择数据
    */
-  fomatCascadeData(data?: Array<any>) {
+  fomatCascadeData(data?: Array<any>): Array<RectifyProblemDTO> {
+    data = data.filter((row) => row.id > 0);
+    data = [...data];
     data.forEach(item => {
       item.value = item.id;
       item.label = item.name;
@@ -157,5 +171,6 @@ export class RectifyChildIssueDetailComponent implements OnInit {
         item.isLeaf = true;
       }
     });
+    return [...data];
   }
 }

@@ -50,18 +50,11 @@ export class RectifyProblemService {
 
   /**
    * 拆分问题
-   * @param parent 父问题
-   * @param children 子问题列表
+   * @param children 子问题列表 把父问题放到最后
    *
    */
-  rectifyProblemSplit(
-    parent: RectifyProblemDTO,
-    children: Array<RectifyProblemDTO>,
-  ): Observable<Array<RectifyProblemDTO>> {
-    const params = {};
-    Object.assign(params, parent ? { parent } : {});
-    Object.assign(params, children ? { children } : {});
-    return this.http.post<Array<RectifyProblemDTO>>(`${RectifyProblemService.URL}/rectifyProblemSplit`, params);
+  rectifyProblemSplit( children: Array<RectifyProblemDTO>): Observable<Array<RectifyProblemDTO>> {
+    return this.http.post<Array<RectifyProblemDTO>>(`${RectifyProblemService.URL}/rectifyProblemSplit`, children);
   }
 
   /**
@@ -76,10 +69,14 @@ export class RectifyProblemService {
   /**
    * 移交纪检
    * @param ids 整改问题ids
+   * @param transferCause 问题移交原因
    *
    */
-  rectifyProblemTransfer(ids: Array<string>): Observable<Array<RectifyProblemDTO>> {
-    return this.http.put<Array<RectifyProblemDTO>>(`${RectifyProblemService.URL}/rectifyProblemTransfer`, ids);
+  rectifyProblemTransfer(ids: Array<string>, transferCause: string): Observable<Array<RectifyProblemDTO>> {
+    return this.http.put<Array<RectifyProblemDTO>>(
+      `${RectifyProblemService.URL}/rectifyProblemTransfer?transferCause=${transferCause}`,
+      ids,
+    );
   }
 
   /**

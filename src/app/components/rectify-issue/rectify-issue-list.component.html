@@ -46,9 +46,8 @@
           <td>{{ item?.auditReport.name }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.rectifyProblemType.name }}</td>
-          <!-- <td>{{ item.type }}</td> -->
           <td nzAlign="right">{{ item.money | currency: 'CNY':'symbol-narrow' }}</td>
-          <td>{{item.rectifyUnit?item.rectifyUnit.name:null}}</td>
+          <td>{{item.UnitAndDepartment}}</td>
           <td>{{ item.dutyUser?item.dutyUser.name:null }}</td>
           <td nzAlign="center">
             <ng-container *ngIf="!isAnalysis">

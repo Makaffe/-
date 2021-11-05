@@ -26,6 +26,8 @@ const COMPONENTS = [
   RectifyWorkbeachTableComponent,
   RectifyTimeLineComponent,
   RectifyFeedbackRemindComponent,
+  RectifyWorkbeachTableComponent,
+  RectifyWorkbeachPutComponent,
 ];
 @NgModule({
   imports: [CommonModule, SharedModule, NgxEchartsModule, AttachListModule, RectifyIssueModule],

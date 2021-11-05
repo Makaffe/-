@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NzCollapseComponent } from 'ng-zorro-antd';
+import { RectifyTimeLineService } from './service/RectifyTimeLineService';
 
 @Component({
   selector: 'app-rectify-time-line',
@@ -39,6 +40,13 @@ export class RectifyTimeLineComponent implements OnInit {
   @ViewChild('abcde', { static: false })
   abcde: NzCollapseComponent;
   clickKey = null;
+
+  /**
+   * 问题id
+   */
+  @Input()
+  rectifyProblemId = null;
+
   panels = [
     {
       title: '问题1 2015-08-02',
@@ -177,7 +185,19 @@ export class RectifyTimeLineComponent implements OnInit {
     },
   ];
 
-  ngOnInit(): void {}
+  constructor(private rectifyTimeLineService: RectifyTimeLineService) {}
+
+  ngOnInit(): void {
+    this.load();
+  }
+  /**
+   * 加载时间轴数据
+   */
+  load() {
+    this.rectifyTimeLineService.queryByRectifyProblemId(this.rectifyProblemId).subscribe(data => {
+      console.log(data);
+    });
+  }
 
   ActiveChange(value: any) {
     this.clickKey = value.key;

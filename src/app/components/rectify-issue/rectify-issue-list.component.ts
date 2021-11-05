@@ -113,7 +113,8 @@ export class RectifyIssueListComponent implements OnInit {
       .subscribe(
         data => {
           if (data) {
-            this.listOfMapData = data.data;
+            this.initDto(data.data);
+            this.listOfMapData = [...data.data];
             this.pageInfo.pageNo = data.pageNo + 1;
             this.pageInfo.pageSize = data.pageSize;
             this.pageInfo.totalPages = data.totalPages;
@@ -131,6 +132,19 @@ export class RectifyIssueListComponent implements OnInit {
           this.loading = false;
         },
       );
+  }
+
+  /**
+   * 初始化表格数据
+   */
+  initDto(listData: Array<RectifyProblemDTO>) {
+    listData.forEach(item => {
+      let UnitAndDepartment = '';
+      if (item.rectifyDepartment && item.rectifyUnit) {
+        UnitAndDepartment = item.rectifyUnit.name + '/' + item.rectifyDepartment.name;
+      }
+      Object.assign(item, { UnitAndDepartment });
+    });
   }
 
   /**
