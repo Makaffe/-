@@ -21,8 +21,8 @@
       <nz-form-control [nzSpan]="8"
         [nzValidateStatus]="problemType.invalid && (problemType.dirty || problemType.touched) ? 'error' : ''">
         <nz-select required nzAllowClear [nzPlaceHolder]="'请选择问题类型'" #problemType="ngModel" name="problemType"
-          [(ngModel)]="currentItem.rectifyProblemType" [disabled]="isWatch">
-          <nz-option *ngFor="let type of problemTypeList" [nzValue]="type" [nzLabel]="type.name"></nz-option>
+          [(ngModel)]="currentItem.rectifyProblemTypeId" [disabled]="isWatch">
+          <nz-option *ngFor="let type of problemTypeList" [nzValue]="type.id" [nzLabel]="type.name"></nz-option>
         </nz-select>
         <nz-form-explain *ngIf="problemType.invalid && (problemType.dirty || problemType.touched)">
           请选择问题类型
@@ -43,7 +43,7 @@
       <nz-form-label [nzSpan]="4" nzFor="remark" nzRequired>问题描述</nz-form-label>
       <nz-form-control [nzSpan]="20"
         [nzValidateStatus]="remark.invalid && (remark.dirty || remark.touched) ? 'error' : ''">
-        <textarea required rows="6" #remark="ngModel" nz-input name="remark" [(ngModel)]="currentItem.remark"
+        <textarea required rows="6" #remark="ngModel" nz-input name="remark" [(ngModel)]="currentItem.description"
           [readonly]="isWatch"></textarea>
         <nz-form-explain *ngIf="remark.invalid && (remark.dirty || remark.touched)">
           请填写问题描述
@@ -56,7 +56,7 @@
       <nz-form-control [nzSpan]="8" [nzValidateStatus]="
           rectifyDepartmentId.invalid && (rectifyDepartmentId.dirty || rectifyDepartmentId.touched) ? 'error' : ''
         ">
-        <nz-cascader [nzOptions]="organizationTree" [(ngModel)]="currentItem.dutyUserId" [disabled]="isWatch"
+        <nz-cascader [nzOptions]="organizationTree" [(ngModel)]="dutyUserIds" [disabled]="isWatch"
           #rectifyDepartmentId="ngModel" required name="rectifyDepartmentId">
         </nz-cascader>
         <nz-form-explain

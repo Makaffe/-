@@ -38,6 +38,10 @@ export class RectifyChildIssueDetailComponent implements OnInit {
   currentItem: RectifyProblemDTO = new RectifyProblemDTO();
 
   /**
+   * 构建整改单位到人  map
+   */
+  organizationTreeMap: Map<string, string> = new Map<string, string>();
+  /**
    * 整改部门树
    */
   organizationTree = [];
@@ -46,6 +50,11 @@ export class RectifyChildIssueDetailComponent implements OnInit {
    * 整改负责人列表
    */
   dutyUserList = [];
+
+  /**
+   * 整改负责人/从组织到人 id数组
+   */
+  dutyUserIds = [];
 
   /**
    * 弹窗可见性
@@ -112,12 +121,15 @@ export class RectifyChildIssueDetailComponent implements OnInit {
       return;
     }
     this.currentItem.isTrunk = false;
-    this.currentItem.rectifyProblemTypeId = this.currentItem.rectifyProblemType ? this.currentItem.rectifyProblemType.id : null;
+    this.currentItem.rectifyProblemType = this.problemTypeList.filter(item => this.currentItem.rectifyProblemTypeId === item.id)[0];
     this.currentItem.mainType = this.currentItem.rectifyProblemType && this.currentItem.rectifyProblemType.parent
       ? this.currentItem.rectifyProblemType.parent.id : this.currentItem.rectifyProblemTypeId;
-    this.currentItem.rectifyUnitId = this.currentItem.dutyUserId[this.currentItem.dutyUserId.length - 3];
-    this.currentItem.rectifyDepartmentId = this.currentItem.dutyUserId[this.currentItem.dutyUserId.length - 2];
-    this.currentItem.dutyUserId = this.currentItem.dutyUserId[this.currentItem.dutyUserId.length - 1];
+    this.currentItem.rectifyUnitId = this.dutyUserIds[this.dutyUserIds.length - 3];
+    this.currentItem.rectifyDepartmentId = this.dutyUserIds[this.dutyUserIds.length - 2];
+    this.currentItem.dutyUserId = this.dutyUserIds[this.dutyUserIds.length - 1];
+    this.currentItem.unitAndDepartment = this.organizationTreeMap.get(this.currentItem.rectifyUnitId)
+      + '/' + this.organizationTreeMap.get(this.currentItem.rectifyDepartmentId);
+    this.currentItem.dutyUserName = this.organizationTreeMap.get(this.currentItem.dutyUserId);
     this.dataChange.emit(ObjectUtil.deepClone(this.currentItem));
     this.msg.success('操作成功！');
     this.handleCancel();
@@ -138,6 +150,9 @@ export class RectifyChildIssueDetailComponent implements OnInit {
   edit(item: RectifyProblemDTO, isWatch: boolean): void {
     this.isWatch = isWatch;
     this.currentItem = new RectifyProblemDTO(item);
+    this.currentItem.rectifyProblemTypeId = this.currentItem.rectifyProblemType ? this.currentItem.rectifyProblemType.id : null;
+    this.dutyUserIds = this.currentItem.dutyUser && this.currentItem.rectifyUnit && this.currentItem.rectifyDepartment
+      ? [this.currentItem.rectifyUnit.id, this.currentItem.rectifyDepartment.id, this.currentItem.dutyUser.id] : [];
     if (this.problemItem && this.problemItem.auditReport) {
       this.currentItem.auditReportId = this.problemItem.auditReport.id;
       this.currentItem.parentId = this.problemItem.id;
@@ -162,6 +177,7 @@ export class RectifyChildIssueDetailComponent implements OnInit {
     data = data.filter((row) => row.id > 0);
     data = [...data];
     data.forEach(item => {
+      this.organizationTreeMap.set(item.id, item.name);
       item.value = item.id;
       item.label = item.name;
       item.children = item.userBaseDTOS && item.userBaseDTOS.length > 0 ? item.userBaseDTOS : item.children;
