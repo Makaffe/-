@@ -12,7 +12,7 @@ import { RectifyProblemService } from './service/RectifyProblemService';
   styles: [],
 })
 export class RectifyIssueListComponent implements OnInit {
-  constructor(private rectifyProblemService: RectifyProblemService, private router: Router) { }
+  constructor(private rectifyProblemService: RectifyProblemService, private router: Router) {}
 
   @ViewChild('rectifyIssueSplitComponent', { static: false })
   rectifyIssueSplitComponent: RectifyIssueSplitComponent;
@@ -90,11 +90,14 @@ export class RectifyIssueListComponent implements OnInit {
    */
   checkboxData = [];
 
+  /**
+   * 是否是工作台里的问题切换
+   */
+  @Input()
+  isProblemSwich = false;
+
   ngOnInit(): void {
     this.load();
-    // this.listOfMapData.forEach(item => {
-    //   this.mapOfExpandedData[item.id] = this.convertTreeToList(item);
-    // });
   }
 
   /**
@@ -102,6 +105,9 @@ export class RectifyIssueListComponent implements OnInit {
    */
   load() {
     this.loading = true;
+    this.isProblemSwich
+      ? (this.queryOptions.sort = 'sendStatus,asc,id,desc')
+      : (this.queryOptions.sort = 'sendStatus,desc,id,desc');
     this.rectifyProblemService
       .findOnePage(
         this.queryOptions,
@@ -126,7 +132,7 @@ export class RectifyIssueListComponent implements OnInit {
             console.log('listOfMapData', this.listOfMapData);
           }
         },
-        () => { },
+        () => {},
         () => {
           this.mapOfCheckedId = {};
           this.checkboxData = [];
@@ -158,10 +164,22 @@ export class RectifyIssueListComponent implements OnInit {
    * @param isCheck 是否选中
    */
   checked(item: RectifyProblemDTO, isCheck: boolean) {
-    if (isCheck) {
-      this.checkboxData.push(item);
+    if (!this.isProblemSwich) {
+      if (isCheck) {
+        this.checkboxData.push(item);
+      } else {
+        this.checkboxData = this.checkboxData.filter(problem => problem.id !== item.id);
+      }
     } else {
-      this.checkboxData = this.checkboxData.filter(problem => problem.id !== item.id);
+      if (isCheck) {
+        if (this.checkboxData.length > 0) {
+          this.mapOfCheckedId[this.checkboxData[0].id] = false;
+        }
+        this.checkboxData = [];
+        this.checkboxData.push(item);
+      } else {
+        this.checkboxData = [];
+      }
     }
     this.checkboxChange.emit(this.checkboxData);
   }
@@ -195,22 +213,24 @@ export class RectifyIssueListComponent implements OnInit {
    * @param item 整改问题数据
    */
   watch(item: RectifyProblemDTO) {
-    if (item.sendStatus === '未下发') {
-      this.rectifyIssueSplitComponent.edit(item, true);
-    } else {
-      if (this.isAnalysis) {
-        this.closeModal.emit('关闭');
-        setTimeout(() => {
+    if (!this.isProblemSwich) {
+      if (item.sendStatus === '未下发') {
+        this.rectifyIssueSplitComponent.edit(item, true);
+      } else {
+        if (this.isAnalysis) {
+          this.closeModal.emit('关闭');
+          setTimeout(() => {
+            this.router.navigate(['/audit-rectify/rectify-workbeach'], {
+              // queryParams: { rectifyProblemId: id, isWatch: true },
+              queryParams: { isWatch: true },
+            });
+          }, 500);
+        } else {
           this.router.navigate(['/audit-rectify/rectify-workbeach'], {
             // queryParams: { rectifyProblemId: id, isWatch: true },
             queryParams: { isWatch: true },
           });
-        }, 500);
-      } else {
-        this.router.navigate(['/audit-rectify/rectify-workbeach'], {
-          // queryParams: { rectifyProblemId: id, isWatch: true },
-          queryParams: { isWatch: true },
-        });
+        }
       }
     }
   }

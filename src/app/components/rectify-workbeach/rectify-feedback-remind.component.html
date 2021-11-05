@@ -1,11 +1,17 @@
-<nz-modal [(nzVisible)]="isVisible" [nzMaskClosable]="false" (nzOnCancel)="handleCancel()" [nzFooter]="editorFooter"
-  nzWidth="1050" [nzTitle]="'催办通知详情'" [nzStyle]="{ top: '65px' }" [nzBodyStyle]="{
-    'max-height': '650px',
-    'min-height': '450px',
+<nz-modal
+  [(nzVisible)]="isVisible"
+  [nzMaskClosable]="false"
+  (nzOnCancel)="handleCancel()"
+  [nzFooter]="editorFooter"
+  nzWidth="1200"
+  [nzTitle]="'催办通知详情'"
+  [nzStyle]="{ top: '65px' }"
+  [nzBodyStyle]="{
     'overflow-y': 'auto',
     'overflow-x': 'hidden',
     padding: '24px 24px 0 24px'
-  }">
+  }"
+>
   <nz-form-item>
     <nz-form-label nzSpan="4">引用催办通知模版</nz-form-label>
     <nz-form-control nzSpan="8">
@@ -16,7 +22,7 @@
   <nz-form-item>
     <nz-form-label [nzSpan]="4" nzFor="advice">催办通知内容</nz-form-label>
     <nz-form-control [nzSpan]="18">
-      <textarea rows="15" nz-input name="advice" [(ngModel)]="advice"></textarea>
+      <textarea rows="20" nz-input name="advice" [(ngModel)]="advice"></textarea>
     </nz-form-control>
   </nz-form-item>
   <ng-template #editorFooter>

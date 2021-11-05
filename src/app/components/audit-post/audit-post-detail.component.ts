@@ -1091,6 +1091,12 @@ export class AuditPostDetailComponent implements OnInit {
         complete: () => {},
       });
     }
+    // else {
+    //   this.auditReportService.update(this.postId, this.currentItem).subscribe(data => {
+    //     this.msg.success('更新成功');
+    //     this.onReturn();
+    //   });
+    // }
   }
 
   /**

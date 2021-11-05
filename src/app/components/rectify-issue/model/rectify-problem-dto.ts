@@ -11,9 +11,12 @@ export class RectifyProblemDTO {
   constructor(item?: RectifyProblemDTO) {
     this.id = item && item.id ? item.id : null;
     this.name = item && item.name ? item.name : null;
-    this.mainType = item && item.rectifyProblemType && item.rectifyProblemType.parent
-      ? item.rectifyProblemType.parent.id : item && item.rectifyProblemType
-        ? item.rectifyProblemType.id : null;
+    this.mainType =
+      item && item.rectifyProblemType && item.rectifyProblemType.parent
+        ? item.rectifyProblemType.parent.id
+        : item && item.rectifyProblemType
+        ? item.rectifyProblemType.id
+        : null;
     this.money = item && item.money ? item.money : null;
     this.isTrunk = item && item.isTrunk ? item.isTrunk : false;
     this.multipleYearRectify = item && item.multipleYearRectify ? item.multipleYearRectify : false;
@@ -58,11 +61,12 @@ export class RectifyProblemDTO {
     this.editable = item && item.editable ? item.editable : null;
     this.attachFiles = item && item.attachFiles ? item.attachFiles : [];
     this.noRectifyAttachFiles = item && item.noRectifyAttachFiles ? item.noRectifyAttachFiles : [];
+    this.noRectifyAttachFileIds = item && item.noRectifyAttachFileIds ? item.noRectifyAttachFileIds : [];
     this.selectedRectifyDepartment = item && item.selectedRectifyDepartment ? item.selectedRectifyDepartment : [];
     this.selectedRectifyPeople = item && item.selectedRectifyPeople ? item.selectedRectifyPeople : [];
     this.auditUserId = item && item.auditUser ? item.auditUser.id : null;
     this.dutyUserId = item && item.dutyUser ? item.dutyUser.id : null;
-    this.rectifyProblemTypeId = item && item.rectifyProblemType ? item.rectifyProblemType.Id : null;
+    this.rectifyProblemTypeId = item && item.rectifyProblemType ? item.rectifyProblemType.id : null;
     this.rectifyUnitId = item && item.rectifyUnit ? item.rectifyUnit.id : null;
     this.rectifyDepartmentId = item && item.rectifyDepartment ? item.rectifyDepartment.id : null;
     this.parentId = item && item.parent ? item.parent.id : null;
@@ -180,7 +184,6 @@ export class RectifyProblemDTO {
    * 整改单位
    */
   rectifyUnit?: any;
-
 
   /**
    * 创建数据的时间，系统根据服务器时间自动填写
@@ -318,6 +321,8 @@ export class RectifyProblemDTO {
   attachFiles?: Array<SystemFileDTO>;
 
   noRectifyAttachFiles?: Array<SystemFileDTO>;
+
+  noRectifyAttachFileIds?: Array<string>;
 
   selectedRectifyDepartment?: OrganizationDTO[];
 

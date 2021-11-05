@@ -30,8 +30,8 @@
       <th nzWidth="150px">问题类型</th>
       <th nzWidth="150px" nzAlign="right">涉及金额(元)</th>
       <th nzWidth="200px">整改反馈进度</th>
-      <th nzWidth="150px">整改对象</th>
-      <th nzWidth="150px">整改负责人</th>
+      <th nzWidth="200px">整改对象</th>
+      <th nzWidth="100px">整改负责人</th>
       <th nzWidth="150px">整改跟踪负责人</th>
       <th nzWidth="150px" nzAlign="right">已完成整改措施数</th>
       <th nzWidth="150px">整改拟开始时间</th>
@@ -75,9 +75,9 @@
           <td>{{ item?.rectifyProblemType?.name }}</td>
           <td nzAlign="right">{{ item?.money | currency: 'CNY':'symbol-narrow' }}</td>
           <td>
-            <nz-progress [nzPercent]="item.rectifyProgress"></nz-progress>
+            <nz-progress [nzPercent]="item?.rectifyProgress"></nz-progress>
           </td>
-          <td>{{ item?.rectifyUnit?.name }}</td>
+          <td>{{ convertUnitAndDepartment(item) }}</td>
           <td>{{ item?.dutyUser?.name }}</td>
           <td>{{ item?.auditUser?.name }}</td>
           <td nzAlign="right">{{ item?.rectifyCount }}</td>
@@ -87,7 +87,10 @@
           <td>{{ item?.nextFeedbackTime | date: 'yyyy-MM-dd' }}</td>
           <td nzRight="0px">
             <button nz-button nzType="link" (click)="goWorkBench(item.id)" style="padding: 0;">进入工作台</button>
-            <nz-divider nzType="vertical"></nz-divider>
+            <nz-divider
+              nzType="vertical"
+              *ngIf="item.transferStatus === '已移交' || item.transferStatus === '未移交'"
+            ></nz-divider>
             <button
               nz-button
               nzType="link"
