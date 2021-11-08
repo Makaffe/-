@@ -15,7 +15,7 @@ export class ProblemTypeSelectComponent implements OnInit {
   /**
    * 双向绑定value
    */
-  @Output()
+  @Input()
   type = null;
 
   /**
@@ -29,6 +29,12 @@ export class ProblemTypeSelectComponent implements OnInit {
    */
   @Input()
   placeHolder = '请选择问题类型';
+
+  /**
+   * 表单名
+   */
+  @Input()
+  nameKey = 'key';
 
   /**
    * 是否禁用

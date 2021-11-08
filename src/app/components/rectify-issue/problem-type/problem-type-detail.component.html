@@ -39,24 +39,20 @@
     <nz-form-item *ngIf="showParent">
       <nz-form-label [nzSpan]="3" nzRequired>父问题名称</nz-form-label>
       <ng-container>
-        <nz-form-control
-          [nzSpan]="21"
-          [nzValidateStatus]="parentId.invalid && (parentId.dirty || parentId.touched) ? 'error' : ''"
-        >
+        <nz-form-control [nzSpan]="21">
           <input
             nz-input
             autocomplete="off"
             name="parentId"
             [(ngModel)]="parentName"
-            placeholder="请填写"
             #parentId="ngModel"
             required
             maxlength="255"
             readOnly
           />
-          <nz-form-explain *ngIf="parentId.invalid && (parentId.dirty || parentId.touched)">
+          <!-- <nz-form-explain *ngIf="parentId.invalid && (parentId.dirty || parentId.touched)">
             请填写名称
-          </nz-form-explain>
+          </nz-form-explain> -->
         </nz-form-control>
       </ng-container>
     </nz-form-item>

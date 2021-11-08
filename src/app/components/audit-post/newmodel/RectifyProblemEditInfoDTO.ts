@@ -3,6 +3,9 @@
  * @Author 88
  * @Date 2021/11/2
  */
+
+import { RectifyProblemTypeEditInfoDTO } from '@mt-rectify-framework/comp/rectify-issue';
+
 // tslint?:disable-next-line?:class-name
 export interface RectifyProblemEditInfoDTO {
   /**
@@ -28,7 +31,7 @@ export interface RectifyProblemEditInfoDTO {
   /**
    * 审计意见
    */
-  opinion?: string;
+  auditOpinion?: string;
 
   /**
    * 是否问题主干：用于区分问题主干与拆分
@@ -194,4 +197,9 @@ export interface RectifyProblemEditInfoDTO {
    * uuid
    */
   uuid?: string;
+
+  /**
+   * 问题类型
+   */
+  rectifyProblemType?: RectifyProblemTypeEditInfoDTO;
 }

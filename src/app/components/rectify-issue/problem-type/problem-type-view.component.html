@@ -76,19 +76,21 @@
                     <button nz-button nzType="link" (click)="edit(item, false, true)" *ngIf="item.level === 0">
                       新增
                     </button>
-                    <nz-divider nzType="vertical"></nz-divider>
+                    <nz-divider nzType="vertical" *ngIf="item.level === 0"></nz-divider>
                     <button nz-button nzType="link" (click)="edit(item, false, false)">编辑</button>
                     <nz-divider nzType="vertical"></nz-divider>
                     <button nz-button nzType="link" (click)="edit(item, true)">查看</button>
                     <nz-divider nzType="vertical"></nz-divider>
-                    <a
+                    <button
+                      nz-button
+                      nzType="link"
                       nz-popconfirm
                       nzPopconfirmTitle="是否要删除该条数据"
                       nzPopconfirmPlacement="bottom"
                       (nzOnConfirm)="delete(item.id)"
-                      >删除</a
                     >
-                    <nz-divider nzType="vertical"></nz-divider>
+                      删除
+                    </button>
                   </td>
                 </tr>
               </ng-container>
