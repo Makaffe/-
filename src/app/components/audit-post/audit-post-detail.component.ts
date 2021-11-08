@@ -8,11 +8,13 @@ import { RectifyProblemService } from '@mt-rectify-framework/comp/rectify-issue'
 import { SystemFileService } from '@ng-mt-framework/api';
 import { NzMessageService, NzTreeNode, UploadFile, UploadFilter, UploadXHRArgs } from 'ng-zorro-antd';
 import { Observable, Observer } from 'rxjs';
+import { Broadcaster } from 'src/app/matech/service/broadcaster';
 import UUID from 'uuidjs';
 import { AttachListComponent } from '../common/attach/attach-list.component';
 import { ProblemTypeService } from '../common/problem-type-select/ProblemTypeService.service';
 import { RectifyProblemDTO } from '../rectify-issue/model/rectify-problem-dto';
 import { AuditPostListComponent } from './audit-post-list.component';
+import { AuditPostViewComponent } from './audit-post-view.component';
 import { AuditReportEditInfoDTO } from './newmodel/AuditReportEditInfoDTO';
 import { RectifyProblemEditInfoDTO } from './newmodel/RectifyProblemEditInfoDTO';
 import { AuditReportService } from './newservice/AuditReportService';
@@ -612,6 +614,10 @@ export class AuditPostDetailComponent implements OnInit {
   // notication = new EventEmitter();
   @ViewChild('auditPostListComponent', { static: false })
   auditPostListComponent: AuditPostListComponent;
+
+  @ViewChild('auditPostViewComponent', { static: false })
+  auditPostViewComponent: AuditPostViewComponent;
+
   constructor(
     private rectifyProblemService: RectifyProblemService,
     private msg: NzMessageService,
@@ -622,6 +628,7 @@ export class AuditPostDetailComponent implements OnInit {
     private reuseTabService: ReuseTabService,
     private router: Router,
     private problemTypeService: ProblemTypeService,
+    private broadcastr: Broadcaster,
   ) {}
   @ViewChild('auditPostForm', { static: true })
   auditPostForm: NgForm;
@@ -723,6 +730,11 @@ export class AuditPostDetailComponent implements OnInit {
    *
    */
   paramsItem = this.initProblem();
+
+  /**
+   * 便于回显问题类型
+   */
+  problemTypeName = '';
 
   /**
    *
@@ -935,7 +947,7 @@ export class AuditPostDetailComponent implements OnInit {
     // }
     setTimeout(() => {
       this.reuseTabService.close(url);
-    }, 1000);
+    }, 10);
   }
 
   /**
@@ -1005,6 +1017,7 @@ export class AuditPostDetailComponent implements OnInit {
       // tslint:disable-next-line:no-shadowed-variable
       this.rectifyProblemService.rectifyTrackById(data.id).subscribe(data => {
         this.paramsItem = this.initProblem(data);
+        this.problemTypeName = this.paramsItem.rectifyProblemType.name;
         this.isVisabled = true;
       });
     } else {
@@ -1024,8 +1037,9 @@ export class AuditPostDetailComponent implements OnInit {
     return {
       id: item ? item.id : null,
       name: item ? item.name : null,
+      rectifyProblemType: item ? item.rectifyProblemType : null,
       mainType: item ? item.mainType : null,
-      rectifyProblemTypeId: item ? item.rectifyProblemTypeId : null,
+      rectifyProblemTypeId: item ? (item.rectifyProblemType ? item.rectifyProblemType.id : null) : null,
       money: item ? item.money : null,
       description: item ? item.description : null,
       sendStatus: 'NOT_ISSUED',
@@ -1127,9 +1141,8 @@ export class AuditPostDetailComponent implements OnInit {
         next: data => {
           // this.updateCurrentItem(data);
           this.msg.success(`保存成功`);
-          this.auditPostListComponent.load();
-
           this.onReturn();
+          this.broadcastr.broadcast('seva:data-seva');
         },
         error: () => {},
         complete: () => {},
@@ -1137,9 +1150,8 @@ export class AuditPostDetailComponent implements OnInit {
     } else {
       this.auditReportService.update(this.postId, this.currentItem).subscribe(data => {
         this.msg.success('更新成功');
-        this.auditPostListComponent.load();
-
         this.onReturn();
+        this.broadcastr.broadcast('seva:data-seva');
       });
     }
     // else {
@@ -1155,7 +1167,7 @@ export class AuditPostDetailComponent implements OnInit {
    * @param treeNode treeNode
    */
   getProblemType(treeNode: NzTreeNode) {
-    console.log(treeNode);
+    // console.log(treeNode);
     if (treeNode.origin.parent && treeNode.origin.parent != null) {
       this.paramsItem.mainType = treeNode.origin.parent.id;
       this.paramsItem.rectifyProblemTypeId = treeNode.origin.id;

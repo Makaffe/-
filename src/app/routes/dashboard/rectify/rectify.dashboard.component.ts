@@ -1,19 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { STColumn } from '@delon/abc';
+import { QueryOptions } from '@ng-mt-framework/api';
+import { NzMessageService } from 'ng-zorro-antd';
 import { RectifyProblemDTO } from 'src/app/components/rectify-issue/model/rectify-problem-dto';
 import { RectifyIssueSplitComponent } from 'src/app/components/rectify-issue/rectify-issue-split.component';
+import { RectifyProblemService } from 'src/app/components/rectify-issue/service/RectifyProblemService';
 import { IssueAssignFormComponent } from './issue-assign-form/issue-assign-form.component';
-export interface TreeNodeInterface {
-  id: number;
-  name: string;
-  age?: number;
-  level?: number;
-  expand?: boolean;
-  address?: string;
-  children?: TreeNodeInterface[];
-  parent?: TreeNodeInterface;
-}
+
 @Component({
   selector: 'app-rectify-dashboard',
   templateUrl: './rectify.dashboard.component.html',
@@ -32,9 +26,54 @@ export class RectifyDashboardComponent implements OnInit {
   leftSize = 80;
 
   /**
+   * 加载表格
+   */
+  loading: boolean;
+
+  /**
+   * 问题类型map
+   */
+  problemTypeMap: Map<string, string> = new Map<string, string>();
+
+  /**
    * 右边宽度
    */
   rightSize = 20;
+
+  /**
+   * 分页查询参数
+   */
+  queryOptions: QueryOptions = {
+    page: 0,
+    size: 20,
+    sort: 'id,desc',
+  };
+  /**
+   * 树状表格分页参数
+   */
+  pageInfo = {
+    pageNo: 1,
+    pageSize: 20,
+    totalPages: 1,
+    totalRecords: 20,
+  };
+
+  /**
+   * 查询参数
+   */
+  filter = {
+    reportName: null,
+    rectifyProblemName: null,
+    rectifyUnitId: null,
+    rectifyDepartmentId: null,
+    rectifyUserId: null,
+    sendStatus: [],
+    transferStatus: null,
+    trackStatus: null,
+    startTime: null,
+    endTime: null,
+    dutyUserId: null,
+  };
 
   option = {
     color: ['#8A2BE2'],
@@ -137,42 +176,7 @@ export class RectifyDashboardComponent implements OnInit {
     ],
   };
 
-  listOfMapData = [
-    {
-      id: '1',
-      status: '整改中',
-      transferStatus: '未移交',
-      problemSources: '外部审计',
-      name: '餐饮费用超过规定标准',
-      type: '',
-      principal: '李明',
-      specific: '王力',
-      rectifyMeasureCount: 1,
-      rectifyMeasureCountComplete: 1,
-      rectifyEndTime: '2021-12-13',
-      lastModifiedTime: '2021-12-10',
-      residueDayNum: '3',
-      feedbackResidueDayNum: '1',
-      children: [
-        {
-          id: '2',
-          status: '整改中',
-          transferStatus: '未移交',
-          problemSources: '外部审计',
-          name: '餐饮费用超过规定标准子问题',
-          type: '',
-          principal: '王力',
-          specific: '刘汉',
-          rectifyMeasureCount: 1,
-          rectifyMeasureCountComplete: 1,
-          rectifyEndTime: '2021-12-13',
-          lastModifiedTime: '2021-12-10',
-          residueDayNum: '3',
-          feedbackResidueDayNum: '1',
-        },
-      ],
-    },
-  ];
+  listOfMapData = [];
 
   /**
    * 消息
@@ -336,12 +340,68 @@ export class RectifyDashboardComponent implements OnInit {
     }
   }
 
-  constructor(private router: Router) {}
+  /**
+   * 问题类型回显
+   * @param id 问题类型id
+   * @returns 问题类型name
+   */
+  convertProblemType(id: string) {
+    if (id) {
+      return this.problemTypeMap.get(id);
+    }
+  }
+
+  constructor(
+    private router: Router,
+    private msg: NzMessageService,
+    private rectifyProblemService: RectifyProblemService,
+  ) {}
 
   ngOnInit(): void {
-    this.listOfMapData.forEach(item => {
-      this.mapOfExpandedData[item.id] = this.convertTreeToList(item);
-    });
+    this.load();
+  }
+  /**
+   * 加载列表
+   *
+   */
+  load(finish?: boolean) {
+    if (finish) {
+      this.filter.trackStatus = '已整改';
+    }
+    this.loading = true;
+    this.rectifyProblemService
+      .findOnePage2Track(
+        this.queryOptions,
+        this.filter.reportName,
+        this.filter.rectifyProblemName,
+        this.filter.rectifyUnitId,
+        this.filter.rectifyDepartmentId,
+        this.filter.rectifyUserId,
+        this.filter.sendStatus.toLocaleString(),
+        this.filter.transferStatus,
+        this.filter.trackStatus,
+        this.filter.startTime,
+        this.filter.endTime,
+        this.filter.dutyUserId,
+      )
+      .subscribe(
+        data => {
+          if (data) {
+            this.listOfMapData = data.data;
+            this.pageInfo.pageNo = data.pageNo + 1;
+            this.pageInfo.pageSize = data.pageSize;
+            this.pageInfo.totalPages = data.totalPages;
+            this.pageInfo.totalRecords = Number(data.totalRecords);
+            this.listOfMapData.forEach(item => {
+              this.mapOfExpandedData[item.id] = this.convertTreeToList(item);
+            });
+          }
+        },
+        () => {},
+        () => {
+          this.loading = false;
+        },
+      );
   }
 
   /**

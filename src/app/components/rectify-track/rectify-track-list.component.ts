@@ -100,7 +100,7 @@ export class RectifyTrackListComponent implements OnInit {
 
   /**
    * 加载列表
-   *
+   * //后端加未下发的过滤...
    */
   load() {
     this.loading = true;
@@ -112,7 +112,7 @@ export class RectifyTrackListComponent implements OnInit {
         this.filter.rectifyUnitId,
         this.filter.rectifyDepartmentId,
         this.filter.rectifyUserId,
-        this.filter.sendStatus.toLocaleString(),
+        'ISSUING,ISSUED',
         this.filter.transferStatus,
         this.filter.trackStatus,
         this.filter.startTime,

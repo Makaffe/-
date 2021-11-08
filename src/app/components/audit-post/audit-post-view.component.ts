@@ -1,6 +1,8 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { Broadcaster } from 'src/app/matech/service/broadcaster';
 import { AuditPostListComponent } from './audit-post-list.component';
 
 @Component({
@@ -8,7 +10,7 @@ import { AuditPostListComponent } from './audit-post-list.component';
   templateUrl: './audit-post-view.component.html',
   styles: [],
 })
-export class AuditPostViewComponent implements OnInit {
+export class AuditPostViewComponent implements OnInit, OnDestroy {
   @ViewChild('auditPostList', { static: false })
   auditPostList: AuditPostListComponent;
   /**
@@ -33,6 +35,8 @@ export class AuditPostViewComponent implements OnInit {
    * 左侧组织机构树上部分高度
    */
   topSize = this.TOP_HIGHT;
+
+  sevaAudit: Subscription;
 
   /**
    * 查询条件参数
@@ -60,9 +64,18 @@ export class AuditPostViewComponent implements OnInit {
     this.filterParams.auditEndTime = this.datePipe.transform($event[1], 'yyyy-MM-dd');
   }
 
-  constructor(private router: Router, private datePipe: DatePipe) {}
+  constructor(private router: Router, private datePipe: DatePipe, private broadcastr: Broadcaster) {
+    this.sevaAudit = new Subscription();
+  }
+  ngOnDestroy(): void {
+    this.sevaAudit.unsubscribe();
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.sevaAudit = this.broadcastr.on<any>('seva:data-seva').subscribe(data => {
+      this.search();
+    });
+  }
   push() {
     this.router.navigate(['/audit-rectify/audit-post-detail'], {
       queryParams: {
