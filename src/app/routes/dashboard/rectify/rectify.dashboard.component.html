@@ -475,12 +475,12 @@
                           <nz-tag *ngIf="item.transferStatus === '移交中'" [nzColor]="'#FFBF00'">移交中</nz-tag>
                           <nz-tag *ngIf="item.transferStatus === '已移交'" [nzColor]="'#04B404'">已移交</nz-tag>
                         </td>
-                        <td>{{ item.problemSources }}</td>
+                        <td>{{ item.source }}</td>
                         <td>{{ item.name }}</td>
-                        <td>{{ item.type }}</td>
-                        <td>{{ item.principal }}</td>
-                        <td>{{ item.specific }}</td>
-                        <td nzAlign="right">{{ item.rectifyMeasureCount }}</td>
+                        <td>{{ item?.rectifyProblemType?.name }}</td>
+                        <td>{{ item?.dutyUser?.name }}</td>
+                        <td>{{ item?.auditUser?.name }}</td>
+                        <td nzAlign="right">{{ item.rectifyCount }}</td>
                         <td nzAlign="right">{{ item.rectifyMeasureCountComplete }}</td>
                         <td nzAlign="center">{{ item.rectifyEndTime }}</td>
                         <td nzAlign="center">{{ item.lastModifiedTime }}</td>
@@ -505,7 +505,7 @@
       <as-split-area class="flex-fixed" [size]="10">
         <div style="margin:5px 0 5px 5px; background-color:white;">
           <div style="padding-top:10px;">
-            <div class="chart" echarts [theme]="'macarons'" [options]="optionPie"></div>
+            <div id="lineChart" class="chart" echarts [theme]="'macarons'" [options]="optionPie"></div>
           </div>
         </div>
       </as-split-area>

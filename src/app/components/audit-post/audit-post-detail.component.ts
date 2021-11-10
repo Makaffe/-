@@ -1073,23 +1073,29 @@ export class AuditPostDetailComponent implements OnInit {
       this.msg.warning(`请确认问题信息填写完整`);
       return;
     }
-    if (this.listOfData.filter(item => item.id === this.paramsItem.id).length > 0) {
+    if (this.listOfData.filter(item => item.id === this.paramsItem.id).length > 0 && this.paramsItem.id) {
       const findIndex = this.listOfData.findIndex(item => item.id === this.paramsItem.id);
       const id = this.listOfData[findIndex].id;
       this.listOfData.splice(findIndex, 1, this.paramsItem);
       this.paramsItem.id = id;
       this.paramsItem.uuid = id;
-    } else {
-      if (this.listOfData.filter(item => item.uuid === this.paramsItem.uuid).length > 0) {
-        const findIndex = this.listOfData.findIndex(item => item.uuid === this.paramsItem.uuid);
-        const uuid = this.listOfData[findIndex].uuid;
-        this.listOfData.splice(findIndex, 1, this.paramsItem);
-        this.paramsItem.id = null;
-        this.paramsItem.uuid = uuid;
-      } else {
-        this.listOfData.push(this.paramsItem);
-      }
     }
+    if (this.listOfData.filter(item => item.uuid === this.paramsItem.uuid).length > 0 && this.paramsItem.uuid) {
+      const findIndex = this.listOfData.findIndex(item => item.uuid === this.paramsItem.uuid);
+      const uuid = this.listOfData[findIndex].uuid;
+      const typeId = this.listOfData[findIndex].rectifyProblemTypeId;
+      const mainType = this.listOfData[findIndex].mainType;
+      this.listOfData.splice(findIndex, 1, this.paramsItem);
+      this.paramsItem.id = null;
+      this.paramsItem.uuid = uuid;
+      if (!this.listOfData[findIndex].rectifyProblemTypeId) {
+        this.listOfData[findIndex].rectifyProblemTypeId = typeId;
+        this.listOfData[findIndex].mainType = mainType;
+      }
+    } else {
+      this.listOfData.push(this.paramsItem);
+    }
+
     this.listOfData = [...this.listOfData];
     this.handleCancel();
     // this.listOfData.push(this.paramsItem);
