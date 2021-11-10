@@ -15,15 +15,8 @@
           >
             <i nz-icon nzType="file-text" nzTheme="outline"></i>生成报告
           </button> -->
-          <button
-            nz-button
-            nzType="primary"
-            nz-button
-            style="float:right;margin-top: 10px;"
-            nzType="primary"
-            *ngIf="!isWatch && currentItem.auditReportStatus != 'GENERATED'"
-            (click)="done()"
-          >
+          <button nz-button nzType="primary" nz-button style="float:right;margin-top: 10px;" nzType="primary"
+            *ngIf="!isWatch && currentItem.auditReportStatus != 'GENERATED'" (click)="done()">
             <i nz-icon nzType="save" nzTheme="outline"></i>保存
           </button>
         </div>
@@ -41,64 +34,30 @@
       <nz-form-item>
         <nz-form-label nzRequired nzSpan="3">上传审计报告</nz-form-label>
         <nz-form-control nzSpan="19">
-          <nz-upload
-            nzAction=""
-            [nzCustomRequest]="customReq"
-            [(nzFileList)]="fileList"
-            [nzShowUploadList]="'true'"
-            nzMultiple
-            [nzFilter]="filters"
-            (nzChange)="handleChange($event)"
-            [nzPreview]="previewFile"
-            [nzRemove]="removeFile"
-          >
+          <nz-upload nzAction="" [nzCustomRequest]="customReq" [(nzFileList)]="fileList" [nzShowUploadList]="'true'"
+            nzMultiple [nzFilter]="filters" (nzChange)="handleChange($event)" [nzPreview]="previewFile"
+            [nzRemove]="removeFile">
             <button nz-button [disabled]="isWatch || currentItem.auditReportStatus == 'GENERATED'">
               <i nz-icon nzType="upload"></i><span>上传文件</span>
             </button>
           </nz-upload>
         </nz-form-control>
-        <!-- <nz-upload
-          nzAction=""
-          [nzCustomRequest]="customReq"
-          [nzFilter]="filters"
-          [nzShowUploadList]="true"
-          [nzRemove]="removeFile"
-          [nzFileList]="fileList"
-        >
-          <button nz-button [disabled]="isWatch || currentItem.auditReportStatus == 'GENERATED'">
-            <i nz-icon nzType="upload"></i><span>上传文件</span>
-          </button>
-        </nz-upload> -->
       </nz-form-item>
 
       <nz-form-item>
         <nz-form-label nzSpan="3">项目相关资料</nz-form-label>
         <nz-form-control nzSpan="19">
-          <app-attach-list
-            [show]="!isWatch"
-            [(attachFiles)]="currentItem.attachFiles"
-            #attachListComponent
-            [fileType]="'AUDIT_POST_FILES'"
-          >
+          <app-attach-list [show]="!isWatch" [(attachFiles)]="currentItem.attachFiles" #attachListComponent
+            [fileType]="'AUDIT_POST_FILES'">
           </app-attach-list>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label nzSpan="3" [nzNoColon]="true"> </nz-form-label>
-        <!-- <div nzSpan="3"></div> -->
         <nz-form-control nzSpan="19">
-          <!-- <button (click)="downLoadPostFile()" [disabled]="!currentItem.reportFile" nz-button>
-            <i nz-icon nzType="download" nzTheme="outline"></i>下载报告
-          </button> -->
-          <!-- <button (click)="previewPostFile()" [disabled]="!currentItem.reportFile" nz-button>
-            <i nz-icon nzType="zoom-in" nzTheme="outline"></i>查看报告
-          </button> -->
-          <button
-            *ngIf="!isWatch"
-            [disabled]="!currentItem.reportFile || isWatch || currentItem.auditReportStatus == 'GENERATED'"
-            nz-button
-            (click)="loadFile()"
-          >
+          <button *ngIf="!isWatch"
+            [disabled]="!currentItem.reportFile || isWatch || currentItem.auditReportStatus == 'GENERATED'" nz-button
+            (click)="loadFile()">
             <i nz-icon nzType="file-search" nzTheme="outline"></i>开始读取
           </button>
         </nz-form-control>
@@ -107,31 +66,17 @@
       <nz-form-item *ngIf="show">
         <nz-form-label nzSpan="3" nzRequired>审计报告名称</nz-form-label>
         <nz-form-control nzSpan="8" [nzValidateStatus]="name.invalid && (name.dirty || name.touched) ? 'error' : ''">
-          <input
-            nz-input
-            required
-            [readOnly]="isWatch || currentItem.auditReportStatus == 'GENERATED'"
-            #name="ngModel"
-            name="name"
-            [(ngModel)]="currentItem.name"
-          />
+          <input nz-input required [readOnly]="isWatch || currentItem.auditReportStatus == 'GENERATED'" #name="ngModel"
+            name="name" [(ngModel)]="currentItem.name" />
           <nz-form-explain *ngIf="name.invalid && (name.dirty || name.touched)">
             请填写审计报告名称
           </nz-form-explain>
         </nz-form-control>
         <nz-form-label nzSpan="3" nzRequired>审计单位名称</nz-form-label>
-        <nz-form-control
-          nzSpan="8"
-          [nzValidateStatus]="auditName.invalid && (auditName.dirty || auditName.touched) ? 'error' : ''"
-        >
-          <input
-            nz-input
-            required
-            [readOnly]="isWatch || currentItem.auditReportStatus == 'GENERATED'"
-            #auditName="ngModel"
-            name="auditName"
-            [(ngModel)]="currentItem.auditName"
-          />
+        <nz-form-control nzSpan="8"
+          [nzValidateStatus]="auditName.invalid && (auditName.dirty || auditName.touched) ? 'error' : ''">
+          <input nz-input required [readOnly]="isWatch || currentItem.auditReportStatus == 'GENERATED'"
+            #auditName="ngModel" name="auditName" [(ngModel)]="currentItem.auditName" />
 
           <nz-form-explain *ngIf="auditName.invalid && (auditName.dirty || auditName.touched)">
             请填写审计单位名称
@@ -140,37 +85,21 @@
       </nz-form-item>
       <nz-form-item *ngIf="show">
         <nz-form-label nzSpan="3" nzRequired>审计时间</nz-form-label>
-        <nz-form-control
-          nzSpan="8"
-          [nzValidateStatus]="auditDateRange.invalid && (auditDateRange.dirty || auditDateRange.touched) ? 'error' : ''"
-        >
-          <nz-range-picker
-            required
-            [nzDisabled]="isWatch || currentItem.auditReportStatus == 'GENERATED'"
-            #auditDateRange="ngModel"
-            name="auditDateRange"
-            [(ngModel)]="dateRange"
-          >
+        <nz-form-control nzSpan="8"
+          [nzValidateStatus]="auditDateRange.invalid && (auditDateRange.dirty || auditDateRange.touched) ? 'error' : ''">
+          <nz-range-picker required [nzDisabled]="isWatch || currentItem.auditReportStatus == 'GENERATED'"
+            #auditDateRange="ngModel" name="auditDateRange" [(ngModel)]="dateRange">
           </nz-range-picker>
           <nz-form-explain *ngIf="auditDateRange.invalid && (auditDateRange.dirty || auditDateRange.touched)">
             请选择审计时间
           </nz-form-explain>
         </nz-form-control>
         <nz-form-label nzSpan="3" nzRequired>报告来源</nz-form-label>
-        <nz-form-control
-          nzSpan="8"
-          [nzValidateStatus]="reportSource.invalid && (reportSource.dirty || reportSource.touched) ? 'error' : ''"
-        >
-          <app-dict-select
-            required
-            [disabled]="isWatch"
-            [dictCode]="'MRF_REPORT_SOURCE'"
-            nzAllowClear
-            [placeHolder]="'请选择报告来源'"
-            #reportSource="ngModel"
-            name="reportSource"
-            [(ngModel)]="currentItem.reportSource"
-          >
+        <nz-form-control nzSpan="8"
+          [nzValidateStatus]="reportSource.invalid && (reportSource.dirty || reportSource.touched) ? 'error' : ''">
+          <app-dict-select required [disabled]="isWatch" [dictCode]="'MRF_REPORT_SOURCE'" nzAllowClear
+            [placeHolder]="'请选择报告来源'" #reportSource="ngModel" name="reportSource"
+            [(ngModel)]="currentItem.reportSource">
           </app-dict-select>
           <nz-form-explain *ngIf="reportSource.invalid && (reportSource.dirty || reportSource.touched)">
             请选择报告来源
@@ -179,18 +108,10 @@
       </nz-form-item>
       <nz-form-item *ngIf="show">
         <nz-form-label nzSpan="3" nzRequired>被审计对象</nz-form-label>
-        <nz-form-control
-          nzSpan="8"
-          [nzValidateStatus]="auditTarget.invalid && (auditTarget.dirty || auditTarget.touched) ? 'error' : ''"
-        >
-          <input
-            nz-input
-            required
-            [readOnly]="isWatch || currentItem.auditTarget == 'GENERATED'"
-            #auditTarget="ngModel"
-            name="auditTarget"
-            [(ngModel)]="currentItem.auditTarget"
-          />
+        <nz-form-control nzSpan="8"
+          [nzValidateStatus]="auditTarget.invalid && (auditTarget.dirty || auditTarget.touched) ? 'error' : ''">
+          <input nz-input required [readOnly]="isWatch || currentItem.auditTarget == 'GENERATED'" #auditTarget="ngModel"
+            name="auditTarget" [(ngModel)]="currentItem.auditTarget" />
           <nz-form-explain *ngIf="auditTarget.invalid && (auditTarget.dirty || auditTarget.touched)">
             请填写被审计单位名称
           </nz-form-explain>
@@ -200,17 +121,9 @@
       <nz-form-item *ngIf="show">
         <nz-form-label nzSpan="3">审计发现清单</nz-form-label>
         <nz-form-control nzSpan="19">
-          <nz-table
-            #columnTable
-            nzBordered
-            [nzData]="listOfData"
-            style="padding-left: 0px !important;"
-            [nzScroll]="{ y: '100%' }"
-            [nzShowPagination]="false"
-            [nzNoResult]="null"
-            [nzSize]="'middle'"
-            [ngStyle]="{ height: '300px' }"
-          >
+          <nz-table #columnTable nzBordered [nzData]="listOfData" style="padding-left: 0px !important;"
+            [nzScroll]="{ y: '100%' }" [nzShowPagination]="false" [nzNoResult]="null" [nzSize]="'middle'"
+            [ngStyle]="{ height: '300px' }">
             <thead>
               <tr>
                 <th nzWidth="50px">序号</th>
@@ -220,13 +133,8 @@
                 <th nzWidth="15%" nzAlign="right">涉及金额(元)</th>
                 <th nzWidth="150px" nzAlign="center">
                   操作
-                  <button
-                    nz-button
-                    [nzSize]="'small'"
-                    nzType="primary"
-                    *ngIf="!isWatch && currentItem.auditReportStatus != 'GENERATED'"
-                    (click)="addProblem()"
-                  >
+                  <button nz-button [nzSize]="'small'" nzType="primary"
+                    *ngIf="!isWatch && currentItem.auditReportStatus != 'GENERATED'" (click)="addProblem()">
                     新增
                   </button>
                 </th>
@@ -244,22 +152,15 @@
                 <td *ngIf="data.advice === null"><a>无</a></td>
                 <td nzAlign="right">{{ data.money | currency: 'CNY':'symbol-narrow' }}</td>
                 <td nzAlign="center">
-                  <a *ngIf="isWatch || currentItem.auditReportStatus == 'GENERATED'" (click)="editProblem(data, true)"
-                    >查看</a
-                  >
-                  <a
-                    (click)="editProblem(data, false)"
-                    *ngIf="!data.editable && !isWatch && currentItem.auditReportStatus != 'GENERATED'"
-                    >编辑</a
-                  >
+                  <a *ngIf="isWatch || currentItem.auditReportStatus == 'GENERATED'"
+                    (click)="editProblem(data, true)">查看</a>
+                  <a (click)="editProblem(data, false)"
+                    *ngIf="!data.editable && !isWatch && currentItem.auditReportStatus != 'GENERATED'">编辑</a>
                   <nz-divider nzType="vertical"></nz-divider>
                   <nz-popconfirm [nzTitle]="confirmtittle" (nzOnConfirm)="deleteProblem(data)">
                     <ng-template #confirmtittle>是否要删除该条数据</ng-template>
-                    <a
-                      *ngIf="isWatch || currentItem.auditReportStatus == 'GENERATED'"
-                      style="pointer-events: none;color: #666666; opacity: 0.5"
-                      >删除</a
-                    >
+                    <a *ngIf="isWatch || currentItem.auditReportStatus == 'GENERATED'"
+                      style="pointer-events: none;color: #666666; opacity: 0.5">删除</a>
                     <a *ngIf="!isWatch && currentItem.auditReportStatus != 'GENERATED'" nz-popconfirm>删除</a>
                   </nz-popconfirm>
                 </td>
@@ -271,13 +172,8 @@
     </form>
   </as-split-area>
 </as-split>
-<nz-modal
-  [(nzVisible)]="isVisabled"
-  nzTitle="整改问题清单详情"
-  [nzFooter]="modalFooter"
-  nzWidth="1200px"
-  (nzOnCancel)="handleCancel()"
->
+<nz-modal [(nzVisible)]="isVisabled" nzTitle="整改问题清单详情" [nzFooter]="modalFooter" nzWidth="1200px"
+  (nzOnCancel)="handleCancel()">
   <ng-template #modalFooter>
     <button nz-button nzType="default" (click)="handleCancel()">取消</button>
     <button nz-button nzType="primary" (click)="handleOk()" *ngIf="!isWatch">确认</button>
@@ -286,16 +182,8 @@
     <nz-form-item nz-row>
       <nz-form-label [nzSpan]="3" nzRequired>问题名称</nz-form-label>
       <nz-form-control [nzSpan]="19" [nzValidateStatus]="name.invalid && (name.dirty || name.touched) ? 'error' : ''">
-        <input
-          [readOnly]="isWatch"
-          required
-          nz-input
-          #name="ngModel"
-          name="name"
-          [pattern]="PATTERN"
-          required
-          [(ngModel)]="paramsItem.name"
-        />
+        <input [readOnly]="isWatch" required nz-input #name="ngModel" name="name" [pattern]="PATTERN" required
+          [(ngModel)]="paramsItem.name" />
         <nz-form-explain *ngIf="name.invalid && (name.dirty || name.touched)">
           请填写问题名称
         </nz-form-explain>
@@ -304,14 +192,15 @@
 
     <nz-form-item>
       <nz-form-label [nzSpan]="3" nzRequired>问题类型</nz-form-label>
-      <nz-form-control
-        [nzSpan]="8"
-        [nzValidateStatus]="
+      <nz-form-control [nzSpan]="8" [nzValidateStatus]="
           rectifyProblemTypeId.invalid && (rectifyProblemTypeId.dirty || rectifyProblemTypeId.touched) ? 'error' : ''
-        "
-      >
-        <!-- <input nz-input name="type" [value]="problemItem?.rectifyProblemType?.name" readonly /> -->
-        <app-problem-type-select
+        ">
+        <nz-tree-select #problemtypeselect style="width: 100%;" [nzDefaultExpandAll]="'true'"
+          [nzNodes]="problemTypeNodes" name="rectifyProblemTypeId" #rectifyProblemTypeId="ngModel" nzShowSearch
+          [nzPlaceHolder]="'placeHolder'" [(ngModel)]="paramsItem.rectifyProblemTypeId"
+          (ngModelChange)="getProblemType($event)" [nzDisabled]="isWatch" required>
+        </nz-tree-select>
+        <!-- <app-problem-type-select
           required
           nzAllowClear
           name="rectifyProblemTypeId"
@@ -321,38 +210,16 @@
           [(ngModel)]="paramsItem.rectifyProblemTypeId"
           [disabled]="isWatch"
           (typeChange)="getProblemType($event)"
-        ></app-problem-type-select>
+        ></app-problem-type-select> -->
         <nz-form-explain
-          *ngIf="rectifyProblemTypeId.invalid && (rectifyProblemTypeId.dirty || rectifyProblemTypeId.touched)"
-        >
+          *ngIf="rectifyProblemTypeId.invalid && (rectifyProblemTypeId.dirty || rectifyProblemTypeId.touched)">
           请填写问题类型
         </nz-form-explain>
-        <!-- <nz-form-control [nzSpan]="8">
-        <nz-tree-select
-          #problemtypeselect
-          style="width: 100%;"
-          [nzDefaultExpandAll]="'true'"
-          [nzNodes]="problemTypeNodes"
-          name="rectifyProblemTypeId"
-          nzShowSearch
-          [nzPlaceHolder]="'placeHolder'"
-          [(ngModel)]="paramsItem.rectifyProblemTypeId"
-          (ngModelChange)="getProblemType($event)"
-          [nzDisabled]="isWatch"
-        >
-        </nz-tree-select> -->
       </nz-form-control>
       <nz-form-label [nzSpan]="3" nzRequired>涉及金额（元）</nz-form-label>
       <nz-form-control [nzSpan]="8" [nzValidateStatus]="money.invalid && (money.dirty || money.touched) ? 'error' : ''">
-        <input
-          [readOnly]="isWatch"
-          nz-input
-          required
-          #money="ngModel"
-          name="money"
-          [pattern]="PATTERN"
-          [(ngModel)]="paramsItem.money"
-        />
+        <nz-input-number [nzDisabled]="isWatch" name="money" [(ngModel)]="paramsItem.money" #money="ngModel" required
+          nzMin="0"></nz-input-number>
         <nz-form-explain *ngIf="money.invalid && (money.dirty || money.touched)">
           请填写涉及金额
         </nz-form-explain>
@@ -361,19 +228,10 @@
 
     <nz-form-item>
       <nz-form-label [nzSpan]="3" nzRequired>问题描述</nz-form-label>
-      <nz-form-control
-        [nzSpan]="19"
-        [nzValidateStatus]="description.invalid && (description.dirty || description.touched) ? 'error' : ''"
-      >
-        <textarea
-          [readOnly]="isWatch"
-          nz-input
-          required
-          #description="ngModel"
-          name="description"
-          [(ngModel)]="paramsItem.description"
-          rows="6"
-        ></textarea>
+      <nz-form-control [nzSpan]="19"
+        [nzValidateStatus]="description.invalid && (description.dirty || description.touched) ? 'error' : ''">
+        <textarea [readOnly]="isWatch" nz-input required #description="ngModel" name="description"
+          [(ngModel)]="paramsItem.description" rows="6"></textarea>
         <nz-form-explain *ngIf="description.invalid && (description.dirty || description.touched)">
           请填写问题描述
         </nz-form-explain>
@@ -382,13 +240,8 @@
     <nz-form-item>
       <nz-form-label [nzSpan]="3">审计意见</nz-form-label>
       <nz-form-control [nzSpan]="19">
-        <textarea
-          [readOnly]="isWatch"
-          nz-input
-          name="paramsItem.auditOpinion"
-          [(ngModel)]="paramsItem.auditOpinion"
-          rows="6"
-        ></textarea>
+        <textarea [readOnly]="isWatch" nz-input name="paramsItem.auditOpinion" [(ngModel)]="paramsItem.auditOpinion"
+          rows="6"></textarea>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
@@ -401,13 +254,8 @@
     <nz-form-item>
       <nz-form-label [nzSpan]="3">审计建议</nz-form-label>
       <nz-form-control [nzSpan]="19">
-        <textarea
-          [readOnly]="isWatch"
-          nz-input
-          name="paramsItem.advice"
-          [(ngModel)]="paramsItem.advice"
-          rows="6"
-        ></textarea>
+        <textarea [readOnly]="isWatch" nz-input name="paramsItem.advice" [(ngModel)]="paramsItem.advice"
+          rows="6"></textarea>
       </nz-form-control>
     </nz-form-item>
   </form>

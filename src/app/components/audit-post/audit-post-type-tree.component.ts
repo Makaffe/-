@@ -88,14 +88,17 @@ export class AuditPostTypeTreeComponent implements OnInit {
         {
           title: '内审报告',
           key: 'INTERNAL_AUDIT',
+          isLeaf: true
         },
         {
           title: '迎审报告',
           key: 'WELCOME_TRIAL',
+          isLeaf: true
         },
         {
           title: '外聘审计报告',
           key: 'EXTERNAL_AUDIT',
+          isLeaf: true
         },
       ],
     },

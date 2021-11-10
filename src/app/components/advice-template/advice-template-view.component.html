@@ -32,7 +32,7 @@
       <i nz-icon nzType="search"></i>
     </ng-template>
     <nz-spin [nzSpinning]="treeLoading">
-      <nz-tree [nzData]="nodes" nzShowLine (nzClick)="nodeClick($event)" [nzSearchValue]="searchValue"> </nz-tree>
+      <nz-tree [nzData]="nodes" (nzClick)="nodeClick($event)" [nzSearchValue]="searchValue"> </nz-tree>
     </nz-spin>
   </as-split-area>
   <!--右侧表格-->
