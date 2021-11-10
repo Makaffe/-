@@ -248,12 +248,12 @@ export const APP_DATA = {
                   i18n: 'menu.base.data.district',
                   // acl: ['DISTRICT_CREATE', 'DISTRICT_UPDATE', 'DISTRICT_DELETE'],
                 },
-                {
-                  text: '菜单管理',
-                  link: '/base-data/menus',
-                  i18n: 'menu.menu.management',
-                  // acl: ['CONFIGURATION_CREATE', 'CONFIGURATION_UPDATE', 'CONFIGURATION_DELETE'],
-                },
+                // {
+                //   text: '菜单管理',
+                //   link: '/base-data/menus',
+                //   i18n: 'menu.menu.management',
+                //   // acl: ['CONFIGURATION_CREATE', 'CONFIGURATION_UPDATE', 'CONFIGURATION_DELETE'],
+                // },
                 {
                   text: '问题类型管理',
                   link: '/audit-rectify/problem-type',

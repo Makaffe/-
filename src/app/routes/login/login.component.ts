@@ -95,7 +95,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     private longinService: LoginService,
     private starupService: StartupService,
     private settingService: SettingsService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.cacheService.clear();
@@ -113,7 +113,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     return Model;
   }
 
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void { }
 
   /**
    * 登录
@@ -153,11 +153,16 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
     // 查询当前登录人信息
     const user$ = this.userService.findUserById(data.userId);
-
-    forkJoin([user$]).subscribe(result => {
+    const roles$ = this.userService.findRolesByUserId(data.userId);
+    forkJoin([user$, roles$]).subscribe(result => {
       if (!result) {
         return;
       }
+
+      const roleIds = [];
+      result[1].forEach(role => {
+        roleIds.push(role.id);
+      });
 
       // 账号过期时间
       const expire = parse(data.expires);
@@ -184,14 +189,28 @@ export class LoginComponent implements OnInit, AfterViewInit {
       }
 
       this.cacheService.set(LARGE_SCREEN_MODE_STROE_KEY, true);
+
+      // 检查用户角色, 角色由后台sql脚本初始化，id需明确（1.系统管理员， 2.审计人员，3.纪检部门，4.整改部门）
       switch (this.loginDTO.userType) {
         case 'AUDIT_DEPARTMENT':
+          if (!roleIds.includes('2')) {
+            this.msg.error('登录用户不是审计人员！');
+            return;
+          }
           this.starupService.load(this.loginDTO.userType).then(() => this.router.navigate(['/audit-rectify/auditor-dashboard']));
           break;
         case 'SUPERVISE_DEPARTMENT':
+          if (!roleIds.includes('3')) {
+            this.msg.error('登录用户不是纪检部门人员！');
+            return;
+          }
           this.starupService.load(this.loginDTO.userType).then(() => this.router.navigate(['/audit-rectify/supervise-dashboard']));
           break;
         case 'RECTIFY_DEPARTMENT':
+          if (!roleIds.includes('4')) {
+            this.msg.error('登录用户不是整改部门人员！');
+            return;
+          }
           this.starupService.load(this.loginDTO.userType).then(() => this.router.navigate(['/audit-rectify/rectify-dashboard']));
           break;
         default:
