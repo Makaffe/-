@@ -21,6 +21,11 @@ export class RectifyDashboardComponent implements OnInit {
   rectifyIssueSplitComponent: RectifyIssueSplitComponent;
 
   /**
+   * 树形表格
+   */
+  mapOfExpandedData: { [id: string]: any[] } = {};
+
+  /**
    * 左边宽度
    */
   leftSize = 80;
@@ -264,38 +269,40 @@ export class RectifyDashboardComponent implements OnInit {
   /**
    * 饼图数据
    */
-  optionPie = {
-    color: ['#5470C6', '#91CC75', '#FAC858'],
-    title: {},
-    tooltip: {
-      // trigger: 'item',
-    },
-    legend: {
-      orient: 'vertical',
-      x: 'right',
-    },
-    series: [
-      {
-        name: '问题',
-        type: 'pie',
-        radius: '50%',
-        data: [
-          { value: 44, name: '无法整改' },
-          { value: 18, name: '正在整改' },
-          { value: 6, name: '已完成整改' },
-        ],
-        emphasis: {
-          itemStyle: {
-            shadowBlur: 10,
-            shadowOffsetX: 0,
-            shadowColor: 'rgba(90, 10, 5, 0.5)',
+  optionPie = null;
+  loadecharts() {
+    const series = [];
+    this.optionPie = {
+      color: ['#5470C6', '#91CC75', '#FAC858'],
+      title: {},
+      tooltip: {
+        // trigger: 'item',
+      },
+      legend: {
+        orient: 'vertical',
+        x: 'right',
+      },
+      series: [
+        {
+          name: '问题',
+          type: 'pie',
+          radius: '50%',
+          // data: [
+          //   { value: 0, name: '无法整改' },
+          //   { value: 0, name: '正在整改' },
+          //   { value: 0, name: '已完成整改' },
+          // ],
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(90, 10, 5, 0.5)',
+            },
           },
         },
-      },
-    ],
-  };
-
-  mapOfExpandedData: { [id: string]: any[] } = {};
+      ],
+    };
+  }
 
   collapse(array: any[], data: any, $event: boolean): void {
     if ($event === false) {
@@ -367,6 +374,8 @@ export class RectifyDashboardComponent implements OnInit {
   load(finish?: boolean) {
     if (finish) {
       this.filter.trackStatus = '已整改';
+    } else {
+      this.filter.trackStatus = '未整改,整改中';
     }
     this.loading = true;
     this.rectifyProblemService
@@ -387,6 +396,16 @@ export class RectifyDashboardComponent implements OnInit {
       .subscribe(
         data => {
           if (data) {
+            for (const i of data.data) {
+              if (i.trackStatus === '已整改') {
+                this.optionPie.series[0].data[0].value++;
+              } else if (i.trackStatus === '整改中') {
+                this.optionPie.series[0].data[1].value++;
+              } else {
+                this.optionPie.series[0].data[2].value++;
+              }
+            }
+            this.loadecharts();
             this.listOfMapData = data.data;
             this.pageInfo.pageNo = data.pageNo + 1;
             this.pageInfo.pageSize = data.pageSize;

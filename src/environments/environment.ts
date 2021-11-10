@@ -5,7 +5,7 @@
 export const environment = {
   SERVER_URL: `http://192.168.1.46:9740/mt-rectify-framework/server`,
   // SERVER_URL: `http://localhost:9696/mt-rectify-framework/server`,
-  // SERVER_URL: `http://192.168.1.185:9696/mt-rectify-framework/server`,
+  // SERVER_URL: `http://192.168.2.28:9696/mt-rectify-framework/server`,
 
   production: false,
   useHash: true,
