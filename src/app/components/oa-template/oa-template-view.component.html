@@ -37,7 +37,7 @@
     <ng-template #suffixIcon>
       <i nz-icon nzType="search"></i>
     </ng-template>
-    <nz-tree [nzData]="nodes" nzShowLine (nzClick)="nzClick($event)" [nzSearchValue]="searchValue"> </nz-tree>
+    <nz-tree [nzData]="nodes" (nzClick)="nzClick($event)" [nzSearchValue]="searchValue"> </nz-tree>
   </as-split-area>
   <!--右侧表格-->
   <as-split-area [size]="'*'">

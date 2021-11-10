@@ -57,6 +57,7 @@ export class OaTemplateDetailComponent implements OnInit {
       this.currentItem = this.InitDTO(item);
       this.currentItem.oaSendTemplateTypeId = item.oaSendTemplateType.id;
     }
+    this.disabled = false;
     this.isVisible = true;
   }
 

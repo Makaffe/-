@@ -22,7 +22,7 @@
       <i nz-icon nzType="search"></i>
     </ng-template> -->
     <nz-spin [nzSpinning]="spinning">
-      <nz-tree [nzData]="nodes" nzShowLine [nzSearchValue]="searchValue" [nzExpandAll]="true" (nzClick)="nzClick($event)"></nz-tree>
+      <nz-tree [nzData]="nodes" [nzSearchValue]="searchValue" [nzExpandAll]="true" (nzClick)="nzClick($event)"></nz-tree>
     </nz-spin>
   </as-split-area>
 </as-split>
