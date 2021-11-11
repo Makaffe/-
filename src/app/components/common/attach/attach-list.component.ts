@@ -109,6 +109,18 @@ export class AttachListComponent implements OnInit {
   fileName = '附件名称';
 
   /**
+   * 文件上传个数限制，默认0，即不做限制
+   */
+  @Input()
+  fileLimit = 0;
+
+  /**
+   * 是否允许删除
+   */
+  @Input()
+  showDelete = true;
+
+  /**
    * 模拟订阅对象，用于处理附件上传取消事件
    */
   private upLoadSubject = new BehaviorSubject<any>({});

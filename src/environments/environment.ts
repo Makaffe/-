@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  SERVER_URL: `http://192.168.1.46:9740/mt-rectify-framework/server`,
+ // SERVER_URL: `http://192.168.1.46:9740/mt-rectify-framework/server`,
+   SERVER_URL: `http://192.168.0.155:9696/mt-rectify-framework/server`,
   // SERVER_URL: `http://localhost:9696/mt-rectify-framework/server`,
   // SERVER_URL: `http://192.168.2.28:9696/mt-rectify-framework/server`,
 
@@ -12,7 +13,7 @@ export const environment = {
   hmr: false,
   encrypt: false,
   // 系统名称
-  systemName: '在线审计整改督办系统',
+  systemName: '审计整改信息化系统',
   // 业务数据分析子系统
   dataAnalysis: {
     show: true,

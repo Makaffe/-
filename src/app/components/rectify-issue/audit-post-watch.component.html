@@ -70,39 +70,6 @@
         </app-attach-list>
       </nz-form-control>
     </nz-form-item>
-    <!-- <nz-form-item>
-      <nz-form-label nzSpan="4">审计发现清单</nz-form-label>
-      <nz-form-control nzSpan="20">
-        <nz-table #columnTable nzBordered [nzData]="rectifyProblemList" style="padding-left: 0px !important;"
-          [nzScroll]="{ y:'100%' }" [nzShowPagination]="false" [nzNoResult]="null" [nzSize]="'middle'"
-          [ngStyle]="{ height: '300px' }">
-          <thead>
-            <tr>
-              <th nzWidth="50px">序号</th>
-              <th nzWidth="40%">问题名称</th>
-              <th nzWidth="15%">问题类型</th>
-              <th nzWidth="15%">整改部门</th>
-              <th nzWidth="15%">整改责任人</th>
-              <th nzWidth="15%" nzAlign="right">涉及金额(元)</th>
-              <th nzWidth="80px" nzAlign="center">操作</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let data of columnTable.data; let i = index">
-              <td>{{ i + 1 }}</td>
-              <td>{{ data?.name }}</td>
-              <td>{{ data?.type | dictTransform: 'PROBLEM_TYPE' | async }}</td>
-              <td>{{ data?.rectifyDepartmentId }}</td>
-              <td>{{ data?.dutyUserId }}</td>
-              <td nzAlign="right">{{ data.money | currency: 'CNY':'symbol-narrow' }}</td>
-              <td nzAlign="center">
-                <a (click)="watchProblem()">查看</a>
-              </td>
-            </tr>
-          </tbody>
-        </nz-table>
-      </nz-form-control>
-    </nz-form-item> -->
   </form>
   <ng-template #formFooter>
     <button nz-button nzType="default" (click)="handleCancel()">取消</button>

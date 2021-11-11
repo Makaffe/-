@@ -36,7 +36,7 @@ export interface AuditReportEditInfoDTO {
   /**
    * 报告来源, 字典取值：取值标记(key)  MRF_REPORT_SOURCE
    */
-  reportSource: string;
+  auditSource: string;
 
   /**
    * 审计报告状态
@@ -54,24 +54,14 @@ export interface AuditReportEditInfoDTO {
   auditReportType: string;
 
   /**
-   * 关联的报告附件Id
-   */
-  reportFileId: string;
-
-  /**
-   * 关联的附件编码集合信息
-   */
-  attachFileIds: Array<string>;
-
-  /**
    * 关联的报告附件信息
    */
-  reportFile?: SystemFileDTO;
+  auditReportFileDTO?: SystemFileDTO;
 
   /**
    * 关联的附件信息
    */
-  attachFiles?: Array<SystemFileDTO>;
+  systemFileDTOS?: Array<SystemFileDTO>;
 
   /**
    * 关联问题数据集合

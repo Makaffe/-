@@ -6,7 +6,7 @@ export const environment = {
   hmr: false,
   encrypt: false,
   // 系统名称
-  systemName: '在线审计整改督办系统',
+  systemName: '审计整改信息化系统',
   // 业务数据分析子系统显示名
   dataAnalysis: {
     show: true,

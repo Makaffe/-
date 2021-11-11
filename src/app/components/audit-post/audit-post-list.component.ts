@@ -11,9 +11,9 @@ import { AuditReportService } from './newservice/AuditReportService';
 import { AuditPostService } from './service/AuditPostService';
 
 const TAG: STColumnTag = {
-  GENERATED: { text: '已整改', color: 'red' },
-  NO_GENERATED: { text: '未整改', color: 'green' },
-  GENERATING: { text: '整改中', color: 'blue' },
+  COMPLETED: { text: '已整改', color: 'red' },
+  NOT_RECTIFIED: { text: '未整改', color: 'green' },
+  RECTIFYING: { text: '整改中', color: 'blue' },
 };
 @Component({
   // tslint:disable-next-line:component-selector
@@ -41,39 +41,37 @@ export class AuditPostListComponent implements OnInit {
    * 列定义
    */
   columns = [
-    { title: '序号', render: 'number', width: '10px', className: 'text-center', type: 'radio' },
+    { title: '序号', render: 'number', width: '50px', className: 'text-center', },
     {
       title: '状态',
-      index: 'auditReportStatus',
-      width: '15px',
+      render: 'auditReportStatus',
+      width: '8%',
       className: 'text-center',
-      type: 'tag',
-      tag: TAG,
       fixed: 'left',
     },
     {
       title: '审计报告来源',
-      render: 'auditReportType',
-      width: '40px',
+      render: 'auditSource',
+      width: '10%',
       className: 'text-center',
     },
     {
       title: '审计报告名称',
       index: 'name',
-      width: '40px',
+      width: '20%',
       className: 'text-center',
     },
     {
       title: '审计单位名称',
       index: 'auditName',
-      width: '40px',
+      width: '18%',
       className: 'text-left',
     },
     {
       title: '审计开始时间',
       index: 'auditStartTime',
       render: 'auditStartTime',
-      width: '40px',
+      width: '12%',
       sort: this.tableParameter.sortDef,
       className: 'text-left',
     },
@@ -81,18 +79,32 @@ export class AuditPostListComponent implements OnInit {
       title: '审计结束时间',
       index: 'auditEndTime',
       render: 'auditEndTime',
-      width: '40px',
+      width: '12%',
       sort: this.tableParameter.sortDef,
       className: 'text-left',
     },
     {
-      title: '审计问题数',
-      index: 'problemCount',
-      width: '40px',
+      title: '意见问题数',
+      index: 'auditOpinionCount',
+      width: '10%',
       sort: this.tableParameter.sortDef,
       className: 'text-right',
     },
-    { title: '操作', render: 'operations', width: '30px', className: 'text-center', fixed: 'right' },
+    {
+      title: '建议问题数',
+      index: 'auditProposalCount',
+      width: '10%',
+      sort: this.tableParameter.sortDef,
+      className: 'text-right',
+    },
+    // {
+    //   title: '审计问题数',
+    //   index: 'problemCount',
+    //   width: '40px',
+    //   sort: this.tableParameter.sortDef,
+    //   className: 'text-right',
+    // },
+    { title: '操作', render: 'operations', width: '180px', className: 'text-center' },
   ];
 
   /**
