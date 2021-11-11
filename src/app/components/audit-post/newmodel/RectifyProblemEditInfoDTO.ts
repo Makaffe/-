@@ -202,4 +202,19 @@ export interface RectifyProblemEditInfoDTO {
    * 问题类型
    */
   rectifyProblemType?: RectifyProblemTypeEditInfoDTO;
+
+  /**
+   * 审计问题类别
+   */
+  rectifyProblemCategory?: string;
+
+  /**
+   * 意见问题数
+   */
+  auditOpinionCount?: number;
+
+   /**
+    * 建议问题数
+    */
+   auditProposalCount?: number;
 }

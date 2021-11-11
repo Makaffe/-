@@ -20,10 +20,17 @@
   <ng-template st-row="number" let-row let-index="index">
     {{ ((st.pi ? st.pi : 1) - 1) * (st.ps ? st.ps : 0) + (index + 1) }}
   </ng-template>
-  <ng-template st-row="auditReportType" let-row let-index="index">
-    <span *ngIf="row.auditReportType === 'WELCOME_TRIAL'">迎审报告</span>
-    <span *ngIf="row.auditReportType === 'EXTERNAL_AUDIT'">外聘审计报告</span>
-    <span *ngIf="row.auditReportType === 'INTERNAL_AUDIT'">内部审计</span>
+
+ <ng-template st-row="auditReportStatus" let-row let-index="index">
+  <nz-tag *ngIf="row.auditReportStatus === 'NOT_RECTIFIED'" [nzColor]="'#A4A4A4'">未下发</nz-tag>
+  <nz-tag *ngIf="row.auditReportStatus === 'UNABLE_RECTIFY'" [nzColor]="'#f50'">无法整改</nz-tag>
+  <nz-tag *ngIf="row.auditReportStatus === 'RECTIFYING'" [nzColor]="'#FFBF00'">整改中</nz-tag>
+  <nz-tag *ngIf="row.auditReportStatus === 'COMPLETED'" [nzColor]="'#04B404'">已完成</nz-tag>
+</ng-template>
+  <ng-template st-row="auditSource" let-row let-index="index">
+    <span *ngIf="row.auditSource === 'WELCOME_TRIAL'">迎审报告</span>
+    <span *ngIf="row.auditSource === 'EXTERNAL_AUDIT'">外聘审计报告</span>
+    <span *ngIf="row.auditSource === 'INTERNAL_AUDIT'">内部审计</span>
   </ng-template>
   <ng-template st-row="auditStartTime" let-row let-index="index">
     {{ row.auditStartTime | date: 'yyyy-MM-dd' }}
@@ -38,7 +45,7 @@
   </ng-template>
   <ng-template st-row="operations" let-row let-index="index">
     <a (click)="check(row)">查看</a>
-    <ng-container *ngIf="row.auditReportStatus === 'NO_GENERATED'">
+    <ng-container *ngIf="row.auditReportStatus === 'NOT_RECTIFIED'">
       <nz-divider nzType="vertical"></nz-divider>
       <a (click)="edit(row)">编辑</a>
       <nz-divider nzType="vertical"></nz-divider>

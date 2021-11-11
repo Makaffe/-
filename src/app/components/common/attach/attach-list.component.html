@@ -1,9 +1,9 @@
 <!--附件选择-->
-<div style=" margin: 0 0 5px 0;display: flex;" *ngIf="show">
+<div style=" margin: 0 0 5px 0;display: flex;" *ngIf="show && (!(fileLimit > 0 && attachFiles.length >= fileLimit))">
   <ng-container>
     <nz-upload #uploadComponent nzMultiple [(nzFileList)]="fileList" [nzAction]="action" [nzFilter]="filters"
-      [nzData]="handleData" [nzShowUploadList]="showUploadList" [nzCustomRequest]="customReq"
-      (nzChange)="upLoadFile($event)">
+      [nzData]="handleData" [nzShowUploadList]="showUploadList" [nzCustomRequest]="customReq" [nzLimit]="fileLimit"
+      [nzShowButton]="!(fileLimit > 0 && attachFiles.length >= fileLimit)" (nzChange)="upLoadFile($event)">
       <button nz-button type="button" [disabled]="disabled"><i nz-icon nzType="upload"></i>选择文件</button>
     </nz-upload>&nbsp;&nbsp;
   </ng-container>
@@ -43,7 +43,7 @@
             <nz-divider nzType="vertical"></nz-divider>
             <a *ngIf="!show" (click)="preview(data.id, data.originalName)">预览</a>
             <nz-popconfirm nzTitle="是否要删除文件{{ data.originalName }}？" (nzOnConfirm)="deleteAttach(data)">
-              <a *ngIf="show" nz-popconfirm>删除</a>
+              <a *ngIf="show && showDelete" nz-popconfirm>删除</a>
             </nz-popconfirm>
           </div>
         </td>

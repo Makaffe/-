@@ -49,13 +49,13 @@ export class AuditPostViewComponent implements OnInit, OnDestroy {
     auditDateRange?: [];
     typeId?: string;
   } = {
-    name: null,
-    auditBeginTime: null,
-    auditEndTime: null,
-    auditUnitName: null,
-    auditDateRange: null,
-    typeId: null,
-  };
+      name: null,
+      auditBeginTime: null,
+      auditEndTime: null,
+      auditUnitName: null,
+      auditDateRange: null,
+      typeId: null,
+    };
 
   selectDateRange($event) {
     console.log('=========SELECT-DATERANGE==========');
@@ -76,10 +76,11 @@ export class AuditPostViewComponent implements OnInit, OnDestroy {
       this.search();
     });
   }
+
   push() {
     this.router.navigate(['/audit-rectify/audit-post-detail'], {
       queryParams: {
-        postTypeId: this.selectedPostType.key,
+        postTypeId: this.selectedPostType ? this.selectedPostType.key : null,
         isWatch: false,
         isEdit: true,
         isNew: true,

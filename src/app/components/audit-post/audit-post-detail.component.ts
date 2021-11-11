@@ -6,7 +6,7 @@ import { ReuseTabService } from '@delon/abc';
 import { FormUtil, TreeUtil } from '@mt-framework-ng/util';
 import { RectifyProblemService } from '@mt-rectify-framework/comp/rectify-issue';
 import { SystemFileService } from '@ng-mt-framework/api';
-import { NzMessageService, NzTreeNode, UploadFile, UploadFilter, UploadXHRArgs } from 'ng-zorro-antd';
+import { NzMessageService, NzTreeNode, NzTreeSelectComponent, UploadFile, UploadFilter, UploadXHRArgs } from 'ng-zorro-antd';
 import { Observable, Observer } from 'rxjs';
 import { Broadcaster } from 'src/app/matech/service/broadcaster';
 import UUID from 'uuidjs';
@@ -24,13 +24,15 @@ import { AuditReportService } from './newservice/AuditReportService';
   styleUrls: ['./audit-post-detail.component.less'],
 })
 export class AuditPostDetailComponent implements OnInit {
-  // @Output()
-  // notication = new EventEmitter();
+
   @ViewChild('auditPostListComponent', { static: false })
   auditPostListComponent: AuditPostListComponent;
 
   @ViewChild('auditPostViewComponent', { static: false })
   auditPostViewComponent: AuditPostViewComponent;
+
+  @ViewChild('problemtypeselect', { static: false })
+  problemtypeselect: NzTreeSelectComponent;
 
   constructor(
     private rectifyProblemService: RectifyProblemService,
@@ -124,6 +126,11 @@ export class AuditPostDetailComponent implements OnInit {
   fileList = [];
 
   /**
+   * 审计报告附件
+   */
+  reportFile = [];
+
+  /**
    * 问题详情模态框
    */
   isVisabled: boolean;
@@ -184,14 +191,12 @@ export class AuditPostDetailComponent implements OnInit {
       name: item ? item.name : null,
       auditStartTime: item ? item.auditStartTime : null,
       auditEndTime: item ? item.auditEndTime : null,
-      reportSource: item ? item.reportSource : null,
+      auditSource: item ? item.auditSource : null,
       auditReportStatus: item ? item.auditReportStatus : null,
       auditTarget: item ? item.auditTarget : null,
       auditReportType: this.auditReportType ? this.auditReportType : null,
-      reportFileId: item ? item.reportFileId : null,
-      attachFileIds: item ? item.attachFileIds : [],
-      reportFile: item ? item.reportFile : null,
-      attachFiles: item && item.attachFiles ? item.attachFiles : [],
+      auditReportFileDTO: item ? item.auditReportFileDTO : null,
+      systemFileDTOS: item && item.systemFileDTOS ? item.systemFileDTOS : [],
       rectifyProblems: item ? item.rectifyProblems : [],
     };
   }
@@ -201,201 +206,24 @@ export class AuditPostDetailComponent implements OnInit {
    */
 
   loadFile() {
-    if (this.fileList.length > 0) {
-      this.show = true;
-    } else {
-      this.show = false;
-    }
+    this.show = this.reportFile.length > 0;
   }
 
-  customReq = (item: UploadXHRArgs) => {
-    // Create a FormData here to store files and other parameters.
-    const formData = new FormData();
-    // tslint:disable-next-line:no-any
-    formData.append('file', item.file as any);
-    this.systemFileService.singleFile('COMMON_FILE', formData).subscribe({
-      next: data => {
-        (data as any).uuid = data.id;
-        item.onSuccess(data, data as any, null);
-        data.name = data.originalName;
-        this.fileList = [data as any];
-        this.currentItem.reportFile = data;
-        this.currentItem.reportFileId = data.id;
-      },
-      error: () => {
-        item.onError(null, item.file);
-        this.msg.error(`上传失败`);
-        this.fileList = [];
-      },
-      complete: () => { },
-    });
-    // tslint:disable-next-line:semicolon
-  };
-
-  removeFile = (file: UploadFile): boolean | Observable<boolean> => {
-    if (this.isWatch) {
-      return false;
-    }
-    if (this.currentItem.id) {
-      this.msg.warning(`已关联审计报告，不支持删除`);
-      return false;
-    } else {
-      this.systemFileService.deleteFileById(file.id).subscribe({
-        next: () => {
-          this.msg.success(`删除成功`);
-          this.fileList = [];
-          this.currentItem.reportFileId = null;
-          this.loadFile();
-        },
-        error: () => { },
-        complete: () => { },
-      });
-      return false;
-    }
-    // tslint:disable-next-line:semicolon
-  };
-  previewFile = (file: UploadFile) => {
-    this.preview(file.id, file.name);
-    // tslint:disable-next-line:semicolon
-  };
-
-  previewPostFile(): void {
-    this.preview(this.currentItem.reportFileId, this.currentItem.reportFile.name);
-  }
-
-  /**
-   * 预览
-   */
-  preview(id: string, fileName?: string) {
-    let name = fileName;
-    if (fileName && fileName.lastIndexOf('.') !== -1) {
-      name = fileName.substring(0, fileName.lastIndexOf('.'));
-    }
-
-    const fileType = 'png,jpg,jpeg,xml';
-    const suffix = fileName.slice(fileName.lastIndexOf('.') + 1);
-    if (suffix === 'txt') {
-      this.msg.warning('.txt文件格式暂不支持预览，请下载文件！');
-      return;
-    }
-
-    if (fileType.includes(suffix)) {
-      // 预览图片
-      this.systemFileService.getFileContentById(id).subscribe(
-        blob => {
-          const binaryData = [];
-          binaryData.push(blob.body);
-          const objectUrl = window.URL.createObjectURL(new Blob(binaryData, { type: blob.body.type }));
-          const win = window.open(objectUrl);
-          setTimeout(() => {
-            win.document.title = name;
-          }, 100);
-        },
-        () => { },
-        null,
-      );
-    } else {
-      this.systemFileService.previewFileById(id).subscribe(
-        blob => {
-          const uA = window.navigator.userAgent; // 判断浏览器内核
-          const isIE =
-            /msie\s|trident\/|edge\//i.test(uA) &&
-            !!(
-              'uniqueID' in document ||
-              'documentMode' in document ||
-              'ActiveXObject' in window ||
-              'MSInputMethodContext' in window
-            );
-          const binaryData = [];
-          binaryData.push(blob.body);
-          const objectUrl = window.URL.createObjectURL(new Blob(binaryData, { type: blob.body.type }));
-          const win = window.open(objectUrl);
-          setTimeout(() => {
-            win.document.title = name;
-          }, 100);
-        },
-        () => { },
-        null,
-      );
-    }
-  }
-
-  /**
-   * 下载
-   */
-  downCertificate(id: string, fileName?: string, item?: any) {
-    this.systemFileService.downloadFileContentById(id).subscribe(blob => {
-      const uA = window.navigator.userAgent; // 判断浏览器内核
-      const isIE =
-        /msie\s|trident\/|edge\//i.test(uA) &&
-        !!(
-          'uniqueID' in document ||
-          'documentMode' in document ||
-          'ActiveXObject' in window ||
-          'MSInputMethodContext' in window
-        );
-      const binaryData = [];
-      binaryData.push(blob.body);
-      const objectUrl = window.URL.createObjectURL(new Blob(binaryData, { type: blob.body.type }));
-      const a = document.createElement('a');
-      document.body.appendChild(a);
-      a.href = objectUrl;
-      a.download = fileName ? fileName : '';
-      if (isIE) {
-        // 兼容IE11无法触发下载的问题
-        (navigator as any).msSaveBlob(new Blob(binaryData), a.download);
-      } else {
-        a.click();
-      }
-      a.remove();
-    });
-  }
   /**
    * 返回
    */
   onReturn() {
-    // this.notication.emit();
     const url = this.router.url;
-    // if (url.indexOf('?') !== -1) {
-    //   url = url.slice(0, url.indexOf('?'));
-    // }
     setTimeout(() => {
       this.reuseTabService.close(url);
     }, 10);
   }
 
   /**
-   * 上传文件改变时的状态
-   */
-  handleChange(info: any): void {
-    const fileList = info.fileList;
-    // 2. read from response and show file link
-    if (info.file.response) {
-      info.file.url = info.file.response.url;
-    }
-    // 3. filter successfully uploaded files according to response from server
-    // tslint:disable-next-line:no-any
-    this.fileList = fileList.filter((item: any) => {
-      if (item.response) {
-        return item.response.status === 'success';
-      }
-      return true;
-    });
-  }
-
-  /**
-   *
-   *
-   *
-   *
-   *
-   * 问题
-   */
-  /**
    *  添加问题
    */
   addProblem(): void {
-    if (this.fileList.length === 0) {
+    if (this.reportFile.length === 0) {
       this.msg.warning('请先上传报告并读取');
       return;
     }
@@ -408,6 +236,7 @@ export class AuditPostDetailComponent implements OnInit {
     this.isVisabled = true;
     this.listOfData = [...this.listOfData];
   }
+
   /**
    *
    * @param data 删除问题
@@ -438,7 +267,6 @@ export class AuditPostDetailComponent implements OnInit {
       this.paramsItem = this.initProblem(data);
       this.isVisabled = true;
     }
-    // this.paramsItem = this.initProblem(data);
     this.isWatch = lookup;
   }
 
@@ -468,14 +296,15 @@ export class AuditPostDetailComponent implements OnInit {
       noRectifyStatus: false,
       multipleYearRectify: false,
       isTrunk: true,
-      // sendStatus: '未下发',
-      // trackStatus: '未整改',
       oaSendCase: false,
       transferCase: false,
       advice: item ? item.advice : null,
       source: item ? item.source : this.currentItem.name,
       uuid: item ? item.uuid : UUID.generate(),
-      // transferStatus: '未移交',
+      rectifyProblemCategory: item ? (item.rectifyProblemCategory === '审计意见问题' ? 'AUDIT_OPINION' : 'AUDIT_PROPOSAL') : 'AUDIT_OPINION',
+      auditOpinionCount: item && item.auditOpinionCount ? item.auditOpinionCount : 0,
+      auditProposalCount: item && item.auditProposalCount ? item.auditProposalCount : 0
+
     };
   }
 
@@ -500,7 +329,7 @@ export class AuditPostDetailComponent implements OnInit {
       const typeId = this.listOfData[findIndex].rectifyProblemTypeId;
       const mainType = this.listOfData[findIndex].mainType;
       this.listOfData.splice(findIndex, 1, this.paramsItem);
-      this.paramsItem.id = null;
+      // this.paramsItem.id = null;
       this.paramsItem.uuid = uuid;
       if (!this.listOfData[findIndex].rectifyProblemTypeId) {
         this.listOfData[findIndex].rectifyProblemTypeId = typeId;
@@ -510,12 +339,16 @@ export class AuditPostDetailComponent implements OnInit {
       this.listOfData.push(this.paramsItem);
     }
 
+    this.listOfData.forEach(d => {
+      if (d.id) {
+        d.rectifyProblemTypeId = d.rectifyProblemType.id;
+      }
+    });
+
     this.listOfData = [...this.listOfData];
     this.handleCancel();
-    // this.listOfData.push(this.paramsItem);
-    // this.listOfData = [...this.listOfData];
-    // this.handleCancel();
   }
+
   /**
    * 点击取消
    */
@@ -529,7 +362,7 @@ export class AuditPostDetailComponent implements OnInit {
   }
 
   done() {
-    if (this.fileList.length === 0) {
+    if (this.reportFile.length === 0) {
       this.msg.warning('请先上传报告并读取');
       return;
     }
@@ -541,25 +374,18 @@ export class AuditPostDetailComponent implements OnInit {
       this.msg.warning('请提交问题');
       return;
     }
-    // if (!this.allProblemSaved()) {
-    //   this.msg.warning(`请保存所有问题`);
-    //   return;
-    // }
+
+    this.currentItem.auditReportFileDTO = this.reportFile[0];
     this.currentItem.auditStartTime = this.datePipe.transform(this.dateRange[0], 'yyyy-MM-dd');
     this.currentItem.auditEndTime = this.datePipe.transform(this.dateRange[1], 'yyyy-MM-dd');
-    console.log('=============================POST DATA=================');
     console.dir(this.currentItem);
     console.log('done');
-    this.currentItem.auditReportStatus = 'NO_GENERATED';
+    this.currentItem.auditReportStatus = 'NOT_RECTIFIED';
     this.currentItem.rectifyProblems = this.listOfData;
-
     if (!this.currentItem.id) {
-      for (const file of this.currentItem.attachFiles) {
-        this.currentItem.attachFileIds.push(file.id);
-      }
+
       this.auditReportService.create(this.currentItem).subscribe({
         next: data => {
-          // this.updateCurrentItem(data);
           this.msg.success(`保存成功`);
           this.onReturn();
           this.broadcastr.broadcast('seva:data-seva');
@@ -574,28 +400,32 @@ export class AuditPostDetailComponent implements OnInit {
         this.broadcastr.broadcast('seva:data-seva');
       });
     }
-    // else {
-    //   this.auditReportService.update(this.postId, this.currentItem).subscribe(data => {
-    //     this.msg.success('更新成功');
-    //     this.onReturn();
-    //   });
-    // }
   }
 
   /**
    * 获取选中的问题类型
    * @param treeNode treeNode
    */
-  getProblemType(treeNode: NzTreeNode) {
-    // console.log(treeNode);
-    if (treeNode.origin.parent && treeNode.origin.parent != null) {
-      this.paramsItem.mainType = treeNode.origin.parent.id;
-      this.paramsItem.rectifyProblemTypeId = treeNode.origin.id;
-    } else {
-      this.paramsItem.mainType = treeNode.origin.id;
-      this.paramsItem.rectifyProblemTypeId = treeNode.origin.id;
+  getProblemType(event: string) {
+    const treeNodeList = this.problemtypeselect.getSelectedNodeList();
+    this.paramsItem.rectifyProblemTypeId = event;
+    if (treeNodeList.length > 0) {
+      if (treeNodeList[0].origin.parent && treeNodeList[0].origin.parent != null) {
+        this.paramsItem.mainType = treeNodeList[0].origin.parent.id;
+      } else {
+        this.paramsItem.mainType = event;
+      }
     }
+
+    // if (treeNodeList.length > 0 && treeNodeList[0].origin.parent && treeNodeList[0].origin.parent != null) {
+    //   this.paramsItem.mainType = treeNodeList[0].origin.parent.id;
+    //   this.paramsItem.rectifyProblemTypeId = event;
+    // } else {
+    //   this.paramsItem.mainType = event;
+    //   this.paramsItem.rectifyProblemTypeId = event;
+    // }
   }
+
 
   /**
    * 获取问题树
@@ -640,11 +470,9 @@ export class AuditPostDetailComponent implements OnInit {
       this.dateRange = [new Date(data.auditStartTime), new Date(data.auditEndTime)];
       this.listOfData = data.rectifyProblems;
 
-      if (data.reportFile) {
-        data.reportFile.name = data.reportFile.originalName;
-        this.fileList = [data.reportFile];
+      if (data.auditReportFileDTO) {
+        this.reportFile = [data.auditReportFileDTO];
       }
-      // tslint:disable-next-line:semicolon
     });
 
     this.show = true;
@@ -664,6 +492,10 @@ export class AuditPostDetailComponent implements OnInit {
     } else {
       this.currentItem = this.initAuditReport();
     }
-    // this.currentItem = this.initAuditReport();
   }
+
+  reportFileChange(event: Array<any>) {
+    this.show = event.length > 0;
+  }
+
 }
