@@ -265,6 +265,7 @@ export class AuditPostDetailComponent implements OnInit {
       });
     } else {
       this.paramsItem = this.initProblem(data);
+      this.paramsItem.rectifyProblemTypeId = data.rectifyProblemTypeId;
       this.isVisabled = true;
     }
     this.isWatch = lookup;
@@ -340,7 +341,7 @@ export class AuditPostDetailComponent implements OnInit {
     }
 
     this.listOfData.forEach(d => {
-      if (d.id) {
+      if (!d.rectifyProblemTypeId) {
         d.rectifyProblemTypeId = d.rectifyProblemType.id;
       }
     });
