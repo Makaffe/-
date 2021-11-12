@@ -23,8 +23,9 @@
       <nz-form-item>
         <nz-form-label nzRequired nzSpan="3">上传审计报告</nz-form-label>
         <nz-form-control nzSpan="19">
-          <app-attach-list [show]="!isWatch" [(attachFiles)]="reportFile" [fileLimit]="1" [showDelete]="currentItem.id === null"
-            [TBHeight]="'150px'" [fileType]="'AUDIT_REPORT_FILE'" (attachFilesChange)="reportFileChange($event)">
+          <app-attach-list [show]="!isWatch" [(attachFiles)]="reportFile" [fileLimit]="1"
+            [showDelete]="currentItem.id === null" [TBHeight]="'150px'" [fileType]="'AUDIT_REPORT_FILE'"
+            (attachFilesChange)="reportFileChange($event)">
           </app-attach-list>
         </nz-form-control>
       </nz-form-item>
@@ -119,7 +120,7 @@
                 <th nzWidth="50px">序号</th>
                 <th nzWidth="40%">问题名称</th>
                 <th nzWidth="40%">问题类型</th>
-                <!-- <th nzWidth="20%">审计类别</th> -->
+                <th nzWidth="20%">问题类别</th>
                 <th nzWidth="20%" nzAlign="right">涉及金额(元)</th>
                 <th nzWidth="150px" nzAlign="center">
                   操作
@@ -134,9 +135,8 @@
               <tr *ngFor="let data of columnTable.data; let i = index">
                 <td>{{ i + 1 }}</td>
                 <td>{{ data?.name }}</td>
-                <td *ngIf="data && data.id !== null">{{ convertProblemType(data.rectifyProblemType.id) }}</td>
-                <td *ngIf="data && data.id === null">{{ convertProblemType(data.rectifyProblemTypeId) }}</td>
-                <!-- <td> {{data.rectifyProblemCategory}}</td> -->
+                <td>{{ convertProblemType(data.rectifyProblemTypeId) }}</td>
+                <td> {{data.rectifyProblemCategory === 'AUDIT_OPINION'? '审计意见问题' : '审计建议问题'}}</td>
                 <td nzAlign="right">{{ data.money | currency: 'CNY':'symbol-narrow' }}</td>
                 <td nzAlign="center">
                   <a *ngIf="isWatch || currentItem.auditReportStatus == 'COMPLETED'"
@@ -235,8 +235,20 @@
     <nz-form-item>
       <nz-form-label nzSpan="3">引用建议模版</nz-form-label>
       <nz-form-control nzSpan="8">
-        <app-advice-template-select [(adviceTemplate)]="paramsItem.advice" [disabled]="isWatch">
-        </app-advice-template-select>
+        <!-- <app-advice-template-select [(adviceTemplate)]="paramsItem.advice" [disabled]="isWatch">
+        </app-advice-template-select> -->
+        <nz-select nzAllowClear nzShowSearch nzPlaceHolder="请选择" style="width: 260px;" name="proposalTemplateId"
+          [(ngModel)]="paramsItem.proposalTemplateId" (ngModelChange)="proposalTemplateChange($event)">
+          <nz-option *ngFor="let option of proposalTemplates" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
+        </nz-select>
+        &nbsp;&nbsp;
+        <nz-popconfirm [nzTitle]="confirmtittle" (nzOnConfirm)="confirmReference()" style="margin-top: -5px;">
+          <ng-template #confirmtittle>
+            引用模板建议会覆盖当前审计建议，确定要引用该模板吗？
+          </ng-template>
+          <button nz-button nzType="primary" nz-popconfirm
+            [disabled]="!paramsItem.proposalTemplateId || disabled">确认引用</button>
+        </nz-popconfirm>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>

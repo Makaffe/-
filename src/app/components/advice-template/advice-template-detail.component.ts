@@ -1,7 +1,8 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { FormUtil } from '@mt-framework-ng/util';
+import { FormUtil, TreeUtil } from '@mt-framework-ng/util';
 import { NzMessageService } from 'ng-zorro-antd';
+import { ProblemTypeService } from '../common/problem-type-select/ProblemTypeService.service';
 import { ProposalTemplateDTO } from './model/ProposalTemplateDTO';
 import { ProposalTemplateTypeDTO } from './model/ProposalTemplateTypeDTO';
 import { ProposalTemplateService } from './service/ProposalTemplateService';
@@ -33,9 +34,25 @@ export class AdviceTemplateDetailComponent implements OnInit {
 
   isWatch = false;
 
-  constructor(private proposalTemplateService: ProposalTemplateService, private msg: NzMessageService) { }
+  problemTypeNodes = [];
 
-  ngOnInit() { }
+  constructor(
+    private problemTypeService: ProblemTypeService,
+    private proposalTemplateService: ProposalTemplateService,
+    private msg: NzMessageService) { }
+
+  ngOnInit() {
+    this.loadProblemTypeTree();
+   }
+
+  loadProblemTypeTree() {
+    this.problemTypeService.findAllUsingGET().subscribe(data => {
+      if (data) {
+        this.problemTypeNodes = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
+      }
+    });
+  }
+
   handleCancel() {
     this.isVisible = false;
     FormUtil.resetForm(this.form.form);

@@ -5,6 +5,7 @@
  */
 
 import { RectifyProblemTypeEditInfoDTO } from '@mt-rectify-framework/comp/rectify-issue';
+import { ProposalTemplateDTO } from '../../advice-template/model/ProposalTemplateDTO';
 
 // tslint?:disable-next-line?:class-name
 export interface RectifyProblemEditInfoDTO {
@@ -183,6 +184,8 @@ export interface RectifyProblemEditInfoDTO {
    */
   proposalTemplateId?: string;
 
+  proposalTemplate?: ProposalTemplateDTO;
+
   /**
    * 关联附件编码集合
    */
@@ -208,13 +211,4 @@ export interface RectifyProblemEditInfoDTO {
    */
   rectifyProblemCategory?: string;
 
-  /**
-   * 意见问题数
-   */
-  auditOpinionCount?: number;
-
-   /**
-    * 建议问题数
-    */
-   auditProposalCount?: number;
 }

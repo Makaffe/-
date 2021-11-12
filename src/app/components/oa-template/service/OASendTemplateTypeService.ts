@@ -57,7 +57,7 @@ export class OASendTemplateTypeService {
   /**
    * 更新OA发送模板类型数据
    * @param id OA发送模板类型ID
-   * @param oaSendTemplateTypeEditInfoDTO OA发送模板类型DTO
+   * @param oaSendTemplateTypeEditInfoDTO DTO
    *
    */
   updateUsingPUT(

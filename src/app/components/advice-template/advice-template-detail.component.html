@@ -4,27 +4,45 @@
     'overflow-y': 'auto',
     'overflow-x': 'hidden',
     padding: '24px 24px 0 24px'
-  }"
->
+  }">
   <form nz-form #form="ngForm">
     <nz-form-item>
       <nz-form-label nzSpan="4" nzRequired>模板名称</nz-form-label>
       <nz-form-control nzSpan="20">
-        <input nz-input name="name" [disabled]="isWatch" [(ngModel)]="currentProposalTemplate.name" required/>
+        <input nz-input name="name" [disabled]="isWatch" [(ngModel)]="currentProposalTemplate.name" required />
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label nzSpan="4" nzRequired>问题类型</nz-form-label>
-      <nz-form-control nzSpan="20">
+      <!-- <nz-form-control nzSpan="20">
         <app-dict-select dictCode="PROBLEM_TYPE"  name="problemType" [disabled]="isWatch"
         [placeHolder]="'请选择问题类型'" [(ngModel)]="currentProposalTemplate.problemType" #problemType="ngModel"
         required ></app-dict-select>
+      </nz-form-control> -->
+
+      <nz-form-control [nzSpan]="20"
+        [nzValidateStatus]="rectifyProblemTypeId.invalid && (rectifyProblemTypeId.dirty || rectifyProblemTypeId.touched) ? 'error' : ''">
+        <nz-tree-select style="width: 100%;" [nzDefaultExpandAll]="'true'" [nzNodes]="problemTypeNodes"
+          name="rectifyProblemTypeId" #rectifyProblemTypeId="ngModel" nzShowSearch [nzPlaceHolder]="'请选择'"
+          [(ngModel)]="currentProposalTemplate.rectifyProblemTypeId" [nzDisabled]="isWatch" required>
+        </nz-tree-select>
+        <nz-form-explain
+          *ngIf="rectifyProblemTypeId.invalid && (rectifyProblemTypeId.dirty || rectifyProblemTypeId.touched)">
+          请选择问题类型
+        </nz-form-explain>
       </nz-form-control>
+
     </nz-form-item>
     <nz-form-item>
       <nz-form-label nzSpan="4" nzRequired>审计建议</nz-form-label>
-      <nz-form-control nzSpan="20"><textarea rows="5" nz-input [disabled]="isWatch" name="auditProposal"
-          [(ngModel)]="currentProposalTemplate.auditProposal" required></textarea> </nz-form-control>
+      <nz-form-control nzSpan="20"
+        [nzValidateStatus]="auditProposal.invalid && (auditProposal.dirty || auditProposal.touched) ? 'error' : ''">
+        <textarea rows="5" nz-input [disabled]="isWatch" name="auditProposal"
+          [(ngModel)]="currentProposalTemplate.auditProposal" #auditProposal="ngModel" required></textarea>
+        <nz-form-explain *ngIf="auditProposal.invalid && (auditProposal.dirty || auditProposal.touched)">
+          请填写审计建议
+        </nz-form-explain>
+      </nz-form-control>
     </nz-form-item>
   </form>
   <ng-template #editorFooter>
