@@ -247,7 +247,7 @@
             引用模板建议会覆盖当前审计建议，确定要引用该模板吗？
           </ng-template>
           <button nz-button nzType="primary" nz-popconfirm
-            [disabled]="!paramsItem.proposalTemplateId || disabled">确认引用</button>
+            [disabled]="!paramsItem.proposalTemplateId || isWatch">确认引用</button>
         </nz-popconfirm>
       </nz-form-control>
     </nz-form-item>
