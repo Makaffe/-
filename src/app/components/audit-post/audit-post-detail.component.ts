@@ -1,3 +1,4 @@
+import { deepCopy } from '@delon/util';
 import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
@@ -10,6 +11,7 @@ import { NzMessageService, NzTreeNode, NzTreeSelectComponent, UploadFile, Upload
 import { Observable, Observer } from 'rxjs';
 import { Broadcaster } from 'src/app/matech/service/broadcaster';
 import UUID from 'uuidjs';
+import { ProposalTemplateService } from '../advice-template/public_api';
 import { AttachListComponent } from '../common/attach/attach-list.component';
 import { ProblemTypeService } from '../common/problem-type-select/ProblemTypeService.service';
 import { RectifyProblemDTO } from '../rectify-issue/model/rectify-problem-dto';
@@ -35,9 +37,8 @@ export class AuditPostDetailComponent implements OnInit {
   problemtypeselect: NzTreeSelectComponent;
 
   constructor(
-    private rectifyProblemService: RectifyProblemService,
+    private proposalTemplateService: ProposalTemplateService,
     private msg: NzMessageService,
-    private systemFileService: SystemFileService,
     private activatedRoute: ActivatedRoute,
     private datePipe: DatePipe,
     private auditReportService: AuditReportService,
@@ -179,6 +180,16 @@ export class AuditPostDetailComponent implements OnInit {
    */
   problemTypeMap: Map<string, string> = new Map<string, string>();
 
+  /** 当前编辑问题信息的索引 */
+  currentProblemIndex = -1;
+
+  /** 审计建议模板 */
+  proposalTemplateAll = [];
+  proposalTemplates = [];
+
+  /** 审计建议 */
+  tempAdvice = null;
+
   /**
    *
    * @param item 审计报告函数
@@ -242,11 +253,8 @@ export class AuditPostDetailComponent implements OnInit {
    * @param data 删除问题
    */
   deleteProblem(data: RectifyProblemDTO): void {
-    if (!data.id) {
-      this.listOfData = [...this.listOfData.filter(item => item.uuid !== data.uuid)];
-    } else {
-      this.listOfData = [...this.listOfData.filter(item => item.id !== data.id)];
-    }
+    this.listOfData.splice(this.listOfData.indexOf(data), 1);
+    this.listOfData = [...this.listOfData];
   }
 
   /**
@@ -256,18 +264,10 @@ export class AuditPostDetailComponent implements OnInit {
    */
 
   editProblem(data: RectifyProblemEditInfoDTO, lookup: boolean): void {
-    if (data.id && !data.uuid) {
-      // tslint:disable-next-line:no-shadowed-variable
-      this.rectifyProblemService.rectifyTrackById(data.id).subscribe(data => {
-        this.paramsItem = this.initProblem(data);
-        this.problemTypeName = this.paramsItem.rectifyProblemType.name;
-        this.isVisabled = true;
-      });
-    } else {
-      this.paramsItem = this.initProblem(data);
-      this.paramsItem.rectifyProblemTypeId = data.rectifyProblemTypeId;
-      this.isVisabled = true;
-    }
+    this.getProposalTemplates(data.rectifyProblemTypeId);
+    this.currentProblemIndex = this.listOfData.indexOf(data);
+    this.paramsItem = this.initProblem(data);
+    this.isVisabled = true;
     this.isWatch = lookup;
   }
 
@@ -280,20 +280,15 @@ export class AuditPostDetailComponent implements OnInit {
     return {
       id: item ? item.id : null,
       name: item ? item.name : null,
-      rectifyProblemType: item ? item.rectifyProblemType : null,
       mainType: item ? item.mainType : null,
-      rectifyProblemTypeId: item ? (item.rectifyProblemType ? item.rectifyProblemType.id : null) : null,
+      rectifyProblemTypeId: item ? (item.rectifyProblemTypeId ? item.rectifyProblemTypeId : item.rectifyProblemType.id) : null,
       money: item ? item.money : null,
-      description: item ? item.description : null,
       sendStatus: 'NOT_ISSUED',
       transferStatus: 'NOT_HANDED_OVER',
       trackStatus: 'NOT_RECTFIED',
+      description: item ? item.description : null,
       auditOpinion: item ? item.auditOpinion : null,
       auditReportId: item ? item.auditReportId : null,
-      rectifyDepartmentId: item ? item.rectifyDepartmentId : null,
-      rectifyUnitId: item ? item.rectifyUnitId : null,
-      dutyUserId: item ? item.dutyUserId : null,
-      auditUserId: item ? item.auditUserId : null,
       noRectifyStatus: false,
       multipleYearRectify: false,
       isTrunk: true,
@@ -302,10 +297,9 @@ export class AuditPostDetailComponent implements OnInit {
       advice: item ? item.advice : null,
       source: item ? item.source : this.currentItem.name,
       uuid: item ? item.uuid : UUID.generate(),
-      rectifyProblemCategory: item ? (item.rectifyProblemCategory === '审计意见问题' ? 'AUDIT_OPINION' : 'AUDIT_PROPOSAL') : 'AUDIT_OPINION',
-      auditOpinionCount: item && item.auditOpinionCount ? item.auditOpinionCount : 0,
-      auditProposalCount: item && item.auditProposalCount ? item.auditProposalCount : 0
-
+      rectifyProblemCategory: item ? item.rectifyProblemCategory : 'AUDIT_OPINION',
+      // tslint:disable-next-line:max-line-length
+      proposalTemplateId: item ? (item.proposalTemplateId ? item.proposalTemplateId : (item.proposalTemplate ? item.proposalTemplate.id : null)) : null,
     };
   }
 
@@ -317,35 +311,11 @@ export class AuditPostDetailComponent implements OnInit {
       this.msg.warning(`请确认问题信息填写完整`);
       return;
     }
-    if (this.listOfData.filter(item => item.id === this.paramsItem.id).length > 0 && this.paramsItem.id) {
-      const findIndex = this.listOfData.findIndex(item => item.id === this.paramsItem.id);
-      const id = this.listOfData[findIndex].id;
-      this.listOfData.splice(findIndex, 1, this.paramsItem);
-      this.paramsItem.id = id;
-      this.paramsItem.uuid = id;
-    }
-    if (this.listOfData.filter(item => item.uuid === this.paramsItem.uuid).length > 0 && this.paramsItem.uuid) {
-      const findIndex = this.listOfData.findIndex(item => item.uuid === this.paramsItem.uuid);
-      const uuid = this.listOfData[findIndex].uuid;
-      const typeId = this.listOfData[findIndex].rectifyProblemTypeId;
-      const mainType = this.listOfData[findIndex].mainType;
-      this.listOfData.splice(findIndex, 1, this.paramsItem);
-      // this.paramsItem.id = null;
-      this.paramsItem.uuid = uuid;
-      if (!this.listOfData[findIndex].rectifyProblemTypeId) {
-        this.listOfData[findIndex].rectifyProblemTypeId = typeId;
-        this.listOfData[findIndex].mainType = mainType;
-      }
-    } else {
+    if (this.currentProblemIndex === -1) {
       this.listOfData.push(this.paramsItem);
+    } else {
+      this.listOfData[this.currentProblemIndex] = this.initProblem(this.paramsItem);
     }
-
-    this.listOfData.forEach(d => {
-      if (!d.rectifyProblemTypeId) {
-        d.rectifyProblemTypeId = d.rectifyProblemType.id;
-      }
-    });
-
     this.listOfData = [...this.listOfData];
     this.handleCancel();
   }
@@ -359,6 +329,7 @@ export class AuditPostDetailComponent implements OnInit {
     }
     this.paramsItem = this.initProblem();
     FormUtil.resetForm(this.problemform.form);
+    this.currentProblemIndex = -1;
     this.isVisabled = false;
   }
 
@@ -418,13 +389,38 @@ export class AuditPostDetailComponent implements OnInit {
       }
     }
 
-    // if (treeNodeList.length > 0 && treeNodeList[0].origin.parent && treeNodeList[0].origin.parent != null) {
-    //   this.paramsItem.mainType = treeNodeList[0].origin.parent.id;
-    //   this.paramsItem.rectifyProblemTypeId = event;
-    // } else {
-    //   this.paramsItem.mainType = event;
-    //   this.paramsItem.rectifyProblemTypeId = event;
-    // }
+    this.paramsItem.proposalTemplateId = null;
+    this.getProposalTemplates(event);
+
+  }
+
+  /**
+   * 获取引用模板
+   */
+  getProposalTemplates(event?: string) {
+    this.proposalTemplates = [];
+    if (event) {
+      this.proposalTemplateAll.forEach(data => {
+        if (event === data.rectifyProblemType.id) {
+          this.proposalTemplates.push(data);
+        }
+      });
+    }
+    this.proposalTemplates = [...this.proposalTemplates];
+  }
+
+  /**
+   * 选中引用模板
+   */
+  proposalTemplateChange(event: string) {
+    this.tempAdvice = null;
+    if (event) {
+      this.proposalTemplateAll.forEach(data => {
+        if (data.id === event) {
+          this.tempAdvice = data.auditProposal;
+        }
+      });
+    }
   }
 
 
@@ -437,6 +433,17 @@ export class AuditPostDetailComponent implements OnInit {
         this.problemTypeMap.clear();
         this.problemTypeNodes = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
         this.recursionpPoblemTypeTree(data);
+      }
+    });
+  }
+
+  /**
+   * 加载审计建议模板
+   */
+  loadProposalTemplates() {
+    this.proposalTemplateService.findAll().subscribe(result => {
+      if (result) {
+        this.proposalTemplateAll = result;
       }
     });
   }
@@ -470,6 +477,9 @@ export class AuditPostDetailComponent implements OnInit {
       this.currentItem = this.initAuditReport(data);
       this.dateRange = [new Date(data.auditStartTime), new Date(data.auditEndTime)];
       this.listOfData = data.rectifyProblems;
+      this.listOfData.forEach(d => {
+        Object.assign(d, { rectifyProblemTypeId: d.rectifyProblemType.id });
+      });
 
       if (data.auditReportFileDTO) {
         this.reportFile = [data.auditReportFileDTO];
@@ -481,6 +491,7 @@ export class AuditPostDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadProblemTypeTree();
+    this.loadProposalTemplates();
     this.activatedRoute.queryParams.subscribe(data => {
       this.isWatch = data.isWatch === 'true';
       this.isEdit = data.isEdit === 'true';
@@ -497,6 +508,13 @@ export class AuditPostDetailComponent implements OnInit {
 
   reportFileChange(event: Array<any>) {
     this.show = event.length > 0;
+  }
+
+  /**
+   * 引用建议模板
+   */
+  confirmReference() {
+    this.paramsItem.advice = this.tempAdvice;
   }
 
 }

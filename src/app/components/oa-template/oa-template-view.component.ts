@@ -157,6 +157,8 @@ export class OaTemplateViewComponent implements OnInit {
         const parentId = item.id;
         this.parentName = item.name;
         this.currentItem.parentId = parentId;
+        this.currentItem.name = null;
+        this.currentItem.remark = null;
       } else {
         this.parentName = '';
       }

@@ -57,8 +57,7 @@ export class AdviceTemplateListComponent implements OnInit {
     },
     {
       title: '问题类型',
-      index: 'problemType',
-      render: 'problemTypeconversion',
+      index: 'rectifyProblemType.name',
       width: '10%',
       className: 'text-center',
       sort: this.tableParameter.sortDef,

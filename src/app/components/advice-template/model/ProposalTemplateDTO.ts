@@ -1,3 +1,4 @@
+import { RectifyProblemTypeDTO } from './../../rectify-issue/model/RectifyProblemTypeDTO';
 import { ProposalTemplateTypeDTO } from './ProposalTemplateTypeDTO';
 
 /**
@@ -13,7 +14,7 @@ export class ProposalTemplateDTO {
     this.problemType = item && item.problemType ? item.problemType : null;
     this.proposalTemplateType = item && item.proposalTemplateType ? item.proposalTemplateType : new ProposalTemplateTypeDTO();
     this.proposalTemplateTypeId = item && item.proposalTemplateTypeId ? item.proposalTemplateTypeId : null;
-
+    this.rectifyProblemTypeId = item && item.rectifyProblemType ? item.rectifyProblemType.id : null;
   }
   /**
    * 对象ID，新增时应当为null, 系统会自动生成
@@ -44,5 +45,12 @@ export class ProposalTemplateDTO {
    * 建议模板类型id
    */
   proposalTemplateTypeId: string;
+
+  /**
+   * 审计问题类型
+   */
+  rectifyProblemType?: RectifyProblemTypeDTO;
+  rectifyProblemTypeId?: string;
+
 
 }
