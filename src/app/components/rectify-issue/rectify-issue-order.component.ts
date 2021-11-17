@@ -47,9 +47,13 @@ export class RectifyIssueOrderComponent implements OnInit {
    * 引用OA模板内容
    */
   content: string;
+  tempContent = null;
 
 
   templateNodes = [];
+
+  proposalTemplates = [];
+  proposalTemplateId = null;
 
   /**
    * 分页参数
@@ -99,8 +103,15 @@ export class RectifyIssueOrderComponent implements OnInit {
   selectOaSendTemplateType = null;
 
   ngOnInit() {
-    this.oASendTemplateTypeService.findAllUsingGET().subscribe(data => {
-      this.oASendTemplateTypeTree = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
+    // this.oASendTemplateTypeService.findAllUsingGET().subscribe(data => {
+    //   this.oASendTemplateTypeTree = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
+    // });
+    this.loadProposalTemplates();
+  }
+
+  loadProposalTemplates() {
+    this.oaSendTemplateService.findAllUsingGET().subscribe(data => {
+      this.proposalTemplates = data;
     });
   }
 
@@ -118,7 +129,7 @@ export class RectifyIssueOrderComponent implements OnInit {
   save() {
     this.loading = true;
     const ids = this.listOfData.map(item => item.id);
-    this.rectifyProblemService.rectifyProblemSend(ids).subscribe(
+    this.rectifyProblemService.rectifyProblemSend(ids, this.content).subscribe(
       data => {
         this.msg.success('问题下发成功！');
         this.notification.emit();
@@ -137,7 +148,8 @@ export class RectifyIssueOrderComponent implements OnInit {
    *
    */
   edit(problems: Array<RectifyProblemDTO>) {
-    console.log(problems);
+    this.proposalTemplateId = null;
+    this.content = null;
     problems.forEach(problem => {
       this.listOfData.push({
         id: problem.id,
@@ -149,6 +161,21 @@ export class RectifyIssueOrderComponent implements OnInit {
     console.log(this.listOfData);
     this.listOfData = [...this.listOfData];
     this.isVisible = true;
+  }
+
+  proposalTemplateChange(event: string) {
+    this.tempContent = null;
+    if (event) {
+      this.proposalTemplates.forEach(data => {
+        if (data.id === event) {
+          this.tempContent = data.content;
+        }
+      });
+    }
+  }
+
+  confirmReference() {
+    this.content = this.tempContent;
   }
 
   /**
@@ -170,6 +197,6 @@ export class RectifyIssueOrderComponent implements OnInit {
         },
         null,
         () => (this.loading = false),
-      );
+    );
   }
 }

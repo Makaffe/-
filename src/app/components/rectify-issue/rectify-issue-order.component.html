@@ -1,28 +1,15 @@
-<nz-modal
-  [(nzVisible)]="isVisible"
-  [nzTitle]="'问题下发'"
-  [nzMaskClosable]="false"
-  (nzOnCancel)="handleCancel()"
-  [nzFooter]="rectifyIssueOrderFooter"
-  [nzStyle]="{ top: '65px' }"
-  nzWidth="900"
-  [nzBodyStyle]="{
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="'问题下发'" [nzMaskClosable]="false" (nzOnCancel)="handleCancel()"
+  [nzFooter]="rectifyIssueOrderFooter" [nzStyle]="{ top: '65px' }" nzWidth="900" [nzBodyStyle]="{
     'min-height': '300px',
     'overflow-x': 'hidden',
     padding: '24px 24px 0 24px'
-  }"
->
+  }">
   <form nz-form>
     <nz-form-item>
       <nz-form-label nzSpan="4">发送对象</nz-form-label>
       <nz-form-control nzSpan="20">
-        <nz-table
-          #basicTable
-          [nzData]="listOfData"
-          [nzShowPagination]="false"
-          nzBordered="true"
-          [nzScroll]="{ y: '100%' }"
-        >
+        <nz-table #basicTable [nzData]="listOfData" [nzShowPagination]="false" nzBordered="true"
+          [nzScroll]="{ y: '100%' }">
           <thead>
             <tr>
               <th nzWidth="50px">序号</th>
@@ -42,41 +29,20 @@
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label nzSpan="4">OA发文模板类型</nz-form-label>
+      <nz-form-label nzSpan="4">OA发文模板</nz-form-label>
       <nz-form-control nzSpan="20">
-        <!-- <nz-tree-select
-          [nzNodes]="oASendTemplateTypeTree"
-          nzDefaultExpandAll
-          nzShowSearch
-          nzAllowClear="true"
-          name="oASendTemplateType"
-          [(ngModel)]="selectOaSendTemplateType"
-          [nzDropdownStyle]="{ maxHeight: '280px' }"
-          (ngModelChange)="onChange($event)"
-        >
-        </nz-tree-select>
-        <st
-          #st
-          [data]="tableData"
-          nzSize="middle"
-          [multiSort]="tableParameter.multiSort"
-          [req]="tableParameter.req"
-          [scroll]="{ y: '100%' }"
-          [bordered]="true"
-          [res]="tableParameter.res"
-          [total]="tableParameter.page.total"
-          [size]="tableParameter.size"
-          [pi]="tableParameter.pi"
-          [ps]="tableParameter.ps"
-          [columns]="columns"
-          [rowClickTime]="500"
-          [page]="tableParameter.page"
-          [noResult]="null"
-        >
-        </st> -->
-
-        <app-advice-template-select [(adviceTemplate)]="content" (flag)="(false)" [templateNodes]="templateNodes">
-        </app-advice-template-select>
+        <nz-select nzAllowClear nzShowSearch nzPlaceHolder="请选择" style="width: 260px;" name="proposalTemplateId"
+          [(ngModel)]="proposalTemplateId" (ngModelChange)="proposalTemplateChange($event)">
+          <nz-option *ngFor="let option of proposalTemplates" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
+        </nz-select>
+        &nbsp;&nbsp;
+        <nz-popconfirm [nzTitle]="confirmtittle" (nzOnConfirm)="confirmReference()" style="margin-top: -5px;">
+          <ng-template #confirmtittle>
+            引用模板建议会覆盖当前模板内容，确定要引用该模板吗？
+          </ng-template>
+          <button nz-button nzType="primary" nz-popconfirm
+            [disabled]="!proposalTemplateId">确认引用</button>
+        </nz-popconfirm>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>

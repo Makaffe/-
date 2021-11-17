@@ -1,3 +1,5 @@
+import { deepCopy } from '@delon/util';
+import { AdviceTemplateSelectComponent } from './../common/advice-template-select/advice-template-select.component';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import UUID from 'uuidjs';
@@ -14,6 +16,10 @@ import { ProblemTypeService } from '../common/problem-type-select/ProblemTypeSer
   templateUrl: './rectify-child-issue-detail.component.html',
 })
 export class RectifyChildIssueDetailComponent implements OnInit {
+
+  @ViewChild('templateSelect', { static: false })
+  templateSelect: AdviceTemplateSelectComponent;
+
   /**
    * 数据更改通知事件
    */
@@ -51,6 +57,8 @@ export class RectifyChildIssueDetailComponent implements OnInit {
    */
   dutyUserList = [];
 
+  userMap = new Map<string, any>();
+
   /**
    * 整改负责人/从组织到人 id数组
    */
@@ -79,6 +87,8 @@ export class RectifyChildIssueDetailComponent implements OnInit {
 
   problemTypeList: Array<ProblemTypeDTO> = [];
 
+  problemTypeName = null;
+
   constructor(
     private msg: NzMessageService,
     private organizationService: OrganizationService,
@@ -100,6 +110,9 @@ export class RectifyChildIssueDetailComponent implements OnInit {
     this.userService.findAll().subscribe(data => {
       if (data) {
         this.dutyUserList = data;
+        data.forEach(d => {
+          this.userMap.set(d.id, d);
+        });
       }
     });
   }
@@ -109,6 +122,7 @@ export class RectifyChildIssueDetailComponent implements OnInit {
    */
   handleCancel() {
     this.isVisible = false;
+    this.templateSelect.proposalTemplateId = null;
     FormUtil.resetForm(this.form.form);
   }
 
@@ -124,11 +138,13 @@ export class RectifyChildIssueDetailComponent implements OnInit {
     this.currentItem.rectifyProblemType = this.problemTypeList.filter(item => this.currentItem.rectifyProblemTypeId === item.id)[0];
     this.currentItem.mainType = this.currentItem.rectifyProblemType && this.currentItem.rectifyProblemType.parent
       ? this.currentItem.rectifyProblemType.parent.id : this.currentItem.rectifyProblemTypeId;
-    this.currentItem.rectifyUnitId = this.dutyUserIds[this.dutyUserIds.length - 3];
-    this.currentItem.rectifyDepartmentId = this.dutyUserIds[this.dutyUserIds.length - 2];
-    this.currentItem.dutyUserId = this.dutyUserIds[this.dutyUserIds.length - 1];
-    this.currentItem.unitAndDepartment = this.organizationTreeMap.get(this.currentItem.rectifyUnitId)
-      + '/' + this.organizationTreeMap.get(this.currentItem.rectifyDepartmentId);
+    this.currentItem.orgLevel = this.dutyUserIds.toString();
+    let arr = deepCopy(this.dutyUserIds);
+    arr = arr.length > 0 ? arr.splice(0, 2) : [];
+    this.currentItem.unitAndDepartment = '';
+    arr.forEach(element => {
+      this.currentItem.unitAndDepartment = this.currentItem.unitAndDepartment + this.organizationTreeMap.get(element) + '/';
+    });
     this.currentItem.dutyUserName = this.organizationTreeMap.get(this.currentItem.dutyUserId);
     this.dataChange.emit(ObjectUtil.deepClone(this.currentItem));
     this.msg.success('操作成功！');
@@ -147,12 +163,10 @@ export class RectifyChildIssueDetailComponent implements OnInit {
    * @param item 数据源dto
    * @param isWatch 是否查看
    */
-  edit(item: RectifyProblemDTO, isWatch: boolean): void {
+  edit(item: RectifyProblemDTO, isWatch: boolean, rectifyProblemType: any): void {
     this.isWatch = isWatch;
     this.currentItem = new RectifyProblemDTO(item);
     this.currentItem.rectifyProblemTypeId = this.currentItem.rectifyProblemType ? this.currentItem.rectifyProblemType.id : null;
-    this.dutyUserIds = this.currentItem.dutyUser && this.currentItem.rectifyUnit && this.currentItem.rectifyDepartment
-      ? [this.currentItem.rectifyUnit.id, this.currentItem.rectifyDepartment.id, this.currentItem.dutyUser.id] : [];
     if (this.problemItem && this.problemItem.auditReport) {
       this.currentItem.auditReportId = this.problemItem.auditReport.id;
       this.currentItem.parentId = this.problemItem.id;
@@ -166,6 +180,9 @@ export class RectifyChildIssueDetailComponent implements OnInit {
       this.currentItem.oaSendCase = false;
       this.currentItem.source = this.problemItem.source;
     }
+    this.dutyUserIds = item && item.orgLevel ? item.orgLevel.split(',') : [];
+    this.problemTypeName = rectifyProblemType.name;
+    this.currentItem.rectifyProblemTypeId = rectifyProblemType.id;
     this.isVisible = true;
   }
 
@@ -183,10 +200,43 @@ export class RectifyChildIssueDetailComponent implements OnInit {
       item.children = item.userBaseDTOS && item.userBaseDTOS.length > 0 ? item.userBaseDTOS : item.children;
       if (item && item.children && item.children.length > 0) {
         this.fomatCascadeData(item.children);
-      } else if (!item.organizationType) {
+      } else if (!item.organizationType || !item.children || item.children.length === 0) {
         item.isLeaf = true;
       }
     });
     return [...data];
+  }
+
+  /**
+   * 选择整改负责人
+   */
+  dutyUserChange(event: Array<any>) {
+    if (event && event.length > 0) {
+      if (event[event.length - 1].account) {
+        const rectifyUnitIds = [];
+        const rectifyDepartmentIds = [];
+        event.forEach(e => {
+          if (e.organizationType && e.organizationType === 'UNIT') {
+            rectifyUnitIds.push(e.id);
+          }
+          if (e.organizationType && e.organizationType === 'DEPARTMENT') {
+            rectifyDepartmentIds.push(e.id);
+          }
+        });
+        this.currentItem.rectifyUnitId =
+          rectifyUnitIds.length > 0 ? rectifyUnitIds[rectifyUnitIds.length - 1] : null;
+        this.currentItem.rectifyDepartmentId =
+          rectifyDepartmentIds.length > 0 ? rectifyDepartmentIds[rectifyDepartmentIds.length - 1] : null;
+        this.currentItem.dutyUserId = event[event.length - 1].id;
+      } else {
+        this.dutyUserIds = [];
+        this.msg.warning('整改负责人选项请具体到人员！');
+      }
+
+    }
+  }
+
+  adviceTemplateChange(event: string) {
+    this.currentItem.advice = event;
   }
 }

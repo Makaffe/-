@@ -1,3 +1,4 @@
+import { deepCopy } from '@delon/util';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { QueryOptions } from '@mt-framework-ng/core';
@@ -12,7 +13,7 @@ import { RectifyProblemService } from './service/RectifyProblemService';
   styles: [],
 })
 export class RectifyIssueListComponent implements OnInit {
-  constructor(private rectifyProblemService: RectifyProblemService, private router: Router) {}
+  constructor(private rectifyProblemService: RectifyProblemService, private router: Router) { }
 
   @ViewChild('rectifyIssueSplitComponent', { static: false })
   rectifyIssueSplitComponent: RectifyIssueSplitComponent;
@@ -43,6 +44,10 @@ export class RectifyIssueListComponent implements OnInit {
   listOfMapData: Array<RectifyProblemDTO> = [];
 
   mapOfExpandedData: { [id: string]: any[] } = {};
+
+  isAllDisplayDataChecked = false;
+
+  isIndeterminate = false;
 
   /**
    * checkbox的Output
@@ -79,10 +84,16 @@ export class RectifyIssueListComponent implements OnInit {
    */
   @Input()
   params = {
+    reportName: null,
+    startTime: null,
+    endTime: null,
+    rectifyProblemId: null,
     rectifyProblemName: null,
-    rectifyDepartmentId: null,
     sendStatus: null,
-    transferStatus: null,
+    isAllot: null,
+    rectifyObject: null,
+    dutyUserName: null,
+    trackStatus: null
   };
 
   /**
@@ -108,14 +119,9 @@ export class RectifyIssueListComponent implements OnInit {
     this.isProblemSwich
       ? (this.queryOptions.sort = 'sendStatus,asc,id,desc')
       : (this.queryOptions.sort = 'sendStatus,desc,id,desc');
-    this.rectifyProblemService
-      .findOnePage(
-        this.queryOptions,
-        this.params.rectifyProblemName,
-        this.params.rectifyDepartmentId,
-        this.params.sendStatus,
-        this.params.transferStatus,
-      )
+    this.rectifyProblemService.findOnePage(this.queryOptions, this.params.reportName, this.params.startTime,
+      this.params.endTime, this.params.rectifyProblemId, this.params.rectifyProblemName, this.params.sendStatus,
+      this.params.isAllot, this.params.rectifyObject, this.params.dutyUserName, this.params.trackStatus)
       .subscribe(
         data => {
           if (data) {
@@ -132,14 +138,14 @@ export class RectifyIssueListComponent implements OnInit {
             console.log('listOfMapData', this.listOfMapData);
           }
         },
-        () => {},
+        () => { },
         () => {
           this.mapOfCheckedId = {};
           this.checkboxData = [];
           this.checkboxChange.emit([]);
           this.loading = false;
         },
-      );
+    );
   }
 
   /**
@@ -181,8 +187,19 @@ export class RectifyIssueListComponent implements OnInit {
         this.checkboxData = [];
       }
     }
+    this.isAllDisplayDataChecked = this.listOfMapData.every(e => this.mapOfCheckedId[e.id]);
+    this.isIndeterminate = this.listOfMapData.some(d => this.mapOfCheckedId[d.id]) && !this.isAllDisplayDataChecked;
     this.checkboxChange.emit(this.checkboxData);
   }
+
+  checkAll(value: boolean) {
+    this.listOfMapData.forEach(item => (this.mapOfCheckedId[item.id] = value));
+    this.isAllDisplayDataChecked = value;
+    this.isIndeterminate = this.listOfMapData.some(d => this.mapOfCheckedId[d.id]) && !this.isAllDisplayDataChecked;
+    this.checkboxData = value ? deepCopy(this.listOfMapData) : [];
+    console.log(this.checkboxData);
+  }
+
 
   /**
    * 每页条数改变的回调
@@ -248,7 +265,6 @@ export class RectifyIssueListComponent implements OnInit {
    * @param problems 整改问题数据
    */
   order(problems: Array<RectifyProblemDTO>) {
-    console.log('problems22', problems);
     this.rectifyIssueOrderComponent.edit(problems);
   }
 

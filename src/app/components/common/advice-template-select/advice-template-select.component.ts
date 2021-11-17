@@ -1,46 +1,18 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { NzSelectComponent } from 'ng-zorro-antd';
+import { Component, EventEmitter, Input, OnInit, Output, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { ProposalTemplateService } from '../../advice-template/service/ProposalTemplateService';
 @Component({
   selector: 'app-advice-template-select',
   templateUrl: './advice-template-select.component.html',
   styles: [``],
 })
-export class AdviceTemplateSelectComponent implements OnInit {
-  constructor() {}
-  /**
-   * 判断建议还是oA
-   */
-  @Input()
-  flag: boolean;
-  /**
-   * 建议模板树
-   */
-  @Input()
-  templateNodes = [
-    {
-      title: '模板类型1',
-      key: '模板类型1',
-      selectable: false,
-      children: [
-        {
-          title: '模板1',
-          key: '模板1',
-          isLeaf: true,
-        },
-        {
-          title: '模板2',
-          key: '模板2',
-          isLeaf: true,
-        },
-      ],
-    },
-  ];
+export class AdviceTemplateSelectComponent implements OnInit, OnChanges {
 
   /**
-   * 选择的建议模板
+   * 问题类型
    */
   @Input()
-  adviceTemplate = null;
-  value = null;
+  problemTypeId = null;
 
   /**
    * Output事件，用于该组件的双向绑定
@@ -54,13 +26,79 @@ export class AdviceTemplateSelectComponent implements OnInit {
   @Input()
   disabled = false;
 
-  ngOnInit() {}
+  /**
+   * 建议模板(全量)
+   */
+  proposalTemplateAll = [];
+
+  /**
+   * 根据问题类型筛选的模板
+   */
+  proposalTemplates = [];
+
+  @Input()
+  proposalTemplateId = null;
+
+  /** 审计建议 */
+  tempAdvice = null;
+
+  constructor(private proposalTemplateService: ProposalTemplateService) { }
+
+  ngOnInit() {
+    this.loadProposalTemplates();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes && changes.problemTypeId) {
+      this.getProposalTemplates(changes.problemTypeId.currentValue);
+    }
+    if (changes && changes.proposalTemplateId) {
+      this.proposalTemplateId = changes.problemTypeId.currentValue;
+    }
+  }
+
+  loadProposalTemplates() {
+    this.proposalTemplateService.findAll().subscribe(result => {
+      if (result) {
+        this.proposalTemplateAll = result;
+      }
+    });
+  }
+
+  /**
+   * 根据问题类型筛选模板
+   */
+  getProposalTemplates(problemTypeId: string) {
+    this.problemTypeId = null;
+    this.proposalTemplates = [];
+    if (problemTypeId) {
+      this.proposalTemplateAll.forEach(data => {
+        if (problemTypeId === data.rectifyProblemType.id) {
+          this.proposalTemplates.push(data);
+        }
+      });
+    }
+    this.proposalTemplates = [...this.proposalTemplates];
+  }
+
+  /**
+   * 选择模板
+   */
+  proposalTemplateChange(event: string) {
+    this.tempAdvice = null;
+    if (event) {
+      this.proposalTemplateAll.forEach(data => {
+        if (data.id === event) {
+          this.tempAdvice = data.auditProposal;
+        }
+      });
+    }
+  }
 
   /**
    * 确认引用
    */
   confirmReference() {
-    this.adviceTemplate = this.value;
-    this.adviceTemplateChange.emit(this.adviceTemplate);
+    this.adviceTemplateChange.emit(this.tempAdvice);
   }
 }

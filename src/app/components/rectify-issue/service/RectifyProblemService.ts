@@ -18,7 +18,7 @@ export class RectifyProblemService {
    */
   private static URL = '/api/rectify/problem';
 
-  constructor(private http: _HttpClient) {}
+  constructor(private http: _HttpClient) { }
 
   /**
    * 分页查询整改问题
@@ -33,18 +33,29 @@ export class RectifyProblemService {
    */
   findOnePage(
     option: QueryOptions,
+    reportName?: string,
+    startTime?: string,
+    endTime?: string,
+    rectifyProblemId?: string,
     rectifyProblemName?: string,
-    rectifyDepartmentId?: string,
     sendStatus?: string,
-    transferStatus?: string,
+    isAllot?: string,
+    rectifyObject?: string,
+    dutyUserName?: string,
+    trackStatus?: string
   ): Observable<ApiPagedData<RectifyProblemDTO>> {
     const params = {};
     Object.assign(params, option);
+    Object.assign(params, reportName ? { reportName } : {});
+    Object.assign(params, startTime ? { startTime } : {});
+    Object.assign(params, endTime ? { endTime } : {});
+    Object.assign(params, rectifyProblemId ? { rectifyProblemId } : {});
     Object.assign(params, rectifyProblemName ? { rectifyProblemName } : {});
-    Object.assign(params, rectifyDepartmentId ? { rectifyDepartmentId } : {});
     Object.assign(params, sendStatus ? { sendStatus } : {});
-    Object.assign(params, transferStatus ? { transferStatus } : {});
-
+    Object.assign(params, isAllot !== null ? { isAllot } : {});
+    Object.assign(params, rectifyObject ? { rectifyObject } : {});
+    Object.assign(params, dutyUserName ? { dutyUserName } : {});
+    Object.assign(params, trackStatus ? { trackStatus } : {});
     return this.http.get<ApiPagedData<RectifyProblemDTO>>(`${RectifyProblemService.URL}/findOnePage`, params);
   }
 
@@ -53,8 +64,8 @@ export class RectifyProblemService {
    * @param children 子问题列表 把父问题放到最后
    *
    */
-  rectifyProblemSplit(children: Array<RectifyProblemDTO>): Observable<Array<RectifyProblemDTO>> {
-    return this.http.post<Array<RectifyProblemDTO>>(`${RectifyProblemService.URL}/rectifyProblemSplit`, children);
+  rectifyProblemSplit(rectifyProblemEditInfoDTO: RectifyProblemDTO): Observable<Array<RectifyProblemDTO>> {
+    return this.http.post<Array<RectifyProblemDTO>>(`${RectifyProblemService.URL}/rectifyProblemSplit`, rectifyProblemEditInfoDTO);
   }
 
   /**
@@ -62,8 +73,8 @@ export class RectifyProblemService {
    * @param ids 整改问题ids
    *
    */
-  rectifyProblemSend(ids: Array<string>): Observable<Array<RectifyProblemDTO>> {
-    return this.http.put<Array<RectifyProblemDTO>>(`${RectifyProblemService.URL}/rectifyProblemSend`, ids);
+  rectifyProblemSend(ids: Array<string>, content?: string): Observable<Array<RectifyProblemDTO>> {
+    return this.http.put<Array<RectifyProblemDTO>>(`${RectifyProblemService.URL}/rectifyProblemSend`, { ids, content });
   }
 
   /**
@@ -72,10 +83,10 @@ export class RectifyProblemService {
    * @param transferCause 问题移交原因
    *
    */
-  rectifyProblemTransfer(ids: Array<string>, transferCause: string): Observable<Array<RectifyProblemDTO>> {
+  rectifyProblemTransfer(ids: Array<string>, content: string): Observable<Array<RectifyProblemDTO>> {
     return this.http.put<Array<RectifyProblemDTO>>(
-      `${RectifyProblemService.URL}/rectifyProblemTransfer?transferCause=${transferCause}`,
-      ids,
+      `${RectifyProblemService.URL}/rectifyProblemTransfer`,
+      { ids, content },
     );
   }
 

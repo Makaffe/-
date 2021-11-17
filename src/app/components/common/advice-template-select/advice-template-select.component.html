@@ -1,19 +1,13 @@
 <div style="display: flex;">
-  <nz-tree-select
-    [nzNodes]="templateNodes"
-    nzShowSearch
-    nzDefaultExpandAll
-    [(ngModel)]="value"
-    name="adviceTemplate"
-    style="width: 100%;"
-    [disabled]="disabled"
-  >
-  </nz-tree-select>
+  <nz-select #templateSelect nzAllowClear nzShowSearch nzPlaceHolder="请选择" [(ngModel)]="proposalTemplateId"
+    (ngModelChange)="proposalTemplateChange($event)">
+    <nz-option *ngFor="let option of proposalTemplates" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
+  </nz-select>
   &nbsp;&nbsp;
   <nz-popconfirm [nzTitle]="confirmtittle" (nzOnConfirm)="confirmReference()" style="margin-top: -5px;">
     <ng-template #confirmtittle>
-      确定要引用该模板？
+      引用模板建议会覆盖当前审计建议，确定要引用该模板吗？
     </ng-template>
-    <button nz-button nzType="primary" nz-popconfirm [disabled]="!value || disabled">确认引用</button>
+    <button nz-button nzType="primary" nz-popconfirm [disabled]="!proposalTemplateId || disabled">引用</button>
   </nz-popconfirm>
 </div>
