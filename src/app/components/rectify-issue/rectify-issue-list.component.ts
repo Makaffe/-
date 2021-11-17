@@ -1,3 +1,4 @@
+import { OrganizationService } from '@ng-mt-framework/api';
 import { deepCopy } from '@delon/util';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
@@ -13,7 +14,11 @@ import { RectifyProblemService } from './service/RectifyProblemService';
   styles: [],
 })
 export class RectifyIssueListComponent implements OnInit {
-  constructor(private rectifyProblemService: RectifyProblemService, private router: Router) { }
+
+  constructor(
+    private rectifyProblemService: RectifyProblemService,
+    private organizationService: OrganizationService,
+    private router: Router) { }
 
   @ViewChild('rectifyIssueSplitComponent', { static: false })
   rectifyIssueSplitComponent: RectifyIssueSplitComponent;
@@ -42,6 +47,11 @@ export class RectifyIssueListComponent implements OnInit {
    * 列表数据
    */
   listOfMapData: Array<RectifyProblemDTO> = [];
+
+  /**
+   * 列表数据(父子平级，只存储没有子节点的数据，方便获取选中的数据和控制选中状态)
+   */
+  listOfMapDataPeers: Array<RectifyProblemDTO> = [];
 
   mapOfExpandedData: { [id: string]: any[] } = {};
 
@@ -107,7 +117,10 @@ export class RectifyIssueListComponent implements OnInit {
   @Input()
   isProblemSwich = false;
 
+  organizationTreeMap: Map<string, string> = new Map<string, string>();
+
   ngOnInit(): void {
+    this.loadOrg();
     this.load();
   }
 
@@ -126,7 +139,6 @@ export class RectifyIssueListComponent implements OnInit {
         data => {
           if (data) {
             this.initDto(data.data);
-            console.log('initlistOfMapData', this.listOfMapData);
             this.listOfMapData = [...data.data];
             this.pageInfo.pageNo = data.pageNo + 1;
             this.pageInfo.pageSize = data.pageSize;
@@ -135,7 +147,7 @@ export class RectifyIssueListComponent implements OnInit {
             this.listOfMapData.forEach(item => {
               this.mapOfExpandedData[item.id] = this.convertTreeToList(item);
             });
-            console.log('listOfMapData', this.listOfMapData);
+            this.fomatListOfMapDataPeers(data.data);
           }
         },
         () => { },
@@ -154,9 +166,15 @@ export class RectifyIssueListComponent implements OnInit {
   initDto(listData: Array<RectifyProblemDTO>) {
     listData.forEach(item => {
       let unitAndDepartment = '';
-      if (item.rectifyDepartment && item.rectifyUnit) {
-        unitAndDepartment = item.rectifyUnit.name + '/' + item.rectifyDepartment.name;
-      }
+      // if (item.rectifyDepartment && item.rectifyUnit) {
+      //   unitAndDepartment = item.rectifyUnit.name + '/' + item.rectifyDepartment.name;
+      // }
+      let orgs = item.orgLevel ? item.orgLevel.split(',') : [];
+      orgs = orgs.slice(0, orgs.length - 2); // 只要不为空，长度肯定超过2
+      orgs.forEach(org => {
+        unitAndDepartment = unitAndDepartment + this.organizationTreeMap.get(org) + '/';
+      });
+      unitAndDepartment = unitAndDepartment.slice(0, unitAndDepartment.length - 1);
       Object.assign(item, { unitAndDepartment });
       if (item.children && item.children.length > 0) {
         this.initDto(item.children);
@@ -187,17 +205,38 @@ export class RectifyIssueListComponent implements OnInit {
         this.checkboxData = [];
       }
     }
-    this.isAllDisplayDataChecked = this.listOfMapData.every(e => this.mapOfCheckedId[e.id]);
-    this.isIndeterminate = this.listOfMapData.some(d => this.mapOfCheckedId[d.id]) && !this.isAllDisplayDataChecked;
+    this.isAllDisplayDataChecked = this.listOfMapDataPeers.every(e => this.mapOfCheckedId[e.id]);
+    this.isIndeterminate = this.listOfMapDataPeers.some(d => this.mapOfCheckedId[d.id]) && !this.isAllDisplayDataChecked;
     this.checkboxChange.emit(this.checkboxData);
   }
 
   checkAll(value: boolean) {
-    this.listOfMapData.forEach(item => (this.mapOfCheckedId[item.id] = value));
+    this.listOfMapDataPeers.forEach(item => (this.mapOfCheckedId[item.id] = value));
+    // this.checkData(this.listOfMapData, value);
     this.isAllDisplayDataChecked = value;
-    this.isIndeterminate = this.listOfMapData.some(d => this.mapOfCheckedId[d.id]) && !this.isAllDisplayDataChecked;
-    this.checkboxData = value ? deepCopy(this.listOfMapData) : [];
+    this.isIndeterminate = this.listOfMapDataPeers.some(d => this.mapOfCheckedId[d.id]) && !this.isAllDisplayDataChecked;
+    this.checkboxData = value ? deepCopy(this.listOfMapDataPeers) : [];
+    this.checkboxChange.emit(this.checkboxData);
     console.log(this.checkboxData);
+  }
+
+  // checkData(data: Array<RectifyProblemDTO>, value: boolean) {
+  //   data.forEach(d => {
+  //     this.mapOfCheckedId[d.id] = value;
+  //     if (d.children && d.children.length > 0) {
+  //       this.checkData(d.children, value);
+  //     }
+  //   });
+  // }
+
+  fomatListOfMapDataPeers(data: Array<RectifyProblemDTO>) {
+    data.forEach(d => {
+      if (d.children && d.children.length > 0) {
+        this.fomatListOfMapDataPeers(d.children);
+      } else {
+        this.listOfMapDataPeers.push(d);
+      }
+    });
   }
 
 
@@ -230,26 +269,27 @@ export class RectifyIssueListComponent implements OnInit {
    * @param item 整改问题数据
    */
   watch(item: RectifyProblemDTO) {
-    if (!this.isProblemSwich) {
-      if (item.sendStatus === '未下发') {
-        this.rectifyIssueSplitComponent.edit(item, true);
-      } else {
-        if (this.isAnalysis) {
-          this.closeModal.emit('关闭');
-          setTimeout(() => {
-            this.router.navigate(['/audit-rectify/rectify-workbeach'], {
-              // queryParams: { rectifyProblemId: id, isWatch: true },
-              queryParams: { isWatch: true },
-            });
-          }, 500);
-        } else {
-          this.router.navigate(['/audit-rectify/rectify-workbeach'], {
-            // queryParams: { rectifyProblemId: id, isWatch: true },
-            queryParams: { isWatch: true },
-          });
-        }
-      }
-    }
+    this.rectifyIssueSplitComponent.edit(item, true);
+    // if (!this.isProblemSwich) {
+    //   if (item.sendStatus === '未下发') {
+    //     this.rectifyIssueSplitComponent.edit(item, true);
+    //   } else {
+    //     if (this.isAnalysis) {
+    //       this.closeModal.emit('关闭');
+    //       setTimeout(() => {
+    //         this.router.navigate(['/audit-rectify/rectify-workbeach'], {
+    //           // queryParams: { rectifyProblemId: id, isWatch: true },
+    //           queryParams: { isWatch: true },
+    //         });
+    //       }, 500);
+    //     } else {
+    //       this.router.navigate(['/audit-rectify/rectify-workbeach'], {
+    //         // queryParams: { rectifyProblemId: id, isWatch: true },
+    //         queryParams: { isWatch: true },
+    //       });
+    //     }
+    //   }
+    // }
   }
 
   /**
@@ -308,5 +348,25 @@ export class RectifyIssueListComponent implements OnInit {
       hashMap[node.id] = true;
       array.push(node);
     }
+  }
+
+  loadOrg() {
+    this.organizationService.findUserTree().subscribe(data => {
+      this.fomatData(data);
+    });
+  }
+
+  fomatData(data?: Array<any>) {
+    data = data.filter((row) => row.id > 0);
+    data = [...data];
+    data.forEach(item => {
+      this.organizationTreeMap.set(item.id, item.name);
+      item.children = item.userBaseDTOS && item.userBaseDTOS.length > 0 ? item.userBaseDTOS : item.children;
+      if (item && item.children && item.children.length > 0) {
+        this.fomatData(item.children);
+      } else if (!item.organizationType || !item.children || item.children.length === 0) {
+        item.isLeaf = true;
+      }
+    });
   }
 }

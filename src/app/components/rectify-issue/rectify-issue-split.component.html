@@ -111,7 +111,8 @@
                     : ''
                 ">
                 <nz-cascader [nzOptions]="organizationTree" [(ngModel)]="dutyUserIds" [disabled]="isWatch"
-                  #rectifyDepartmentId="ngModel" required name="rectifyDepartmentId" (nzSelectionChange)="dutyUserChange($event)">
+                  #rectifyDepartmentId="ngModel" required name="rectifyDepartmentId"
+                  (nzSelectionChange)="dutyUserChange($event)">
                 </nz-cascader>
                 <nz-form-explain
                   *ngIf="rectifyDepartmentId.invalid && (rectifyDepartmentId.dirty || rectifyDepartmentId.touched)">
@@ -155,17 +156,18 @@
               <nz-form-label nzSpan="4">引用建议模版</nz-form-label>
               <nz-form-control nzSpan="20">
                 <nz-select nzAllowClear nzShowSearch nzPlaceHolder="请选择" style="width: 260px;" name="proposalTemplateId"
-                [(ngModel)]="currentItem.proposalTemplateId" (ngModelChange)="proposalTemplateChange($event)">
-                <nz-option *ngFor="let option of proposalTemplates" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
-              </nz-select>
-              &nbsp;&nbsp;
-              <nz-popconfirm [nzTitle]="confirmtittle" (nzOnConfirm)="confirmReference()" style="margin-top: -5px;">
-                <ng-template #confirmtittle>
-                  引用模板建议会覆盖当前审计建议，确定要引用该模板吗？
-                </ng-template>
-                <button nz-button nzType="primary" nz-popconfirm
-                  [disabled]="!currentItem.proposalTemplateId || isWatch">确认引用</button>
-              </nz-popconfirm>
+                  [(ngModel)]="currentItem.proposalTemplateId" (ngModelChange)="proposalTemplateChange($event)">
+                  <nz-option *ngFor="let option of proposalTemplates" [nzLabel]="option.name" [nzValue]="option.id">
+                  </nz-option>
+                </nz-select>
+                &nbsp;&nbsp;
+                <nz-popconfirm [nzTitle]="confirmtittle" (nzOnConfirm)="confirmReference()" style="margin-top: -5px;">
+                  <ng-template #confirmtittle>
+                    引用模板建议会覆盖当前审计建议，确定要引用该模板吗？
+                  </ng-template>
+                  <button nz-button nzType="primary" nz-popconfirm
+                    [disabled]="!currentItem.proposalTemplateId || isWatch">确认引用</button>
+                </nz-popconfirm>
               </nz-form-control>
             </nz-form-item>
 
@@ -216,7 +218,8 @@
                     <td>{{data.dutyUserName}}</td>
                     <!-- <td>{{ formatDateFun(data?.rectifyEndTime) }}</td> -->
                     <td nzRight="0px" nzAlign="center">
-                      <ng-container *ngIf="!isWatch">
+                      <ng-container
+                        *ngIf="!isWatch && data.sendStatus === 'NOT_ISSUED' && data.transferStatus === 'NOT_HANDED_OVER'">
                         <a (click)="startEdit(data)">编辑</a>
                         <nz-divider nzType="vertical"></nz-divider>
                         <nz-popconfirm [nzTitle]="title" (nzOnConfirm)="onDelete(data)">

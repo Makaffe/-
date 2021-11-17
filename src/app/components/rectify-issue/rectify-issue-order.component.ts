@@ -103,9 +103,6 @@ export class RectifyIssueOrderComponent implements OnInit {
   selectOaSendTemplateType = null;
 
   ngOnInit() {
-    // this.oASendTemplateTypeService.findAllUsingGET().subscribe(data => {
-    //   this.oASendTemplateTypeTree = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
-    // });
     this.loadProposalTemplates();
   }
 
@@ -153,12 +150,12 @@ export class RectifyIssueOrderComponent implements OnInit {
     problems.forEach(problem => {
       this.listOfData.push({
         id: problem.id,
-        rectifyDepartment: problem.rectifyDepartment && problem.rectifyUnit
-          ? problem.rectifyUnit.name + '/' + problem.rectifyDepartment.name : null,
-        dutyUser: problem.dutyUser ? problem.dutyUser.name : null,
+        unitAndDepartment: problem.unitAndDepartment ? problem.unitAndDepartment : null,
+        auditReportName: problem.auditReport.name,
+        name: problem.name,
+        dutyUser: problem.dutyUser.name
       });
     });
-    console.log(this.listOfData);
     this.listOfData = [...this.listOfData];
     this.isVisible = true;
   }

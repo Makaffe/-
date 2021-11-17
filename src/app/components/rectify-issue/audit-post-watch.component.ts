@@ -1,3 +1,5 @@
+import { AuditReportDTO } from './../audit-post/newmodel/AuditReportDTO';
+import { AuditReportService } from './../audit-post/newservice/AuditReportService';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { FormUtil } from '@ng-mt-framework/util';
@@ -19,7 +21,7 @@ export class AuditPostWatchComponent implements OnInit {
   /**
    * 当前对象
    */
-  currentItem: AuditPostDTO = new AuditPostDTO();
+  currentItem = this.initItem();
 
   /**
    * 整改问题列表
@@ -31,9 +33,17 @@ export class AuditPostWatchComponent implements OnInit {
    */
   isVisible = false;
 
-  constructor(private msg: NzMessageService) {}
+  constructor(private msg: NzMessageService, private auditReportService: AuditReportService) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
+
+  edit(auditPostId: string) {
+    this.auditReportService.findById(auditPostId).subscribe(data => {
+      this.currentItem = this.initItem(data);
+      console.log(this.currentItem);
+      this.isVisible = true;
+    });
+  }
 
   /**
    * 关闭审计报告模态框
@@ -50,5 +60,17 @@ export class AuditPostWatchComponent implements OnInit {
   watch(item: AuditPostDTO): void {
     this.currentItem = new AuditPostDTO(item);
     this.isVisible = true;
+  }
+
+  initItem(item?: AuditReportDTO): any {
+    return {
+      name: item && item.name ? item.name : null,
+      auditName: item && item.auditName ? item.auditName : null,
+      auditTime: item ? item.auditStartTime.slice(0, 10) + ' ~ ' + item.auditEndTime.slice(0, 10) : null,
+      auditSource: item && item.auditSource ? item.auditSource : null,
+      auditTarget: item && item.auditTarget ? item.auditTarget : null,
+      systemFiles: item && item.systemFileDTOS ? item.systemFileDTOS : [],
+      auditReportFile: item && item.auditReportFileDTO ? [item.auditReportFileDTO] : []
+    };
   }
 }

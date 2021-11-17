@@ -140,11 +140,12 @@ export class RectifyChildIssueDetailComponent implements OnInit {
       ? this.currentItem.rectifyProblemType.parent.id : this.currentItem.rectifyProblemTypeId;
     this.currentItem.orgLevel = this.dutyUserIds.toString();
     let arr = deepCopy(this.dutyUserIds);
-    arr = arr.length > 0 ? arr.splice(0, 2) : [];
+    arr = arr.length > 0 ? arr.slice(0, arr.length - 2) : [];
     this.currentItem.unitAndDepartment = '';
     arr.forEach(element => {
       this.currentItem.unitAndDepartment = this.currentItem.unitAndDepartment + this.organizationTreeMap.get(element) + '/';
     });
+    this.currentItem.unitAndDepartment = this.currentItem.unitAndDepartment.slice(0, this.currentItem.unitAndDepartment.length - 1);
     this.currentItem.dutyUserName = this.organizationTreeMap.get(this.currentItem.dutyUserId);
     this.dataChange.emit(ObjectUtil.deepClone(this.currentItem));
     this.msg.success('操作成功！');

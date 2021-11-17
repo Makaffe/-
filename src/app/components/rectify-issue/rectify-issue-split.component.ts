@@ -305,11 +305,12 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
                 ? this.childrenProblemList[this.childrenProblemList.length - 1].uuid + 1 : '1';
 
             row.unitAndDepartment = '';
-            const orgs = row.orgLevel ? row.orgLevel.split(',') : [];
-            orgs.splice(orgs.length - 1, 1);
+            let orgs = row.orgLevel ? row.orgLevel.split(',') : [];
+            orgs = orgs.slice(0, orgs.length - 2);
             orgs.forEach(org => {
               row.unitAndDepartment = row.unitAndDepartment + this.organizationTreeMap.get(org) + '/';
             });
+            row.unitAndDepartment = row.unitAndDepartment.slice(0, row.unitAndDepartment.length - 1);
             if (row.dutyUser) {
               row.dutyUserName = this.organizationTreeMap.get(row.dutyUser.id);
             }
@@ -403,7 +404,7 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
    * @param auditPostId 审计报告id
    */
   watchAuditPost(auditPostId: string) {
-    this.auditPostWatchComponent.isVisible = true;
+    this.auditPostWatchComponent.edit(auditPostId);
   }
 
   /**

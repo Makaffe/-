@@ -86,12 +86,11 @@ export interface AuditReportDTO {
   /**
    * 关联的附件信息
    */
-  attachFiles: Array<SystemFileDTO>;
+  systemFileDTOS: Array<SystemFileDTO>;
 
   rectifyProblems: RectifyProblemDTO[];
 
   /**
-   * auditReportFileDTOId, attachFileIds
    * 关联报告的ID
    */
   auditReportFileDTOId: string;
@@ -100,4 +99,5 @@ export interface AuditReportDTO {
    * 关联附件的id
    */
   attachFileIds: Array<string>;
+
 }

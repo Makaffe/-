@@ -6,21 +6,25 @@
   }">
   <form nz-form>
     <nz-form-item>
-      <nz-form-label nzSpan="4">发送对象</nz-form-label>
-      <nz-form-control nzSpan="20">
+      <nz-form-label nzSpan="3">发送对象</nz-form-label>
+      <nz-form-control nzSpan="21">
         <nz-table #basicTable [nzData]="listOfData" [nzShowPagination]="false" nzBordered="true"
           [nzScroll]="{ y: '100%' }">
           <thead>
             <tr>
-              <th nzWidth="50px">序号</th>
-              <th nzWidth="50%">整改部门</th>
-              <th nzWidth="50%">整改负责人</th>
+              <th nzWidth="50px" nzAlign="center">序号</th>
+              <th nzWidth="35%">审计报告</th>
+              <th nzWidth="30%">问题名称</th>
+              <th nzWidth="20%">整改对象</th>
+              <th nzWidth="15%">整改负责人</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let data of basicTable.data; let number = index">
-              <td>{{ number + 1 }}</td>
-              <td>{{ data.rectifyDepartment}}</td>
+              <td nzAlign="center">{{ number + 1 }}</td>
+              <td>{{ data?.auditReportName}}</td>
+              <td>{{ data.name}}</td>
+              <td>{{ data.unitAndDepartment}}</td>
               <td>{{ data.dutyUser }}</td>
             </tr>
           </tbody>
@@ -29,8 +33,8 @@
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label nzSpan="4">OA发文模板</nz-form-label>
-      <nz-form-control nzSpan="20">
+      <nz-form-label nzSpan="3">OA发文模板</nz-form-label>
+      <nz-form-control nzSpan="21">
         <nz-select nzAllowClear nzShowSearch nzPlaceHolder="请选择" style="width: 260px;" name="proposalTemplateId"
           [(ngModel)]="proposalTemplateId" (ngModelChange)="proposalTemplateChange($event)">
           <nz-option *ngFor="let option of proposalTemplates" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
@@ -46,8 +50,8 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSpan]="4" nzFor="content">模板内容</nz-form-label>
-      <nz-form-control [nzSpan]="20">
+      <nz-form-label [nzSpan]="3" nzFor="content">模板内容</nz-form-label>
+      <nz-form-control [nzSpan]="21">
         <textarea rows="5" nz-input name="content" [(ngModel)]="content"></textarea>
       </nz-form-control>
     </nz-form-item>
