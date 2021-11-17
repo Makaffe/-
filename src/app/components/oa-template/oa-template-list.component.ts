@@ -58,17 +58,16 @@ export class OaTemplateListComponent implements OnInit {
    */
   tableParameter = ObjectUtil.deepClone(TABLE_PARAMETER);
   columns = [
-    { title: '序号', render: 'number', width: '100px', className: 'text-center', type: 'radio' },
+    { title: '序号', render: 'number', width: '50px', className: 'text-center', type: 'radio' },
     {
       title: 'OA模板名称',
       index: 'name',
-      width: '400px',
-      sort: this.tableParameter.sortDef,
+      width: '40%',
     },
     {
       title: 'OA模板内容',
       index: 'content',
-      sort: this.tableParameter.sortDef,
+      width: '60%',
     },
     { title: '操作', render: 'operations', width: '150px', className: 'text-center', fixed: 'right' },
   ];

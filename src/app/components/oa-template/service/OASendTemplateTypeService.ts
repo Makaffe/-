@@ -15,7 +15,7 @@ export class OASendTemplateTypeService {
   /**
    * API请求URL
    */
-  private static URL = '/api/oasend/template/type/';
+  private static URL = '/api/oasend/template/type';
 
   constructor(private http: _HttpClient) {}
 

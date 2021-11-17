@@ -1,4 +1,4 @@
-<nz-modal [(nzVisible)]="isVisible" [nzTitle]="'子问题详情'" [nzMaskClosable]="false" (nzOnCancel)="handleCancel()"
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="'拆分问题详情'" [nzMaskClosable]="false" (nzOnCancel)="handleCancel()"
   [nzFooter]="formFooter" [nzStyle]="{ top: '65px' }" nzWidth="70%" [nzBodyStyle]="{
     'overflow-y': 'auto',
     'overflow-x': 'hidden',
@@ -17,16 +17,9 @@
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label [nzSpan]="4" nzFor="problemType" nzRequired>问题类型</nz-form-label>
-      <nz-form-control [nzSpan]="8"
-        [nzValidateStatus]="problemType.invalid && (problemType.dirty || problemType.touched) ? 'error' : ''">
-        <nz-select required nzAllowClear [nzPlaceHolder]="'请选择问题类型'" #problemType="ngModel" name="problemType"
-          [(ngModel)]="currentItem.rectifyProblemTypeId" [disabled]="isWatch">
-          <nz-option *ngFor="let type of problemTypeList" [nzValue]="type.id" [nzLabel]="type.name"></nz-option>
-        </nz-select>
-        <nz-form-explain *ngIf="problemType.invalid && (problemType.dirty || problemType.touched)">
-          请选择问题类型
-        </nz-form-explain>
+      <nz-form-label [nzSpan]="4" nzRequired>问题类型</nz-form-label>
+      <nz-form-control [nzSpan]="8">
+        <input nz-input name="problemTypeName" [disabled]="isWatch" [(ngModel)]="problemTypeName" readonly/>
       </nz-form-control>
 
       <nz-form-label [nzSpan]="4" nzFor="sjje" nzRequired>涉及金额(元)</nz-form-label>
@@ -57,7 +50,7 @@
           rectifyDepartmentId.invalid && (rectifyDepartmentId.dirty || rectifyDepartmentId.touched) ? 'error' : ''
         ">
         <nz-cascader [nzOptions]="organizationTree" [(ngModel)]="dutyUserIds" [disabled]="isWatch"
-          #rectifyDepartmentId="ngModel" required name="rectifyDepartmentId">
+          #rectifyDepartmentId="ngModel" required name="rectifyDepartmentId" (nzSelectionChange)="dutyUserChange($event)">
         </nz-cascader>
         <nz-form-explain
           *ngIf="rectifyDepartmentId.invalid && (rectifyDepartmentId.dirty || rectifyDepartmentId.touched)">
@@ -76,7 +69,8 @@
     <nz-form-item *ngIf="!isWatch">
       <nz-form-label nzSpan="4">引用建议模版</nz-form-label>
       <nz-form-control nzSpan="8">
-        <app-advice-template-select [(adviceTemplate)]="currentItem.advice" [disabled]="isWatch">
+        <app-advice-template-select #templateSelect [problemTypeId]="this.currentItem.rectifyProblemTypeId"
+         (adviceTemplateChange)="adviceTemplateChange($event)">
         </app-advice-template-select>
       </nz-form-control>
     </nz-form-item>

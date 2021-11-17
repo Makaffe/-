@@ -1,3 +1,4 @@
+import { CommonUtil } from './../components/common/utils/common-util';
 import { CommonModule, DatePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -75,4 +76,6 @@ const DIRECTIVES = [];
 
   providers: [DatePipe],
 })
-export class SharedModule {}
+export class SharedModule {
+  constructor(private commonUtil: CommonUtil) {}
+}

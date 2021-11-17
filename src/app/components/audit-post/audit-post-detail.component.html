@@ -33,7 +33,7 @@
       <nz-form-item>
         <nz-form-label nzSpan="3">项目相关资料</nz-form-label>
         <nz-form-control nzSpan="19">
-          <app-attach-list [show]="!isWatch" [(attachFiles)]="currentItem.systemFileDTOS" #attachListComponent
+          <app-attach-list [show]="!isWatch" [(attachFiles)]="currentItem.systemFileDTOS"
             [fileType]="'AUDIT_REPORT_FILE_ATTACHMENT'">
           </app-attach-list>
         </nz-form-control>
@@ -235,8 +235,6 @@
     <nz-form-item>
       <nz-form-label nzSpan="3">引用建议模版</nz-form-label>
       <nz-form-control nzSpan="8">
-        <!-- <app-advice-template-select [(adviceTemplate)]="paramsItem.advice" [disabled]="isWatch">
-        </app-advice-template-select> -->
         <nz-select nzAllowClear nzShowSearch nzPlaceHolder="请选择" style="width: 260px;" name="proposalTemplateId"
           [(ngModel)]="paramsItem.proposalTemplateId" (ngModelChange)="proposalTemplateChange($event)">
           <nz-option *ngFor="let option of proposalTemplates" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>

@@ -1,73 +1,49 @@
-<nz-modal
-  [(nzVisible)]="isVisible"
-  [nzTitle]="'审计报告详情'"
-  [nzMaskClosable]="false"
-  (nzOnCancel)="handleCancel()"
-  [nzFooter]="formFooter"
-  [nzStyle]="{ top: '65px' }"
-  nzWidth="70%"
-  [nzBodyStyle]="{
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="'审计报告详情'" [nzMaskClosable]="false" (nzOnCancel)="handleCancel()"
+  [nzFooter]="formFooter" [nzStyle]="{ top: '65px' }" nzWidth="70%" [nzBodyStyle]="{
     'overflow-y': 'auto',
     'overflow-x': 'hidden',
-    padding: '24px'
-  }"
->
+    padding: '10 20 10 20'
+  }">
   <form nz-form #auditPostForm="ngForm">
     <nz-form-item>
-      <nz-form-label nzSpan="3" nzRequired>审计报告名称</nz-form-label>
-      <nz-form-control nzSpan="9">
-        <input nz-input name="name" [value]="'审计报告名称'" readonly />
+      <nz-form-label nzSpan="4">审计报告名称</nz-form-label>
+      <nz-form-control nzSpan="8">
+        <input nz-input name="name" [value]="currentItem.name" readonly />
       </nz-form-control>
-      <nz-form-label nzSpan="3" nzRequired>审计单位名称</nz-form-label>
-      <nz-form-control nzSpan="9">
-        <input nz-input name="auditName" [value]="'审计单位名称'" readonly />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label nzSpan="3" nzRequired>审计时间</nz-form-label>
-      <nz-form-control nzSpan="9">
-        <input nz-input name="auditDateRange" [value]="'审计时间'" readonly />
-      </nz-form-control>
-      <nz-form-label nzSpan="3" nzRequired>报告来源</nz-form-label>
-      <nz-form-control nzSpan="9">
-        <input nz-input name="auditName" [value]="'报告来源'" readonly />
+      <nz-form-label nzSpan="4">审计单位名称</nz-form-label>
+      <nz-form-control nzSpan="8">
+        <input nz-input name="auditName" [value]="currentItem.auditName" readonly />
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label nzSpan="3" nzRequired>被审计单位名称</nz-form-label>
-      <nz-form-control nzSpan="9">
-        <input nz-input name="AuditedName" [value]="'被审计单位名称'" readonly />
+      <nz-form-label nzSpan="4">审计时间</nz-form-label>
+      <nz-form-control nzSpan="8">
+        <input nz-input name="auditDateRange" [value]="currentItem.auditTime" readonly />
+      </nz-form-control>
+      <nz-form-label nzSpan="4">报告来源</nz-form-label>
+      <nz-form-control nzSpan="8">
+        <input nz-input name="auditName" [value]="currentItem.auditSource" readonly />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzSpan="4">被审计对象名称</nz-form-label>
+      <nz-form-control nzSpan="8">
+        <input nz-input name="AuditedName" [value]="currentItem.auditTarget" readonly />
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label nzSpan="3">审计报告文件</nz-form-label>
-      <nz-form-control nzSpan="19">
-        <app-attach-list
-          [show]="false"
-          [(attachFiles)]="currentItem.systemFiles"
-          #attachListComponent
-          [fileName]="'审计报告名称'"
-          [fileType]="'AUDIT_POST_FILES'"
-          [fileTitle]="''"
-          [TBHeight]="'100px'"
-        >
+      <nz-form-label nzSpan="4">审计报告文件</nz-form-label>
+      <nz-form-control nzSpan="20">
+        <app-attach-list [show]="false" [TBHeight]="'150px'" [(attachFiles)]="currentItem.auditReportFile">
         </app-attach-list>
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label nzSpan="3">项目相关资料</nz-form-label>
-      <nz-form-control nzSpan="19">
-        <app-attach-list
-          [show]="false"
-          [(attachFiles)]="currentItem.systemFiles"
-          #attachListComponent
-          [fileName]="'资料名称'"
-          [fileType]="'AUDIT_POST_FILES'"
-          [fileTitle]="''"
-        >
-        </app-attach-list>
+      <nz-form-label nzSpan="4">项目相关资料</nz-form-label>
+      <nz-form-control nzSpan="20">
+        <app-attach-list [show]="false" [(attachFiles)]="currentItem.systemFiles"></app-attach-list>
       </nz-form-control>
     </nz-form-item>
   </form>
@@ -75,55 +51,3 @@
     <button nz-button nzType="default" (click)="handleCancel()">取消</button>
   </ng-template>
 </nz-modal>
-
-<!-- <nz-modal [(nzVisible)]="isVisibleForProblem" nzTitle="整改问题清单详情" (nzOnCancel)="handleCancelForProblem()"
-  nzWidth="1200px">
-  <form nz-form #problemForm="ngForm">
-    <nz-form-item nz-row>
-      <nz-form-label [nzSpan]="4" nzRequired>问题名称</nz-form-label>
-      <nz-form-control [nzSpan]="20">
-        <input nz-input name="name" [value]="'问题名称'" readonly />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="4" nzRequired>问题类型</nz-form-label>
-      <nz-form-control [nzSpan]="8">
-        <input nz-input name="name" [value]="'问题类型'" readonly />
-      </nz-form-control>
-      <nz-form-label [nzSpan]="4">涉及金额</nz-form-label>
-      <nz-form-control [nzSpan]="8">
-        <input nz-input name="money" [value]="'涉及金额'" readonly />
-      </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item nz-row>
-      <nz-form-label [nzSpan]="4" nzRequired>整改部门</nz-form-label>
-      <nz-form-control [nzSpan]="8">
-        <input nz-input name="name" [value]="'整改部门'" readonly />
-      </nz-form-control>
-      <nz-form-label [nzSpan]="4" nzRequired>整改负责人</nz-form-label>
-      <nz-form-control [nzSpan]="8">
-        <input nz-input name="name" [value]="'整改负责人'" readonly />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="4" nzRequired>问题来源</nz-form-label>
-      <nz-form-control [nzSpan]="20">
-        <input nz-input name="name" [value]="'问题来源'" readonly />
-        <textarea [readOnly]="true" nz-input [value]="'问题来源'" rows="6"></textarea>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="4" nzRequired>问题描述</nz-form-label>
-      <nz-form-control [nzSpan]="20">
-        <textarea [readOnly]="true" nz-input [value]="'问题描述'" rows="6"></textarea>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="4" nzRequired>整改建议</nz-form-label>
-      <nz-form-control [nzSpan]="20">
-        <textarea [readOnly]="true" nz-input [value]="'整改建议'" rows="6"></textarea>
-      </nz-form-control>
-    </nz-form-item>
-  </form>
-</nz-modal> -->

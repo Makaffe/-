@@ -184,17 +184,6 @@ export class IssueAssignFormComponent implements OnInit {
       return;
     }
     this.loading = true;
-    this.rectifyProblemService.rectifyProblemSplit(this.childrenProblemList).subscribe(
-      () => {
-        this.msg.success('问题拆分成功！');
-        this.notification.emit();
-        this.handleCancel();
-      },
-      () => {},
-      () => {
-        this.loading = false;
-      },
-    );
   }
 
   /**
@@ -217,25 +206,25 @@ export class IssueAssignFormComponent implements OnInit {
   /**
    * 新增子问题
    */
-  addChildrenProblem() {
-    this.rectifyChildIssueDetailComponent.edit(null, false);
-  }
+  // addChildrenProblem() {
+  //   this.rectifyChildIssueDetailComponent.edit(null, false);
+  // }
 
   /**
    * 编辑子问题
    * @param item 子问题
    */
-  startEdit(item: RectifyProblemDTO) {
-    this.rectifyChildIssueDetailComponent.edit(item, false);
-  }
+  // startEdit(item: RectifyProblemDTO) {
+  //   this.rectifyChildIssueDetailComponent.edit(item, false);
+  // }
 
   /**
    * 查看子问题
    * @param item 子问题
    */
-  watchChildrenProblem(item: RectifyProblemDTO) {
-    this.rectifyChildIssueDetailComponent.edit(item, true);
-  }
+  // watchChildrenProblem(item: RectifyProblemDTO) {
+  //   this.rectifyChildIssueDetailComponent.edit(item, true);
+  // }
 
   /**
    * 初始化dto

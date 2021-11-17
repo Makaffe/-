@@ -22,6 +22,7 @@ import { AuditPostWatchComponent } from './audit-post-watch.component';
 import { RectifyProblemDTO } from './model/rectify-problem-dto';
 import { RectifyChildIssueDetailComponent } from './rectify-child-issue-detail.component';
 import { RectifyProblemService } from './service/RectifyProblemService';
+import { ProposalTemplateService } from '../advice-template/service/ProposalTemplateService';
 
 @Component({
   selector: 'app-rectify-issue-split',
@@ -30,6 +31,7 @@ import { RectifyProblemService } from './service/RectifyProblemService';
 })
 export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
   constructor(
+    private proposalTemplateService: ProposalTemplateService,
     private rectifyProblemService: RectifyProblemService,
     private organizationService: OrganizationService,
     private msg: NzMessageService,
@@ -127,6 +129,8 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
    */
   dutyUserList = [];
 
+  userMap = new Map<string, any>();
+
   /**
    * 整改负责人/从组织到人 id数组
    */
@@ -137,12 +141,19 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
    */
   values: string[] | null = null;
 
+  /** 审计建议模板 */
+  proposalTemplateAll = [];
+  proposalTemplates = [];
+
+  /** 审计建议 */
+  tempAdvice = null;
+
   /**
    * 删除子问题
-   * @param uuid 数据uuid
+   * @param item 数据
    */
-  onDelete(uuid: string): void {
-    this.childrenProblemList = this.childrenProblemList.filter(item => item.uuid !== uuid);
+  onDelete(item: any): void {
+    this.childrenProblemList.splice(this.childrenProblemList.indexOf(item), 1);
     this.childrenProblemList = [...this.childrenProblemList];
   }
 
@@ -156,8 +167,52 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
     this.userService.findAll().subscribe(data => {
       if (data) {
         this.dutyUserList = data;
+        data.forEach(d => {
+          this.userMap.set(d.id, d);
+        });
       }
     });
+    this.loadProposalTemplates();
+  }
+
+  /**
+   * 加载审计建议模板
+   */
+  loadProposalTemplates() {
+    this.proposalTemplateService.findAll().subscribe(result => {
+      if (result) {
+        this.proposalTemplateAll = result;
+      }
+    });
+  }
+
+  /**
+   * 获取引用模板
+   */
+  getProposalTemplates(event?: string) {
+    this.proposalTemplates = [];
+    if (event) {
+      this.proposalTemplateAll.forEach(data => {
+        if (event === data.rectifyProblemType.id) {
+          this.proposalTemplates.push(data);
+        }
+      });
+    }
+    this.proposalTemplates = [...this.proposalTemplates];
+  }
+
+  /**
+   * 选中引用模板
+   */
+  proposalTemplateChange(event: string) {
+    this.tempAdvice = null;
+    if (event) {
+      this.proposalTemplateAll.forEach(data => {
+        if (data.id === event) {
+          this.tempAdvice = data.auditProposal;
+        }
+      });
+    }
   }
 
   /**
@@ -173,7 +228,7 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
       item.children = item.userBaseDTOS && item.userBaseDTOS.length > 0 ? item.userBaseDTOS : item.children;
       if (item && item.children && item.children.length > 0) {
         this.fomatCascadeData(item.children);
-      } else if (!item.organizationType) {
+      } else if (!item.organizationType || !item.children || item.children.length === 0) {
         item.isLeaf = true;
       }
     });
@@ -204,30 +259,20 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
       return;
     }
     this.loading = true;
-    if (this.childrenProblemList.length === 0 || !this.childrenProblemList[this.childrenProblemList.length - 1].id
-      || this.childrenProblemList[this.childrenProblemList.length - 1].id !== this.currentItem.id) {
-      this.currentItem.sendStatus = this.currentItem.sendStatus === '已下发'
-        ? 'ISSUED' : this.currentItem.sendStatus === '下发中' ? 'ISSUING' : 'NOT_ISSUED';
-      this.currentItem.transferStatus = this.currentItem.transferStatus === '已移交'
-        ? 'HANDED_OVER' : this.currentItem.transferStatus === '移交中' ? 'HANDING_OVER' : 'NOT_HANDED_OVER';
-      this.currentItem.trackStatus = this.currentItem.trackStatus === '已完成'
-        ? 'COMPLETED' : this.currentItem.trackStatus === '整改中' ? 'RECTIFYING' : 'NOT_RECTIFIED';
-      this.currentItem.rectifyDepartmentId = this.dutyUserIds[this.dutyUserIds.length - 2];
-      this.currentItem.rectifyProblemTypeId = this.currentItem.rectifyProblemType ? this.currentItem.rectifyProblemType.id : null;
-      this.currentItem.rectifyUnitId = this.dutyUserIds[this.dutyUserIds.length - 3];
-      this.currentItem.dutyUserId = this.dutyUserIds[this.dutyUserIds.length - 1];
-      this.currentItem.mainType = this.currentItem.rectifyProblemType && this.currentItem.rectifyProblemType.parent
-        ? this.currentItem.rectifyProblemType.parent.id : this.currentItem.rectifyProblemTypeId;
-      if (this.childrenProblemList.length > 0) {
-        this.childrenProblemList.forEach(item => {
-          item.auditUserId = this.currentItem.auditUserId;
-        });
-      }
-      this.childrenProblemList.push(this.currentItem);
+    this.currentItem.rectifyProblemTypeId = this.currentItem.rectifyProblemType ? this.currentItem.rectifyProblemType.id : null;
+    this.currentItem.mainType = this.currentItem.rectifyProblemType && this.currentItem.rectifyProblemType.parent
+      ? this.currentItem.rectifyProblemType.parent.id : this.currentItem.rectifyProblemTypeId;
+    if (this.childrenProblemList.length > 0) {
+      this.childrenProblemList.forEach(item => {
+        item.auditUserId = this.currentItem.auditUserId;
+      });
     }
-    this.rectifyProblemService.rectifyProblemSplit([...this.childrenProblemList]).subscribe(
+    this.currentItem.orgLevel = this.dutyUserIds.toString();
+    this.currentItem.childrenRectifyProblemEditInfoDTO = this.childrenProblemList;
+
+    this.rectifyProblemService.rectifyProblemSplit(this.currentItem).subscribe(
       () => {
-        this.msg.success('问题拆分成功！');
+        this.msg.success('操作成功！');
         this.childrenProblemList = [];
         this.notification.emit();
         this.handleCancel();
@@ -246,12 +291,11 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
    */
   edit(item: RectifyProblemDTO, isWatch: boolean) {
     this.rectifyProblemService.rectifyTrackById(item.id).subscribe(data => {
+      this.getProposalTemplates(data.rectifyProblemType.id);
       this.setTabContentHeight();
       this.isWatch = isWatch;
       this.problemItem = new RectifyProblemDTO(data);
       this.currentItem = new RectifyProblemDTO(data);
-      this.dutyUserIds = this.currentItem.rectifyUnit && this.currentItem.rectifyDepartment && this.currentItem.dutyUser
-        ? [this.currentItem.rectifyUnit.id, this.currentItem.rectifyDepartment.id, this.currentItem.dutyUser.id] : [];
       if (data.children && data.children.length > 0) {
         this.currentItem.children.forEach(problem => {
           this.rectifyProblemService.rectifyTrackById(problem.id).subscribe(row => {
@@ -259,10 +303,14 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
             row.uuid = row.uuid
               ? row.uuid : this.childrenProblemList.length > 0
                 ? this.childrenProblemList[this.childrenProblemList.length - 1].uuid + 1 : '1';
-            if (row.rectifyDepartment && row.rectifyUnit) {
-              row.unitAndDepartment = this.organizationTreeMap.get(row.rectifyUnit.id)
-                + '/' + this.organizationTreeMap.get(row.rectifyDepartment.id);
-            }
+
+            row.unitAndDepartment = '';
+            let orgs = row.orgLevel ? row.orgLevel.split(',') : [];
+            orgs = orgs.slice(0, orgs.length - 2);
+            orgs.forEach(org => {
+              row.unitAndDepartment = row.unitAndDepartment + this.organizationTreeMap.get(org) + '/';
+            });
+            row.unitAndDepartment = row.unitAndDepartment.slice(0, row.unitAndDepartment.length - 1);
             if (row.dutyUser) {
               row.dutyUserName = this.organizationTreeMap.get(row.dutyUser.id);
             }
@@ -273,7 +321,8 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
           });
         });
       }
-      console.log('initlist', this.childrenProblemList);
+
+      this.dutyUserIds = item && item.orgLevel ? item.orgLevel.split(',') : [];
       this.isVisible = true;
     });
   }
@@ -282,7 +331,7 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
    * 新增子问题
    */
   addChildrenProblem() {
-    this.rectifyChildIssueDetailComponent.edit(null, false);
+    this.rectifyChildIssueDetailComponent.edit(null, false, this.currentItem.rectifyProblemType);
   }
 
   /**
@@ -290,7 +339,7 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
    * @param item 子问题
    */
   startEdit(item: RectifyProblemDTO) {
-    this.rectifyChildIssueDetailComponent.edit(item, false);
+    this.rectifyChildIssueDetailComponent.edit(item, false, this.currentItem.rectifyProblemType);
   }
 
   /**
@@ -298,7 +347,7 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
    * @param item 子问题
    */
   watchChildrenProblem(item: RectifyProblemDTO) {
-    this.rectifyChildIssueDetailComponent.edit(item, true);
+    this.rectifyChildIssueDetailComponent.edit(item, true, this.currentItem.rectifyProblemType);
   }
 
   /**
@@ -355,7 +404,7 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
    * @param auditPostId 审计报告id
    */
   watchAuditPost(auditPostId: string) {
-    this.auditPostWatchComponent.isVisible = true;
+    this.auditPostWatchComponent.edit(auditPostId);
   }
 
   /**
@@ -384,5 +433,41 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
   @HostListener('window:resize', ['$event'])
   onResize($event) {
     this.setTabContentHeight();
+  }
+
+  /**
+   * 选择整改负责人
+   */
+  dutyUserChange(event: Array<any>) {
+    if (event && event.length > 0) {
+      if (event[event.length - 1].account) {
+        const rectifyUnitIds = [];
+        const rectifyDepartmentIds = [];
+        event.forEach(e => {
+          if (e.organizationType && e.organizationType === 'UNIT') {
+            rectifyUnitIds.push(e.id);
+          }
+          if (e.organizationType && e.organizationType === 'DEPARTMENT') {
+            rectifyDepartmentIds.push(e.id);
+          }
+        });
+        this.currentItem.rectifyUnitId =
+          rectifyUnitIds.length > 0 ? rectifyUnitIds[rectifyUnitIds.length - 1] : null;
+        this.currentItem.rectifyDepartmentId =
+          rectifyDepartmentIds.length > 0 ? rectifyDepartmentIds[rectifyDepartmentIds.length - 1] : null;
+        this.currentItem.dutyUserId = event[event.length - 1].id;
+      } else {
+        this.dutyUserIds = [];
+        this.msg.warning('整改负责人选项请具体到人员！');
+      }
+
+    }
+  }
+
+  /**
+   * 引用建议模板
+   */
+  confirmReference() {
+    this.currentItem.advice = this.tempAdvice;
   }
 }

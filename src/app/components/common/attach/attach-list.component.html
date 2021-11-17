@@ -19,25 +19,25 @@
       <tr>
         <!-- <th nzShowCheckbox [(nzChecked)]="isAllDisplayDataChecked" [nzIndeterminate]="isIndeterminate"
         (nzCheckedChange)="checkAll($event)"></th> -->
-        <th style="width: 40%;" [nzAlign]="'center'">{{ fileName }}</th>
-        <th style="width: 16%;" [nzAlign]="'center'">上传时间</th>
-        <th style="width: 16%;" [nzAlign]="'center'">文件大小</th>
-        <th style="width: 18%;" [nzAlign]="'center'">操作</th>
+        <th style="width: 50%;" [nzAlign]="'center'">{{ fileName }}</th>
+        <th style="width: 30%;" [nzAlign]="'center'">上传时间</th>
+        <th style="width: 20%;" [nzAlign]="'center'">文件大小(KB)</th>
+        <th style="width: 120px;" [nzAlign]="'center'">操作</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let data of attachFiles; odd as odd" [ngClass]="odd ? 'odd-tr-bg' : ''">
         <!-- <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[data.id]" (nzCheckedChange)="refreshStatus()"></td> -->
-        <td title="{{ data.originalName }}" style="width: 40%;" [nzAlign]="'center'">
+        <td title="{{ data.originalName }}" style="width: 50%" [nzAlign]="'center'">
           {{ data.originalName }}
         </td>
-        <td style="width: 16%;" [nzAlign]="'center'">
+        <td style="width: 30%" [nzAlign]="'center'">
           {{ data.lastModifiedTime }}
         </td>
-        <td style="width: 16%;" [nzAlign]="'center'">
-          {{ data.size }}
+        <td style="width: 20%" [nzAlign]="'center'">
+          {{ (data.size / 1024).toFixed(0) }}
         </td>
-        <td style="width: 18%;" [nzAlign]="'center'">
+        <td style="width: 120px" [nzAlign]="'center'">
           <div>
             <a (click)="downCertificate(data.id, data.originalName, data)">下载</a>
             <nz-divider nzType="vertical"></nz-divider>

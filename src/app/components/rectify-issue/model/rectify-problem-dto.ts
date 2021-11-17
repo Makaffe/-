@@ -1,6 +1,7 @@
 import { SystemFileDTO } from '@mt-framework-ng/core';
 import { OrganizationDTO, UserBaseDTO, UserDTO } from '@ng-mt-framework/api';
 import { AuditReportDTO } from '../../audit-post/newmodel/AuditReportDTO';
+import { ProposalTemplateDTO } from '../../advice-template/model/ProposalTemplateDTO';
 
 /**
  * 整改问题清单信息 DTO
@@ -15,8 +16,8 @@ export class RectifyProblemDTO {
       item && item.rectifyProblemType && item.rectifyProblemType.parent
         ? item.rectifyProblemType.parent.id
         : item && item.rectifyProblemType
-        ? item.rectifyProblemType.id
-        : null;
+          ? item.rectifyProblemType.id
+          : null;
     this.money = item && item.money ? item.money : null;
     this.isTrunk = item && item.isTrunk ? item.isTrunk : false;
     this.multipleYearRectify = item && item.multipleYearRectify ? item.multipleYearRectify : false;
@@ -72,6 +73,10 @@ export class RectifyProblemDTO {
     this.parentId = item && item.parent ? item.parent.id : null;
     this.dutyUserName = item && item.dutyUserName ? item.dutyUserName : null;
     this.unitAndDepartment = item && item.unitAndDepartment ? item.unitAndDepartment : null;
+    this.rectifyProblemCategory = item ? item.rectifyProblemCategory : 'AUDIT_OPINION';
+    this.proposalTemplateId = item && item.proposalTemplate ? item.proposalTemplate.id : null;
+    this.orgLevel = item && item.orgLevel ? item.orgLevel : null;
+    this.childrenRectifyProblemEditInfoDTO = item && item.children ? item.children : [];
   }
   /**
    * 对象ID，新增时应当为null, 系统会自动生成
@@ -334,4 +339,23 @@ export class RectifyProblemDTO {
   zgdw?: any;
   sjje?: any;
   zgjzsj?: any;
+
+  rectifyProblemCategory?: string;
+
+  /**
+   * 建议模板编码
+   */
+  proposalTemplateId?: string;
+  proposalTemplate?: ProposalTemplateDTO;
+
+  /**
+   * 组织level
+   */
+  orgLevel?: string;
+
+  /**
+   * 子问题信息
+   */
+  childrenRectifyProblemEditInfoDTO?: Array<RectifyProblemDTO>;
+
 }

@@ -68,12 +68,6 @@ export class AdviceTemplateListComponent implements OnInit {
       width: '45%',
       sort: this.tableParameter.sortDef,
     },
-    {
-      title: '历史引用次数',
-      index: 'unitName',
-      width: '150px',
-      sort: this.tableParameter.sortDef,
-    },
     { title: '操作', render: 'operations', width: '150px', className: 'text-center', fixed: 'right' },
   ];
   constructor(private proposalTemplateService: ProposalTemplateService, private msg: NzMessageService) { }

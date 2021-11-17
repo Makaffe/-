@@ -1,10 +1,5 @@
-<as-split
-  direction="horizontal"
-  unit="pixel"
-  [useTransition]="true"
-  gutterSize="2"
-  (gutterClick)="leftSize = leftSize == 0 ? LEFT_WIDTH : 0"
->
+<as-split direction="horizontal" unit="pixel" [useTransition]="true" gutterSize="2"
+  (gutterClick)="leftSize = leftSize == 0 ? LEFT_WIDTH : 0">
   <!-- 左侧list列表-->
   <!-- <as-split-area [size]="leftSize" minSize="120" maxSize="180" class="bg-white">
     <div class="p-sm">
@@ -51,46 +46,37 @@
         </div>
       </as-split-area>
       <as-split-area [size]="'*'">
-        <nz-table #expandTable [nzData]="listData" [nzScroll]="{ y: '100%' }">
+        <nz-table #expandTable [nzData]="listData" [nzScroll]="{ y: '100%' }" nzBordered>
           <thead>
             <tr>
+              <th nzWidth="50px"></th>
               <th nzWidth="40%">问题类型</th>
               <th nzWidth="40%">备注</th>
-              <th>操作</th>
+              <th nzWidth="200px" nzAlign="center">操作</th>
             </tr>
           </thead>
           <tbody>
             <ng-container *ngFor="let data of expandTable.data">
               <ng-container *ngFor="let item of mapOfExpandedData[data.id]">
                 <tr *ngIf="(item.parent && item.parent.expand) || !item.parent">
-                  <td
-                    [nzIndentSize]="item.level * 20"
-                    [nzShowExpand]="!!item.children"
-                    [(nzExpand)]="item.expand"
-                    (nzExpandChange)="collapse(mapOfExpandedData[data.id], item, $event)"
-                  >
-                    {{ item.name }}
+                  <td [nzIndentSize]="item.level * 20" [nzShowExpand]="item.level === 0" [(nzExpand)]="item.expand"
+                    (nzExpandChange)="collapse(mapOfExpandedData[data.id], item, $event)">
                   </td>
+                  <td>{{ item.name }}</td>
                   <td>{{ item.remark }}</td>
-                  <td>
-                    <button nz-button nzType="link" (click)="edit(item, false, true)" *ngIf="item.level === 0">
+                  <td nzAlign="center">
+                    <a (click)="edit(item, false, true)" *ngIf="item.level === 0">
                       新增
-                    </button>
+                    </a>
                     <nz-divider nzType="vertical" *ngIf="item.level === 0"></nz-divider>
-                    <button nz-button nzType="link" (click)="edit(item, false, false)">编辑</button>
+                    <a (click)="edit(item, false, false)">编辑</a>
                     <nz-divider nzType="vertical"></nz-divider>
-                    <button nz-button nzType="link" (click)="edit(item, true)">查看</button>
+                    <a (click)="edit(item, true)">查看</a>
                     <nz-divider nzType="vertical"></nz-divider>
-                    <button
-                      nz-button
-                      nzType="link"
-                      nz-popconfirm
-                      nzPopconfirmTitle="是否要删除该条数据"
-                      nzPopconfirmPlacement="bottom"
-                      (nzOnConfirm)="delete(item.id)"
-                    >
+                    <a nz-popconfirm nzPopconfirmPlacement="bottom" nzPopconfirmTitle="是否要删除该条数据"
+                      (nzOnConfirm)="delete(item.id)">
                       删除
-                    </button>
+                    </a>
                   </td>
                 </tr>
               </ng-container>

@@ -1,33 +1,22 @@
-<nz-table
-  #expandTable
-  [nzData]="listOfMapData"
-  [nzScroll]="{ y: '100%' }"
-  [nzLoading]="loading"
-  [nzTotal]="pageInfo.totalRecords"
-  [nzPageSize]="pageInfo.pageSize"
-  [nzPageIndex]="pageInfo.pageNo"
-  [nzSize]="'small'"
-  nzShowSizeChanger
-  [nzShowTotal]="totalTemplate"
-  (nzPageSizeChange)="pageSizeChange($event)"
-  (nzPageIndexChange)="pageIndexChange($event)"
-  [nzShowQuickJumper]="true"
-  [nzFrontPagination]="false"
-  [nzPageSizeOptions]="[20, 35, 50, 100]"
-  nzBordered="true"
->
+<nz-table #expandTable [nzData]="listOfMapData" [nzScroll]="{ y: '100%' }" [nzLoading]="loading"
+  [nzTotal]="pageInfo.totalRecords" [nzPageSize]="pageInfo.pageSize" [nzPageIndex]="pageInfo.pageNo" [nzSize]="'small'"
+  nzShowSizeChanger [nzShowTotal]="totalTemplate" (nzPageSizeChange)="pageSizeChange($event)"
+  (nzPageIndexChange)="pageIndexChange($event)" [nzShowQuickJumper]="true" [nzFrontPagination]="false"
+  [nzPageSizeOptions]="[20, 35, 50, 100]" nzBordered="true">
   <ng-template #totalTemplate let-total> 共 {{ pageInfo.totalRecords }} 条 </ng-template>
   <thead>
     <tr>
-      <th nzWidth="50px" nzAlign="center" *ngIf="!isAnalysis"></th>
+      <th nzWidth="50px" nzAlign="center" nzShowCheckbox *ngIf="!isAnalysis" [(nzChecked)]="isAllDisplayDataChecked"
+        [nzIndeterminate]="isIndeterminate" (nzCheckedChange)="checkAll($event)"></th>
       <th nzWidth="100px" nzAlign="center">序号</th>
       <th nzWidth="8%" nzAlign="center">下发状态</th>
       <th nzWidth="8%" nzAlign="center">移交状态</th>
-      <th nzWidth="12%">审计报告名称</th>
-      <th nzWidth="12%">问题名称</th>
+      <th nzWidth="10%" nzAlign="center">整改状态</th>
+      <th nzWidth="15%">审计报告名称</th>
+      <th nzWidth="15%">问题名称</th>
       <th nzWidth="10%">问题类型</th>
-      <th nzWidth="10%">涉及金额(元)</th>
-      <th nzWidth="10%">整改对象</th>
+      <th nzWidth="12%">涉及金额(元)</th>
+      <th nzWidth="12%">整改对象</th>
       <th nzWidth="10%">整改负责人</th>
       <th [nzWidth]="isAnalysis ? '80px' : '200px'" nzAlign="center" *ngIf="!isProblemSwich">操作</th>
     </tr>
@@ -36,39 +25,33 @@
     <ng-container *ngFor="let data of expandTable.data; let i = index">
       <ng-container *ngFor="let item of mapOfExpandedData[data.id]; let ci = index">
         <tr *ngIf="(item.parent && item.parent.expand) || !item.parent" (dblclick)="watch(item)">
-          <td
-            [nzShowCheckbox]="!item.children.length"
-            [(nzChecked)]="mapOfCheckedId[item.id]"
-            (nzCheckedChange)="checked(item, mapOfCheckedId[item.id])"
-            *ngIf="!isAnalysis && !isProblemSwich"
-          ></td>
-          <td
-            nzShowCheckbox
-            [(nzChecked)]="mapOfCheckedId[item.id]"
-            (nzCheckedChange)="checked(item, mapOfCheckedId[item.id])"
-            *ngIf="isProblemSwich"
-          ></td>
-          <td
-            [nzIndentSize]="item.level * 20"
-            [nzShowExpand]="!!(item.children && item.children.length > 0)"
-            [(nzExpand)]="item.expand"
-            (nzExpandChange)="collapse(mapOfExpandedData[data.id], item, $event)"
-            *ngIf="item.level === 0"
-          >
+          <td [nzShowCheckbox]="!item.children.length" [(nzChecked)]="mapOfCheckedId[item.id]"
+            (nzCheckedChange)="checked(item, mapOfCheckedId[item.id])" *ngIf="!isAnalysis && !isProblemSwich"></td>
+          <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[item.id]"
+            (nzCheckedChange)="checked(item, mapOfCheckedId[item.id])" *ngIf="isProblemSwich"></td>
+          <td nzAlign="center" [nzIndentSize]="item.level * 20"
+            [nzShowExpand]="!!(item.children && item.children.length > 0)" [(nzExpand)]="item.expand"
+            (nzExpandChange)="collapse(mapOfExpandedData[data.id], item, $event)" *ngIf="item.level === 0">
             {{ item.level === 0 ? i + 1 : i + 1 + '-' + ci }}
           </td>
           <td [nzIndentSize]="item.level * 20" *ngIf="item.level === 1">
             {{ item.level === 0 ? i + 1 : i + 1 + '-' + ci }}
           </td>
           <td nzAlign="center">
-            <nz-tag *ngIf="item.sendStatus === '未下发'" [nzColor]="'#A4A4A4'">未下发</nz-tag>
-            <nz-tag *ngIf="item.sendStatus === '下发中'" [nzColor]="'#FFBF00'">下发中</nz-tag>
-            <nz-tag *ngIf="item.sendStatus === '已下发'" [nzColor]="'#04B404'">已下发</nz-tag>
+            <nz-tag *ngIf="item.sendStatus === 'NOT_ISSUED'" [nzColor]="'#A4A4A4'">未下发</nz-tag>
+            <nz-tag *ngIf="item.sendStatus === 'ISSUING'" [nzColor]="'#FFBF00'">下发中</nz-tag>
+            <nz-tag *ngIf="item.sendStatus === 'ISSUED'" [nzColor]="'#04B404'">已下发</nz-tag>
           </td>
           <td nzAlign="center">
-            <nz-tag *ngIf="item.transferStatus === '未移交'" [nzColor]="'#A4A4A4'">未移交</nz-tag>
-            <nz-tag *ngIf="item.transferStatus === '移交中'" [nzColor]="'#FFBF00'">移交中</nz-tag>
-            <nz-tag *ngIf="item.transferStatus === '已移交'" [nzColor]="'#04B404'">已移交</nz-tag>
+            <nz-tag *ngIf="item.transferStatus === 'NOT_HANDED_OVER'" [nzColor]="'#A4A4A4'">未移交</nz-tag>
+            <nz-tag *ngIf="item.transferStatus === 'HANDING_OVER'" [nzColor]="'#FFBF00'">移交中</nz-tag>
+            <nz-tag *ngIf="item.transferStatus === 'HANDED_OVER'" [nzColor]="'#04B404'">已移交</nz-tag>
+          </td>
+          <td nzAlign="center">
+            <nz-tag *ngIf="item.trackStatus === 'NOT_RECTIFIED'" [nzColor]="'#A4A4A4'">未下发</nz-tag>
+            <nz-tag *ngIf="item.trackStatus === 'UNABLE_RECTIFY'" [nzColor]="'#f50'">无法整改</nz-tag>
+            <nz-tag *ngIf="item.trackStatus === 'RECTIFYING'" [nzColor]="'#FFBF00'">整改中</nz-tag>
+            <nz-tag *ngIf="item.trackStatus === 'COMPLETED'" [nzColor]="'#04B404'">已完成</nz-tag>
           </td>
           <td>{{ item?.auditReport.name }}</td>
           <td>{{ item.name }}</td>
@@ -78,32 +61,21 @@
           <td>{{ item.dutyUser?item.dutyUser.name:null }}</td>
           <td nzAlign="center">
             <ng-container *ngIf="!isAnalysis">
-              <ng-container *ngIf="item.level === 0">
+              <ng-container *ngIf="item.level === 0 &&
+               (item.children && item.children.length > 0 || (item.sendStatus === 'NOT_ISSUED' &&
+               item.transferStatus === 'NOT_HANDED_OVER' && (!item.children || item.children.length === 0)))">
                 <button nz-button nzType="link" (click)="splitIssue(item)" style="padding: 0px;">拆分</button>
               </ng-container>
-              <nz-divider nzType="vertical" *ngIf="item.level === 0 && item.children.length === 0"></nz-divider>
-              <ng-container *ngIf="item.children.length === 0">
-                <button
-                  nz-button
-                  nzType="link"
-                  (click)="order([item])"
-                  [disabled]="item.sendStatus !== '未下发'"
-                  style="padding: 0px;"
-                >
+              <ng-container *ngIf="item.children.length === 0 && item.dutyUser">
+                <button nz-button nzType="link" (click)="order([item])" [disabled]="item.sendStatus !== 'NOT_ISSUED'"
+                  style="padding: 0px;">
                   下发
                 </button>
-                <nz-divider nzType="vertical"></nz-divider>
-                <button
-                  nz-button
-                  nzType="link"
-                  (click)="transfer([item])"
-                  [disabled]="item.transferStatus !== '未移交'"
-                  style="padding: 0px;"
-                >
+                <button nz-button nzType="link" (click)="transfer([item])"
+                  [disabled]="item.transferStatus !== 'NOT_HANDED_OVER'" style="padding: 0px;">
                   移交
                 </button>
               </ng-container>
-              <nz-divider nzType="vertical"></nz-divider>
               <button nz-button nzType="link" (click)="watch(item)" style="padding: 0px;">查看</button>
             </ng-container>
             <ng-container *ngIf="isAnalysis">

@@ -1,5 +1,5 @@
 <nz-modal [(nzVisible)]="isVisible" [nzMaskClosable]="false" (nzOnCancel)="handleCancel()" [nzFooter]="footer"
-  [nzStyle]="{ top: '45px' }" nzWidth="85%" [nzBodyStyle]="{
+  [nzStyle]="{ top: '45px' }" nzWidth="90%" [nzBodyStyle]="{
     height: height ? height : '800px',
     'overflow-x': 'hidden',
     padding: '25px 25px 0 25px'
@@ -39,7 +39,17 @@
               </nz-form-control>
             </nz-form-item>
             <nz-form-item>
-              <nz-form-label nzSpan="4">涉及金额(元)</nz-form-label>
+              <nz-form-label [nzSpan]="4">问题类别</nz-form-label>
+              <nz-form-control nzSpan="20">
+                <nz-radio-group [(ngModel)]="problemItem.rectifyProblemCategory" name="rectifyProblemCategory"
+                  nzDisabled>
+                  <label nz-radio nzValue="AUDIT_OPINION">审计意见问题</label>
+                  <label nz-radio nzValue="AUDIT_PROPOSAL">审计建议问题</label>
+                </nz-radio-group>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label nzSpan="4">涉及金额</nz-form-label>
               <nz-form-control nzSpan="20">
                 <input nz-input name="money" readonly [value]="problemItem?.money" />
               </nz-form-control>
@@ -101,7 +111,8 @@
                     : ''
                 ">
                 <nz-cascader [nzOptions]="organizationTree" [(ngModel)]="dutyUserIds" [disabled]="isWatch"
-                  #rectifyDepartmentId="ngModel" required name="rectifyDepartmentId">
+                  #rectifyDepartmentId="ngModel" required name="rectifyDepartmentId"
+                  (nzSelectionChange)="dutyUserChange($event)">
                 </nz-cascader>
                 <nz-form-explain
                   *ngIf="rectifyDepartmentId.invalid && (rectifyDepartmentId.dirty || rectifyDepartmentId.touched)">
@@ -143,9 +154,20 @@
 
             <nz-form-item *ngIf="!isWatch">
               <nz-form-label nzSpan="4">引用建议模版</nz-form-label>
-              <nz-form-control nzSpan="8">
-                <app-advice-template-select [(adviceTemplate)]="currentItem.advice" [disabled]="isWatch">
-                </app-advice-template-select>
+              <nz-form-control nzSpan="20">
+                <nz-select nzAllowClear nzShowSearch nzPlaceHolder="请选择" style="width: 260px;" name="proposalTemplateId"
+                  [(ngModel)]="currentItem.proposalTemplateId" (ngModelChange)="proposalTemplateChange($event)">
+                  <nz-option *ngFor="let option of proposalTemplates" [nzLabel]="option.name" [nzValue]="option.id">
+                  </nz-option>
+                </nz-select>
+                &nbsp;&nbsp;
+                <nz-popconfirm [nzTitle]="confirmtittle" (nzOnConfirm)="confirmReference()" style="margin-top: -5px;">
+                  <ng-template #confirmtittle>
+                    引用模板建议会覆盖当前审计建议，确定要引用该模板吗？
+                  </ng-template>
+                  <button nz-button nzType="primary" nz-popconfirm
+                    [disabled]="!currentItem.proposalTemplateId || isWatch">确认引用</button>
+                </nz-popconfirm>
               </nz-form-control>
             </nz-form-item>
 
@@ -168,16 +190,16 @@
             <nz-form-item>
               <nz-table #childrenTable nzBordered [nzData]="childrenProblemList" [nzScroll]="{ y: '100%' }"
                 [nzShowPagination]="false" [nzNoResult]="null" [nzSize]="'middle'" style="padding-left: 0;"
-                nzTitle="子问题列表">
+                nzTitle="拆分问题列表">
                 <thead>
                   <tr>
                     <th nzWidth="50px" nzAlign="center">序号</th>
-                    <th nzWidth="20%">问题名称</th>
-                    <th nzWidth="15%">问题类型</th>
-                    <th nzWidth="15%">涉及金额(元)</th>
-                    <th nzWidth="25%">整改对象</th>
-                    <th nzWidth="10%">整改负责人</th>
-                    <th nzWidth="15%">整改截止时间</th>
+                    <th nzWidth="30%">问题名称</th>
+                    <th nzWidth="28%">问题类型</th>
+                    <!-- <th nzWidth="20%">涉及金额(元)</th> -->
+                    <th nzWidth="30%">整改对象</th>
+                    <th nzWidth="22%">整改负责人</th>
+                    <!-- <th nzWidth="15%">整改截止时间</th> -->
                     <th nzWidth="160px" nzAlign="center">
                       操作
                       <button nz-button nzType="primary" nzSize="small" (click)="addChildrenProblem()" *ngIf="!isWatch">
@@ -190,16 +212,17 @@
                   <tr *ngFor="let data of childrenTable.data; let i = index">
                     <td nzAlign="center">{{ i + 1 }}</td>
                     <td>{{ data.name }}</td>
-                    <td>{{ data.rectifyProblemType?data.rectifyProblemType.name:null }}</td>
-                    <td nzAlign="right">{{ data.money | currency: 'CNY':'symbol-narrow' }}</td>
+                    <td>{{ problemItem? problemItem.rectifyProblemType.name : null }}</td>
+                    <!-- <td nzAlign="right">{{ data.money | currency: 'CNY':'symbol-narrow' }}</td> -->
                     <td>{{data.unitAndDepartment}}</td>
                     <td>{{data.dutyUserName}}</td>
-                    <td>{{ formatDateFun(data?.rectifyEndTime) }}</td>
+                    <!-- <td>{{ formatDateFun(data?.rectifyEndTime) }}</td> -->
                     <td nzRight="0px" nzAlign="center">
-                      <ng-container *ngIf="!isWatch">
+                      <ng-container
+                        *ngIf="!isWatch && data.sendStatus === 'NOT_ISSUED' && data.transferStatus === 'NOT_HANDED_OVER'">
                         <a (click)="startEdit(data)">编辑</a>
                         <nz-divider nzType="vertical"></nz-divider>
-                        <nz-popconfirm [nzTitle]="title" (nzOnConfirm)="onDelete(data.uuid)">
+                        <nz-popconfirm [nzTitle]="title" (nzOnConfirm)="onDelete(data)">
                           <ng-template #title>确定删除该数据？</ng-template>
                           <a nz-popconfirm>删除</a>
                         </nz-popconfirm>

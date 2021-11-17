@@ -1,9 +1,14 @@
+import { CommonUtil } from './../common/utils/common-util';
+import { RectifyProblemService } from 'src/app/components/rectify-issue/service/RectifyProblemService';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { TreeUtil } from '@mt-framework-ng/util';
-import { OrganizationService } from '@ng-mt-framework/api';
+import { OrganizationService, QueryOptions } from '@ng-mt-framework/api';
 import { RectifyProblemDTO } from './model/rectify-problem-dto';
 import { RectifyIssueListComponent } from './rectify-issue-list.component';
 import { RectifyIssueNoticeComponent } from './rectify-issue-notice.component';
+import { ProblemTypeService } from '../common/problem-type-select/ProblemTypeService.service';
 
 @Component({
   selector: 'app-rectify-issue-view',
@@ -11,7 +16,12 @@ import { RectifyIssueNoticeComponent } from './rectify-issue-notice.component';
   styles: [],
 })
 export class RectifyIssueViewComponent implements OnInit {
-  constructor(private organizationService: OrganizationService) {}
+
+  constructor(
+    private organizationService: OrganizationService,
+    private datePipe: DatePipe, private msg: NzMessageService,
+    private problemTypeService: ProblemTypeService,
+    private rectifyProblemService: RectifyProblemService) { }
 
   /**
    * 列表组件
@@ -25,18 +35,30 @@ export class RectifyIssueViewComponent implements OnInit {
    * 过滤参数
    */
   params = {
-    auditPostName: null, // 报告名称
-    importAuditPostStartTime: null, // 导入报告开始时间
-    importAuditPostEndTime: null, // 导入报告开始时间
-    problemType: null, // 问题类型
-    problemName: null, // 问题名称
-    isDistribute: null, // 是否已分配
-    isSend: null, // 是否已下发
+    reportName: null,
+    startTime: null,
+    endTime: null,
+    rectifyProblemId: null,
     rectifyProblemName: null,
-    rectifyDepartmentId: null,
     sendStatus: null,
-    transferStatus: null,
+    isAllot: null,
+    rectifyObject: null,
+    dutyUserName: null,
+    trackStatus: null
   };
+
+  queryOptions: QueryOptions = {
+    page: 0,
+    size: 20,
+    sort: 'id,desc',
+  };
+
+
+  /** 审计时间 */
+  auditDateRange = [];
+
+  /** 问题部门 */
+  problemTypeNodes = [];
 
   /**
    * 整改部门树
@@ -80,6 +102,28 @@ export class RectifyIssueViewComponent implements OnInit {
   ];
 
   /**
+   * 整改状态
+   */
+  trackStatusList = [
+    {
+      label: '未整改',
+      value: 'NOT_RECTIFIED',
+    },
+    {
+      label: '无法整改',
+      value: 'UNABLE_RECTIFY',
+    },
+    {
+      label: '整改中',
+      value: 'RECTIFYING',
+    },
+    {
+      label: '已完成',
+      value: 'COMPLETED',
+    },
+  ];
+
+  /**
    * 整改表格checkbox选中的数据
    */
   checkboxData = [];
@@ -96,16 +140,45 @@ export class RectifyIssueViewComponent implements OnInit {
   @Output()
   problemSwichOutput = new EventEmitter();
 
+  /**
+   * 是否显示所有查询条件
+   */
+  showAllCond = false;
+
+  isCollapse = true;
+
   ngOnInit() {
     this.organizationService.getOrganizationTreeOfEmployeeOrUser().subscribe(data => {
       this.organizationTree = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
     });
+    this.loadProblemTypeTree();
+  }
+
+  loadProblemTypeTree() {
+    this.problemTypeService.findAllUsingGET().subscribe(data => {
+      if (data) {
+        this.problemTypeNodes = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
+      }
+    });
+  }
+
+  selectDateRange($event) {
+    this.params.startTime = this.datePipe.transform($event[0], 'yyyy-MM-dd');
+    this.params.endTime = this.datePipe.transform($event[1], 'yyyy-MM-dd');
   }
 
   /**
    * 移交纪检
    */
   transfer() {
+    if (!this.verify()) {
+      this.msg.warning('选中的数据中含有未填写完成的整改问题，请完成填写后再移交！');
+      return;
+    }
+    if (!this.repeatVerify(1)) {
+      this.msg.warning('选中的数据中含有已经移交过的整改问题！');
+      return;
+    }
     this.rectifyIssueListComponent.rectifyIssueTransferComponent.edit(this.checkboxData);
   }
 
@@ -113,13 +186,51 @@ export class RectifyIssueViewComponent implements OnInit {
    * 问题下发
    */
   send() {
+    if (!this.verify()) {
+      this.msg.warning('选中的数据中含有未填写完成的整改问题，请完成填写后再移交！');
+      return;
+    }
+    if (!this.repeatVerify(0)) {
+      this.msg.warning('选中的数据中含有已经下发过的整改问题！');
+      return;
+    }
     this.rectifyIssueListComponent.rectifyIssueOrderComponent.edit(this.checkboxData);
+  }
+
+  verify(): boolean {
+    let flag = true;
+    this.checkboxData.forEach(data => {
+      if (!data.dutyUser) {
+        flag = false;
+      }
+    });
+    return flag;
+  }
+
+  /**
+   * 校验
+   * @param index 索引 0表示下发 1表示移交
+   */
+  repeatVerify(index: number): boolean {
+    let sendflag = true;
+    let transferFlag = true;
+    this.checkboxData.forEach(data => {
+      if (data.sendStatus !== 'NOT_ISSUED') {
+        sendflag = false;
+      }
+      if (data.transferStatus !== 'NOT_HANDED_OVER') {
+        transferFlag = false;
+      }
+    });
+
+    return index === 0 ? sendflag : transferFlag;
   }
 
   /**
    * 查询
    */
   search() {
+    this.rectifyIssueListComponent.params = this.params;
     this.rectifyIssueListComponent.load();
   }
 
@@ -128,17 +239,16 @@ export class RectifyIssueViewComponent implements OnInit {
    */
   clear() {
     this.params = {
-      auditPostName: null, // 报告名称
-      importAuditPostStartTime: null, // 导入报告开始时间
-      importAuditPostEndTime: null, // 导入报告开始时间
-      problemType: null, // 问题类型
-      problemName: null, // 问题名称
-      isDistribute: null, // 是否已分配
-      isSend: null, // 是否已下发
+      reportName: null,
+      startTime: null,
+      endTime: null,
+      rectifyProblemId: null,
       rectifyProblemName: null,
-      rectifyDepartmentId: null,
       sendStatus: null,
-      transferStatus: null,
+      isAllot: null,
+      rectifyObject: null,
+      dutyUserName: null,
+      trackStatus: null
     };
   }
 
@@ -158,59 +268,25 @@ export class RectifyIssueViewComponent implements OnInit {
   }
 
   /**
-   * 问题下发或移交纪检按钮disabled判断
-   * @param index 0：问题下发，1：移交纪检
-   * @returns Boolean
-   */
-  disabledButton(index: number) {
-    if (this.checkboxData.length > 0) {
-      let flag = false;
-      this.checkboxData.forEach((data: RectifyProblemDTO) => {
-        switch (index) {
-          case 0:
-            if (data.sendStatus !== '未下发') {
-              flag = true;
-            }
-            break;
-          case 1:
-            if (data.transferStatus !== '未移交') {
-              flag = true;
-            }
-            break;
-        }
-      });
-      return flag;
-    } else {
-      return true;
-    }
-  }
-
-  /**
-   * 禁用开始时间
-   */
-  disabledStartDate = (startValue: Date): boolean => {
-    if (!startValue || !this.params.importAuditPostEndTime) {
-      return false;
-    }
-    return startValue.getTime() > new Date(this.params.importAuditPostEndTime).getTime();
-    // tslint:disable-next-line: semicolon
-  };
-
-  /**
-   * 禁用结束时间
-   */
-  disabledEndDate = (endValue: Date): boolean => {
-    if (!endValue || !this.params.importAuditPostStartTime) {
-      return false;
-    }
-    return endValue.getTime() <= new Date(this.params.importAuditPostStartTime).getTime();
-    // tslint:disable-next-line: semicolon
-  };
-
-  /**
    * 自动提醒模态框
    */
   notice() {
     this.rectifyIssueNoticeComponent.isVisible = true;
   }
+
+  toggleCollapse(): void {
+    this.isCollapse = !this.isCollapse;
+    this.showAllCond = !this.showAllCond;
+  }
+
+  export() {
+    this.rectifyProblemService.export(this.queryOptions, this.params.reportName,
+      this.params.startTime, this.params.endTime, this.params.rectifyProblemId,
+      this.params.rectifyProblemName, this.params.sendStatus, this.params.isAllot,
+      this.params.rectifyObject, this.params.dutyUserName, this.params.trackStatus, true)
+      .subscribe(result => {
+        CommonUtil.createDownload(result, '整改问题清单' + '.xls');
+      });
+  }
+
 }
