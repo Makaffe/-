@@ -77,7 +77,7 @@ export class AuditPostTypeTreeComponent implements OnInit {
   searchValue = '';
   fileMap: any;
 
-  constructor(private auditPostTypeService: AuditPostTypeService, private msg: NzMessageService) {}
+  constructor(private auditPostTypeService: AuditPostTypeService, private msg: NzMessageService) { }
 
   // 左侧树节点数据
   nodes = [
@@ -123,18 +123,16 @@ export class AuditPostTypeTreeComponent implements OnInit {
   }
 
   nzClick(event: any) {
-    if (event.keys[0] !== 'ALL') {
-      if (event.keys && event.keys.length > 0) {
-        this.selectedNode = event.node.origin;
-        this.selectNodeEvent.emit(this.selectedNode);
-        this.selectedNode = event.node.origin;
-        this.selectedNodeChange.emit(this.selectedNode);
-      } else {
-        this.selectedNode = null;
-        this.selectNodeEvent.emit(this.selectedNode);
-        this.selectedNodeChange.emit(this.selectedNode);
-      }
+    if (event.keys[0] !== 'ALL' && event.keys.length > 0) {
+      this.selectedNode = event.node.origin;
+      this.selectNodeEvent.emit(this.selectedNode);
+      this.selectedNodeChange.emit(this.selectedNode);
+    } else {
+      this.selectedNode = null;
+      this.selectNodeEvent.emit(this.selectedNode);
+      this.selectedNodeChange.emit(this.selectedNode);
     }
+
   }
 
   ngOnInit(): void {
@@ -145,7 +143,7 @@ export class AuditPostTypeTreeComponent implements OnInit {
     // tslint:disable-next-line: deprecation
   }
 
-  nzSearch($event) {}
+  nzSearch($event) { }
 
   tramsform(data: any[], level: number): void {
     let counter = 0;
@@ -171,24 +169,6 @@ export class AuditPostTypeTreeComponent implements OnInit {
   getNode() {
     this.nodes = [];
     this.auditPostTypeService.findAllUsingGET().subscribe(data => {
-      // const nodes = [];
-      // const objIds = new Set<any>();
-      // const letterMap = new Map<string, any>();
-      // data.forEach(item => {
-      //   objIds.add(item.id);
-      // });
-      // objIds.forEach(objId => {
-      //   let objName = '';
-      //   const letterNodes = [];
-      //   data.forEach(item => {
-      //     if (item.id === objId) {
-      //       objName = item.name;
-      //       letterNodes.push({ title: item.name, key: item.id, children: letterMap.get(item.id) });
-      //     }
-      //   });
-      //   nodes.push({ title: objName, key: objId, children: letterNodes });
-      // });
-      // this.nodes = nodes;
       if (data) {
         this.nodes = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
       }

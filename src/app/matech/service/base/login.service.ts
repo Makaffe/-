@@ -36,15 +36,19 @@ export class LoginService {
   /**
    * 获取Token
    */
+  // login(longinDTO: LonginDTO): Observable<JwtTokenDTO> {
+  //   return this.http.post<JwtTokenDTO>(`${LoginService.URL}?_allow_anonymous=true&encrypt=body`, longinDTO);
+  // }
+
   login(longinDTO: LonginDTO): Observable<JwtTokenDTO> {
-    return this.http.post<JwtTokenDTO>(`${LoginService.URL}?_allow_anonymous=true&encrypt=body`, longinDTO);
+    return this.http.post<JwtTokenDTO>(`/api/ia/token?_allow_anonymous=true&encrypt=body`, longinDTO);
   }
 
   /**
    * 获取用户类型
    */
   getUserType(): string {
-    const user = this.cacheService.get('__user', { mode: 'none' });
+    const user = this.cacheService.get('__userDeptType', { mode: 'none' });
     if (user) {
       return user.userType;
     }

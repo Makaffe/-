@@ -238,7 +238,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    if (this.cacheService.get('__user', { mode: 'none' }).userType === 'AUDIT_DEPARTMENT') {
+    if (this.cacheService.get('__user', { mode: 'none' }).userType === 'AUDIT_DEPT') {
       this.isRectify = false;
     } else {
       this.isRectify = true;

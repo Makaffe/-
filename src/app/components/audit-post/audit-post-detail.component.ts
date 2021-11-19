@@ -335,15 +335,11 @@ export class AuditPostDetailComponent implements OnInit {
 
   done() {
     if (this.reportFile.length === 0) {
-      this.msg.warning('请先上传报告并读取');
+      this.msg.warning('请先上传审计报告');
       return;
     }
     if (!FormUtil.validateForm(this.auditPostForm.form)) {
       this.msg.warning(`请补全报告基本信息`);
-      return;
-    }
-    if (this.listOfData.length === 0) {
-      this.msg.warning('请提交问题');
       return;
     }
 
