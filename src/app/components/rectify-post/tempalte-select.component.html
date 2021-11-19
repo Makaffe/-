@@ -21,8 +21,8 @@
         </div>
         <form #searchForm="ngForm" nz-form class="matech-search-form">
           <div nz-row [nzGutter]="24" nzType="flex" nzJustify="space-around" nzAlign="middle" class="search-row">
-            <div nz-col [nzSpan]="19">
-              <div nz-col [nzSpan]="7">
+            <div nz-col [nzSpan]="21">
+              <div nz-col [nzSpan]="10">
                 <nz-form-item nzFlex>
                   <nz-form-label [nzSm]="10" [nzXs]="24">模板目录</nz-form-label>
                   <nz-form-control [nzSm]="16" [nzXs]="24">
@@ -39,11 +39,6 @@
                   </nz-form-control>
                 </nz-form-item>
               </div>
-              <div nz-col [nzSpan]="7"></div>
-              <div nz-col [nzSpan]="4"></div>
-            </div>
-            <div nz-col [nzSpan]="2">
-              <button nz-button (click)="search()"><i nz-icon type="reload" theme="outline"></i>刷新</button>
             </div>
             <div nz-col [nzSpan]="3">
               <button nz-button nzType="primary" (click)="search()">

@@ -49,7 +49,7 @@ export class LayoutDefaultComponent implements OnInit, AfterViewInit, OnDestroy 
   /**
    * 用户类型
    */
-  userType = this.cacheService.get('__user', { mode: 'none' }).userType;
+  userDeptType = this.cacheService.get('__user', { mode: 'none' }).userDeptType;
 
   constructor(
     private cdr: ChangeDetectorRef,

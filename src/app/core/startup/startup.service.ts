@@ -191,13 +191,13 @@ export class StartupService {
     resolve(null);
   }
 
-  load(userType = 'AUDIT_DEPARTMENT'): Promise<any> {
+  load(userType = 'AUDIT_DEPT'): Promise<any> {
     this.menuTree = deepCopy(APP_DATA);
     if (this.cacheService.get('__user', { mode: 'none' })) {
       userType = this.cacheService.get('__user', { mode: 'none' }).userType;
     }
     switch (userType) {
-      case 'AUDIT_DEPARTMENT':
+      case 'AUDIT_DEPT':
         this.menuTree.menu[0].children[0] = {
           text: '首页',
           link: '/audit-rectify/auditor-dashboard',
@@ -220,7 +220,7 @@ export class StartupService {
             }]
           }];
         break;
-      case 'RECTIFY_DEPARTMENT':
+      case 'RECTIFY_DEPT':
         this.menuTree.menu =
           [
             {

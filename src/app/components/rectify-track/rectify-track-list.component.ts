@@ -47,16 +47,16 @@ export class RectifyTrackListComponent implements OnInit {
   @Input()
   filter = {
     reportName: null,
-    rectifyProblemName: null,
-    rectifyUnitId: null,
-    rectifyDepartmentId: null,
-    rectifyUserId: null,
-    sendStatus: [],
-    transferStatus: null,
-    trackStatus: null,
     startTime: null,
     endTime: null,
-    dutyUserId: null,
+    rectifyProblemId: null,
+    rectifyProblemName: null,
+    sendStatus: null,
+    isAllot: null,
+    rectifyObject: null,
+    dutyUserName: null,
+    trackStatus: null,
+    transferStatus: null
   };
 
   /**
@@ -106,19 +106,7 @@ export class RectifyTrackListComponent implements OnInit {
     this.loading = true;
     this.rectifyProblemService
       .findOnePage2Track(
-        this.queryOptions,
-        this.filter.reportName,
-        this.filter.rectifyProblemName,
-        this.filter.rectifyUnitId,
-        this.filter.rectifyDepartmentId,
-        this.filter.rectifyUserId,
-        'ISSUING,ISSUED',
-        this.filter.transferStatus,
-        this.filter.trackStatus,
-        this.filter.startTime,
-        this.filter.endTime,
-        this.filter.dutyUserId,
-      )
+        this.queryOptions)
       .subscribe(
         data => {
           if (data) {

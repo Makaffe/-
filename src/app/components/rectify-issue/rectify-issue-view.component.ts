@@ -34,18 +34,7 @@ export class RectifyIssueViewComponent implements OnInit {
   /**
    * 过滤参数
    */
-  params = {
-    reportName: null,
-    startTime: null,
-    endTime: null,
-    rectifyProblemId: null,
-    rectifyProblemName: null,
-    sendStatus: null,
-    isAllot: null,
-    rectifyObject: null,
-    dutyUserName: null,
-    trackStatus: null
-  };
+  params = this.initParms();
 
   queryOptions: QueryOptions = {
     page: 0,
@@ -57,7 +46,7 @@ export class RectifyIssueViewComponent implements OnInit {
   /** 审计时间 */
   auditDateRange = [];
 
-  /** 问题部门 */
+  /** 问题类型 */
   problemTypeNodes = [];
 
   /**
@@ -238,7 +227,12 @@ export class RectifyIssueViewComponent implements OnInit {
    * 清空查询条件
    */
   clear() {
-    this.params = {
+    this.auditDateRange = [];
+    this.params = this.initParms();
+  }
+
+  initParms(): any {
+    return {
       reportName: null,
       startTime: null,
       endTime: null,

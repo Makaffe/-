@@ -25,10 +25,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
   /**
    * 用户类型列表
    */
-  userTypeList = [
-    { label: '审计人员', value: 'AUDIT_DEPARTMENT' },
-    { label: '纪检部门', value: 'SUPERVISE_DEPARTMENT' },
-    { label: '整改部门', value: 'RECTIFY_DEPARTMENT' },
+  userDeptTypeList = [
+    { label: '审计人员', value: 'AUDIT_DEPT' },
+    { label: '纪检部门', value: 'DISCIPLINE_INSPECTION_DEPT' },
+    { label: '整改部门', value: 'RECTIFY_DEPT' },
   ];
 
   /**
@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     password: '!qAz@wSx',
     organizationType: 'POSITION',
     // tslint:disable-next-line:no-string-literal
-    userType: 'AUDIT_DEPARTMENT',
+    userDeptType: 'AUDIT_DEPT',
   };
 
   /**
@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     name: '',
     authorities: [],
     topOrganizationDTOS: [],
-    userType: null,
+    userDeptType: null,
   };
 
   /**
@@ -120,7 +120,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
    */
   onLogin($event: Event) {
     $event.preventDefault();
-    this.cacheService.set('__user', this.userInfo, {
+    this.cacheService.set('__userDeptType', this.loginDTO.userDeptType, {
       type: this.rememberMe ? 's' : 'm',
     });
     if (!FormUtil.validateForm(this.loginDetailForm.form)) {
@@ -153,16 +153,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
     // 查询当前登录人信息
     const user$ = this.userService.findUserById(data.userId);
-    const roles$ = this.userService.findRolesByUserId(data.userId);
-    forkJoin([user$, roles$]).subscribe(result => {
+    forkJoin([user$]).subscribe(result => {
       if (!result) {
         return;
       }
-
-      const roleIds = [];
-      result[1].forEach(role => {
-        roleIds.push(role.id);
-      });
 
       // 账号过期时间
       const expire = parse(data.expires);
@@ -174,7 +168,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
         this.userInfo.id = data.userId;
         this.userInfo.name = result[0].name;
         this.userInfo.authorities = result[0].authorities;
-        this.userInfo.userType = this.loginDTO.userType;
+        this.userInfo.userDeptType = this.loginDTO.userDeptType;
         if (result[0].topOrganizationDTOS) {
           this.userInfo.topOrganizationDTOS = result[0].topOrganizationDTOS;
         }
@@ -191,27 +185,15 @@ export class LoginComponent implements OnInit, AfterViewInit {
       this.cacheService.set(LARGE_SCREEN_MODE_STROE_KEY, true);
 
       // 检查用户角色, 角色由后台sql脚本初始化，id需明确（1.系统管理员， 2.审计人员，3.纪检部门，4.整改部门）
-      switch (this.loginDTO.userType) {
-        case 'AUDIT_DEPARTMENT':
-          if (!roleIds.includes('2')) {
-            this.msg.error('登录用户不是审计人员！');
-            return;
-          }
-          this.starupService.load(this.loginDTO.userType).then(() => this.router.navigate(['/audit-rectify/auditor-dashboard']));
+      switch (this.loginDTO.userDeptType) {
+        case 'AUDIT_DEPT':
+          this.starupService.load(this.loginDTO.userDeptType).then(() => this.router.navigate(['/audit-rectify/auditor-dashboard']));
           break;
-        case 'SUPERVISE_DEPARTMENT':
-          if (!roleIds.includes('3')) {
-            this.msg.error('登录用户不是纪检部门人员！');
-            return;
-          }
-          this.starupService.load(this.loginDTO.userType).then(() => this.router.navigate(['/audit-rectify/supervise-dashboard']));
+        case 'DISCIPLINE_INSPECTION_DEPT':
+          this.starupService.load(this.loginDTO.userDeptType).then(() => this.router.navigate(['/audit-rectify/supervise-dashboard']));
           break;
-        case 'RECTIFY_DEPARTMENT':
-          if (!roleIds.includes('4')) {
-            this.msg.error('登录用户不是整改部门人员！');
-            return;
-          }
-          this.starupService.load(this.loginDTO.userType).then(() => this.router.navigate(['/audit-rectify/rectify-dashboard']));
+        case 'RECTIFY_DEPT':
+          this.starupService.load(this.loginDTO.userDeptType).then(() => this.router.navigate(['/audit-rectify/rectify-dashboard']));
           break;
         default:
           break;

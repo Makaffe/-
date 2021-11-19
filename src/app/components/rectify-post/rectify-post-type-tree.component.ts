@@ -85,9 +85,11 @@ export class RectifyPostTypeTreeComponent implements OnInit {
   loadTree(): void {
     this.spinning = true;
     this.rectificationReportTypeService.findAll().subscribe(data => {
-      this.nodes = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
-      this.nodes[0].isSelectable = false;
-      this.selectedNode = null;
+      if (data && data.length > 0) {
+        this.nodes = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
+        this.nodes[0].isSelectable = false;
+        this.selectedNode = null;
+      }
     }, null, () => { this.spinning = false; });
   }
 

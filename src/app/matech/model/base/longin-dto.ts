@@ -18,7 +18,22 @@ export interface LonginDTO {
   organizationType?: 'UNIT' | 'DEPARTMENT' | 'POSITION';
 
   /**
-   * 用户类型
+   * 用户部门类型
    */
-  userType?: 'AUDIT_DEPARTMENT' | 'SUPERVISE_DEPARTMENT' | 'RECTIFY_DEPARTMENT';
+  userDeptType?: 'AUDIT_DEPT' | 'DISCIPLINE_INSPECTION_DEPT' | 'RECTIFY_DEPT';
+
+  /**
+   * 验证码
+   */
+  validCode?: string;
+
+  /**
+   * 标识id
+   */
+  markId?: string;
+
+  /**
+   * 登录终端平台标识
+   */
+  from?: string;
 }

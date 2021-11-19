@@ -38,12 +38,12 @@
               </nz-form-item>
               <nz-form-item>
                 <nz-form-control
-                  [nzValidateStatus]="userType.invalid && (userType.dirty || userType.touched) ? 'error' : ''"
+                  [nzValidateStatus]="userDeptType.invalid && (userDeptType.dirty || userDeptType.touched) ? 'error' : ''"
                   nzHasFeedback>
-                  <nz-select nzSize="default" name="userType" #userType="ngModel"
-                    [(ngModel)]="loginDTO.userType" nzPlaceHolder="请选择用户类型" required nzSize="large">
-                    <nz-option *ngFor="let userType of userTypeList" [nzLabel]="userType.label"
-                      [nzValue]="userType.value">
+                  <nz-select nzSize="default" name="userDeptType" #userDeptType="ngModel"
+                    [(ngModel)]="loginDTO.userDeptType" nzPlaceHolder="请选择用户类型" required nzSize="large">
+                    <nz-option *ngFor="let userDeptType of userDeptTypeList" [nzLabel]="userDeptType.label"
+                      [nzValue]="userDeptType.value">
                     </nz-option>
                   </nz-select>
                 </nz-form-control>

@@ -124,8 +124,7 @@
                 <th nzWidth="20%" nzAlign="right">涉及金额(元)</th>
                 <th nzWidth="150px" nzAlign="center">
                   操作
-                  <button nz-button [nzSize]="'small'" nzType="primary"
-                    *ngIf="!isWatch && currentItem.auditReportStatus != 'COMPLETED'" (click)="addProblem()">
+                  <button nz-button [nzSize]="'small'" nzType="primary" *ngIf="!isWatch" (click)="addProblem()">
                     新增
                   </button>
                 </th>
@@ -139,16 +138,15 @@
                 <td> {{data.rectifyProblemCategory === 'AUDIT_OPINION'? '审计意见问题' : '审计建议问题'}}</td>
                 <td nzAlign="right">{{ data.money | currency: 'CNY':'symbol-narrow' }}</td>
                 <td nzAlign="center">
-                  <a *ngIf="isWatch || currentItem.auditReportStatus == 'COMPLETED'"
-                    (click)="editProblem(data, true)">查看</a>
-                  <a (click)="editProblem(data, false)"
-                    *ngIf="!data.editable && !isWatch && currentItem.auditReportStatus != 'COMPLETED'">编辑</a>
+                  <a (click)="editProblem(data, true)">查看</a>
+                  <nz-divider nzType="vertical"></nz-divider>
+                  <a (click)="editProblem(data, false)" *ngIf="!isWatch && data.sendStatus === 'NOT_ISSUED' && data.transferStatus === 'NOT_HANDED_OVER' 
+                    && (!data.children || data.children.length === 0)">编辑</a>
                   <nz-divider nzType="vertical"></nz-divider>
                   <nz-popconfirm [nzTitle]="confirmtittle" (nzOnConfirm)="deleteProblem(data)">
                     <ng-template #confirmtittle>是否要删除该条数据</ng-template>
-                    <a *ngIf="isWatch || currentItem.auditReportStatus == 'COMPLETED'"
-                      style="pointer-events: none;color: #666666; opacity: 0.5">删除</a>
-                    <a *ngIf="!isWatch && currentItem.auditReportStatus != 'COMPLETED'" nz-popconfirm>删除</a>
+                    <a *ngIf="!isWatch && data.sendStatus === 'NOT_ISSUED' && data.transferStatus === 'NOT_HANDED_OVER'
+                     && (!data.children || data.children.length === 0)" nz-popconfirm>删除</a>
                   </nz-popconfirm>
                 </td>
               </tr>
@@ -161,7 +159,7 @@
 </as-split>
 
 
-<nz-modal [(nzVisible)]="isVisabled" nzTitle="整改问题清单详情" [nzFooter]="modalFooter" nzWidth="1200px"
+<nz-modal [(nzVisible)]="isVisabled" nzTitle="问题详情" [nzFooter]="modalFooter" nzWidth="1200px"
   (nzOnCancel)="handleCancel()">
   <ng-template #modalFooter>
     <button nz-button nzType="default" (click)="handleCancel()">取消</button>

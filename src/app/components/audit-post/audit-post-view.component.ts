@@ -97,8 +97,6 @@ export class AuditPostViewComponent implements OnInit, OnDestroy {
   }
 
   postTypeChange($event) {
-    console.log('=============TYPE CHANGE================');
-    console.log($event);
     this.filterParams.typeId = $event ? $event.key : null;
     this.auditPostList.load();
   }

@@ -20,10 +20,13 @@
   <ng-template #totalTemplate let-total> 共 {{ pageInfo.totalRecords }} 条 </ng-template>
   <thead>
     <tr>
+      <!-- <th nzWidth="50px" nzAlign="center" nzShowCheckbox  [(nzChecked)]="isAllDisplayDataChecked"
+      [nzIndeterminate]="isIndeterminate" (nzCheckedChange)="checkAll($event)"></th> -->
       <th nzWidth="100px" nzLeft="0px" nzAlign="center">序号</th>
       <th nzWidth="150px">整改部门阅读时间</th>
       <th nzWidth="150px">纪检部门阅读时间</th>
-      <th nzWidth="100px" nzAlign="center">下发状态</th>
+      <th nzWidth="150px">下发时间</th>
+      <th nzWidth="100px" nzAlign="center">整改状态</th>
       <th nzWidth="100px" nzAlign="center">移交状态</th>
       <th nzWidth="200px">审计报告名称</th>
       <th nzWidth="200px">问题名称</th>
@@ -45,6 +48,10 @@
     <ng-container *ngFor="let data of expandTable.data; let firstIndex = index">
       <ng-container *ngFor="let item of mapOfExpandedData[data.id]; let secondIndex = index">
         <tr *ngIf="(item.parent && item.parent.expand) || !item.parent">
+
+          <!-- <td [nzShowCheckbox]="!item.children.length" [(nzChecked)]="mapOfExpandedData[item.id]"
+          (nzCheckedChange)="checked(item, mapOfExpandedData[item.id])"></td> -->
+
           <td
             [nzIndentSize]="item.level * 20"
             [nzShowExpand]="!!(item.children && item.children.length > 0)"
@@ -60,10 +67,12 @@
           </td>
           <td nzAlign="center">{{ item.rectifyDepartmentReadTime | date: 'yyyy-MM-dd' }}</td>
           <td nzAlign="center">{{ item.disciplineInspectionReadTime | date: 'yyyy-MM-dd' }}</td>
+          <td nzAlign="center">下发时间</td>
           <td nzAlign="center">
-            <nz-tag *ngIf="item.sendStatus === '未下发'" [nzColor]="'#A4A4A4'">未下发</nz-tag>
-            <nz-tag *ngIf="item.sendStatus === '下发中'" [nzColor]="'#FFBF00'">下发中</nz-tag>
-            <nz-tag *ngIf="item.sendStatus === '已下发'" [nzColor]="'#04B404'">已下发</nz-tag>
+              <nz-tag *ngIf="item.auditReportStatus === 'NOT_RECTIFIED'" [nzColor]="'#A4A4A4'">未下发</nz-tag>
+              <nz-tag *ngIf="item.auditReportStatus === 'UNABLE_RECTIFY'" [nzColor]="'#f50'">无法整改</nz-tag>
+              <nz-tag *ngIf="item.auditReportStatus === 'RECTIFYING'" [nzColor]="'#FFBF00'">整改中</nz-tag>F
+              <nz-tag *ngIf="item.auditReportStatus === 'COMPLETED'" [nzColor]="'#04B404'">已完成</nz-tag>
           </td>
           <td nzAlign="center">
             <nz-tag *ngIf="item.transferStatus === '未移交'" [nzColor]="'#A4A4A4'">未移交</nz-tag>

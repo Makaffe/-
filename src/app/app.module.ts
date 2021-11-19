@@ -1,3 +1,4 @@
+import { UserDeptTypeInterceptor } from './matech/net/user-type.intercepter';
 // register angular
 import { registerLocaleData } from '@angular/common';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -75,6 +76,11 @@ const INTERCEPTOR_PROVIDES = [
   {
     provide: HTTP_INTERCEPTORS,
     useClass: WorkingOrganizationInterceptor,
+    multi: true,
+  },
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: UserDeptTypeInterceptor,
     multi: true,
   },
 ];
