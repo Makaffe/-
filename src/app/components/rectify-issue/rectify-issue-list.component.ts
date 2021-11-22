@@ -46,7 +46,53 @@ export class RectifyIssueListComponent implements OnInit {
   /**
    * 列表数据
    */
-  listOfMapData: Array<RectifyProblemDTO> = [];
+  listOfMapData: any = [
+    {
+      id: '1',
+      sendStatus: 'NOT_ISSUED',
+      transferStatus: 'NOT_HANDED_OVER',
+      trackStatus: 'NOT_RECTIFIED',
+      auditReport: { name: '关于XXX部门审计报告测试' },
+      name: '11-18XXXXX发现问题',
+      rectifyProblemType: { name: '管理制度不完善' },
+      level: 0,
+      children: [
+        {
+          id: '1-1',
+          sendStatus: 'NOT_ISSUED',
+          transferStatus: 'NOT_HANDED_OVER',
+          trackStatus: 'NOT_RECTIFIED',
+          auditReport: { name: '关于XXX部门审计报告测试' },
+          name: '拆分XXX问题1',
+          rectifyProblemType: { name: '管理制度不完善' },
+          level: 1,
+          children: []
+        },
+        {
+          id: '1-2',
+          sendStatus: 'NOT_ISSUED',
+          transferStatus: 'NOT_HANDED_OVER',
+          trackStatus: 'NOT_RECTIFIED',
+          auditReport: { name: '关于XXX部门审计报告测试' },
+          name: '拆分XXX问题2',
+          rectifyProblemType: { name: '管理制度不完善' },
+          level: 1,
+          children: []
+        }
+      ]
+    },
+    {
+      id: '2',
+      sendStatus: 'NOT_ISSUED',
+      transferStatus: 'NOT_HANDED_OVER',
+      trackStatus: 'NOT_RECTIFIED',
+      auditReport: { name: '关于XXX部门审计报告测试' },
+      name: '11-26XXXXX发现问题',
+      rectifyProblemType: { name: '人员分配不合理' },
+      level: 0,
+      children: []
+    },
+  ];
 
   /**
    * 列表数据(父子平级，只存储没有子节点的数据，方便获取选中的数据和控制选中状态)
@@ -121,7 +167,10 @@ export class RectifyIssueListComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadOrg();
-    this.load();
+    // this.load();
+    this.listOfMapData.forEach(item => {
+      this.mapOfExpandedData[item.id] = this.convertTreeToList(item);
+    });
   }
 
   /**

@@ -25,8 +25,9 @@
     <ng-container *ngFor="let data of expandTable.data; let i = index">
       <ng-container *ngFor="let item of mapOfExpandedData[data.id]; let ci = index">
         <tr *ngIf="(item.parent && item.parent.expand) || !item.parent" (dblclick)="watch(item)">
-          <td [nzShowCheckbox]="!item.children.length" [(nzChecked)]="mapOfCheckedId[item.id]"
-            (nzCheckedChange)="checked(item, mapOfCheckedId[item.id])" *ngIf="!isAnalysis && !isProblemSwich"></td>
+          <td [nzShowCheckbox]="!item.children || (item.children && item.children.length === 0)"
+            [(nzChecked)]="mapOfCheckedId[item.id]" (nzCheckedChange)="checked(item, mapOfCheckedId[item.id])"
+            *ngIf="!isAnalysis && !isProblemSwich"></td>
           <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[item.id]"
             (nzCheckedChange)="checked(item, mapOfCheckedId[item.id])" *ngIf="isProblemSwich"></td>
           <td nzAlign="center" [nzIndentSize]="item.level * 20"
@@ -48,7 +49,7 @@
             <nz-tag *ngIf="item.transferStatus === 'HANDED_OVER'" [nzColor]="'#04B404'">已移交</nz-tag>
           </td>
           <td nzAlign="center">
-            <nz-tag *ngIf="item.trackStatus === 'NOT_RECTIFIED'" [nzColor]="'#A4A4A4'">未下发</nz-tag>
+            <nz-tag *ngIf="item.trackStatus === 'NOT_RECTIFIED'" [nzColor]="'#A4A4A4'">未整改</nz-tag>
             <nz-tag *ngIf="item.trackStatus === 'UNABLE_RECTIFY'" [nzColor]="'#f50'">无法整改</nz-tag>
             <nz-tag *ngIf="item.trackStatus === 'RECTIFYING'" [nzColor]="'#FFBF00'">整改中</nz-tag>
             <nz-tag *ngIf="item.trackStatus === 'COMPLETED'" [nzColor]="'#04B404'">已完成</nz-tag>
@@ -61,12 +62,10 @@
           <td>{{ item.dutyUser?item.dutyUser.name:null }}</td>
           <td nzAlign="center">
             <ng-container *ngIf="!isAnalysis">
-              <ng-container *ngIf="item.level === 0 &&
-               (item.children && item.children.length > 0 || (item.sendStatus === 'NOT_ISSUED' &&
-               item.transferStatus === 'NOT_HANDED_OVER' && (!item.children || item.children.length === 0)))">
+              <ng-container *ngIf="item.level === 0">
                 <button nz-button nzType="link" (click)="splitIssue(item)" style="padding: 0px;">拆分</button>
               </ng-container>
-              <ng-container *ngIf="item.children.length === 0 && item.dutyUser">
+              <ng-container *ngIf="item.children.length === 0">
                 <button nz-button nzType="link" (click)="order([item])" [disabled]="item.sendStatus !== 'NOT_ISSUED'"
                   style="padding: 0px;">
                   下发

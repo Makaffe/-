@@ -134,7 +134,8 @@
               <tr *ngFor="let data of columnTable.data; let i = index">
                 <td>{{ i + 1 }}</td>
                 <td>{{ data?.name }}</td>
-                <td>{{ convertProblemType(data.rectifyProblemTypeId) }}</td>
+                <td>{{ data?.rectifyProblemTypeId }}</td>
+                <!-- <td>{{ convertProblemType(data.rectifyProblemTypeId) }}</td> -->
                 <td> {{data.rectifyProblemCategory === 'AUDIT_OPINION'? '审计意见问题' : '审计建议问题'}}</td>
                 <td nzAlign="right">{{ data.money | currency: 'CNY':'symbol-narrow' }}</td>
                 <td nzAlign="center">

@@ -270,7 +270,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   loadData() {}
   // 获取整改措施数据
   loadMeasureData() {
-    this.loading = true;
+    // this.loading = true;
     this.rectifyMeasureService
       .findOnePage(
         this.options,
