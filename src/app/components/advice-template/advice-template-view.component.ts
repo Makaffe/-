@@ -72,7 +72,24 @@ export class AdviceTemplateViewComponent implements OnInit {
    * 上级节点名称
    */
   parentName = null;
-  nodes: any;
+  nodes = [
+    {
+      title: '建议模板类型',
+      key: 'ALL',
+      children: [
+        {
+          title: '建议模板类型1-1',
+          key: 'INTERNAL_AUDIT',
+          isLeaf: true
+        },
+        {
+          title: '建议模板类型1-2',
+          key: 'WELCOME_TRIAL',
+          isLeaf: true
+        },
+      ],
+    },
+  ];
 
   constructor(private proposalTemplateTypeService: ProposalTemplateTypeService, private msg: NzMessageService) { }
 

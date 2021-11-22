@@ -165,6 +165,7 @@ export class RectifyChildIssueDetailComponent implements OnInit {
    * @param isWatch 是否查看
    */
   edit(item: RectifyProblemDTO, isWatch: boolean, rectifyProblemType: any): void {
+    this.isVisible = true;
     this.isWatch = isWatch;
     this.currentItem = new RectifyProblemDTO(item);
     this.currentItem.rectifyProblemTypeId = this.currentItem.rectifyProblemType ? this.currentItem.rectifyProblemType.id : null;

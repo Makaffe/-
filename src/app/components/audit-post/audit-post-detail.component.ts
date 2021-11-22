@@ -117,6 +117,11 @@ export class AuditPostDetailComponent implements OnInit {
   isWatch: boolean;
 
   /**
+   * 问题状态
+   */
+  isWatchProblem: boolean;
+
+  /**
    * 是否编辑进入
    */
   isEdit: boolean;
@@ -144,7 +149,10 @@ export class AuditPostDetailComponent implements OnInit {
   /**
    * 初始化问题列表
    */
-  listOfData = [];
+  listOfData = [
+    { name: 'XXXXX发现问题', rectifyProblemTypeId: '管理制度不完善', rectifyProblemCategory: 'AUDIT_OPINION', money: '10000' },
+    { name: 'XXXXX发现问题', rectifyProblemTypeId: '人员分配不均匀', rectifyProblemCategory: 'AUDIT_OPINION2', money: '20000' }
+  ];
 
   /**
    *
@@ -253,7 +261,7 @@ export class AuditPostDetailComponent implements OnInit {
    * @param data 删除问题
    */
   deleteProblem(data: RectifyProblemDTO): void {
-    this.listOfData.splice(this.listOfData.indexOf(data), 1);
+    // this.listOfData.splice(this.listOfData.indexOf(data), 1);
     this.listOfData = [...this.listOfData];
   }
 
@@ -265,10 +273,10 @@ export class AuditPostDetailComponent implements OnInit {
 
   editProblem(data: RectifyProblemEditInfoDTO, lookup: boolean): void {
     this.getProposalTemplates(data.rectifyProblemTypeId);
-    this.currentProblemIndex = this.listOfData.indexOf(data);
+    // this.currentProblemIndex = this.listOfData.indexOf(data);
     this.paramsItem = this.initProblem(data);
     this.isVisabled = true;
-    this.isWatch = lookup;
+    this.isWatchProblem = lookup;
   }
 
   /**
@@ -311,11 +319,11 @@ export class AuditPostDetailComponent implements OnInit {
       this.msg.warning(`请确认问题信息填写完整`);
       return;
     }
-    if (this.currentProblemIndex === -1) {
-      this.listOfData.push(this.paramsItem);
-    } else {
-      this.listOfData[this.currentProblemIndex] = this.initProblem(this.paramsItem);
-    }
+    // if (this.currentProblemIndex === -1) {
+    //   this.listOfData.push(this.paramsItem);
+    // } else {
+    //   this.listOfData[this.currentProblemIndex] = this.initProblem(this.paramsItem);
+    // }
     this.listOfData = [...this.listOfData];
     this.handleCancel();
   }
@@ -324,9 +332,9 @@ export class AuditPostDetailComponent implements OnInit {
    * 点击取消
    */
   handleCancel() {
-    for (const item of this.listOfData) {
-      item.editable = false;
-    }
+    // for (const item of this.listOfData) {
+    //   item.editable = false;
+    // }
     this.paramsItem = this.initProblem();
     FormUtil.resetForm(this.problemform.form);
     this.currentProblemIndex = -1;
@@ -349,7 +357,7 @@ export class AuditPostDetailComponent implements OnInit {
     console.dir(this.currentItem);
     console.log('done');
     this.currentItem.auditReportStatus = 'NOT_RECTIFIED';
-    this.currentItem.rectifyProblems = this.listOfData;
+    // this.currentItem.rectifyProblems = this.listOfData;
     if (!this.currentItem.id) {
 
       this.auditReportService.create(this.currentItem).subscribe({
@@ -472,9 +480,9 @@ export class AuditPostDetailComponent implements OnInit {
     this.auditReportService.findById(this.postId).subscribe(data => {
       this.currentItem = this.initAuditReport(data);
       this.dateRange = [new Date(data.auditStartTime), new Date(data.auditEndTime)];
-      this.listOfData = data.rectifyProblems;
+      // this.listOfData = data.rectifyProblems;
       this.listOfData.forEach(d => {
-        Object.assign(d, { rectifyProblemTypeId: d.rectifyProblemType.id });
+        // Object.assign(d, { rectifyProblemTypeId: d.rectifyProblemType.id });
       });
 
       if (data.auditReportFileDTO) {
@@ -490,6 +498,7 @@ export class AuditPostDetailComponent implements OnInit {
     this.loadProposalTemplates();
     this.activatedRoute.queryParams.subscribe(data => {
       this.isWatch = data.isWatch === 'true';
+      this.isWatchProblem = this.isWatch;
       this.isEdit = data.isEdit === 'true';
       this.auditReportType = data.postTypeId;
       this.postId = data.postId;

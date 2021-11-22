@@ -27,7 +27,7 @@ export class RectifyTrackListComponent implements OnInit {
     private msg: NzMessageService,
     private rectifyProblemService: RectifyProblemService,
     private transferInfoService: TransferInfoService,
-  ) {}
+  ) { }
 
   /**
    * 表格高度
@@ -38,7 +38,18 @@ export class RectifyTrackListComponent implements OnInit {
   /**
    * 树表格相关参数
    */
-  listOfMapData = [];
+  listOfMapData = [
+    {
+      id: '1', rectifyDepartmentReadTime: '2021-11-05', disciplineInspectionReadTime: '', sendTime: '2021-11-01',
+      auditReportStatus: 'RECTIFYING', transferStatus: 'NOT_HANDED_OVER', auditReport: { name: 'XXX审计报告' },
+      name: 'XXX整改问题'
+    },
+    {
+      id: '2', rectifyDepartmentReadTime: '2021-11-05', disciplineInspectionReadTime: '2020-11-03', sendTime: '2021-11-01',
+      auditReportStatus: 'RECTIFYING', transferStatus: 'HANDED_OVER', auditReport: { name: 'XXX审计报告' },
+      name: 'XXX整改问题'
+    }
+  ];
   mapOfExpandedData: { [id: string]: any[] } = {};
 
   /**
@@ -95,6 +106,9 @@ export class RectifyTrackListComponent implements OnInit {
   };
 
   ngOnInit() {
+    this.listOfMapData.forEach(item => {
+      this.mapOfExpandedData[item.id] = this.convertTreeToList(item);
+    });
     this.load();
   }
 
@@ -110,7 +124,7 @@ export class RectifyTrackListComponent implements OnInit {
       .subscribe(
         data => {
           if (data) {
-            this.listOfMapData = data.data;
+            // this.listOfMapData = data.data;
             this.pageInfo.pageNo = data.pageNo + 1;
             this.pageInfo.pageSize = data.pageSize;
             this.pageInfo.totalPages = data.totalPages;
@@ -120,11 +134,11 @@ export class RectifyTrackListComponent implements OnInit {
             });
           }
         },
-        () => {},
+        () => { },
         () => {
           this.loading = false;
         },
-      );
+    );
   }
 
   /**
@@ -201,17 +215,18 @@ export class RectifyTrackListComponent implements OnInit {
    * @param readOnly 是否只读
    */
   transfer(item: RectifyTrackDTO, readOnly: boolean) {
-    if (readOnly) {
-      this.transferInfoService.findByRectifyProblemId(item.id).subscribe(data => {
-        this.rectifyIssueTransferComponent.currentItem = this.rectifyIssueTransferComponent.initItem(data);
-        this.rectifyIssueTransferComponent.readOnly = readOnly;
-        this.rectifyIssueTransferComponent.edit([item]);
-      });
-    } else {
-      this.rectifyIssueTransferComponent.currentItem = this.rectifyIssueTransferComponent.initItem(null);
-      this.rectifyIssueTransferComponent.readOnly = readOnly;
-      this.rectifyIssueTransferComponent.edit([item]);
-    }
+    this.rectifyIssueTransferComponent.isVisible = true;
+    // if (readOnly) {
+    //   this.transferInfoService.findByRectifyProblemId(item.id).subscribe(data => {
+    //     this.rectifyIssueTransferComponent.currentItem = this.rectifyIssueTransferComponent.initItem(data);
+    //     this.rectifyIssueTransferComponent.readOnly = readOnly;
+    //     this.rectifyIssueTransferComponent.edit([item]);
+    //   });
+    // } else {
+    //   this.rectifyIssueTransferComponent.currentItem = this.rectifyIssueTransferComponent.initItem(null);
+    //   this.rectifyIssueTransferComponent.readOnly = readOnly;
+    //   this.rectifyIssueTransferComponent.edit([item]);
+    // }
   }
 
   /**

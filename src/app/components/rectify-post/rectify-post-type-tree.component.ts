@@ -55,7 +55,29 @@ export class RectifyPostTypeTreeComponent implements OnInit {
   spinning = false;
 
   // 左侧树节点数据
-  nodes = [];
+  nodes = [
+    {
+      title: '所有汇报类型',
+      key: 'ALL',
+      children: [
+        {
+          title: '按审计报告',
+          key: 'INTERNAL_AUDIT',
+          isLeaf: true
+        },
+        {
+          title: '按整改部门',
+          key: 'WELCOME_TRIAL',
+          isLeaf: true
+        },
+        {
+          title: '按时间区间',
+          key: 'EXTERNAL_AUDIT',
+          isLeaf: true
+        },
+      ],
+    },
+  ];
 
   constructor(private rectificationReportTypeService: RectificationReportTypeService, private msg: NzMessageService) { }
 
@@ -87,7 +109,7 @@ export class RectifyPostTypeTreeComponent implements OnInit {
     this.rectificationReportTypeService.findAll().subscribe(data => {
       if (data && data.length > 0) {
         this.nodes = TreeUtil.populateTreeNodes(data, 'id', 'name', 'children');
-        this.nodes[0].isSelectable = false;
+        // this.nodes[0].isSelectable = false;
         this.selectedNode = null;
       }
     }, null, () => { this.spinning = false; });

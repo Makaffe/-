@@ -30,7 +30,16 @@ export class AuditPostListComponent implements OnInit {
   /**
    * 列表数据
    */
-  tableData: Array<any> = [];
+  tableData: Array<any> = [{
+    auditReportStatus: 'NOT_RECTIFIED',
+    name: '关于XXX部门审计报告测试',
+    auditName: 'XXX单位',
+    auditStartTime: '2021-10-10',
+    auditEndTime: '2020-12-29',
+    auditOpinionCount: '1',
+    auditProposalCount: '1',
+
+  }];
 
   /**
    * 列表参数
@@ -97,13 +106,6 @@ export class AuditPostListComponent implements OnInit {
       sort: this.tableParameter.sortDef,
       className: 'text-right',
     },
-    // {
-    //   title: '审计问题数',
-    //   index: 'problemCount',
-    //   width: '40px',
-    //   sort: this.tableParameter.sortDef,
-    //   className: 'text-right',
-    // },
     { title: '操作', render: 'operations', width: '180px', className: 'text-center' },
   ];
 

@@ -181,7 +181,12 @@ export class RectifyDashboardComponent implements OnInit {
     ],
   };
 
-  listOfMapData = [];
+  listOfMapData = [
+    {
+      id: '1', trackStatus: '整改中', transferStatus: '已移交', source: '内审报告', name: 'XXXX整改问题',
+      rectifyProblemType: { name: '管理制度不完善'}
+    }
+  ];
 
   /**
    * 消息
@@ -362,9 +367,12 @@ export class RectifyDashboardComponent implements OnInit {
     private router: Router,
     private msg: NzMessageService,
     private rectifyProblemService: RectifyProblemService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
+    this.listOfMapData.forEach(item => {
+      this.mapOfExpandedData[item.id] = this.convertTreeToList(item);
+    });
     this.load();
   }
   /**
@@ -392,7 +400,7 @@ export class RectifyDashboardComponent implements OnInit {
         this.filter.startTime,
         this.filter.endTime,
         this.filter.dutyUserId,
-      )
+    )
       .subscribe(
         data => {
           if (data) {
@@ -406,21 +414,18 @@ export class RectifyDashboardComponent implements OnInit {
               }
             }
             this.loadecharts();
-            this.listOfMapData = data.data;
+            // this.listOfMapData = data.data;
             this.pageInfo.pageNo = data.pageNo + 1;
             this.pageInfo.pageSize = data.pageSize;
             this.pageInfo.totalPages = data.totalPages;
             this.pageInfo.totalRecords = Number(data.totalRecords);
-            this.listOfMapData.forEach(item => {
-              this.mapOfExpandedData[item.id] = this.convertTreeToList(item);
-            });
           }
         },
-        () => {},
+        () => { },
         () => {
           this.loading = false;
         },
-      );
+    );
   }
 
   /**

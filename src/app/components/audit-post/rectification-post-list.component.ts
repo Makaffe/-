@@ -167,11 +167,12 @@ export class RectificationPostListComponent implements OnInit {
    * 调用查看审计报告接口
    */
   watch(item: any) {
-    if (item.id < 10) {
-      this.auditPostWatchComponent.watch(item);
-    } else {
-      this.rectifyIssueSplitComponent.edit(item, true);
-    }
+    // if (item.id < 10) {
+    //   this.auditPostWatchComponent.watch(item);
+    // } else {
+    //   this.rectifyIssueSplitComponent.edit(item, true);
+    // }
+    this.auditPostWatchComponent.watch(null);
   }
 
   load() {}

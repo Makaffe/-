@@ -53,11 +53,6 @@ export class RectifyPostListComponent implements OnInit {
   currentClickNode: RectificationReportTypeDTO = new RectificationReportTypeDTO();
 
   /**
-   * 列表数据
-   */
-  tableData: Array<RectificationReportDTO> = [];
-
-  /**
    * 当前单选框选中的数据
    */
   @Input()
@@ -84,6 +79,14 @@ export class RectifyPostListComponent implements OnInit {
     size: 20,
     sort: 'id,desc',
   };
+
+  /**
+   * 列表数据
+   */
+  tableData = [
+    {year: '2021', name: 'XXXX整改汇报'}
+  ];
+
   /**
    * 列表参数
    */
@@ -167,7 +170,7 @@ export class RectifyPostListComponent implements OnInit {
         Object.assign(item, { auditTime });
         Object.assign(item, { year });
       });
-      this.tableData = data.data;
+      // this.tableData = data.data;
       this.tableParameter.page.total = data.totalRecords;
       this.tableParameter.pi = data.pageNo + 1;
     }, null, () => { this.loading = false; });

@@ -290,41 +290,42 @@ export class RectifyIssueSplitComponent implements OnInit, AfterViewInit {
    * @param isWatch 是否查看
    */
   edit(item: RectifyProblemDTO, isWatch: boolean) {
-    this.rectifyProblemService.rectifyTrackById(item.id).subscribe(data => {
-      this.getProposalTemplates(data.rectifyProblemType.id);
-      this.setTabContentHeight();
-      this.isWatch = isWatch;
-      this.problemItem = new RectifyProblemDTO(data);
-      this.currentItem = new RectifyProblemDTO(data);
-      if (data.children && data.children.length > 0) {
-        this.currentItem.children.forEach(problem => {
-          this.rectifyProblemService.rectifyTrackById(problem.id).subscribe(row => {
-            row.rectifyProblemTypeId = row.rectifyProblemType ? row.rectifyProblemType.id : null;
-            row.uuid = row.uuid
-              ? row.uuid : this.childrenProblemList.length > 0
-                ? this.childrenProblemList[this.childrenProblemList.length - 1].uuid + 1 : '1';
+    this.isVisible = true;
+    // this.rectifyProblemService.rectifyTrackById(item.id).subscribe(data => {
+    //   this.getProposalTemplates(data.rectifyProblemType.id);
+    //   this.setTabContentHeight();
+    //   this.isWatch = isWatch;
+    //   this.problemItem = new RectifyProblemDTO(data);
+    //   this.currentItem = new RectifyProblemDTO(data);
+    //   if (data.children && data.children.length > 0) {
+    //     this.currentItem.children.forEach(problem => {
+    //       this.rectifyProblemService.rectifyTrackById(problem.id).subscribe(row => {
+    //         row.rectifyProblemTypeId = row.rectifyProblemType ? row.rectifyProblemType.id : null;
+    //         row.uuid = row.uuid
+    //           ? row.uuid : this.childrenProblemList.length > 0
+    //             ? this.childrenProblemList[this.childrenProblemList.length - 1].uuid + 1 : '1';
 
-            row.unitAndDepartment = '';
-            let orgs = row.orgLevel ? row.orgLevel.split(',') : [];
-            orgs = orgs.slice(0, orgs.length - 2);
-            orgs.forEach(org => {
-              row.unitAndDepartment = row.unitAndDepartment + this.organizationTreeMap.get(org) + '/';
-            });
-            row.unitAndDepartment = row.unitAndDepartment.slice(0, row.unitAndDepartment.length - 1);
-            if (row.dutyUser) {
-              row.dutyUserName = this.organizationTreeMap.get(row.dutyUser.id);
-            }
-            this.childrenProblemList.push(new RectifyProblemDTO(row));
-            this.childrenProblemList = [...this.childrenProblemList];
+    //         row.unitAndDepartment = '';
+    //         let orgs = row.orgLevel ? row.orgLevel.split(',') : [];
+    //         orgs = orgs.slice(0, orgs.length - 2);
+    //         orgs.forEach(org => {
+    //           row.unitAndDepartment = row.unitAndDepartment + this.organizationTreeMap.get(org) + '/';
+    //         });
+    //         row.unitAndDepartment = row.unitAndDepartment.slice(0, row.unitAndDepartment.length - 1);
+    //         if (row.dutyUser) {
+    //           row.dutyUserName = this.organizationTreeMap.get(row.dutyUser.id);
+    //         }
+    //         this.childrenProblemList.push(new RectifyProblemDTO(row));
+    //         this.childrenProblemList = [...this.childrenProblemList];
 
-            console.log(this.childrenProblemList);
-          });
-        });
-      }
+    //         console.log(this.childrenProblemList);
+    //       });
+    //     });
+    //   }
 
-      this.dutyUserIds = item && item.orgLevel ? item.orgLevel.split(',') : [];
-      this.isVisible = true;
-    });
+    //   this.dutyUserIds = item && item.orgLevel ? item.orgLevel.split(',') : [];
+    //   this.isVisible = true;
+    // });
   }
 
   /**

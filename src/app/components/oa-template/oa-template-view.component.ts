@@ -90,7 +90,24 @@ export class OaTemplateViewComponent implements OnInit {
   /**
    * 获取左侧树节点
    */
-  nodes = [];
+  nodes = [
+    {
+      title: '发文类型',
+      key: 'ALL',
+      children: [
+        {
+          title: '发文类型1-1',
+          key: 'INTERNAL_AUDIT',
+          isLeaf: true
+        },
+        {
+          title: '发文类型1-2',
+          key: 'WELCOME_TRIAL',
+          isLeaf: true
+        },
+      ],
+    },
+  ];
 
   // 搜索内容
   templateName: null;

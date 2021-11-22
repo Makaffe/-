@@ -1,22 +1,8 @@
-<nz-table
-  #expandTable
-  [nzData]="listOfMapData"
-  [nzScroll]="{ x: '2000px', y: '100%' }"
-  [nzLoading]="loading"
-  [nzTotal]="pageInfo.totalRecords"
-  [nzPageSize]="pageInfo.pageSize"
-  [nzPageIndex]="pageInfo.pageNo"
-  [nzSize]="'small'"
-  nzShowSizeChanger
-  [nzShowTotal]="totalTemplate"
-  (nzPageSizeChange)="pageSizeChange($event)"
-  (nzPageIndexChange)="pageIndexChange($event)"
-  [nzShowQuickJumper]="true"
-  [nzFrontPagination]="false"
-  [nzPageSizeOptions]="[20, 35, 50, 100]"
-  nzBordered="true"
-  [ngStyle]="{ height: tableHeight }"
->
+<nz-table #expandTable [nzData]="listOfMapData" [nzScroll]="{ x: '2000px', y: '100%' }" [nzLoading]="loading"
+  [nzTotal]="pageInfo.totalRecords" [nzPageSize]="pageInfo.pageSize" [nzPageIndex]="pageInfo.pageNo" [nzSize]="'small'"
+  nzShowSizeChanger [nzShowTotal]="totalTemplate" (nzPageSizeChange)="pageSizeChange($event)"
+  (nzPageIndexChange)="pageIndexChange($event)" [nzShowQuickJumper]="true" [nzFrontPagination]="false"
+  [nzPageSizeOptions]="[20, 35, 50, 100]" nzBordered="true" [ngStyle]="{ height: tableHeight }">
   <ng-template #totalTemplate let-total> 共 {{ pageInfo.totalRecords }} 条 </ng-template>
   <thead>
     <tr>
@@ -52,14 +38,9 @@
           <!-- <td [nzShowCheckbox]="!item.children.length" [(nzChecked)]="mapOfExpandedData[item.id]"
           (nzCheckedChange)="checked(item, mapOfExpandedData[item.id])"></td> -->
 
-          <td
-            [nzIndentSize]="item.level * 20"
-            [nzShowExpand]="!!(item.children && item.children.length > 0)"
-            [(nzExpand)]="item.expand"
-            (nzExpandChange)="collapse(mapOfExpandedData[data.id], item, $event)"
-            *ngIf="item.level === 0"
-            nzLeft="0px"
-          >
+          <td [nzIndentSize]="item.level * 20" [nzShowExpand]="!!(item.children && item.children.length > 0)"
+            [(nzExpand)]="item.expand" (nzExpandChange)="collapse(mapOfExpandedData[data.id], item, $event)"
+            *ngIf="item.level === 0" nzLeft="0px">
             {{ firstIndex + 1 }}
           </td>
           <td [nzIndentSize]="item.level * 20" *ngIf="item.level === 1" nzLeft="0px">
@@ -67,17 +48,20 @@
           </td>
           <td nzAlign="center">{{ item.rectifyDepartmentReadTime | date: 'yyyy-MM-dd' }}</td>
           <td nzAlign="center">{{ item.disciplineInspectionReadTime | date: 'yyyy-MM-dd' }}</td>
-          <td nzAlign="center">下发时间</td>
+          <td nzAlign="center">{{item.sendTime}}</td>
           <td nzAlign="center">
-              <nz-tag *ngIf="item.auditReportStatus === 'NOT_RECTIFIED'" [nzColor]="'#A4A4A4'">未下发</nz-tag>
-              <nz-tag *ngIf="item.auditReportStatus === 'UNABLE_RECTIFY'" [nzColor]="'#f50'">无法整改</nz-tag>
-              <nz-tag *ngIf="item.auditReportStatus === 'RECTIFYING'" [nzColor]="'#FFBF00'">整改中</nz-tag>F
-              <nz-tag *ngIf="item.auditReportStatus === 'COMPLETED'" [nzColor]="'#04B404'">已完成</nz-tag>
+            <nz-tag *ngIf="item.auditReportStatus === 'NOT_RECTIFIED'" [nzColor]="'#A4A4A4'">未下发</nz-tag>
+            <nz-tag *ngIf="item.auditReportStatus === 'UNABLE_RECTIFY'" [nzColor]="'#f50'">无法整改</nz-tag>
+            <nz-tag *ngIf="item.auditReportStatus === 'RECTIFYING'" [nzColor]="'#FFBF00'">整改中</nz-tag>
+            <nz-tag *ngIf="item.auditReportStatus === 'COMPLETED'" [nzColor]="'#04B404'">已完成</nz-tag>
           </td>
           <td nzAlign="center">
-            <nz-tag *ngIf="item.transferStatus === '未移交'" [nzColor]="'#A4A4A4'">未移交</nz-tag>
+            <nz-tag *ngIf="item.transferStatus === 'NOT_HANDED_OVER'" [nzColor]="'#A4A4A4'">未移交</nz-tag>
+            <nz-tag *ngIf="item.transferStatus === 'HANDING_OVER'" [nzColor]="'#FFBF00'">移交中</nz-tag>
+            <nz-tag *ngIf="item.transferStatus === 'HANDED_OVER'" [nzColor]="'#04B404'">已移交</nz-tag>
+            <!-- <nz-tag *ngIf="item.transferStatus === '未移交'" [nzColor]="'#A4A4A4'">未移交</nz-tag>
             <nz-tag *ngIf="item.transferStatus === '移交中'" [nzColor]="'#FFBF00'">移交中</nz-tag>
-            <nz-tag *ngIf="item.transferStatus === '已移交'" [nzColor]="'#04B404'">已移交</nz-tag>
+            <nz-tag *ngIf="item.transferStatus === '已移交'" [nzColor]="'#04B404'">已移交</nz-tag> -->
           </td>
           <td>{{ item?.auditReport?.name }}</td>
           <td>{{ item?.name }}</td>
@@ -94,28 +78,16 @@
           <td>{{ item?.rectifyEndTime | date: 'yyyy-MM-dd' }}</td>
           <td>{{ item?.latelyFeedbackTime | date: 'yyyy-MM-dd' }}</td>
           <td>{{ item?.nextFeedbackTime | date: 'yyyy-MM-dd' }}</td>
-          <td nzRight="0px">
+          <td nzAlign="center" nzRight="0px">
             <button nz-button nzType="link" (click)="goWorkBench(item.id)" style="padding: 0;">进入工作台</button>
-            <nz-divider
-              nzType="vertical"
-              *ngIf="item.transferStatus === '已移交' || item.transferStatus === '未移交'"
-            ></nz-divider>
-            <button
-              nz-button
-              nzType="link"
-              (click)="transfer(item, true)"
-              style="padding: 0;"
-              *ngIf="item.transferStatus === '已移交'"
-            >
+            <nz-divider nzType="vertical" *ngIf="item.transferStatus === 'NOT_HANDED_OVER'">
+            </nz-divider>
+            <!-- <button nz-button nzType="link" (click)="transfer(item, true)" style="padding: 0;"
+              *ngIf="item.transferStatus === 'HANDED_OVER'">
               移交结果查看
-            </button>
-            <button
-              style="padding: 0px;"
-              nz-button
-              nzType="link"
-              *ngIf="item.transferStatus === '未移交'"
-              (click)="transfer(item, false)"
-            >
+            </button> -->
+            <button style="padding: 0px;" nz-button nzType="link" *ngIf="item.transferStatus === 'NOT_HANDED_OVER'"
+              (click)="transfer(item, false)">
               移交
             </button>
           </td>

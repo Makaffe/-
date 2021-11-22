@@ -134,15 +134,14 @@
               <tr *ngFor="let data of columnTable.data; let i = index">
                 <td>{{ i + 1 }}</td>
                 <td>{{ data?.name }}</td>
-                <td>{{ convertProblemType(data.rectifyProblemTypeId) }}</td>
+                <td>{{ data?.rectifyProblemTypeId }}</td>
+                <!-- <td>{{ convertProblemType(data.rectifyProblemTypeId) }}</td> -->
                 <td> {{data.rectifyProblemCategory === 'AUDIT_OPINION'? '审计意见问题' : '审计建议问题'}}</td>
                 <td nzAlign="right">{{ data.money | currency: 'CNY':'symbol-narrow' }}</td>
                 <td nzAlign="center">
-                  <a (click)="editProblem(data, true)">查看</a>
-                  <nz-divider nzType="vertical"></nz-divider>
+                  <a (click)="editProblem(data, true)">查看</a>&nbsp;
                   <a (click)="editProblem(data, false)" *ngIf="!isWatch && data.sendStatus === 'NOT_ISSUED' && data.transferStatus === 'NOT_HANDED_OVER' 
-                    && (!data.children || data.children.length === 0)">编辑</a>
-                  <nz-divider nzType="vertical"></nz-divider>
+                    && (!data.children || data.children.length === 0)">编辑</a>&nbsp;
                   <nz-popconfirm [nzTitle]="confirmtittle" (nzOnConfirm)="deleteProblem(data)">
                     <ng-template #confirmtittle>是否要删除该条数据</ng-template>
                     <a *ngIf="!isWatch && data.sendStatus === 'NOT_ISSUED' && data.transferStatus === 'NOT_HANDED_OVER'
@@ -163,13 +162,13 @@
   (nzOnCancel)="handleCancel()">
   <ng-template #modalFooter>
     <button nz-button nzType="default" (click)="handleCancel()">取消</button>
-    <button nz-button nzType="primary" (click)="handleOk()" *ngIf="!isWatch">确认</button>
+    <button nz-button nzType="primary" (click)="handleOk()" *ngIf="!isWatchProblem">确认</button>
   </ng-template>
   <form nz-form #problemform="ngForm">
     <nz-form-item nz-row>
       <nz-form-label [nzSpan]="3" nzRequired>问题名称</nz-form-label>
       <nz-form-control [nzSpan]="19" [nzValidateStatus]="name.invalid && (name.dirty || name.touched) ? 'error' : ''">
-        <input [readOnly]="isWatch" required nz-input #name="ngModel" name="name" [pattern]="PATTERN" required
+        <input [readOnly]="isWatchProblem" required nz-input #name="ngModel" name="name" [pattern]="PATTERN" required
           [(ngModel)]="paramsItem.name" />
         <nz-form-explain *ngIf="name.invalid && (name.dirty || name.touched)">
           请填写问题名称
@@ -184,7 +183,7 @@
         ">
         <nz-tree-select #problemtypeselect style="width: 100%;" [nzDefaultExpandAll]="'true'"
           [nzNodes]="problemTypeNodes" name="rectifyProblemTypeId" #rectifyProblemTypeId="ngModel" nzShowSearch
-          [nzPlaceHolder]="'请选择'" [(ngModel)]="paramsItem.rectifyProblemTypeId" [nzDisabled]="isWatch"
+          [nzPlaceHolder]="'请选择'" [(ngModel)]="paramsItem.rectifyProblemTypeId" [nzDisabled]="isWatchProblem"
           (ngModelChange)="getProblemType($event)" required>
         </nz-tree-select>
 
@@ -195,7 +194,7 @@
       </nz-form-control>
       <nz-form-label [nzSpan]="3" nzRequired>涉及金额（元）</nz-form-label>
       <nz-form-control [nzSpan]="8" [nzValidateStatus]="money.invalid && (money.dirty || money.touched) ? 'error' : ''">
-        <nz-input-number [nzDisabled]="isWatch" name="money" [(ngModel)]="paramsItem.money" #money="ngModel" required
+        <nz-input-number [nzDisabled]="isWatchProblem" name="money" [(ngModel)]="paramsItem.money" #money="ngModel" required
           nzMin="0"></nz-input-number>
         <nz-form-explain *ngIf="money.invalid && (money.dirty || money.touched)">
           请填写涉及金额
@@ -206,7 +205,7 @@
       <nz-form-label [nzSpan]="3" nzRequired>问题类别</nz-form-label>
       <nz-form-control nzSpan="9">
         <nz-radio-group [(ngModel)]="paramsItem.rectifyProblemCategory" name="rectifyProblemCategory"
-          [nzDisabled]="isWatch">
+          [nzDisabled]="isWatchProblem">
           <label nz-radio nzValue="AUDIT_OPINION">审计意见问题</label>
           <label nz-radio nzValue="AUDIT_PROPOSAL">审计建议问题</label>
         </nz-radio-group>
@@ -216,7 +215,7 @@
       <nz-form-label [nzSpan]="3" nzRequired>问题描述</nz-form-label>
       <nz-form-control [nzSpan]="19"
         [nzValidateStatus]="description.invalid && (description.dirty || description.touched) ? 'error' : ''">
-        <textarea [readOnly]="isWatch" nz-input required #description="ngModel" name="description"
+        <textarea [readOnly]="isWatchProblem" nz-input required #description="ngModel" name="description"
           [(ngModel)]="paramsItem.description" rows="6"></textarea>
         <nz-form-explain *ngIf="description.invalid && (description.dirty || description.touched)">
           请填写问题描述
@@ -226,7 +225,7 @@
     <nz-form-item>
       <nz-form-label [nzSpan]="3">审计意见</nz-form-label>
       <nz-form-control [nzSpan]="19">
-        <textarea [readOnly]="isWatch" nz-input name="paramsItem" [(ngModel)]="paramsItem.auditOpinion"
+        <textarea [readOnly]="isWatchProblem" nz-input name="paramsItem" [(ngModel)]="paramsItem.auditOpinion"
           rows="6"></textarea>
       </nz-form-control>
     </nz-form-item>
@@ -243,14 +242,14 @@
             引用模板建议会覆盖当前审计建议，确定要引用该模板吗？
           </ng-template>
           <button nz-button nzType="primary" nz-popconfirm
-            [disabled]="!paramsItem.proposalTemplateId || isWatch">确认引用</button>
+            [disabled]="!paramsItem.proposalTemplateId || isWatchProblem">确认引用</button>
         </nz-popconfirm>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label [nzSpan]="3">审计建议</nz-form-label>
       <nz-form-control [nzSpan]="19">
-        <textarea [readOnly]="isWatch" nz-input name="advice" [(ngModel)]="paramsItem.advice" rows="6"></textarea>
+        <textarea [readOnly]="isWatchProblem" nz-input name="advice" [(ngModel)]="paramsItem.advice" rows="6"></textarea>
       </nz-form-control>
     </nz-form-item>
   </form>
