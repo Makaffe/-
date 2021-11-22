@@ -117,6 +117,11 @@ export class AuditPostDetailComponent implements OnInit {
   isWatch: boolean;
 
   /**
+   * 问题状态
+   */
+  isWatchProblem: boolean;
+
+  /**
    * 是否编辑进入
    */
   isEdit: boolean;
@@ -268,7 +273,7 @@ export class AuditPostDetailComponent implements OnInit {
     this.currentProblemIndex = this.listOfData.indexOf(data);
     this.paramsItem = this.initProblem(data);
     this.isVisabled = true;
-    this.isWatch = lookup;
+    this.isWatchProblem = lookup;
   }
 
   /**
@@ -490,6 +495,7 @@ export class AuditPostDetailComponent implements OnInit {
     this.loadProposalTemplates();
     this.activatedRoute.queryParams.subscribe(data => {
       this.isWatch = data.isWatch === 'true';
+      this.isWatchProblem = this.isWatch;
       this.isEdit = data.isEdit === 'true';
       this.auditReportType = data.postTypeId;
       this.postId = data.postId;
