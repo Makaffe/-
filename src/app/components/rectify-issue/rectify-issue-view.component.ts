@@ -175,14 +175,14 @@ export class RectifyIssueViewComponent implements OnInit {
    * 问题下发
    */
   send() {
-    if (!this.verify()) {
-      this.msg.warning('选中的数据中含有未填写完成的整改问题，请完成填写后再移交！');
-      return;
-    }
-    if (!this.repeatVerify(0)) {
-      this.msg.warning('选中的数据中含有已经下发过的整改问题！');
-      return;
-    }
+    // if (!this.verify()) {
+    //   this.msg.warning('选中的数据中含有未填写完成的整改问题，请完成填写后再移交！');
+    //   return;
+    // }
+    // if (!this.repeatVerify(0)) {
+    //   this.msg.warning('选中的数据中含有已经下发过的整改问题！');
+    //   return;
+    // }
     this.rectifyIssueListComponent.rectifyIssueOrderComponent.edit(this.checkboxData);
   }
 

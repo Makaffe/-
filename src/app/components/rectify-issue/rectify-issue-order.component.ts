@@ -153,7 +153,7 @@ export class RectifyIssueOrderComponent implements OnInit {
         unitAndDepartment: problem.unitAndDepartment ? problem.unitAndDepartment : null,
         auditReportName: problem.auditReport.name,
         name: problem.name,
-        dutyUser: problem.dutyUser.name
+        dutyUser: problem.dutyUser ? problem.dutyUser.name : null
       });
     });
     this.listOfData = [...this.listOfData];

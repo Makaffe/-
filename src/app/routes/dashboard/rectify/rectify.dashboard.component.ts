@@ -183,8 +183,7 @@ export class RectifyDashboardComponent implements OnInit {
 
   listOfMapData = [
     {
-      id: '1', trackStatus: '整改中', transferStatus: '已移交', source: '内审报告', name: 'XXXX整改问题',
-      rectifyProblemType: { name: '管理制度不完善'}
+      id: '1', trackStatus: '整改中', transferStatus: '已移交', source: '内审报告', name: 'XXXX整改问题'
     }
   ];
 
