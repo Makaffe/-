@@ -84,6 +84,7 @@ export class AuditorDashboardComponent implements OnInit {
       width: '10%',
     },
   ];
+
   rectifyProcesscolumns: STColumn[] = [
     {
       title: '序号',
@@ -167,7 +168,7 @@ export class AuditorDashboardComponent implements OnInit {
         icon: 'info-circle',
         value: 1,
         title: '报告总数:3',
-        className: 'bg-orange',
+        className: 'bg-primary',
       },
       {
         icon: 'warning',
@@ -197,7 +198,7 @@ export class AuditorDashboardComponent implements OnInit {
         icon: 'clock-circle',
         value: 6,
         title: '未整改:3',
-        className: 'bg-primary',
+        className: 'bg-red ',
       },
     ];
     this.msdData = [

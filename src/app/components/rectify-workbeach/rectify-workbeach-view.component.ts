@@ -225,6 +225,8 @@ export class RectifyWorkbeachViewComponent implements OnInit {
     },
   ];
 
+  radioValue = false;
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -235,14 +237,10 @@ export class RectifyWorkbeachViewComponent implements OnInit {
     private cacheService: CacheService,
     private rectifyProblemUrgeService: RectifyProblemUrgeService,
     private transferInfoService: TransferInfoService,
-  ) {}
+  ) { }
 
   ngOnInit() {
-    if (this.cacheService.get('__user', { mode: 'none' }).userType === 'AUDIT_DEPT') {
-      this.isRectify = false;
-    } else {
-      this.isRectify = true;
-    }
+    this.isRectify = this.cacheService.get('__userDeptType', { mode: 'none' }) === 'RECTIFY_DEPT';
     this.resolveQueryParam();
     this.loadRectifyProblemData();
     this.loadMeasureData();
@@ -267,7 +265,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
     });
   }
 
-  loadData() {}
+  loadData() { }
   // 获取整改措施数据
   loadMeasureData() {
     // this.loading = true;
@@ -278,7 +276,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
         this.searchParam.rectifyBackFeedHz,
         this.searchParam.rectifyBackFeedHzUnit,
         this.searchParam.rectifyEndTime,
-      )
+    )
       .subscribe(
         data => {
           if (data) {
@@ -290,9 +288,9 @@ export class RectifyWorkbeachViewComponent implements OnInit {
             this.loading = false;
           }
         },
-        () => {},
-        () => {},
-      );
+        () => { },
+        () => { },
+    );
   }
 
   /**
@@ -337,8 +335,8 @@ export class RectifyWorkbeachViewComponent implements OnInit {
           this.loadMeasureData();
         }
       },
-      () => {},
-      () => {},
+      () => { },
+      () => { },
     );
   }
 
@@ -383,7 +381,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
     this.rectifyMeasureComponent.edit(item ? item.id : this.searchParam.rectifyProblemId, item);
   }
 
-  create() {}
+  create() { }
 
   // 查看
   watch(item: RectifyMeasureDTO) {
@@ -465,7 +463,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
     }
   }
 
-  onChangeStates(id: string): void {}
+  onChangeStates(id: string): void { }
 
   /**
    * 整改部门进去
@@ -519,7 +517,7 @@ export class RectifyWorkbeachViewComponent implements OnInit {
   /**
    * 模板值处理
    */
-  templateChange(eve: any) {}
+  templateChange(eve: any) { }
 
   /**
    * 反馈提醒
