@@ -15,7 +15,7 @@ const routes = [
   {
     path: '',
     component: LayoutDefaultComponent,
-    canActivate: [SimpleGuard],
+    // canActivate: [SimpleGuard],
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'sys-dashboard', component: SystemDashboardComponent, data: { title: '首页' } },
@@ -67,4 +67,4 @@ const routes = [
   ],
   exports: [RouterModule],
 })
-export class RouteRoutingModule {}
+export class RouteRoutingModule { }

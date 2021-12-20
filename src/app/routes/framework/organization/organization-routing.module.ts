@@ -11,7 +11,7 @@ import { ACLGuard } from '@delon/acl';
 const routes: Routes = [
   {
     path: 'units',
-    canActivate: [ACLGuard],
+    // canActivate: [ACLGuard],
     component: UnitViewComponent,
     data: {
       title: '单位管理',
@@ -19,7 +19,7 @@ const routes: Routes = [
   },
   {
     path: 'department',
-    canActivate: [ACLGuard],
+    // canActivate: [ACLGuard],
     component: DepartmentViewComponent,
     data: {
       title: '部门管理',
@@ -27,7 +27,7 @@ const routes: Routes = [
   },
   {
     path: 'position',
-    canActivate: [ACLGuard],
+    // canActivate: [ACLGuard],
     component: PositionViewComponent,
     data: {
       title: '岗位管理',
@@ -35,7 +35,7 @@ const routes: Routes = [
   },
   {
     path: 'employees',
-    canActivate: [ACLGuard],
+    // canActivate: [ACLGuard],
     component: EmployeeViewComponent,
     data: {
       title: '员工管理',

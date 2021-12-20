@@ -7,7 +7,7 @@ import { ACLGuard } from '@delon/acl';
 const routes: Routes = [
   {
     path: 'authorities',
-    canActivate: [ACLGuard],
+    // canActivate: [ACLGuard],
     component: AuthorityViewComponent,
     data: {
       title: '权限管理',
@@ -15,7 +15,7 @@ const routes: Routes = [
   },
   {
     path: 'roles',
-    canActivate: [ACLGuard],
+    // canActivate: [ACLGuard],
     component: RoleViewComponent,
     data: {
       title: '角色管理'
@@ -23,7 +23,7 @@ const routes: Routes = [
   },
   {
     path: 'users',
-    canActivate: [ACLGuard],
+    // canActivate: [ACLGuard],
     component: UserViewComponent,
     data: {
       title: '用户管理'
@@ -31,7 +31,7 @@ const routes: Routes = [
   },
   {
     path: 'logs',
-    canActivate: [ACLGuard],
+    // canActivate: [ACLGuard],
     component: LogViewComponent,
     data: {
       title: '系统日志'

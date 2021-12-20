@@ -7,7 +7,7 @@ import { NoticeViewComponent } from '@ng-mt-framework/comp';
 const routes: Routes = [
   {
     path: 'management',
-    canActivate: [ACLGuard],
+    // canActivate: [ACLGuard],
     component: NoticeViewComponent,
     data: {
       title: '公告管理',

@@ -29,7 +29,7 @@ export class HeaderComponent implements OnInit {
     private dataTransmit: DataTransmit,
     private cacheService: CacheService,
     private starupService: StartupService,
-  ) {}
+  ) { }
 
   ngOnInit() {
     const title = this.cacheService.get('__title', { mode: 'none' });

@@ -14,7 +14,7 @@ const routes: Routes = [
   },
   {
     path: 'menus',
-    canActivate: [ACLGuard],
+    // canActivate: [ACLGuard],
     component: MenuViewComponent,
     data: {
       title: '菜单管理',
@@ -22,7 +22,7 @@ const routes: Routes = [
   },
   {
     path: 'districts',
-    canActivate: [ACLGuard],
+    // canActivate: [ACLGuard],
     component: DistrictViewComponent,
     data: {
       title: '地区管理',
@@ -30,7 +30,7 @@ const routes: Routes = [
   },
   {
     path: 'configurations',
-    canActivate: [ACLGuard],
+    // canActivate: [ACLGuard],
     component: ConfigurationViewComponent,
     data: {
       title: '系统参数管理',
@@ -42,4 +42,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class BaseDataRoutingModule {}
+export class BaseDataRoutingModule { }
